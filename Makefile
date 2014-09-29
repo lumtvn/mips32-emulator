@@ -13,10 +13,10 @@ bin/emul-mips: build/interpreter.o
 build/interpreter.o: src/interpreter.c src/interpreter.h src/headers.h
 	gcc -pg -c src/interpreter.c -o build/interpreter.o
 
-test: test/test_interpreter
+test: test/test_parsing
 
-test/test_interpreter: build/test_interpreter.o build/interpreter.o
-	gcc build/test_interpreter.o build/interpreter.o -o test/test_interpreter
+test/test_parsing: build/test_parsing.o build/interpreter.o
+	gcc build/test_parsing.o build/interpreter.o -o test/test_parsing
 
-build/test_interpreter.o: test/test_interpreter.c src/interpreter.h src/headers.h
-	gcc -pg -c test/test_interpreter.c -o build/test_interpreter.o
+build/test_parsing.o: test/test_parsing.c src/interpreter.h src/headers.h
+	gcc -pg -c test/test_parsing.c -o build/test_parsing.o
