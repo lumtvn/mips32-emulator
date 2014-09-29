@@ -49,7 +49,9 @@
  int main(int argc, char **argv) {
 
 
-     testdata.incoming_line = ".text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1";
+
+     testdata.incoming_line = malloc(MAXSIZE);
+     strcpy(testdata.incoming_line, ".text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1");
 
      ptestdata = &testdata;
      ptestdata = parse(ptestdata);

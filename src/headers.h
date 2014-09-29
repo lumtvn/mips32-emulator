@@ -10,3 +10,4 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	char *operation;
 	char *arg[4]; /// four is the maximum amount of arguments that a command can have
 };
+

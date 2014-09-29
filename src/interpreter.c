@@ -24,11 +24,10 @@ struct ptype *parse(struct ptype *data){
 	char *buffer;
 	char *temp;
 
-	printf("%s\n",data);
+	printf("%s\n",data->incoming_line);
 
 	buffer = strtok(data->incoming_line, "#"); // we temporarely put the incoming line into a buffer to get rid of the commentaries
-
-	printf("asigna incoming_line a buffer sin drama: %s\n", buffer);
+	
 	//and now we parse	
     temp = strtok(buffer, " ");
 
