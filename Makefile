@@ -26,3 +26,7 @@ build/test_parsing.o: test/test_parsing.c src/interpreter.h src/headers.h
 
 build/test_parsing2.o: test/test_parsing2.c src/interpreter.h src/headers.h
 	gcc -pg -c test/test_parsing2.c -o build/test_parsing2.o
+
+clear: 
+	rm -f *.o
+	rm -f *~

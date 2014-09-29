@@ -53,7 +53,7 @@ static char * test_operation() {
          printf("%s\n", result);
      }
      else {
-         printf("ALL TESTS PASSED\n");
+         printf("PARSING TEST 2 PASSED\n");
      }
      printf("Tests run: %d\n", tests_run);
  
