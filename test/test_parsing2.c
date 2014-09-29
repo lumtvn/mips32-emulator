@@ -40,19 +40,11 @@ static char * test_operation() {
  int main(int argc, char **argv) {
 
 
-     //testdata.incoming_line = "ADD $r1, $r2, $r3";
-
-     testdata.tag = "ADD";
-     testdata.operation = "$r1";
-     testdata.arg[0] = "$r2";
-     testdata.arg[1] = "$r3";
-     testdata.arg[2] = NULL;
-     testdata.arg[3] = NULL;
-     testdata.comment = NULL;
+     testdata.incoming_line = "ADD $r1, $r2, $r3";
 
 
      ptestdata = &testdata;
-     ptestdata = arrange(ptestdata);
+     ptestdata = parse(ptestdata);
 
      
 
