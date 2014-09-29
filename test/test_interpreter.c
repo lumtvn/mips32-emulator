@@ -7,7 +7,7 @@
  struct ptype *ptestdata;
  
  static char * test_tag() {
-     mu_assert("error, the tag is different to '.text'", testdata.tag == NULL);
+     mu_assert("error, the tag is different to '.text'", testdata.tag == ".text");
      return 0;
  }
  
@@ -22,17 +22,22 @@
  }
 
   static char * test_argument2() {
-    mu_assert("error, the second argument is different to 'r2$'", testdata.argument1 == "r2$");
+    mu_assert("error, the second argument is different to 'r2$'", testdata.argument2 == "r2$");
      return 0;
  }
  
   static char * test_argument3() {
-    mu_assert("error, the third argument is different to 'r3$'", testdata.argument1 == "r3$");
+    mu_assert("error, the third argument is different to 'r3$'", testdata.argument3 == "r3$");
      return 0;
  }
  
   static char * test_argument4() {
-    mu_assert("error, the fourth argument is different to 'r4$'", testdata.argument1 == "r4$");
+    mu_assert("error, the fourth argument is different to 'r4$'", testdata.argument4 == "r4$");
+     return 0;
+ }
+
+  static char * test_comment() {
+    mu_assert("error, the comment is different to ' r2 + r3 ---> r1'", testdata.comment == " r2 + r3 ---> r1");
      return 0;
  }
  
