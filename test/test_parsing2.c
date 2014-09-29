@@ -9,38 +9,38 @@
  
 
 static char * test_operation() {
-     mu_assert("error, the operation is different to 'ADD'", testdata.operation == "ADD");
+     mu_assert("error, the operation is different to 'ADD'", !strcmp(testdata.operation,"ADD"));
      return 0;
  }
 
   static char * test_arg1() {
-    mu_assert("error, the first argument is different to '$r1'", testdata.arg[0] == "$r1");
+    mu_assert("error, the first argument is different to '$r1'", !strcmp(testdata.arg[0], "$r1"));
      return 0;
  }
 
   static char * test_arg2() {
-    mu_assert("error, the second argument is different to '$r2'", testdata.arg[1] == "$r2");
+    mu_assert("error, the second argument is different to '$r2'", !strcmp(testdata.arg[1], "$r2"));
      return 0;
  }
  
   static char * test_arg3() {
-    mu_assert("error, the third argument is different to '$r3'", testdata.arg[2] == "$r3");
+    mu_assert("error, the third argument is different to '$r3'", !strcmp(testdata.arg[2], "$r3"));
      return 0;
  }
  
  static char * all_tests() {
      mu_run_test(test_operation);
-     mu_run_test(test_arg[0]);
-     mu_run_test(test_arg[1]);
-     mu_run_test(test_arg[2]);
+     mu_run_test(test_arg1);
+     mu_run_test(test_arg2);
+     mu_run_test(test_arg3);
 
      return 0;
  }
  
  int main(int argc, char **argv) {
 
-
-     testdata.incoming_line = "ADD $r1, $r2, $r3";
+     testdata.incoming_line = malloc(MAXSIZE);
+     strcpy(testdata.incoming_line,"ADD $r1, $r2, $r3");
 
 
      ptestdata = &testdata;
