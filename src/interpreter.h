@@ -1,1 +1,1 @@
-#include <stdio.h>
+struct ptype *parse(struct ptype *data);
