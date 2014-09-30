@@ -6,6 +6,7 @@
 struct ptype /// it's a structure that has all elements that are involved in the emulation
 {            
 	char *incoming_line;
+	char *label;
 	char *tag;
 	char *operation;
 	char *arg[4]; /// four is the maximum amount of arguments that a command can have

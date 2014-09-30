@@ -23,6 +23,8 @@ struct ptype *parse(struct ptype *data){
 
 	char *buffer1;
 	char *buffer2;
+    char *temp1;
+    char *temp2 = NULL;
 
 	printf("data->incoming_line: '%s'\n",data->incoming_line);
 
@@ -34,13 +36,28 @@ struct ptype *parse(struct ptype *data){
 
     printf("buffer2: '%s'\n",buffer2);
 
-    //at this moment, buffer2 holds either a tag or the comment. 
+    //at this moment, buffer2 holds either a tag, a label or the operation. 
+    //if it holds a label, then buffer2 has a double colon at the end. we locate this using strchr()
+
+    temp1 = strchr(buffer2, ':');
+    if(temp1) //this is here in case strchr returns null, in which case there is no label
+        {
+            size_t len = temp1 - buffer2;
+            temp2 = malloc(len + 1);
+            memcpy(temp2,buffer2,len);
+            temp2[len] = '\0';
+            //now temp2 has the label
+            data->label = temp2;
+            buffer2 = strtok(NULL, " "); // and then we load the second string of buffer1 to buffer2
+        }
+
+        // now we search for the tag
     if(buffer2[0] == '.')
-    	{
-    		data->tag = buffer2; //if the first caracter of buffer2 is a dot ".", then its a tag
-    		data->operation = strtok(NULL, " "); // and the second string is the operation
-    	}
-    else 	data->operation = buffer2; //if it's not, then it has to be the operation
+        {
+            data->tag = buffer2; //if the first or second character of buffer2 is a dot, then its a tag
+            data->operation = strtok(NULL, " "); //and then follows the command.
+        }
+    else 	data->operation = buffer2; //if it's not a tag or a label, then it has to be the operation
 
    	//the rest of the string remaining in buffer1 are the arguments. so we continue parsing
     int i = 0;
@@ -60,7 +77,7 @@ struct ptype *parse(struct ptype *data){
     	i++;
     }
 
-
+    printf("data->label: '%s'\n", data->label);
     printf("data->tag: '%s'\n", data->tag);
     printf("data->operation: '%s'\n", data->operation);
     printf("data->arg[0]: '%s'\n", data->arg[0]);
@@ -68,8 +85,7 @@ struct ptype *parse(struct ptype *data){
     printf("data->arg[2]: '%s'\n", data->arg[2]);
     printf("data->arg[3]: '%s'\n", data->arg[3]);
 
-    free(buffer1);
-    free(buffer2);
+    free(temp2);
 
 
 

@@ -5,6 +5,11 @@
  int tests_run = 0; 
  struct ptype testdata;
  struct ptype *ptestdata;
+
+  static char * test_label() {
+     mu_assert("error, the label is different to 'start'", strcmp(testdata.label, "start") == 0);
+     return 0;
+ }
  
  static char * test_tag() {
      mu_assert("error, the tag is different to '.text'", strcmp(testdata.tag, ".text") == 0);
@@ -37,6 +42,7 @@
  }
  
  static char * all_tests() {
+     mu_run_test(test_label);
      mu_run_test(test_tag);
      mu_run_test(test_operation);
      mu_run_test(test_arg1);
@@ -51,11 +57,12 @@
 
 
      testdata.incoming_line = malloc(MAXSIZE);
-     strcpy(testdata.incoming_line, ".text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1");
+     strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1");
 
      ptestdata = &testdata;
      ptestdata = parse(ptestdata);
 
+    printf("testdata.label: '%s'\n", testdata.label);
     printf("testdata.tag: '%s'\n", testdata.tag);
     printf("testdata.operation: '%s'\n", testdata.operation);
     printf("testdata.arg[0]: '%s'\n", testdata.arg[0]);
