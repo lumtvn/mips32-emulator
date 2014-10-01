@@ -44,7 +44,7 @@ static char * test_operation() {
 
 
      ptestdata = &testdata;
-     ptestdata = parse(ptestdata);
+     ptestdata = parseline(ptestdata);
 
      
 

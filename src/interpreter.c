@@ -19,7 +19,7 @@
 *
 *
 */
-struct ptype *parse(struct ptype *data)
+struct ptype *parseline(struct ptype *data)
 {
 
 	char *buffer1;
@@ -93,7 +93,11 @@ struct ptype *parse(struct ptype *data)
 	return data;
 }
 
-
+/**
+*
+*@brief this function reads an incoming script, and removes the commentary from it
+*
+*/
 struct ptype *readscript(struct ptype *data)
 {
 
@@ -106,14 +110,28 @@ struct ptype *readscript(struct ptype *data)
     filesize = ftell(file); // get current file pointer
     fseek(file, 0, SEEK_SET); // seek back to beginning of file
 
+    data->full_script = malloc(filesize);
+
 
 
     if ( file != NULL )
         {
-            char line [ 128 ]; /* or other suitable maximum line size */
-            while ( fgets ( line, sizeof line, file ) != NULL ) /* read a line */
+            char *line = malloc(MAXSIZE);
+            char *temp = malloc(MAXSIZE);
+
+            while ( fgets ( line, MAXSIZE, file ) != NULL ) /* read a line */
                 {
-                    fputs ( line, stdout ); /* write the line */
+                    temp = strtok(line, "#"); //searching for commentary tag
+                    printf("'%s'", temp);
+                    if(temp != NULL) //if it's found, it mustn't be written
+                        {
+                            strcat(data->full_script,temp); //write line without commentary
+                        }
+                    else 
+                        {
+                            strcat(data->full_script,line); //this line has no commentary
+                        }
+                        
                 }
             fclose ( file );
         }
@@ -122,6 +140,16 @@ struct ptype *readscript(struct ptype *data)
             perror ( filename ); /* why didn't the file open? */
         }
     
-
-    return 0;
+    // free(line);
+    // free(temp);
+    return data;
+}
+/**
+*
+*@brief this function interpretates each line of the script entered
+*
+*/
+struct ptype *parsescript(struct ptype *data)
+{
+    return data;
 }

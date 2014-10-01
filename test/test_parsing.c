@@ -60,15 +60,15 @@
      strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1");
 
      ptestdata = &testdata;
-     ptestdata = parse(ptestdata);
+     ptestdata = parseline(ptestdata);
 
-    printf("testdata.label: '%s'\n", testdata.label);
-    printf("testdata.tag: '%s'\n", testdata.tag);
-    printf("testdata.operation: '%s'\n", testdata.operation);
-    printf("testdata.arg[0]: '%s'\n", testdata.arg[0]);
-    printf("testdata.arg[1]: '%s'\n", testdata.arg[1]);
-    printf("testdata.arg[2]: '%s'\n", testdata.arg[2]);
-    printf("testdata.arg[3]: '%s'\n", testdata.arg[3]);
+    // printf("testdata.label: '%s'\n", testdata.label);
+    // printf("testdata.tag: '%s'\n", testdata.tag);
+    // printf("testdata.operation: '%s'\n", testdata.operation);
+    // printf("testdata.arg[0]: '%s'\n", testdata.arg[0]);
+    // printf("testdata.arg[1]: '%s'\n", testdata.arg[1]);
+    // printf("testdata.arg[2]: '%s'\n", testdata.arg[2]);
+    // printf("testdata.arg[3]: '%s'\n", testdata.arg[3]);
 
      char *result = all_tests();
      if (result != 0) {

@@ -3,8 +3,14 @@
 #include <string.h>
 #define MAXSIZE 512
 
+typedef int bool;
+#define true 1
+#define false 0
+
 struct ptype /// it's a structure that has all elements that are involved in the emulation
-{            
+{   
+	char *full_script;     
+	char *parsed_script;    
 	char *incoming_line;
 	char *label;
 	char *tag;
