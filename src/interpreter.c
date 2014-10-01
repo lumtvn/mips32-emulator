@@ -19,22 +19,23 @@
 *
 *
 */
-struct ptype *parse(struct ptype *data){
+struct ptype *parse(struct ptype *data)
+{
 
 	char *buffer1;
 	char *buffer2;
     char *temp1;
     char *temp2 = NULL;
 
-	printf("data->incoming_line: '%s'\n",data->incoming_line);
+	// printf("data->incoming_line: '%s'\n",data->incoming_line);
 
 	buffer1 = strtok(data->incoming_line, "#"); // we temporarely put the incoming line into a buffer1 to get rid of the commentaries
 	
-	printf("buffer1: '%s'\n", buffer1);
+	// printf("buffer1: '%s'\n", buffer1);
 	//and now we parse	
     buffer2 = strtok(buffer1, " ");
 
-    printf("buffer2: '%s'\n",buffer2);
+    // printf("buffer2: '%s'\n",buffer2);
 
     //at this moment, buffer2 holds either a tag, a label or the operation. 
     //if it holds a label, then buffer2 has a double colon at the end. we locate this using strchr()
@@ -57,14 +58,14 @@ struct ptype *parse(struct ptype *data){
             data->tag = buffer2; //if the first or second character of buffer2 is a dot, then its a tag
             data->operation = strtok(NULL, " "); //and then follows the command.
         }
-    else 	data->operation = buffer2; //if it's not a tag or a label, then it has to be the operation
+    else    data->operation = buffer2; //if it's not a tag or a label, then it has to be the operation
 
-   	//the rest of the string remaining in buffer1 are the arguments. so we continue parsing
+    //the rest of the string remaining in buffer1 are the arguments. so we continue parsing
     int i = 0;
     while ((buffer2 = strtok(NULL, " ")) != NULL && i < 4)
     {
-    	data->arg[i] = buffer2;
-    	i++;
+        data->arg[i] = buffer2;
+        i++;
     }
 
     //we proceed to clean the commas out of the arguments. It had to be done separatedly from the
@@ -74,20 +75,53 @@ struct ptype *parse(struct ptype *data){
      while ((buffer2 = strtok(data->arg[i], ",")) != NULL || i < 4)
     {
     	data->arg[i] = buffer2;
-    	i++;
+    	 i++;
     }
 
-    printf("data->label: '%s'\n", data->label);
-    printf("data->tag: '%s'\n", data->tag);
-    printf("data->operation: '%s'\n", data->operation);
-    printf("data->arg[0]: '%s'\n", data->arg[0]);
-    printf("data->arg[1]: '%s'\n", data->arg[1]);
-    printf("data->arg[2]: '%s'\n", data->arg[2]);
-    printf("data->arg[3]: '%s'\n", data->arg[3]);
+    // printf("data->tag: '%s'\n", data->tag);
+    // printf("data->label: '%s'\n", data->label);
+    // printf("data->operation: '%s'\n", data->operation);
+    // printf("data->arg[0]: '%s'\n", data->arg[0]);
+    // printf("data->arg[1]: '%s'\n", data->arg[1]);
+    // printf("data->arg[2]: '%s'\n", data->arg[2]);
+    // printf("data->arg[3]: '%s'\n", data->arg[3]);
 
-    free(temp2);
+   // free(temp2);
 
 
 
 	return data;
+}
+
+
+struct ptype *readscript(struct ptype *data)
+{
+
+    static const char filename[] = "./test/testscript.elf";
+
+    FILE *file = fopen ( filename, "r" );
+
+    size_t filesize;
+    fseek(file, 0, SEEK_END); // seek to end of file
+    filesize = ftell(file); // get current file pointer
+    fseek(file, 0, SEEK_SET); // seek back to beginning of file
+
+
+
+    if ( file != NULL )
+        {
+            char line [ 128 ]; /* or other suitable maximum line size */
+            while ( fgets ( line, sizeof line, file ) != NULL ) /* read a line */
+                {
+                    fputs ( line, stdout ); /* write the line */
+                }
+            fclose ( file );
+        }
+    else
+        {
+            perror ( filename ); /* why didn't the file open? */
+        }
+    
+
+    return 0;
 }

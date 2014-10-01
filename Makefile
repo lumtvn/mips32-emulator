@@ -14,6 +14,8 @@ build/interpreter.o: src/interpreter.c src/interpreter.h src/headers.h
 	gcc -pg -c src/interpreter.c -o build/interpreter.o
 
 test: test/test_parsing test/test_parsing2
+	./test/test_parsing 
+	./test/test_parsing2
 
 test/test_parsing: build/test_parsing.o build/interpreter.o
 	gcc build/test_parsing.o build/interpreter.o -o test/test_parsing
