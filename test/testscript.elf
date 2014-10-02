@@ -1,5 +1,6 @@
 # Hello, World!
-.data 
+.data
+
 ## Data declaration section
 ## String to be printed:
 out_string: .asciiz "\nHello, World!\n"

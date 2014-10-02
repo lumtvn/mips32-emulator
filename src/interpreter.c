@@ -27,11 +27,16 @@ struct ptype *parseline(struct ptype *data)
     char *temp1;
     char *temp2 = NULL;
 
-	// printf("data->incoming_line: '%s'\n",data->incoming_line);
+	 // printf("data->incoming_line: '%s'\n",data->incoming_line);
+
+    if(data->incoming_line[0] == '#') //if the line is made entirely out of commentary, there's nothing to do
+      {
+          return data;
+      }
 
 	buffer1 = strtok(data->incoming_line, "#"); // we temporarely put the incoming line into a buffer1 to get rid of the commentaries
 	
-	// printf("buffer1: '%s'\n", buffer1);
+	 // printf("buffer1: '%s'\n", buffer1);
 	//and now we parse	
     buffer2 = strtok(buffer1, " ");
 
@@ -72,19 +77,12 @@ struct ptype *parseline(struct ptype *data)
     //previous while becouse if not, strtok doesn't work correctly
 
     i = 0;
-     while ((buffer2 = strtok(data->arg[i], ",")) != NULL || i < 4)
+     while ((buffer2 = strtok(data->arg[i], ",")) != NULL && i < 4)
     {
     	data->arg[i] = buffer2;
     	 i++;
     }
 
-    // printf("data->tag: '%s'\n", data->tag);
-    // printf("data->label: '%s'\n", data->label);
-    // printf("data->operation: '%s'\n", data->operation);
-    // printf("data->arg[0]: '%s'\n", data->arg[0]);
-    // printf("data->arg[1]: '%s'\n", data->arg[1]);
-    // printf("data->arg[2]: '%s'\n", data->arg[2]);
-    // printf("data->arg[3]: '%s'\n", data->arg[3]);
 
    // free(temp2);
 
@@ -117,21 +115,13 @@ struct ptype *readscript(struct ptype *data)
     if ( file != NULL )
         {
             char *line = malloc(MAXSIZE);
-            char *temp = malloc(MAXSIZE);
 
             while ( fgets ( line, MAXSIZE, file ) != NULL ) /* read a line */
                 {
-                    temp = strtok(line, "#"); //searching for commentary tag
-                    printf("'%s'", temp);
-                    if(temp != NULL) //if it's found, it mustn't be written
-                        {
-                            strcat(data->full_script,temp); //write line without commentary
-                        }
-                    else 
-                        {
-                            strcat(data->full_script,line); //this line has no commentary
-                        }
-                        
+                    data->incoming_line = line;
+                    parseline(data);
+                    printstatus(data);
+                    strcat(data->full_script,line);
                 }
             fclose ( file );
         }
@@ -139,9 +129,6 @@ struct ptype *readscript(struct ptype *data)
         {
             perror ( filename ); /* why didn't the file open? */
         }
-    
-    // free(line);
-    // free(temp);
     return data;
 }
 /**
@@ -151,5 +138,31 @@ struct ptype *readscript(struct ptype *data)
 */
 struct ptype *parsescript(struct ptype *data)
 {
+
+    data->incoming_line = strtok(data->full_script, "\n");
+        do{
+
+            printf("entra al while\n");
+            printf("%s\n",data->incoming_line);
+
+            parseline(data);
+            printstatus(data);
+
+        } while((data->incoming_line = strtok(NULL, "\n")) != NULL);
+
+        printf("me sali del while y incoming_line es '%s'\n", data->incoming_line);
+
     return data;
+}
+
+
+void printstatus(struct ptype *data)
+{
+            printf("\ndata->label: '%s'\n", data->label);
+            printf("data->tag: '%s'\n", data->tag);
+            printf("data->operation: '%s'\n", data->operation);
+            printf("data->arg[0]: '%s'\n", data->arg[0]);
+            printf("data->arg[1]: '%s'\n", data->arg[1]);
+            printf("data->arg[2]: '%s'\n", data->arg[2]);
+            printf("data->arg[3]: '%s'\n\n", data->arg[3]);
 }

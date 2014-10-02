@@ -18,13 +18,12 @@
 
 
      testdata.incoming_line = malloc(MAXSIZE);
-     strcpy(testdata.incoming_line, ".text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1");
 
      ptestdata = &testdata;
      ptestdata = readscript(ptestdata);
-     // ptestdata = parsescript(ptestdata);
-
      printf("\n\n%s\n\n",ptestdata->full_script);
+   //  ptestdata = parsescript(ptestdata);
+
 
      char *result = all_tests();
      if (result != 0) {
