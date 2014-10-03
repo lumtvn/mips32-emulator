@@ -6,40 +6,103 @@
  struct ptype testdata;
  struct ptype *ptestdata;
 
-  static char * test_label() {
-     mu_assert("error, the label is different to 'start'", strcmp(testdata.label, "start") == 0);
-     return 0;
- }
- 
- static char * test_tag() {
-     mu_assert("error, the tag is different to '.text'", strcmp(testdata.tag, ".text") == 0);
-     return 0;
- }
- 
- static char * test_operation() {
-     mu_assert("error, the operation is different to 'ADD'", strcmp(testdata.operation, "ADD") == 0);
-     return 0;
- }
+static char * test_label() 
+{
+        if(testdata.label != NULL)
+            {
+                mu_assert("error, the label is different to 'start'", strcmp(testdata.label, "start") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.label is NULL\n");
+                return 0;
+            }    
+}
 
-  static char * test_arg1() {
-    mu_assert("error, the first argument is different to '$r1'", strcmp(testdata.arg[0], "$r1") == 0);
-     return 0;
- }
+static char * test_tag() 
+{
+        if(testdata.tag != NULL)
+            {
+                mu_assert("error, the tag is different to '.text'", strcmp(testdata.tag, ".text") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.tag is NULL\n");
+                return 0;
+            }    
+}
 
-  static char * test_arg2() {
-    mu_assert("error, the second argument is different to '$r2'", strcmp(testdata.arg[1], "$r2") == 0);
-     return 0;
- }
- 
-  static char * test_arg3() {
-    mu_assert("error, the third argument is different to '$r3'", strcmp(testdata.arg[2], "$r3") == 0);
-     return 0;
- }
- 
-  static char * test_arg4() {
-    mu_assert("error, the fourth argument is different to '$r4'", strcmp(testdata.arg[3], "$r4") == 0);
-     return 0;
- }
+static char * test_operation() 
+{
+        if(testdata.operation != NULL)
+            {
+                mu_assert("error, the operation is different to 'ADD'", strcmp(testdata.operation, "ADD") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.operation is NULL\n");
+                return 0;
+            }    
+}
+
+static char * test_arg1() 
+{
+        if(testdata.arg[0]!= NULL)
+            {
+                mu_assert("error, the arg1 is different to '$r1'", strcmp(testdata.arg[0], "$r1") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg1 is NULL\n");
+                return 0;
+            }    
+}
+
+static char * test_arg2() 
+{
+        if(testdata.arg[1] != NULL)
+            {
+                mu_assert("error, the arg2 is different to '$r2'", strcmp(testdata.arg[1], "$r2") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg2 is NULL\n");
+                return 0;
+            }    
+}
+
+static char * test_arg3() 
+{
+        if(testdata.arg[2] != NULL)
+            {
+                mu_assert("error, the arg3 is different to '$r3'", strcmp(testdata.arg[2], "$r3") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg3 is NULL\n");
+                return 0;
+            }    
+}
+
+static char * test_arg4() 
+{
+        if(testdata.arg[3] != NULL)
+            {
+                mu_assert("error, the arg4 is different to '$r4'", strcmp(testdata.arg[3], "$r4") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg4 is NULL\n");
+                return 0;
+            }    
+}
  
  static char * all_tests() {
      mu_run_test(test_label);
@@ -57,10 +120,11 @@
 
 
      testdata.incoming_line = malloc(MAXSIZE);
-     strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3, $r4  # r2 + r3 ---> r1");
+     strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3");
 
      ptestdata = &testdata;
      ptestdata = parseline(ptestdata);
+
 
     // printf("testdata.label: '%s'\n", testdata.label);
     // printf("testdata.tag: '%s'\n", testdata.tag);

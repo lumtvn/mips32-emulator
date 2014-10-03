@@ -8,25 +8,61 @@
  
  
 
-static char * test_operation() {
-     mu_assert("error, the operation is different to 'ADD'", !strcmp(testdata.operation,"ADD"));
-     return 0;
- }
+static char * test_operation() 
+{
+        if(testdata.operation != NULL)
+            {
+                mu_assert("error, the operation is different to 'ADD'", strcmp(testdata.operation, "ADD") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.operation is NULL\n");
+                return 0;
+            }    
+}
 
-  static char * test_arg1() {
-    mu_assert("error, the first argument is different to '$r1'", !strcmp(testdata.arg[0], "$r1"));
-     return 0;
- }
+static char * test_arg1() 
+{
+        if(testdata.arg[0]!= NULL)
+            {
+                mu_assert("error, the arg1 is different to '$r1'", strcmp(testdata.arg[0], "$r1") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg1 is NULL\n");
+                return 0;
+            }    
+}
 
-  static char * test_arg2() {
-    mu_assert("error, the second argument is different to '$r2'", !strcmp(testdata.arg[1], "$r2"));
-     return 0;
- }
- 
-  static char * test_arg3() {
-    mu_assert("error, the third argument is different to '$r3'", !strcmp(testdata.arg[2], "$r3"));
-     return 0;
- }
+static char * test_arg2() 
+{
+        if(testdata.arg[1] != NULL)
+            {
+                mu_assert("error, the arg2 is different to '$r2'", strcmp(testdata.arg[1], "$r2") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg2 is NULL\n");
+                return 0;
+            }    
+}
+
+static char * test_arg3() 
+{
+        if(testdata.arg[2] != NULL)
+            {
+                mu_assert("error, the arg3 is different to '$r3'", strcmp(testdata.arg[2], "$r3") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.arg3 is NULL\n");
+                return 0;
+            }    
+}
  
  static char * all_tests() {
      mu_run_test(test_operation);

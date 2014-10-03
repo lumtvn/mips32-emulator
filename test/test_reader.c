@@ -8,7 +8,7 @@
  
  
  static char * all_tests() {
-
+    // no asserts here...
      return 0;
 
  }
@@ -21,8 +21,9 @@
 
      ptestdata = &testdata;
      ptestdata = readscript(ptestdata);
-     printf("\n\n%s\n\n",ptestdata->full_script);
-   //  ptestdata = parsescript(ptestdata);
+    // printf("\n\n%s\n\n",ptestdata->full_script);
+     
+    //toggle on and off the printf to check the output of readscript function
 
 
      char *result = all_tests();

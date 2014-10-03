@@ -22,54 +22,45 @@
 struct ptype *parseline(struct ptype *data)
 {
 
-	char *buffer1;
-	char *buffer2;
+	char *buffer;
     char *temp1;
     char *temp2 = NULL;
 
 	 // printf("data->incoming_line: '%s'\n",data->incoming_line);
 
-    if(data->incoming_line[0] == '#') //if the line is made entirely out of commentary, there's nothing to do
-      {
-          return data;
-      }
-
-	buffer1 = strtok(data->incoming_line, "#"); // we temporarely put the incoming line into a buffer1 to get rid of the commentaries
-	
-	 // printf("buffer1: '%s'\n", buffer1);
 	//and now we parse	
-    buffer2 = strtok(buffer1, " ");
+    buffer = strtok(data->incoming_line, " ");
 
-    // printf("buffer2: '%s'\n",buffer2);
+    // printf("buffer: '%s'\n",buffer);
 
-    //at this moment, buffer2 holds either a tag, a label or the operation. 
-    //if it holds a label, then buffer2 has a double colon at the end. we locate this using strchr()
+    //at this moment, buffer holds either a tag, a label or the operation. 
+    //if it holds a label, then buffer has a double colon at the end. we locate this using strchr()
 
-    temp1 = strchr(buffer2, ':');
+    temp1 = strchr(buffer, ':');
     if(temp1) //this is here in case strchr returns null, in which case there is no label
         {
-            size_t len = temp1 - buffer2;
+            size_t len = temp1 - buffer;
             temp2 = malloc(len + 1);
-            memcpy(temp2,buffer2,len);
+            memcpy(temp2,buffer,len);
             temp2[len] = '\0';
             //now temp2 has the label
             data->label = temp2;
-            buffer2 = strtok(NULL, " "); // and then we load the second string of buffer1 to buffer2
+            buffer = strtok(NULL, " "); // and then we load the second string of buffer to buffer
         }
 
         // now we search for the tag
-    if(buffer2[0] == '.')
+    if(buffer[0] == '.')
         {
-            data->tag = buffer2; //if the first or second character of buffer2 is a dot, then its a tag
+            data->tag = buffer; //if the first or second character of buffer is a dot, then its a tag
             data->operation = strtok(NULL, " "); //and then follows the command.
         }
-    else    data->operation = buffer2; //if it's not a tag or a label, then it has to be the operation
+    else    data->operation = buffer; //if it's not a tag or a label, then it has to be the operation
 
-    //the rest of the string remaining in buffer1 are the arguments. so we continue parsing
+    //the rest of the string remaining in buffer are the arguments. so we continue parsing
     int i = 0;
-    while ((buffer2 = strtok(NULL, " ")) != NULL && i < 4)
+    while ((buffer = strtok(NULL, " ")) != NULL && i < 4)
     {
-        data->arg[i] = buffer2;
+        data->arg[i] = buffer;
         i++;
     }
 
@@ -77,9 +68,9 @@ struct ptype *parseline(struct ptype *data)
     //previous while becouse if not, strtok doesn't work correctly
 
     i = 0;
-     while ((buffer2 = strtok(data->arg[i], ",")) != NULL && i < 4)
+     while ((buffer = strtok(data->arg[i], ",")) != NULL && i < 4)
     {
-    	data->arg[i] = buffer2;
+    	data->arg[i] = buffer;
     	 i++;
     }
 
@@ -110,17 +101,13 @@ struct ptype *readscript(struct ptype *data)
 
     data->full_script = malloc(filesize);
 
-
-
     if ( file != NULL )
         {
             char *line = malloc(MAXSIZE);
 
             while ( fgets ( line, MAXSIZE, file ) != NULL ) /* read a line */
                 {
-                    data->incoming_line = line;
-                    parseline(data);
-                    printstatus(data);
+                    line = removecommentary(line);
                     strcat(data->full_script,line);
                 }
             fclose ( file );
@@ -166,3 +153,32 @@ void printstatus(struct ptype *data)
             printf("data->arg[2]: '%s'\n", data->arg[2]);
             printf("data->arg[3]: '%s'\n\n", data->arg[3]);
 }
+
+/**
+*@brief this function simply removes the commentary from a char * using the string function "strchr"
+*
+*
+*
+*
+* TODO: no esta contemplado el caso en el que haya un caracter # encerrado en comillas
+*/
+char *removecommentary(char *s)
+{   
+    char *temp1;
+    char *temp2;
+
+    temp1 = strchr(s,'#');
+
+    if(temp1) // if temp1 isn't null, then there's a commentary in this line
+        {
+            size_t len = temp1 - s;
+            temp2 = malloc(len + 1);
+            memcpy(temp2,s,len);
+            temp2[len] = '\0';
+            //now temp2 has the line without the commentary
+            return temp2;
+        }
+   
+    else    return s; //if strchr returns null, there's nothing to do   
+}
+    
