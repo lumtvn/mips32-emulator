@@ -22,7 +22,7 @@ build/reader.o: src/reader.c src/reader.h src/headers.h
 build/enviroment.o: src/enviroment.c src/enviroment.h src/headers.h
 	gcc -pg -c src/enviroment.c -o build/enviroment.o
 
-build/assembler.o: src/assembler.c src/assembler.h src/headers.h src/reader.h
+build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h 
 	gcc -pg -c src/assembler.c -o build/assembler.o
 
 build/main.o: src/main.c src/headers.h
@@ -55,13 +55,13 @@ testparser: test/test_parsing test/test_parsing2 test/test_parsing3
 	./test/test_parsing3
 
 test/test_parsing: build/test_parsing.o build/assembler.o
-	gcc build/test_parsing.o build/assembler.o -o test/test_parsing
+	gcc -pg build/test_parsing.o build/assembler.o -o test/test_parsing
 
 test/test_parsing2: build/test_parsing2.o build/assembler.o
-	gcc build/test_parsing2.o build/assembler.o -o test/test_parsing2
+	gcc -pg build/test_parsing2.o build/assembler.o -o test/test_parsing2
 
 test/test_parsing3: build/test_parsing3.o build/assembler.o
-	gcc build/test_parsing3.o build/assembler.o -o test/test_parsing3
+	gcc -pg build/test_parsing3.o build/assembler.o -o test/test_parsing3
 
 build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h
 	gcc -pg -c test/test_parsing.c -o build/test_parsing.o
@@ -101,8 +101,6 @@ build/test_enviroment.o: test/test_enviroment.c src/reader.h src/headers.h
 testautoload: bin/emul-mips
 	./bin/emul-mips ./test/testscript.elf
 
-
-
 clear: 
-	rm -f *.o
+	find . -name *.o -delete
 	rm -f *~
