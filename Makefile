@@ -54,23 +54,23 @@ testparser: test/test_parsing test/test_parsing2 test/test_parsing3
 	./test/test_parsing2
 	./test/test_parsing3
 
-test/test_parsing: build/test_parsing.o build/assembler.o
-	gcc -pg build/test_parsing.o build/assembler.o -o test/test_parsing
+test/test_parsing: build/test_parsing.o build/assembler.o build/reader.o
+	gcc -pg build/test_parsing.o build/assembler.o build/reader.o -o test/test_parsing
 
-test/test_parsing2: build/test_parsing2.o build/assembler.o
-	gcc -pg build/test_parsing2.o build/assembler.o -o test/test_parsing2
+test/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o
+	gcc -pg build/test_parsing2.o build/assembler.o build/reader.o -o test/test_parsing2
 
-test/test_parsing3: build/test_parsing3.o build/assembler.o
-	gcc -pg build/test_parsing3.o build/assembler.o -o test/test_parsing3
+test/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o
+	gcc -pg build/test_parsing3.o build/assembler.o build/reader.o -o test/test_parsing3
 
 build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h
-	gcc -pg -c test/test_parsing.c -o build/test_parsing.o
+	gcc -c test/test_parsing.c -o build/test_parsing.o
 
 build/test_parsing2.o: test/test_parsing2.c src/assembler.h src/headers.h
-	gcc -pg -c test/test_parsing2.c -o build/test_parsing2.o
+	gcc -c test/test_parsing2.c -o build/test_parsing2.o
 
 build/test_parsing3.o: test/test_parsing3.c src/assembler.h src/headers.h
-	gcc -pg -c test/test_parsing3.c -o build/test_parsing3.o
+	gcc -c test/test_parsing3.c -o build/test_parsing3.o
 
 ###########################--READER TESTS--################################
 #tests reading functions of source file reader.c
