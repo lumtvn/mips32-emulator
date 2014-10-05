@@ -3,8 +3,8 @@
 #include "minunit.h"
 
  int tests_run = 0; 
- struct etype testenv;
- struct etype *ptestenv;
+ struct ptype testenv;
+ struct ptype *ptestenv;
  
  
  static char * all_tests() {

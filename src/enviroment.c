@@ -2,7 +2,7 @@
 #include "enviroment.h"
 
 
-void runenv(struct etype *env)
+void runenv(struct ptype *env)
 {
 	while(1)
 		{
@@ -38,7 +38,7 @@ void runenv(struct etype *env)
 *
 * it just to reset and prepare the variables for the next command
 **/
-void restart(struct etype *env)
+void restart(struct ptype *env)
 {		
 	env->command = NULL;
 	int i;
@@ -48,7 +48,7 @@ void restart(struct etype *env)
 
 
 
-struct etype *parseentry(struct etype *env)
+struct ptype *parseentry(struct ptype *env)
 {
 
 	char *buffer;
@@ -78,7 +78,7 @@ struct etype *parseentry(struct etype *env)
 }
 
 
-void analize(struct etype *env)
+void analize(struct ptype *env)
 {
 
 	if(!strcmp(env->command,"exit"))

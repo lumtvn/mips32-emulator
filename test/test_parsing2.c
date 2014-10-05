@@ -1,5 +1,5 @@
 #include "../src/headers.h"
-#include "../src/interpreter.h"
+#include "../src/reader.h"
 #include "minunit.h"
 
  int tests_run = 0; 
@@ -22,53 +22,53 @@ static char * test_operation()
             }    
 }
 
-static char * test_arg1() 
+static char * test_argline1() 
 {
-        if(testdata.arg[0]!= NULL)
+        if(testdata.argline[0]!= NULL)
             {
-                mu_assert("error, the arg1 is different to '$r1'", strcmp(testdata.arg[0], "$r1") == 0);
+                mu_assert("error, the argline1 is different to '$r1'", strcmp(testdata.argline[0], "$r1") == 0);
                 return 0;
             }
         else
             {
-                printf("testdata.arg1 is NULL\n");
+                printf("testdata.argline1 is NULL\n");
                 return 0;
             }    
 }
 
-static char * test_arg2() 
+static char * test_argline2() 
 {
-        if(testdata.arg[1] != NULL)
+        if(testdata.argline[1] != NULL)
             {
-                mu_assert("error, the arg2 is different to '$r2'", strcmp(testdata.arg[1], "$r2") == 0);
+                mu_assert("error, the argline2 is different to '$r2'", strcmp(testdata.argline[1], "$r2") == 0);
                 return 0;
             }
         else
             {
-                printf("testdata.arg2 is NULL\n");
+                printf("testdata.argline2 is NULL\n");
                 return 0;
             }    
 }
 
-static char * test_arg3() 
+static char * test_argline3() 
 {
-        if(testdata.arg[2] != NULL)
+        if(testdata.argline[2] != NULL)
             {
-                mu_assert("error, the arg3 is different to '$r3'", strcmp(testdata.arg[2], "$r3") == 0);
+                mu_assert("error, the argline3 is different to '$r3'", strcmp(testdata.argline[2], "$r3") == 0);
                 return 0;
             }
         else
             {
-                printf("testdata.arg3 is NULL\n");
+                printf("testdata.argline3 is NULL\n");
                 return 0;
             }    
 }
  
  static char * all_tests() {
      mu_run_test(test_operation);
-     mu_run_test(test_arg1);
-     mu_run_test(test_arg2);
-     mu_run_test(test_arg3);
+     mu_run_test(test_argline1);
+     mu_run_test(test_argline2);
+     mu_run_test(test_argline3);
 
      return 0;
  }

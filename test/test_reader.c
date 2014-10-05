@@ -1,5 +1,5 @@
 #include "../src/headers.h"
-#include "../src/interpreter.h"
+#include "../src/reader.h"
 #include "minunit.h"
 
  int tests_run = 0; 
@@ -20,8 +20,10 @@
      testdata.incoming_line = malloc(MAXSIZE);
 
      ptestdata = &testdata;
+
+     ptestdata->filename = "./test/testscript.elf";
      ptestdata = readscript(ptestdata);
-    // printf("\n\n%s\n\n",ptestdata->full_script);
+     printf("\n\n%s\n\n",ptestdata->full_script);
      
     //toggle on and off the printf to check the output of readscript function
 

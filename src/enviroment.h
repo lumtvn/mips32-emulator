@@ -1,15 +1,6 @@
-struct etype
-{
-	int n_arg;
-	char *entry;
-	char *command;
-	char *arg[];
-};
-
-
-void runenv(struct etype *env);
-void restart(struct etype *env);
-struct etype *parseentry(struct etype *env);
-void analize(struct etype *env);
+void runenv(struct ptype *env);
+void restart(struct ptype *env);
+struct ptype *parseentry(struct ptype *env);
+void analize(struct ptype *env);
 void strip(char *s);
 

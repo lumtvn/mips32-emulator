@@ -6,54 +6,84 @@
 #make test compiles the tests
 #make clear deletes unnecesary files
 
+###############################--INSTALL--################################
+##########################################################################
+
+install:
+	sh install/install.bash
+
+###############################--MAIN FILES COMPILATION--################################
+#########################################################################################
+
+
 all: bin/emul-mips
 
-bin/emul-mips: build/interpreter.o build/enviroment.o
-	gcc -pg build/interpreter.o build/enviroment.o -o bin/emul-mips
+bin/emul-mips: build/main.o build/reader.o build/enviroment.o build/assembler.o 
+	gcc -pg build/main.o build/reader.o build/enviroment.o build/assembler.o -o bin/emul-mips
 
-build/interpreter.o: src/interpreter.c src/interpreter.h src/headers.h
-	gcc -pg -c src/interpreter.c -o build/interpreter.o
+build/reader.o: src/reader.c src/reader.h src/headers.h
+	gcc -pg -c src/reader.c -o build/reader.o
 
 build/enviroment.o: src/enviroment.c src/enviroment.h src/headers.h
 	gcc -pg -c src/enviroment.c -o build/enviroment.o
 
+build/assembler.o: src/assembler.c src/assembler.h src/headers.h
+	gcc -pg -c src/assembler.c -o build/assembler.o
+
+build/main.o: src/main.c src/headers.h
+	gcc -pg -c src/main.c -o build/main.o
+
+
+###############################--TESTS--################################
+########################################################################
+
+
 ###########################--ALL TESTS--################################
 
-testall: testparsing testenviroment
+#enviroment testing is not included in general testing
 
-###########################--INTERPRETER TESTS--################################
+testall: testparser testreader
 
-testinterpreter: test/test_parsing test/test_parsing2 test/test_parsing3 test/test_reader
+###########################--PARSING TESTS--################################
+#tests parsing functions of source file reader.c
+
+testparser: test/test_parsing test/test_parsing2 test/test_parsing3
 	./test/test_parsing 
 	./test/test_parsing2
 	./test/test_parsing3
-	./test/test_reader
 
-test/test_parsing: build/test_parsing.o build/interpreter.o
-	gcc build/test_parsing.o build/interpreter.o -o test/test_parsing
+test/test_parsing: build/test_parsing.o build/reader.o
+	gcc build/test_parsing.o build/reader.o -o test/test_parsing
 
-test/test_parsing2: build/test_parsing2.o build/interpreter.o
-	gcc build/test_parsing2.o build/interpreter.o -o test/test_parsing2
+test/test_parsing2: build/test_parsing2.o build/reader.o
+	gcc build/test_parsing2.o build/reader.o -o test/test_parsing2
 
-test/test_parsing3: build/test_parsing3.o build/interpreter.o
-	gcc build/test_parsing3.o build/interpreter.o -o test/test_parsing3
+test/test_parsing3: build/test_parsing3.o build/reader.o
+	gcc build/test_parsing3.o build/reader.o -o test/test_parsing3
 
-test/test_reader: build/test_reader.o build/interpreter.o
-	gcc build/test_reader.o build/interpreter.o -o test/test_reader
-
-build/test_parsing.o: test/test_parsing.c src/interpreter.h src/headers.h
+build/test_parsing.o: test/test_parsing.c src/reader.h src/headers.h
 	gcc -pg -c test/test_parsing.c -o build/test_parsing.o
 
-build/test_parsing2.o: test/test_parsing2.c src/interpreter.h src/headers.h
+build/test_parsing2.o: test/test_parsing2.c src/reader.h src/headers.h
 	gcc -pg -c test/test_parsing2.c -o build/test_parsing2.o
 
-build/test_parsing3.o: test/test_parsing3.c src/interpreter.h src/headers.h
+build/test_parsing3.o: test/test_parsing3.c src/reader.h src/headers.h
 	gcc -pg -c test/test_parsing3.c -o build/test_parsing3.o
 
-build/test_reader.o: test/test_reader.c src/interpreter.h src/headers.h
+###########################--READER TESTS--################################
+#tests reading functions of source file reader.c
+
+testreader: test/test_reader
+	./test/test_reader
+
+test/test_reader: build/test_reader.o build/reader.o
+	gcc build/test_reader.o build/reader.o -o test/test_reader
+
+build/test_reader.o: test/test_reader.c src/reader.h src/headers.h
 	gcc -pg -c test/test_reader.c -o build/test_reader.o
 
 ###########################--ENVIROMENT TESTS--################################
+#tests functions of source file enviroment.c
 
 testenviroment: test/test_enviroment
 	./test/test_enviroment
@@ -61,8 +91,14 @@ testenviroment: test/test_enviroment
 test/test_enviroment: build/test_enviroment.o build/enviroment.o
 	gcc build/test_enviroment.o build/enviroment.o -o test/test_enviroment
 
-build/test_enviroment.o: test/test_enviroment.c src/interpreter.h src/headers.h
+build/test_enviroment.o: test/test_enviroment.c src/reader.h src/headers.h
 	gcc -pg -c test/test_enviroment.c -o build/test_enviroment.o
+
+###########################--AUTOLOAD TESTS--################################
+#tests the autoloading function of the enviroment, passing a file argument when initiating the emulator
+testautoload: bin/emul-mips
+	./bin/emul-mips ./test/testscript.elf
+
 
 
 clear: 
