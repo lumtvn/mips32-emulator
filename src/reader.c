@@ -56,24 +56,24 @@ struct ptype *readscript(struct ptype *data)
 *
 * TODO: this function isn't complete yet. And the main program doesn't use it for the moment.
 */
-struct ptype *parsescript(struct ptype *data)
-{
+// struct ptype *parsescript(struct ptype *data)
+// {
 
-    data->incoming_line = strtok(data->full_script, "\n");
-        do{
+//     data->incoming_line = strtok(data->full_script, "\n");
+//         do{
 
-            printf("entra al while\n");
-            printf("%s\n",data->incoming_line);
+//             printf("entra al while\n");
+//             printf("%s\n",data->incoming_line);
 
-            parseline(data);
-            printstatus(data);
+//             parseline(data);
+//             printstatus(data);
 
-        } while((data->incoming_line = strtok(NULL, "\n")) != NULL);
+//         } while((data->incoming_line = strtok(NULL, "\n")) != NULL);
 
-        printf("me sali del while y incoming_line es '%s'\n", data->incoming_line);
+//         printf("me sali del while y incoming_line es '%s'\n", data->incoming_line);
 
-    return data;
-}
+//     return data;
+// }
 
 /**
 * @brief this function is here only for debugging purposes, it doesn't fill any purpose of the simulator

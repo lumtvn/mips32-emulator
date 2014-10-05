@@ -1,5 +1,5 @@
 #include "../src/headers.h"
-#include "../src/reader.h"
+#include "../src/assembler.h"
 #include "minunit.h"
 
  int tests_run = 0; 

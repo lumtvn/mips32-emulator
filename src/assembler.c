@@ -13,6 +13,7 @@
  **/
 #include "headers.h"
 #include "reader.h"
+#include "assembler.h"
 
 /**
 *
@@ -27,6 +28,7 @@ struct ptype *compile(struct ptype *data)
 {	
 
 	printf("filename: %s\n", data->filename);
+
 	data = readscript(data);
 
 	printf("\n\n%s\n\n",data->full_script);
