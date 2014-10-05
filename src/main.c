@@ -19,5 +19,7 @@ int main(int argc, char *argv[])
 			pdata = compile(pdata);				
 		}
 
+	runenv(pdata);
+
 	
 }

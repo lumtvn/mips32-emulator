@@ -1,3 +1,3 @@
 #!/usr/bin/bash
-echo "alias emul-mips=/path/to/node-webkit" >> ~/.bashrc
-source ~/.bashrc
+chmod 755 ../bin/emul-mips
+cp ../bin/emul-mips /usr/local/bin
