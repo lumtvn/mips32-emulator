@@ -1,4 +1,5 @@
 #executable files go in bin folder
+#executable test files go in test folder
 #.o files go in build folder
 # .c and .h files go in scr folder
 
@@ -7,13 +8,22 @@
 
 all: bin/emul-mips
 
-bin/emul-mips: build/interpreter.o
-	gcc -pg build/interpreter.o -o bin/emul-mips
+bin/emul-mips: build/interpreter.o build/enviroment.o
+	gcc -pg build/interpreter.o build/enviroment.o -o bin/emul-mips
 
 build/interpreter.o: src/interpreter.c src/interpreter.h src/headers.h
 	gcc -pg -c src/interpreter.c -o build/interpreter.o
 
-test: test/test_parsing test/test_parsing2 test/test_parsing3 test/test_reader
+build/enviroment.o: src/enviroment.c src/enviroment.h src/headers.h
+	gcc -pg -c src/enviroment.c -o build/enviroment.o
+
+###########################--ALL TESTS--################################
+
+testall: testparsing testenviroment
+
+###########################--INTERPRETER TESTS--################################
+
+testinterpreter: test/test_parsing test/test_parsing2 test/test_parsing3 test/test_reader
 	./test/test_parsing 
 	./test/test_parsing2
 	./test/test_parsing3
@@ -42,6 +52,18 @@ build/test_parsing3.o: test/test_parsing3.c src/interpreter.h src/headers.h
 
 build/test_reader.o: test/test_reader.c src/interpreter.h src/headers.h
 	gcc -pg -c test/test_reader.c -o build/test_reader.o
+
+###########################--ENVIROMENT TESTS--################################
+
+testenviroment: test/test_enviroment
+	./test/test_enviroment
+
+test/test_enviroment: build/test_enviroment.o build/enviroment.o
+	gcc build/test_enviroment.o build/enviroment.o -o test/test_enviroment
+
+build/test_enviroment.o: test/test_enviroment.c src/interpreter.h src/headers.h
+	gcc -pg -c test/test_enviroment.c -o build/test_enviroment.o
+
 
 clear: 
 	rm -f *.o
