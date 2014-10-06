@@ -96,7 +96,7 @@ void printstatus(struct ptype *data)
 *
 *
 *
-* TODO: this doesn't contemplate yet the case in which there's a # character surrounded by commas ""
+*@todo: this doesn't contemplate yet the case in which there's a # character surrounded by commas ""
 */
 char *removecommentary(char *s)
 {   

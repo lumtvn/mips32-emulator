@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#define MAXSIZE 512
+#define MAXSIZE 256
 
 typedef int bool;
 #define true 1

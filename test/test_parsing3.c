@@ -6,10 +6,23 @@
  struct ptype testdata;
  struct ptype *ptestdata;
  
- 
+ static char * test_tag() 
+{
+        if(testdata.tag != NULL)
+            {
+                mu_assert("error, the tag is different to '.text'", strcmp(testdata.tag, ".tag") == 0);
+                return 0;
+            }
+        else
+            {
+                printf("testdata.tag is NULL\n");
+                return 0;
+            }    
+}
 
  
  static char * all_tests() {
+     mu_run_test(test_tag);
      return 0;
  }
  

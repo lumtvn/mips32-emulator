@@ -1,5 +1,4 @@
-#executable files go in bin folder
-#executable test files go in test folder
+#executable files go in bin folder, includes test executables
 #.o files go in build folder
 # .c and .h files go in scr folder
 
@@ -13,14 +12,14 @@
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/reader.o build/enviroment.o build/assembler.o 
-	gcc -pg build/main.o build/reader.o build/enviroment.o build/assembler.o -o bin/emul-mips
+bin/emul-mips: build/main.o build/reader.o build/environment.o build/assembler.o 
+	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o -o bin/emul-mips
 
 build/reader.o: src/reader.c src/reader.h src/headers.h
 	gcc -pg -c src/reader.c -o build/reader.o
 
-build/enviroment.o: src/enviroment.c src/enviroment.h src/headers.h
-	gcc -pg -c src/enviroment.c -o build/enviroment.o
+build/environment.o: src/environment.c src/environment.h src/headers.h
+	gcc -pg -c src/environment.c -o build/environment.o
 
 build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h 
 	gcc -pg -c src/assembler.c -o build/assembler.o
@@ -42,26 +41,26 @@ install: bin/emul-mips
 
 ###########################--ALL TESTS--################################
 
-#enviroment testing is not included in general testing
+#environment testing is not included in general testing
 
-test: testparser testreader
+test: testparser testreader testautoload testenviroment
 
 ###########################--PARSING TESTS--################################
 #tests parsing functions of source file reader.c
 
-testparser: test/test_parsing test/test_parsing2 test/test_parsing3
-	./test/test_parsing 
-	./test/test_parsing2
-	./test/test_parsing3
+testparser: bin/test_parsing bin/test_parsing2 bin/test_parsing3
+	./bin/test_parsing 
+	./bin/test_parsing2
+	./bin/test_parsing3
 
-test/test_parsing: build/test_parsing.o build/assembler.o build/reader.o
-	gcc -pg build/test_parsing.o build/assembler.o build/reader.o -o test/test_parsing
+bin/test_parsing: build/test_parsing.o build/assembler.o build/reader.o
+	gcc -pg build/test_parsing.o build/assembler.o build/reader.o -o bin/test_parsing
 
-test/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o
-	gcc -pg build/test_parsing2.o build/assembler.o build/reader.o -o test/test_parsing2
+bin/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o
+	gcc -pg build/test_parsing2.o build/assembler.o build/reader.o -o bin/test_parsing2
 
-test/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o
-	gcc -pg build/test_parsing3.o build/assembler.o build/reader.o -o test/test_parsing3
+bin/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o
+	gcc -pg build/test_parsing3.o build/assembler.o build/reader.o -o bin/test_parsing3
 
 build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h
 	gcc -c test/test_parsing.c -o build/test_parsing.o
@@ -75,31 +74,39 @@ build/test_parsing3.o: test/test_parsing3.c src/assembler.h src/headers.h
 ###########################--READER TESTS--################################
 #tests reading functions of source file reader.c
 
-testreader: test/test_reader
-	./test/test_reader
+testreader: bin/test_reader
+	./bin/test_reader
 
-test/test_reader: build/test_reader.o build/reader.o
-	gcc build/test_reader.o build/reader.o -o test/test_reader
+bin/test_reader: build/test_reader.o build/reader.o
+	gcc build/test_reader.o build/reader.o -o bin/test_reader
 
 build/test_reader.o: test/test_reader.c src/reader.h src/headers.h
 	gcc -pg -c test/test_reader.c -o build/test_reader.o
 
-###########################--ENVIROMENT TESTS--################################
-#tests functions of source file enviroment.c
+###########################--environment TESTS--################################
+#tests functions of source file environment.c
 
-testenviroment: test/test_enviroment
-	./test/test_enviroment
+testenviroment: bin/emul-mips bin/test_enviroment
+	./bin/emul-mips < test/commandfiles/test_enviroment_commands.txt > test/resultfiles/test_enviroment_result.txt
+	./bin/test_enviroment
 
-test/test_enviroment: build/test_enviroment.o build/enviroment.o
-	gcc build/test_enviroment.o build/enviroment.o -o test/test_enviroment
+bin/test_enviroment: build/test_enviroment.o build/environment.o
+	gcc build/test_enviroment.o build/environment.o -o bin/test_enviroment
 
 build/test_enviroment.o: test/test_enviroment.c src/reader.h src/headers.h
 	gcc -pg -c test/test_enviroment.c -o build/test_enviroment.o
 
 ###########################--AUTOLOAD TESTS--################################
-#tests the autoloading function of the enviroment, passing a file argument when initiating the emulator
-testautoload: bin/emul-mips
-	./bin/emul-mips ./test/testscript.elf
+#tests the autoloading function of the environment, passing a file argument when initiating the emulator
+testautoload: bin/emul-mips bin/test_autoloader
+	./bin/emul-mips ./test/testscript.elf < test/commandfiles/test_autoloader_commands.txt > test/resultfiles/test_autoloader_result.txt
+	./bin/test_autoloader
+
+bin/test_autoloader: build/test_autoloader.o
+	gcc build/test_autoloader.o -o bin/test_autoloader
+
+build/test_autoloader.o: test/test_autoloader.c src/headers.h
+	gcc -pg -c test/test_autoloader.c -o build/test_autoloader.o
 
 clear: 
 	find . -name *.o -delete

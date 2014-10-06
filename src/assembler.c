@@ -18,10 +18,10 @@
 /**
 *
 * @brief this function calls the other functions in this file and in others, to compile an elf script
-*
+* 
 * @param *data A pointer to a ptype structure, created by the main program.
 * @return it returns the pointer to the same structure, but modified
-*
+* @note ptype type variables that modifies: full_script 
 * @todo for now, this only reads a script and prints it in the screen, many things to do yet
 */
 struct ptype *compile(struct ptype *data)
@@ -32,6 +32,8 @@ struct ptype *compile(struct ptype *data)
 	data = readscript(data);
 
 	printf("\n\n%s\n\n",data->full_script);
+
+    return data;
 }
 
 /**
@@ -41,7 +43,7 @@ struct ptype *compile(struct ptype *data)
 * @param *data A pointer to a ptype structure, created by the main program.
 * @return it returns the pointer to the same structure, but it modifies data->operation and data->argline[]
 *
-* @note this functions is meant to parse lines from an elf script, not the commands from the enviroment. there's another file with functions for that
+* @note this functions is meant to parse lines from an elf script, not the commands from the environment. there's another file with functions for that
 */
 struct ptype *parseline(struct ptype *data)
 {

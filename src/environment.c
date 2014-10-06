@@ -1,5 +1,5 @@
 #include "headers.h"
-#include "enviroment.h"
+#include "environment.h"
 
 
 void runenv(struct ptype *env)
@@ -8,14 +8,11 @@ void runenv(struct ptype *env)
 		{
 			// env->n_arg = 1;   //initialized to 1 by default, it updates later
 			// printf("asigna 1 al entero\n");
-			int flag = 0;
-			unsigned int s;
-			int status;
 
-			// printf("entra al while\n");
+			 // printf("entra al while\n");
 
-			env->entry = malloc(MAXSIZE);
-			// printf("hace el malloc\n");
+			 env->entry = malloc(MAXSIZE);
+			 // printf("hace el malloc\n");
 
 
 			printf("emul-mips>"); // prints out the prompt

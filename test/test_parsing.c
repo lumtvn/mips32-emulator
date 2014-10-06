@@ -120,7 +120,7 @@ static char * test_argline4()
 
 
      testdata.incoming_line = malloc(MAXSIZE);
-     strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3");
+     strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3, $r4");
 
      ptestdata = &testdata;
      ptestdata = parseline(ptestdata);
