@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+
+extern int errno;
 #define MAXSIZE 256
 
 typedef int bool;

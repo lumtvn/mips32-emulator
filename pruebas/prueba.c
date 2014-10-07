@@ -12,6 +12,24 @@ struct montoto
 
 int main(int argc, char *argv[])
 {
-	int i = system("diff prueba2.c prueba.c");
-	printf("%d\n", i);
+const int a = 3;
+const int b = 3;
+int array[a][b];
+
+	int i;
+	int j;
+	int k = 0;
+	for (i = 0; i < a; i++)
+	{
+		for(j = 0; j< b; j++)
+		{	
+			array[i][j] = ++k;
+			printf("%d", array[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n%d\n",*(array[2] + 1));
+
+	
 }

@@ -48,9 +48,9 @@
          printf("%s\n", result);
      }
      else {
-         printf("PARSING TEST 3 PASSED\n");
+         // printf("PARSING TEST 3 PASSED\n");
      }
-     printf("Tests run: %d\n", tests_run);
+     // printf("Tests run: %d\n", tests_run);
  
      return result != 0;
  }

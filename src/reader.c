@@ -22,7 +22,7 @@
 *@return it returns the same structure, but with data->full_script modified(it now has the script, with the commentaries striped)
 */
 struct ptype *readscript(struct ptype *data)
-{
+{   
     FILE *file = fopen ( data->filename, "r" );
 
     size_t filesize;
