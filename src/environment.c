@@ -1,32 +1,33 @@
 #include "headers.h"
 #include "environment.h"
 
-
+/**
+*@brief this function runs the environment program and allows the user to enter commands
+*
+* 
+**/
 void runenv(struct ptype *env)
 {
 	while(1)
 		{
 			// env->n_arg = 1;   //initialized to 1 by default, it updates later
-			// printf("asigna 1 al entero\n");
 
-			 // printf("entra al while\n");
 
 			 env->entry = malloc(MAXSIZE);
-			 // printf("hace el malloc\n");
 
 
 			printf("emul-mips>"); // prints out the prompt
 			
-			char *result = fgets(env->entry,MAXSIZE,stdin);  // obtiene la env->entry por teclado
+			char *result = fgets(env->entry,MAXSIZE,stdin);  
 			if (result == NULL)
 			{
-				printf("\n");     //si la env->entry da error o indica condicion de EOF, el programa termina
+				printf("\n");    
 				exit(0);
 			}
 			env = parseentry(env);													
 
-			analize(env);  /** el hijo analiza el comando y lo ejecuta si existiere**/	 
-			restart(env);	/** reinicia env->arg para que no quede con residuos a la hora de analizar un nuevo comando**/
+			analize(env); 
+			restart(env);	
 		}
 }
 
@@ -127,7 +128,7 @@ void analize(struct ptype *env)
 
 }
 
-/**esta funcion descarta cualquier \0, \t, o \n que pueda ser encontrado dentro de un puntero a caracter**/
+/**this function simply discards unwanted characters in a string*/
 void strip(char *s) {
     char *p2 = s;
     while(*s != '\0') {
