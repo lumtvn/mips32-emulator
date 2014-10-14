@@ -20,7 +20,9 @@ int main(int argc, char *argv[])
 			pdata = compile(pdata);				
 		}
 
+	while(1)
+	{
 	runenv(pdata);
-
+	}
 	
 }

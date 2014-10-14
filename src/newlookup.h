@@ -10,6 +10,6 @@ static struct nlist *hashtab[TYPES][HASHSIZE];
 
 unsigned hash(char *s);
 struct nlist *lookup(char *s, struct nlist *hashtablocal[HASHSIZE]);
-struct nlist *install(char *name, char *defn, struct nlist *hashtablocal[HASHSIZE]);
+struct nlist *install(char *name, char *defn[], int defns, struct nlist *hashtablocal[HASHSIZE]);
 struct nlist *newlookup(char *s, int type);
-struct nlist *newinstall(char *name, char *defn, int type);
+struct nlist *newinstall(char *name, char *defn[], int defns, int type);

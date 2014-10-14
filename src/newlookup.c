@@ -1,5 +1,5 @@
 #include "headers.h"
-#include "mylookup.h"
+#include "newlookup.h"
 
 /* hash: form hash value for string s */
 unsigned hash(char *s)
@@ -20,10 +20,10 @@ struct nlist *newlookup(char *s, int type)
 }
 
 /* lookup: look for s in hashtab */
-struct nlist *lookup(char *s, struct nlist *hashtablocal[HASHSIZE])
+struct nlist *lookup(char *s, struct nlist *localhashtab[HASHSIZE])
 {
 	struct nlist *np;
-	for (np = hashtablocal[hash(s)]; np != NULL; np = np->next)
+	for (np = localhashtab[hash(s)]; np != NULL; np = np->next)
 		if (strcmp(s, np->name) == 0)
 			return np;
 			/* found */
@@ -31,32 +31,36 @@ struct nlist *lookup(char *s, struct nlist *hashtablocal[HASHSIZE])
 		/* not found */
 }
 
-struct nlist *newinstall(char *name, char *defn, int type)
+struct nlist *newinstall(char *name, char *defn[], int defns, int type)
 {
 	struct nlist *np;
-	np = install(name, defn, hashtab[type]);
+	np = install(name, defn, defns, hashtab[type]);
 
 	return np;
 }
 
-struct nlist *install(char *name, char *defn, struct nlist *hashtablocal[HASHSIZE])
+struct nlist *install(char *name, char *defn[], int defns, struct nlist *localhashtab[HASHSIZE])
 {
 	struct nlist *np;
 	unsigned hashval;
-		if ((np = lookup(name, hashtablocal)) == NULL)  /* not found */
+		if ((np = lookup(name, localhashtab)) == NULL)  /* not found */
 			 {
 				np = (struct nlist *) malloc(sizeof(*np));
 					if (np == NULL || (np->name = strdup(name)) == NULL)
 					return NULL;
 				hashval = hash(name);
-				np->next = hashtablocal[hashval];
-				hashtablocal[hashval] = np;
+				np->next = localhashtab[hashval];
+				localhashtab[hashval] = np;
 		 	 } 
 		else
 			/* already there */
 			free((void *) np->defn);
 			/*free previous defn */
-			if ((np->defn = strdup(defn)) == NULL)
-			return NULL;
-			return np;
+			int i;
+			for (i = 0; i < defns; i++)
+			{
+				if ((np->defn[i] = strdup(defn[i])) == NULL) //all defn arrays should have at least 1 argument
+				return NULL;
+				return np;
+			}
 }

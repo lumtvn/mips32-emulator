@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "environment.h"
+//#include "environmentcommands.h"
 
 /**
 *@brief this function runs the environment program and allows the user to enter commands
@@ -8,8 +9,6 @@
 **/
 void runenv(struct ptype *env)
 {
-	while(1)
-		{
 			// env->n_arg = 1;   //initialized to 1 by default, it updates later
 
 
@@ -26,9 +25,8 @@ void runenv(struct ptype *env)
 			}
 			env = parseentry(env);													
 
-			analize(env); 
+			env = analize(env); 
 			restart(env);	
-		}
 }
 
 /**
@@ -76,7 +74,7 @@ struct ptype *parseentry(struct ptype *env)
 }
 
 
-void analize(struct ptype *env)
+struct ptype *analize(struct ptype *env)
 {
 
 	if(!strcmp(env->command,"exit"))
@@ -86,7 +84,7 @@ void analize(struct ptype *env)
     }
 	else if(!strcmp(env->command,"load"))
 	{
-		printf("load was entered...\n");
+		//env = load(env);
 	}
 	else if(!strcmp(env->command,"disp"))
 	{
@@ -125,6 +123,8 @@ void analize(struct ptype *env)
 		printf("break was entered...\n");
 	}
 	else printf("command '%s' not found\n",env->command);
+
+	return env;
 
 }
 
