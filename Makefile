@@ -24,6 +24,9 @@ build/environment.o: src/environment.c src/environment.h src/headers.h
 build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h 
 	gcc -pg -c src/assembler.c -o build/assembler.o
 
+build/lookup.o: src/lookup.c src/lookup.h src/headers.h
+	gcc -pg -c src/lookup.c -o build/lookup.o
+
 build/main.o: src/main.c src/headers.h
 	gcc -pg -c src/main.c -o build/main.o
 
@@ -44,7 +47,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testparser testreader testautoload testenviroment
+test: testparser testreader testautoload testenvironment
 	@echo ALL TESTS PASSED
 
 ###########################--PARSING TESTS--################################
@@ -88,15 +91,15 @@ build/test_reader.o: test/test_reader.c src/reader.h src/headers.h
 ###########################--environment TESTS--################################
 #tests functions of source file environment.c
 
-testenviroment: bin/emul-mips bin/test_enviroment
-	@./bin/emul-mips < test/commandfiles/test_enviroment_commands.txt > test/resultfiles/test_enviroment_result.txt
-	@./bin/test_enviroment
+testenvironment: bin/emul-mips bin/test_environment
+	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
+	@./bin/test_environment
 
-bin/test_enviroment: build/test_enviroment.o build/environment.o
-	@gcc build/test_enviroment.o build/environment.o -o bin/test_enviroment
+bin/test_environment: build/test_environment.o build/environment.o
+	@gcc build/test_environment.o build/environment.o -o bin/test_environment
 
-build/test_enviroment.o: test/test_enviroment.c src/reader.h src/headers.h
-	@gcc -pg -c test/test_enviroment.c -o build/test_enviroment.o
+build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
+	@gcc -pg -c test/test_environment.c -o build/test_environment.o
 
 ###########################--AUTOLOAD TESTS--################################
 #tests the autoloading function of the environment, passing a file argument when initiating the emulator
@@ -109,6 +112,22 @@ bin/test_autoloader: build/test_autoloader.o
 
 build/test_autoloader.o: test/test_autoloader.c src/headers.h
 	@gcc -pg -c test/test_autoloader.c -o build/test_autoloader.o
+
+###########################--LOOKUP TESTS--################################
+#tests the lookup functions from file lookup.c
+
+testlookup: bin/test_lookup
+	@./bin/test_lookup
+
+bin/test_lookup: build/test_lookup.o build/lookup.o
+	@gcc build/test_lookup.o build/lookup.o -o bin/test_lookup
+
+build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
+	@gcc -pg -c test/test_lookup.c -o build/test_lookup.o
+
+
+
+##########clean unnecesary files
 
 clear: 
 	find . -name *.o -delete

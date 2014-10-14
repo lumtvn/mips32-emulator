@@ -1,5 +1,5 @@
-#include "lookup.h"
 #include "headers.h"
+#include "mylookup.h"
 
 /* hash: form hash value for string s */
 unsigned hash(char *s)
@@ -10,11 +10,20 @@ unsigned hash(char *s)
 	return hashval % HASHSIZE;
 }
 
-/* lookup: look for s in hashtab */
-struct nlist *lookup(char *s)
+
+struct nlist *newlookup(char *s, int type)
 {
 	struct nlist *np;
-	for (np = hashtab[hash(s)]; np != NULL; np = np->next)
+	np = lookup(s, hashtab[type]);
+
+	return np;
+}
+
+/* lookup: look for s in hashtab */
+struct nlist *lookup(char *s, struct nlist *hashtablocal[HASHSIZE])
+{
+	struct nlist *np;
+	for (np = hashtablocal[hash(s)]; np != NULL; np = np->next)
 		if (strcmp(s, np->name) == 0)
 			return np;
 			/* found */
@@ -22,18 +31,26 @@ struct nlist *lookup(char *s)
 		/* not found */
 }
 
-struct nlist *install(char *name, char *defn)
+struct nlist *newinstall(char *name, char *defn, int type)
+{
+	struct nlist *np;
+	np = install(name, defn, hashtab[type]);
+
+	return np;
+}
+
+struct nlist *install(char *name, char *defn, struct nlist *hashtablocal[HASHSIZE])
 {
 	struct nlist *np;
 	unsigned hashval;
-		if ((np = lookup(name)) == NULL)  /* not found */
+		if ((np = lookup(name, hashtablocal)) == NULL)  /* not found */
 			 {
 				np = (struct nlist *) malloc(sizeof(*np));
 					if (np == NULL || (np->name = strdup(name)) == NULL)
 					return NULL;
 				hashval = hash(name);
-				np->next = hashtab[hashval];
-				hashtab[hashval] = np;
+				np->next = hashtablocal[hashval];
+				hashtablocal[hashval] = np;
 		 	 } 
 		else
 			/* already there */
