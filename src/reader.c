@@ -14,16 +14,21 @@
 #include "headers.h"
 #include "reader.h"
 
-
 /**
 *
 *@brief this function reads an incoming script, and removes the commentary from it
 *@param *data A pointer to a ptype structure, created by the main program.
 *@return it returns the same structure, but with data->full_script modified(it now has the script, with the commentaries striped)
+*@todo the size of the string that holds the entire file should be modified when once the commentaries are removed
 */
 struct ptype *readscript(struct ptype *data)
 {   
-    FILE *file = fopen ( data->filename, "r" );
+    FILE *file;
+    if((file = fopen ( data->filename, "r" )) == NULL)
+    {
+        data->report = 1;
+        return data;
+    }
 
     size_t filesize;
     fseek(file, 0, SEEK_END); // seek to end of file
@@ -32,8 +37,6 @@ struct ptype *readscript(struct ptype *data)
 
     data->full_script = malloc(filesize);
 
-    if ( file != NULL )
-        {
             char *line = malloc(MAXSIZE);
 
             while ( fgets ( line, MAXSIZE, file ) != NULL ) /* read a line */
@@ -42,11 +45,8 @@ struct ptype *readscript(struct ptype *data)
                     strcat(data->full_script,line);
                 }
             fclose ( file );
-        }
-    else
-        {
-            perror ( data->filename ); /* why didn't the file open? */
-        }
+
+    data->report = 0;
     return data;
 }
 /**

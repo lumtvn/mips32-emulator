@@ -14,6 +14,7 @@
 #include "headers.h"
 #include "reader.h"
 #include "assembler.h"
+#include "errors.h"
 
 /**
 *
@@ -27,11 +28,14 @@
 struct ptype *compile(struct ptype *data)
 {	
 
-	printf("filename: %s\n", data->filename);
-
 	data = readscript(data);
+    if(data->report != 0)
+        {
+            fprintf(stderr, "%s\n", errs[data->report]);
+            return data;
+        }
 
-	printf("\n\n%s\n\n",data->full_script);
+	//printf("\n\n%s\n\n",data->full_script);
 
     return data;
 }
@@ -52,12 +56,7 @@ struct ptype *parseline(struct ptype *data)
     char *temp1;
     char *temp2 = NULL;
 
-	 // printf("data->incoming_line: '%s'\n",data->incoming_line);
-
-	//and now we parse	
     buffer = strtok(data->incoming_line, " ");
-
-    // printf("buffer: '%s'\n",buffer);
 
     //at this moment, buffer holds either a tag, a label or the operation. 
     //if it holds a label, then buffer has a double colon at the end. we locate this using strchr()
@@ -77,7 +76,7 @@ struct ptype *parseline(struct ptype *data)
         // now we search for the tag
     if(buffer[0] == '.')
         {
-            data->tag = buffer; //if the first or second character of buffer is a dot, then its a tag
+            data->tag = buffer; //if the first character of buffer is a dot, then its a tag
             data->operation = strtok(NULL, " "); //and then follows the command.
         }
     else    data->operation = buffer; //if it's not a tag or a label, then it has to be the operation
@@ -90,7 +89,7 @@ struct ptype *parseline(struct ptype *data)
         i++;
     }
 
-    //we proceed to clean the commas out of the arglineuments. It had to be done separatedly from the
+    //we proceed to clean the commas out of the arguments. It had to be done separatedly from the
     //previous while becouse if not, strtok doesn't work correctly
 
     i = 0;

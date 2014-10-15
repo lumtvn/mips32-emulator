@@ -12,23 +12,28 @@
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/reader.o build/environment.o build/assembler.o 
-	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o -o bin/emul-mips
+bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o 
+	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o -o bin/emul-mips
+
+build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h
+	gcc -pg -c src/main.c -o build/main.o
 
 build/reader.o: src/reader.c src/reader.h src/headers.h
 	gcc -pg -c src/reader.c -o build/reader.o
 
-build/environment.o: src/environment.c src/environment.h src/headers.h
+build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h 
+	gcc -pg -c src/environmentcommands.c -o build/environmentcommands.o
+
+build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h 
 	gcc -pg -c src/environment.c -o build/environment.o
 
-build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h 
+build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h src/errors.h
 	gcc -pg -c src/assembler.c -o build/assembler.o
 
 build/lookup.o: src/lookup.c src/lookup.h src/headers.h
 	gcc -pg -c src/lookup.c -o build/lookup.o
 
-build/main.o: src/main.c src/headers.h
-	gcc -pg -c src/main.c -o build/main.o
+
 
 ###############################--INSTALL--################################
 ##########################################################################
@@ -47,7 +52,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testparser testreader testautoload testenvironment
+test: testparser testreader testautoload testenvironment testlookup
 	@echo ALL TESTS PASSED
 
 ###########################--PARSING TESTS--################################
@@ -95,8 +100,8 @@ testenvironment: bin/emul-mips bin/test_environment
 	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
 	@./bin/test_environment
 
-bin/test_environment: build/test_environment.o build/environment.o
-	@gcc build/test_environment.o build/environment.o -o bin/test_environment
+bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o
+	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o -o bin/test_environment
 
 build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
 	@gcc -pg -c test/test_environment.c -o build/test_environment.o
@@ -124,6 +129,19 @@ bin/test_lookup: build/test_lookup.o build/lookup.o
 
 build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
 	@gcc -pg -c test/test_lookup.c -o build/test_lookup.o
+
+###########################--ENVIRONMENT COMMANDS TESTS--################################
+#tests the functions in charge of executing the environment commands
+
+testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
+	@./bin/emul-mips < test/commandfiles/test_load_commands.txt
+	@./bin/test_environmentcommands
+
+bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o
+	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o -o bin/test_environmentcommands
+
+build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/assembler.h
+	@gcc -pg -c test/test_environmentcommands.c -o build/test_environmentcommands.o
 
 
 

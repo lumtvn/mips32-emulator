@@ -22,7 +22,7 @@
  
  int main(int argc, char **argv) {
 
-     res = system("diff test/resultfiles/test_enviroment_expected.txt test/resultfiles/test_enviroment_result.txt");
+     res = system("diff test/resultfiles/test_environment_expected.txt test/resultfiles/test_environment_result.txt");
 
      char *result = all_tests();
      if (result != 0) {
