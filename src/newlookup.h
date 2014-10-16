@@ -6,7 +6,8 @@ char *defn[];			/* replacement text */
 
 #define HASHSIZE 101
 #define TYPES 2
-static struct nlist *hashtab[TYPES][HASHSIZE];
+static struct nlist *hasharray[TYPES];
+static struct nlist *hashtab[HASHSIZE];
 
 unsigned hash(char *s);
 struct nlist *lookup(char *s, struct nlist *hashtablocal[HASHSIZE]);

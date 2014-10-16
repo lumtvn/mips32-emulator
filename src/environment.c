@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "environment.h"
 #include "environmentcommands.h"
-// #include "errors.h"
+#include "errors.h"
 
 
 /**
@@ -28,8 +28,8 @@ void runenv(struct ptype *env)
 			env = analize(env); 
 
 			if(env->report != 0)
-				// fprintf(stderr, "%s\n", errs[env->report]);
-				fprintf(stderr, "bue..\n");
+				fprintf(stderr, "%s\n", errs[env->report]);
+				// fprintf(stderr, "bue..\n");
 
 			restart(env);	
 }

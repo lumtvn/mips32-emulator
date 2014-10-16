@@ -11,6 +11,8 @@ int main()
 	mword palabra;
 	size_t wordsize;
 	wordsize = sizeof(palabra);
+	short int pepe;
+	wordsize = sizeof(pepe);
 
 	printf("palabra : %zu\n", wordsize);
 }

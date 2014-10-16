@@ -8,12 +8,12 @@
  struct nlist *na = &nna;
  char *a = "hello";
  char *b = "foo";
- char *defna[] = {"world","programmers"};
+ char *defna[2] = {"world","programmers"};
  int defnsa = 2;
 
 /*tries to newinstall a defn in a non existing name*/
   static char * test_newinstall_create() 
-{
+{ 
 			na = newinstall(a,defna,defnsa,0);
       printf("%s, %s, %s\n", na->name, na->defn[0], na->defn[1]);
             mu_assert("newinstall non existing name", !strcmp(na->name,"hello") && !strcmp(na->defn[0],"world") && !strcmp(na->defn[1],"programmers"));

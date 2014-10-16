@@ -21,18 +21,20 @@ build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h
 build/reader.o: src/reader.c src/reader.h src/headers.h
 	gcc -pg -c src/reader.c -o build/reader.o
 
-build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h 
+build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h src/errors.h
 	gcc -pg -c src/environmentcommands.c -o build/environmentcommands.o
 
-build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h 
+build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h src/errors.h
 	gcc -pg -c src/environment.c -o build/environment.o
 
 build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h src/errors.h
 	gcc -pg -c src/assembler.c -o build/assembler.o
 
-build/lookup.o: src/lookup.c src/lookup.h src/headers.h
-	gcc -pg -c src/lookup.c -o build/lookup.o
+build/newlookup.o: src/newlookup.c src/newlookup.h src/headers.h
+	gcc -pg -c src/newlookup.c -o build/newlookup.o
 
+build/memorymanagement.o: src/memorymanagement.c src/headers.h
+	gcc -pg -c src/memorymanagement.c -o build/memorymanagement.o
 
 
 ###############################--INSTALL--################################
@@ -52,7 +54,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testparser testreader testautoload testenvironment testlookup
+test: testparser testreader testautoload testenvironment
 	@echo ALL TESTS PASSED
 
 ###########################--PARSING TESTS--################################
@@ -118,17 +120,17 @@ bin/test_autoloader: build/test_autoloader.o
 build/test_autoloader.o: test/test_autoloader.c src/headers.h
 	@gcc -pg -c test/test_autoloader.c -o build/test_autoloader.o
 
-###########################--LOOKUP TESTS--################################
-#tests the lookup functions from file lookup.c
+###########################--newLOOKUP TESTS--################################
+#tests the newlookup functions from file newlookup.c
 
-testlookup: bin/test_lookup
-	@./bin/test_lookup
+testnewlookup: bin/test_newlookup
+	@./bin/test_newlookup
 
-bin/test_lookup: build/test_lookup.o build/lookup.o
-	@gcc build/test_lookup.o build/lookup.o -o bin/test_lookup
+bin/test_newlookup: build/test_newlookup.o build/newlookup.o
+	@gcc build/test_newlookup.o build/newlookup.o -o bin/test_newlookup
 
-build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
-	@gcc -pg -c test/test_lookup.c -o build/test_lookup.o
+build/test_newlookup.o: test/test_newlookup.c src/newlookup.h src/headers.h
+	@gcc -pg -c test/test_newlookup.c -o build/test_newlookup.o
 
 ###########################--ENVIRONMENT COMMANDS TESTS--################################
 #tests the functions in charge of executing the environment commands
@@ -140,9 +142,20 @@ testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o
 	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o -o bin/test_environmentcommands
 
-build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/assembler.h
+build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/assembler.h src/reader.h
 	@gcc -pg -c test/test_environmentcommands.c -o build/test_environmentcommands.o
 
+###########################--MEMORY MANAGEMENT TESTS--################################
+#tests the functions in charge of managing the memory of the simulated processor
+
+testmemorymanagement: bin/test_memorymanagement
+	./bin/test_memorymanagement
+
+bin/test_memorymanagement: build/test_memorymanagement.o build/memorymanagement.o
+	@gcc build/test_memorymanagement.o build/memorymanagement.o -o bin/test_memorymanagement
+
+build/test_memorymanagement.o: test/test_memorymanagement.c src/memorymanagement.h src/headers.h
+	@gcc -pg -c test/test_memorymanagement.c -o build/test_memorymanagement.o
 
 
 ##########clean unnecesary files

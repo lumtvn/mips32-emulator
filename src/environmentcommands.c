@@ -1,6 +1,7 @@
 #include "headers.h"
 #include "environmentcommands.h"
 #include "assembler.h"
+#include "errors.h"
 
 struct ptype *env_load(struct ptype *env)
 {
