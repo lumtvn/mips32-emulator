@@ -8,11 +8,9 @@ typedef char mbyte;
 
 int main()
 {	
-	mword palabra;
-	size_t wordsize;
-	wordsize = sizeof(palabra);
-	short int pepe;
-	wordsize = sizeof(pepe);
+	char * s = "4";
+	int pepe = atoi(s);
 
-	printf("palabra : %zu\n", wordsize);
+
+	printf("palabra : %d\n", pepe + 1);
 }

@@ -13,6 +13,11 @@ typedef unsigned int *reg;
 typedef unsigned short int mhalfword;
 typedef unsigned char mbyte;
 
+static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0"
+		, "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2"
+		, "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp"
+		, "$sp", "$fp", "$ra"};
+
 struct ptype /// it's a structure that has all elements that are involved in the simulator
 {   
 	int report; ///error handling
@@ -33,10 +38,12 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	int blocksize;
 
 	//general purpose registers
-	reg $zero, $at, $v0, $v1, $a0, $a1, $a2, $a3, $t0
-	, $t1, $t2, $t3, $t4, $t5, $t6, $t7, $s0, $s1, $s2
-	, $s3, $s4, $s5, $s6, $s7, $t8, $t9, $k0, $k1, $gp
-	, $sp, $fp, $ra;
+	reg regs[32];
+
+	// reg $zero, $at, $v0, $v1, $a0, $a1, $a2, $a3, $t0
+	// , $t1, $t2, $t3, $t4, $t5, $t6, $t7, $s0, $s1, $s2
+	// , $s3, $s4, $s5, $s6, $s7, $t8, $t9, $k0, $k1, $gp
+	// , $sp, $fp, $ra;
 
 	//concerning an entry for the IDE of the simulator
 	int n_argenv; //number of arguments of the entry

@@ -133,13 +133,16 @@ mword readword(struct ptype *mem, int simpoint)
 *
 *
 **/
-void displaymemory(struct ptype *mem)
+struct ptype *displaymemory(struct ptype *mem)
 {
 	int i = 0;
+	mem->realpoint = mem->realpointbase;
 	while (i < mem->blocksize)
 	{
-		printf("%x %x\n",i, *(mem->realpointbase));
-		mem->realpointbase++;
+		printf("%x %x\n",i, *(mem->realpoint));
+		mem->realpoint++;
 		i++;
 	}
+
+	return mem;
 }

@@ -1,0 +1,3 @@
+set mem word 8 5000
+disp mem 8:11
+exit

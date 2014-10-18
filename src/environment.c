@@ -30,8 +30,7 @@ void runenv(struct ptype *mips)
 
 			if(mips->report != 0)
 				report(mips->report);
-				// fprintf(stderr, "bue..\n");
-
+			mips->report = 0;
 			restart(mips);	
 }
 

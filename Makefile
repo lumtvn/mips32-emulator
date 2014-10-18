@@ -12,16 +12,16 @@
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o build/memorymanagement.o build/errors.o
-	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o -o bin/emul-mips
+bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o build/memorymanagement.o build/errors.o build/lookup.o
+	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips
 
-build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h src/memorymanagement.h
+build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h src/memorymanagement.h src/lookup.h
 	gcc -pg -c src/main.c -o build/main.o
 
 build/reader.o: src/reader.c src/reader.h src/headers.h src/errors.h
 	gcc -pg -c src/reader.c -o build/reader.o
 
-build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h src/memorymanagement.h src/errors.h
+build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h src/memorymanagement.h src/errors.h src/lookup.h
 	gcc -pg -c src/environmentcommands.c -o build/environmentcommands.o
 
 build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h src/errors.h
@@ -30,8 +30,8 @@ build/environment.o: src/environment.c src/environment.h src/environmentcommands
 build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h src/errors.h
 	gcc -pg -c src/assembler.c -o build/assembler.o
 
-build/newlookup.o: src/newlookup.c src/newlookup.h src/headers.h
-	gcc -pg -c src/newlookup.c -o build/newlookup.o
+build/lookup.o: src/lookup.c src/lookup.h src/headers.h
+	gcc -pg -c src/lookup.c -o build/lookup.o
 
 build/memorymanagement.o: src/memorymanagement.c src/headers.h
 	gcc -pg -c src/memorymanagement.c -o build/memorymanagement.o
@@ -56,7 +56,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testparser testreader testautoload testenvironment testmemorymanagement testenvironmentcommands
+test: testparser testreader testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
 	@echo ALL TESTS PASSED
 
 ###########################--PARSING TESTS--################################
@@ -104,8 +104,8 @@ testenvironment: bin/emul-mips bin/test_environment
 	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
 	@./bin/test_environment
 
-bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/errors.o build/memorymanagement.o build/reader.o
-	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o -o bin/test_environment
+bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/errors.o build/memorymanagement.o build/reader.o build/lookup.o
+	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_environment
 
 build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
 	@gcc -pg -c test/test_environment.c -o build/test_environment.o
@@ -122,27 +122,33 @@ bin/test_autoloader: build/test_autoloader.o
 build/test_autoloader.o: test/test_autoloader.c src/headers.h
 	@gcc -pg -c test/test_autoloader.c -o build/test_autoloader.o
 
-###########################--newLOOKUP TESTS--################################
-#tests the newlookup functions from file newlookup.c
+###########################--LOOKUP TESTS--################################
+#tests the lookup functions from file lookup.c
 
-testnewlookup: bin/test_newlookup
-	@./bin/test_newlookup
+testlookup: bin/test_lookup
+	@./bin/test_lookup
 
-bin/test_newlookup: build/test_newlookup.o build/newlookup.o
-	@gcc build/test_newlookup.o build/newlookup.o -o bin/test_newlookup
+bin/test_lookup: build/test_lookup.o build/lookup.o
+	@gcc build/test_lookup.o build/lookup.o -o bin/test_lookup
 
-build/test_newlookup.o: test/test_newlookup.c src/newlookup.h src/headers.h
-	@gcc -pg -c test/test_newlookup.c -o build/test_newlookup.o
+build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
+	@gcc -pg -c test/test_lookup.c -o build/test_lookup.o
 
 ###########################--ENVIRONMENT COMMANDS TESTS--################################
 #tests the functions in charge of executing the environment commands
 
 testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@./bin/emul-mips < test/commandfiles/test_load_commands.txt
+	@./bin/emul-mips < test/commandfiles/test_set_reg_success_commands.txt > test/resultfiles/test_set_reg_success_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_set_reg_invreg_commands.txt > test/resultfiles/test_set_reg_invreg_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_set_reg_invval_commands.txt > test/resultfiles/test_set_reg_invval_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
 	@./bin/test_environmentcommands
 
-bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o
-	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o -o bin/test_environmentcommands
+bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o build/lookup.o
+	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/test_environmentcommands
 
 build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/assembler.h src/reader.h src/errors.h src/memorymanagement.h
 	@gcc -pg -c test/test_environmentcommands.c -o build/test_environmentcommands.o

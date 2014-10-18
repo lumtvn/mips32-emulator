@@ -6,4 +6,4 @@ struct ptype *writeword(struct ptype *mem, mword bdata, int simpoint);
 mbyte readbyte(struct ptype *mem, int simpoint);
 mhalfword readhalfword(struct ptype *mem, int simpoint);
 mword readword(struct ptype *mem, int simpoint);
-void displaymemory(struct ptype *mem);
+struct ptype *displaymemory(struct ptype *mem);

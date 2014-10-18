@@ -1,0 +1,2 @@
+set reg foo 500
+exit

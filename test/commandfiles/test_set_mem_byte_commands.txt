@@ -1,0 +1,3 @@
+set mem byte 10 15
+disp mem 10
+exit

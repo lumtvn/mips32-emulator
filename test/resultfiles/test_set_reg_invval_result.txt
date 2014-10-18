@@ -1,0 +1,3 @@
+ERROR 4120: argument <value> out of bounds
+ERROR 4120: argument <value> out of bounds
+emul-mips>emul-mips>emul-mips>exiting mips emulator...

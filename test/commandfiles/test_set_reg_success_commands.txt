@@ -1,0 +1,3 @@
+set reg $t1 500
+disp reg $t1
+exit

@@ -21,8 +21,18 @@ void report(int r)
 		case 410: 	fprintf(stderr, "ERROR %d: missing argument <type>\n", r); break;
 		case 411: 	fprintf(stderr, "ERROR %d: missing argument <address>\n", r); break;
 		case 412: 	fprintf(stderr, "ERROR %d: missing argument <value>\n", r); break;
+		case 4120: 	fprintf(stderr, "ERROR %d: argument <value> out of bounds\n", r); break;
 		case 413: 	fprintf(stderr, "WARNING %d: rewriting data in address\n", r); break;
+		case 414: 	fprintf(stderr, "ERROR %d: address not in memory block\n", r); break;
+		case 415: 	fprintf(stderr, "ERROR %d: address is not aligned\n", r); break;
+		case 416: 	fprintf(stderr, "ERROR %d: missing argument <register>\n", r); break;
+		case 417: 	fprintf(stderr, "ERROR %d: bad register name (lookup)\n", r); break;
+		case 418: 	fprintf(stderr, "ERROR %d: no valid argument for 'set'\n", r); break;
 		case 420: 	fprintf(stderr, "ERROR %d: missing argument <address>+\n", r); break;
-		default: fprintf(stderr, "no output for this report number\n"); break;
+		case 421: 	fprintf(stderr, "ERROR %d: no register(s) entered\n", r); break;
+		case 422: 	fprintf(stderr, "ERROR %d: address out of bounds\n", r); break;
+		case 423: 	fprintf(stderr, "ERROR %d: second address not valid\n", r); break;
+		case 424: 	fprintf(stderr, "ERROR %d: second address can't be smaller than the first one\n", r); break;
+		default: fprintf(stderr, "no output for this report number: %d\n", r); break;
 	}
 }
