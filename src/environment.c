@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "environment.h"
+#include "memorymanagement.h"
 #include "environmentcommands.h"
 #include "errors.h"
 
@@ -9,29 +10,29 @@
 *
 * 
 **/
-void runenv(struct ptype *env)
+void runenv(struct ptype *mips)
 {
 
-			 env->entry = malloc(MAXSIZE);
+			 mips->entry = malloc(MAXSIZE);
 
 
 			printf("emul-mips>"); // prints out the prompt
 			
-			char *result = fgets(env->entry,MAXSIZE,stdin);  
+			char *result = fgets(mips->entry,MAXSIZE,stdin);  
 			if (result == NULL)
 			{
 				printf("\n");    
 				exit(0);
 			}
-			env = parseentry(env);													
+			mips = parseentry(mips);													
 
-			env = analize(env); 
+			mips = analize(mips); 
 
-			if(env->report != 0)
-				fprintf(stderr, "%s\n", errs[env->report]);
+			if(mips->report != 0)
+				report(mips->report);
 				// fprintf(stderr, "bue..\n");
 
-			restart(env);	
+			restart(mips);	
 }
 
 /**
@@ -39,83 +40,83 @@ void runenv(struct ptype *env)
 *
 * it just to reset and prepare the variables for the next command
 **/
-void restart(struct ptype *env)
+void restart(struct ptype *mips)
 {		
-	env->command = NULL;
+	mips->command = NULL;
 	int i;
-	for (i = 0; i<env->n_argenv;i++)
-		env->argenv[i] = NULL;
+	for (i = 0; i<mips->n_argenv;i++)
+		mips->argenv[i] = NULL;
 }
 
 
 
-struct ptype *parseentry(struct ptype *env)
+struct ptype *parseentry(struct ptype *mips)
 {
 
 	char *buffer;
     char *temp1;
     char *temp2 = NULL;
-    env->n_argenv = 1; //initialized to 1 by default, it updates later if there are any arguments
+    mips->n_argenv = 1; //initialized to 1 by default, it updates later if there are any arguments
 
-	 // printf("env->entry: '%s'\n",env->entry);
+	 // printf("mips->entry: '%s'\n",mips->entry);
 
 	//and now we parse	
-    env->command = strtok(env->entry, " ");
-    strip(env->command);
+    mips->command = strtok(mips->entry, " ");
+    strip(mips->command);
 
     //the rest of the string remaining in buffer are the arguments. so we continue parsing
     int i = 0;
     while ((buffer = strtok(NULL, " ")) != NULL)
     {	
-        env->argenv[i] = buffer;
+        mips->argenv[i] = buffer;
         i++;
     }
-    env->n_argenv = i;
+    mips->n_argenv = i;
 
-	for(i = 0; i < env->n_argenv; i++)
-	strip(env->argenv[i]);
+	for(i = 0; i < mips->n_argenv; i++)
+	strip(mips->argenv[i]);
 	
-	// printf("command: %s\n", env->command);
+	// printf("command: %s\n", mips->command);
 
-	// for(i = 0; i < env->n_argenv; i++)
-	// 	printf("arguments :%s\n", env->argenv[i]);
+	// for(i = 0; i < mips->n_argenv; i++)
+	// 	printf("arguments :%s\n", mips->argenv[i]);
 
 
-	return env;
+	return mips;
 }
 
 
-struct ptype *analize(struct ptype *env)
+struct ptype *analize(struct ptype *mips)
 {
 
-	if(!strcmp(env->command,"exit"))
+	if(!strcmp(mips->command,"exit"))
     {
     	printf("exiting mips emulator...\n");
     	exit(0);   
     }
-	else if(!strcmp(env->command,"load"))	env = env_load(env);
+	else if(!strcmp(mips->command,"load"))	mips = env_load(mips);
 
-	else if(!strcmp(env->command,"disp"))	printf("disp was entered...\n");
+	else if(!strcmp(mips->command,"disp"))	mips = env_disp(mips);
 
-	else if(!strcmp(env->command,"disasm"))	printf("disasm was entered...\n");
+	else if(!strcmp(mips->command,"disasm"))	printf("disasm was entered...\n");
 
-	else if(!strcmp(env->command,"set"))	env = env_set(env);
+	else if(!strcmp(mips->command,"set"))	mips = env_set(mips);
 
-	else if(!strcmp(env->command,"assert"))	printf("assert was entered...\n");
+	else if(!strcmp(mips->command,"assert"))	printf("assert was entered...\n");
 
-	else if(!strcmp(env->command,"debug"))	printf("debug was entered...\n");
+	else if(!strcmp(mips->command,"debug"))	printf("debug was entered...\n");
 
-	else if(!strcmp(env->command,"resume"))	printf("resume was entered...\n");
+	else if(!strcmp(mips->command,"resume"))	printf("resume was entered...\n");
 
-	else if(!strcmp(env->command,"run"))	printf("run was entered...\n");
+	else if(!strcmp(mips->command,"run"))	printf("run was entered...\n");
 
-	else if(!strcmp(env->command,"step"))	printf("step was entered...\n");
+	else if(!strcmp(mips->command,"step"))	printf("step was entered...\n");
 
-	else if(!strcmp(env->command,"break"))	printf("break was entered...\n");
+	else if(!strcmp(mips->command,"break"))	printf("break was entered...\n");
 
-	else printf("command '%s' not found\n",env->command);
+	else printf("command '%s' not found\n",mips->command);
 
-	return env;
+	return mips;
 
 }
 

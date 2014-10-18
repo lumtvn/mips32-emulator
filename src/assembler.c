@@ -31,7 +31,7 @@ struct ptype *compile(struct ptype *data)
 	data = readscript(data);
     if(data->report != 0)
         {
-            fprintf(stderr, "%s\n", errs[data->report]);
+            report(data->report);
             return data;
         }
 

@@ -12,16 +12,16 @@
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o 
-	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o -o bin/emul-mips
+bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o build/memorymanagement.o build/errors.o
+	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o -o bin/emul-mips
 
-build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h
+build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h src/memorymanagement.h
 	gcc -pg -c src/main.c -o build/main.o
 
-build/reader.o: src/reader.c src/reader.h src/headers.h
+build/reader.o: src/reader.c src/reader.h src/headers.h src/errors.h
 	gcc -pg -c src/reader.c -o build/reader.o
 
-build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h src/errors.h
+build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/assembler.h src/headers.h src/memorymanagement.h src/errors.h
 	gcc -pg -c src/environmentcommands.c -o build/environmentcommands.o
 
 build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h src/errors.h
@@ -36,6 +36,8 @@ build/newlookup.o: src/newlookup.c src/newlookup.h src/headers.h
 build/memorymanagement.o: src/memorymanagement.c src/headers.h
 	gcc -pg -c src/memorymanagement.c -o build/memorymanagement.o
 
+build/errors.o: src/errors.c src/errors.h
+	gcc -pg -c src/errors.c -o build/errors.o
 
 ###############################--INSTALL--################################
 ##########################################################################
@@ -54,7 +56,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testparser testreader testautoload testenvironment
+test: testparser testreader testautoload testenvironment testmemorymanagement testenvironmentcommands
 	@echo ALL TESTS PASSED
 
 ###########################--PARSING TESTS--################################
@@ -65,14 +67,14 @@ testparser: bin/test_parsing bin/test_parsing2 bin/test_parsing3
 	@./bin/test_parsing2
 	@./bin/test_parsing3
 
-bin/test_parsing: build/test_parsing.o build/assembler.o build/reader.o
-	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o -o bin/test_parsing
+bin/test_parsing: build/test_parsing.o build/assembler.o build/reader.o build/errors.o
+	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o build/errors.o -o bin/test_parsing
 
-bin/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o
-	@gcc -pg build/test_parsing2.o build/assembler.o build/reader.o -o bin/test_parsing2
+bin/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o build/errors.o
+	@gcc -pg build/test_parsing2.o build/assembler.o build/reader.o build/errors.o -o bin/test_parsing2
 
-bin/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o
-	@gcc -pg build/test_parsing3.o build/assembler.o build/reader.o -o bin/test_parsing3
+bin/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o build/errors.o
+	@gcc -pg build/test_parsing3.o build/assembler.o build/reader.o build/errors.o -o bin/test_parsing3
 
 build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h
 	@gcc -c test/test_parsing.c -o build/test_parsing.o
@@ -89,10 +91,10 @@ build/test_parsing3.o: test/test_parsing3.c src/assembler.h src/headers.h
 testreader: bin/test_reader
 	@./bin/test_reader
 
-bin/test_reader: build/test_reader.o build/reader.o
-	@gcc build/test_reader.o build/reader.o -o bin/test_reader
+bin/test_reader: build/test_reader.o build/reader.o build/errors.o
+	@gcc build/test_reader.o build/reader.o build/errors.o -o bin/test_reader
 
-build/test_reader.o: test/test_reader.c src/reader.h src/headers.h
+build/test_reader.o: test/test_reader.c src/reader.h src/headers.h src/errors.h
 	@gcc -pg -c test/test_reader.c -o build/test_reader.o
 
 ###########################--environment TESTS--################################
@@ -102,8 +104,8 @@ testenvironment: bin/emul-mips bin/test_environment
 	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
 	@./bin/test_environment
 
-bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o
-	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o -o bin/test_environment
+bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/errors.o build/memorymanagement.o build/reader.o
+	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o -o bin/test_environment
 
 build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
 	@gcc -pg -c test/test_environment.c -o build/test_environment.o
@@ -139,10 +141,10 @@ testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@./bin/emul-mips < test/commandfiles/test_load_commands.txt
 	@./bin/test_environmentcommands
 
-bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o
-	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o -o bin/test_environmentcommands
+bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o
+	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o -o bin/test_environmentcommands
 
-build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/assembler.h src/reader.h
+build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/assembler.h src/reader.h src/errors.h src/memorymanagement.h
 	@gcc -pg -c test/test_environmentcommands.c -o build/test_environmentcommands.o
 
 ###########################--MEMORY MANAGEMENT TESTS--################################
