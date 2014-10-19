@@ -49,42 +49,6 @@ struct ptype *initregisters(struct ptype *pmips)
 		pmips->regs[i] = malloc( sizeof(int) );
 		*(pmips->regs[i]) = 0;
 	}
-
-	
-	// strcpy(pmips->regnames[0],"$zero");
-	// strcpy(pmips->regnames[1],"$at");
-	// strcpy(pmips->regnames[2],"$v0");
-	// strcpy(pmips->regnames[3],"$v1");
-	// strcpy(pmips->regnames[4],"$a0");
-	// strcpy(pmips->regnames[5],"$a1");
-	// strcpy(pmips->regnames[6],"$a2");
-	// strcpy(pmips->regnames[7],"$a3");
-	// strcpy(pmips->regnames[8],"$t0");
-	// strcpy(pmips->regnames[9],"$t1");
-	// strcpy(pmips->regnames[10],"$t2");
-	// strcpy(pmips->regnames[11],"$t3");
-	// strcpy(pmips->regnames[12],"$t4");
-	// strcpy(pmips->regnames[13],"$t5");
-	// strcpy(pmips->regnames[14],"$t6");
-	// strcpy(pmips->regnames[15],"$t7");
-	// strcpy(pmips->regnames[16],"$s0");
-	// strcpy(pmips->regnames[17],"$s1");
-	// strcpy(pmips->regnames[18],"$s2");
-	// strcpy(pmips->regnames[19],"$s3");
-	// strcpy(pmips->regnames[20],"$s4");
-	// strcpy(pmips->regnames[21],"$s5");
-	// strcpy(pmips->regnames[22],"$s6");
-	// strcpy(pmips->regnames[23],"$s7");
-	// strcpy(pmips->regnames[24],"$t8");
-	// strcpy(pmips->regnames[25],"$t9");
-	// strcpy(pmips->regnames[26],"$k0");
-	// strcpy(pmips->regnames[27],"$k1");
-	// strcpy(pmips->regnames[28],"$gp");
-	// strcpy(pmips->regnames[29],"$sp");
-	// strcpy(pmips->regnames[30],"$fp");
-	// strcpy(pmips->regnames[31],"$ra");
-
-
 	return pmips;
 }
 

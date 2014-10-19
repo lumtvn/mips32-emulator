@@ -104,7 +104,7 @@ struct ptype *env_set(struct ptype *mips)
 			else if(mips->argenv[2] == NULL)
 				{mips->report = 412; return mips;}
 			else if (atoi(mips->argenv[2]) < 0 || atoi(mips->argenv[2]) > 0x4000000000000)
-				{mips->report = 4120; return mips;}
+				{mips->report = 419; return mips;}
 
 			else
 			{
@@ -134,17 +134,15 @@ struct ptype *env_disp(struct ptype *mips)
 {
 	if(!strcmp(mips->argenv[0],"mem"))
 	{
-		if(mips->argenv[1] == NULL)
+	
+		if(mips->argenv[1] == NULL){mips->report = 420; return mips;}
+
+		if(!strcmp(mips->argenv[1],"map"))
 			{
-				mips->report = 420;
+				mips = displaymemory(mips);
+				mips->report = 0;
 				return mips;
 			}
-		else if(!strcmp(mips->argenv[1],"map"))
-				{
-					mips = displaymemory(mips);
-					mips->report = 0;
-					return mips;
-				}
 		else
 		{
 			char *temp1, *temp2;
@@ -213,6 +211,78 @@ struct ptype *env_disp(struct ptype *mips)
 		printf("%s: %d\n",mips->argenv[1], *(mips->regs[regidx]));
 		mips->report = 0;
 	}
+	return mips;
+}
+
+
+struct ptype *env_assert(struct ptype *mips)
+{
+	if(mips->argenv[0] == NULL){mips->report = 430; return mips;}
+	if(!strcmp(mips->argenv[0],"reg"))
+	{
+		if(mips->argenv[1] == NULL){mips->report = 431; return mips;}
+		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
+
+		int regidx;
+		struct nlist *np;
+		np = lookup(mips->argenv[1]);
+		if(np == NULL){mips->report = 417; return mips;}
+
+		regidx = atoi(np->defn);
+		if(*(mips->regs[regidx]) != atoi(mips->argenv[2]))
+		{
+			printf("registers differ, value of register %s is: %x\n",mips->argenv[1], *(mips->regs[regidx]));
+		}
+		mips->report = 0;	
+		return mips;
+
+	}
+	if(!strcmp(mips->argenv[0],"word"))
+	{
+		if(mips->argenv[1] == NULL){mips->report = 420; return mips;}
+		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
+
+		int addr = atoi(mips->argenv[1]);
+		if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+		if(addr % 4 != 0){mips->report = 415; return mips;}
+
+		mword wdata = atoi(mips->argenv[2]);
+		if(addr < 0 || addr > 0x4000000000000){mips->report = 419; return mips;}
+
+		mword rwdata;
+		rwdata = readword(mips,addr);
+
+		if(rwdata != wdata)
+		{
+			printf("words differ, word value of address %x is: %x\n",addr, rwdata);
+		}
+		mips->report = 0;	
+		return mips;		
+	}
+
+	if(!strcmp(mips->argenv[0],"byte"))
+	{
+		if(mips->argenv[1] == NULL){mips->report = 420; return mips;}
+		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
+
+		int addr = atoi(mips->argenv[1]);
+		if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+
+		mbyte bdata = atoi(mips->argenv[2]);
+		if(addr < 0 || addr > 0x4000000000000){mips->report = 4210; return mips;}
+
+		mbyte rbdata;
+		rbdata = readbyte(mips,addr);
+
+		if(rbdata != bdata)
+		{
+			printf("bytes differ, value of address %x is: %x\n",addr, rbdata);
+		}
+		mips->report = 0;	
+		return mips;		
+	}
+
+	mips->report = 433;
 	return mips;
 }
 

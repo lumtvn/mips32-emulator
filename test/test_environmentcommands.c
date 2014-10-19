@@ -81,6 +81,15 @@
     
     return 0;
 }
+
+ static char * test_assert() //tries to execute set reg using an invalid register argument
+{           
+    res = system("diff test/resultfiles/test_assert_expected.txt test/resultfiles/test_assert_result.txt");
+       
+    mu_assert("error, the assert result file is different than expected",!res);
+    
+    return 0;
+}
  
  
  static char * all_tests() {
@@ -91,6 +100,7 @@
     mu_run_test(test_set_reg_invval);
     mu_run_test(test_set_mem_byte);
     mu_run_test(test_set_mem_word);
+    mu_run_test(test_assert);
      return 0;
 
  }

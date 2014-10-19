@@ -7,9 +7,7 @@ int tests_run = 0;
 struct ptype mem;
 struct ptype *pmem;
 
-mbyte bdata;
-mhalfword hwdata;
-mword wdata;
+
 int simpoint;
  
  static char * test_createblock() 
@@ -25,6 +23,10 @@ int simpoint;
 
  static char * test_write() 
 {	
+
+	mbyte bdata;
+	mhalfword hwdata;
+	mword wdata;
 
  	wdata = 0x12345678;
  	simpoint = 0x32;
@@ -42,16 +44,14 @@ int simpoint;
     mu_assert("halfword not written", hwdata == 0x1122);
     mu_assert("word not written", wdata == 0x12345678);
 
-	wdata = 0;
- 	hwdata = 0;
-	bdata = 0;
-
 	return 0;
 }
 
  static char * test_read() 
 {
-
+	mbyte bdata;
+	mhalfword hwdata;
+	mword wdata;
 
 	simpoint = 0x32;
 	wdata = readword(pmem, simpoint);

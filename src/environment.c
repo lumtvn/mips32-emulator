@@ -48,7 +48,13 @@ void restart(struct ptype *mips)
 }
 
 
-
+/**
+*@brief this function parses an entry in the environment
+*
+* it parses the entire line entered and stores the command in the field char *command from the struct 
+* ptype, and stores all the arguments in the field char *argenv[] from the structure ptype
+*
+**/
 struct ptype *parseentry(struct ptype *mips)
 {
 
@@ -84,7 +90,12 @@ struct ptype *parseentry(struct ptype *mips)
 	return mips;
 }
 
-
+/**
+*@brief this function is a distributer, it calls a function from file environmentcommands.c according to the command entered in the entry
+*
+* 
+* the only command that doesn't call any function is exit
+**/
 struct ptype *analize(struct ptype *mips)
 {
 
@@ -93,25 +104,25 @@ struct ptype *analize(struct ptype *mips)
     	printf("exiting mips emulator...\n");
     	exit(0);   
     }
-	else if(!strcmp(mips->command,"load"))	mips = env_load(mips);
+	else if(!strcmp(mips->command,"load"))		mips = env_load(mips);
 
-	else if(!strcmp(mips->command,"disp"))	mips = env_disp(mips);
+	else if(!strcmp(mips->command,"disp"))		mips = env_disp(mips);
 
 	else if(!strcmp(mips->command,"disasm"))	printf("disasm was entered...\n");
 
-	else if(!strcmp(mips->command,"set"))	mips = env_set(mips);
+	else if(!strcmp(mips->command,"set"))		mips = env_set(mips);
 
-	else if(!strcmp(mips->command,"assert"))	printf("assert was entered...\n");
+	else if(!strcmp(mips->command,"assert"))	mips = env_assert(mips);
 
-	else if(!strcmp(mips->command,"debug"))	printf("debug was entered...\n");
+	else if(!strcmp(mips->command,"debug"))		printf("debug was entered...\n");
 
 	else if(!strcmp(mips->command,"resume"))	printf("resume was entered...\n");
 
-	else if(!strcmp(mips->command,"run"))	printf("run was entered...\n");
+	else if(!strcmp(mips->command,"run"))		printf("run was entered...\n");
 
-	else if(!strcmp(mips->command,"step"))	printf("step was entered...\n");
+	else if(!strcmp(mips->command,"step"))		printf("step was entered...\n");
 
-	else if(!strcmp(mips->command,"break"))	printf("break was entered...\n");
+	else if(!strcmp(mips->command,"break"))		printf("break was entered...\n");
 
 	else printf("command '%s' not found\n",mips->command);
 
@@ -119,7 +130,12 @@ struct ptype *analize(struct ptype *mips)
 
 }
 
-/**this function simply discards unwanted characters in a string*/
+/**
+*@brief this function simply discards unwanted characters in a string
+*
+*@param char *s the string to be stripped
+*@return void there's no need to return a value since we are working with pointers
+*/
 void strip(char *s) {
     char *p2 = s;
     while(*s != '\0') {
