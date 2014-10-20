@@ -50,8 +50,12 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	char *entry; //the complete entry
 	char *command; //the command of the entry
 	char *filename; //the filename, if any
-	char *argenv[]; //the arguments array. 10 is a temporal value, i will change it
+	char *argenv[32]; //the arguments array. 32 is a temporal value, i will change it
 
+
+	//the script in a char * matrix, with nlines lines
+	int nlines;
+	char *scriptlines[];
 
 
 };

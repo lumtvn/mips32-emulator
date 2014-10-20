@@ -10,7 +10,7 @@
 {
         if(testdata.tag != NULL)
             {
-                mu_assert("error, the tag is different to '.text'", strcmp(testdata.tag, ".tag") == 0);
+                mu_assert("error, the tag is different to '.tag'", strcmp(testdata.tag, ".tag") == 0);
                 return 0;
             }
         else
@@ -35,13 +35,13 @@
      ptestdata = &testdata;
      ptestdata = parseline(ptestdata);
 
-    // printf("testdata.label: '%s'\n", testdata.label);
-    // printf("testdata.tag: '%s'\n", testdata.tag);
-    // printf("testdata.operation: '%s'\n", testdata.operation);
-    // printf("testdata.arg[0]: '%s'\n", testdata.arg[0]);
-    // printf("testdata.arg[1]: '%s'\n", testdata.arg[1]);
-    // printf("testdata.arg[2]: '%s'\n", testdata.arg[2]);
-    // printf("testdata.arg[3]: '%s'\n", testdata.arg[3]);
+    printf("ptestdata->label: '%s'\n", ptestdata->label);
+    printf("ptestdata->tag: '%s'\n", ptestdata->tag);
+    printf("ptestdata->operation: '%s'\n", ptestdata->operation);
+    printf("ptestdata->argline[0]: '%s'\n", ptestdata->argline[0]);
+    printf("ptestdata->argline[1]: '%s'\n", ptestdata->argline[1]);
+    printf("ptestdata->argline[2]: '%s'\n", ptestdata->argline[2]);
+    printf("ptestdata->argline[3]: '%s'\n", ptestdata->argline[3]);
 
      char *result = all_tests();
      if (result != 0) {
