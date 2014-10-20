@@ -33,14 +33,19 @@
 * @todo "debug" and "restart"
 */
 struct ptype *compile(struct ptype *mips)
-{	
+{   
 
-	mips = readscript(mips);
+    mips = readscript(mips);
     if(mips->report != 0)
         {
             report(mips->report);
             return mips;
         }
+
+    //printf("\n\n%s\n\n",mips->full_script);
+
+    return mips;
+}
 
     // mips = splitstr(mips);
 
@@ -67,7 +72,6 @@ struct ptype *compile(struct ptype *mips)
 
     //     printf("return??\n");
     // return mips;
-}
 
 /**
 *
@@ -110,7 +114,7 @@ struct ptype *parseline(struct ptype *mips)
         {
             mips->tag = buffer; //if the first character of buffer is a dot, then its a tag
             //and then follows the command.
-            mips->operation = strtok(NULL, " ")) == NULL //if there's no operation, we just return
+            if((mips->operation = strtok(NULL, " ")) == NULL){return mips;} //if there's no operation, we just return
         }
     else    mips->operation = buffer; //if it's not a tag or a label, then it has to be the operation
 

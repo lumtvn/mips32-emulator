@@ -35,13 +35,13 @@
      ptestdata = &testdata;
      ptestdata = parseline(ptestdata);
 
-    printf("ptestdata->label: '%s'\n", ptestdata->label);
-    printf("ptestdata->tag: '%s'\n", ptestdata->tag);
-    printf("ptestdata->operation: '%s'\n", ptestdata->operation);
-    printf("ptestdata->argline[0]: '%s'\n", ptestdata->argline[0]);
-    printf("ptestdata->argline[1]: '%s'\n", ptestdata->argline[1]);
-    printf("ptestdata->argline[2]: '%s'\n", ptestdata->argline[2]);
-    printf("ptestdata->argline[3]: '%s'\n", ptestdata->argline[3]);
+    // printf("ptestdata->label: '%s'\n", ptestdata->label);
+    // printf("ptestdata->tag: '%s'\n", ptestdata->tag);
+    // printf("ptestdata->operation: '%s'\n", ptestdata->operation);
+    // printf("ptestdata->argline[0]: '%s'\n", ptestdata->argline[0]);
+    // printf("ptestdata->argline[1]: '%s'\n", ptestdata->argline[1]);
+    // printf("ptestdata->argline[2]: '%s'\n", ptestdata->argline[2]);
+    // printf("ptestdata->argline[3]: '%s'\n", ptestdata->argline[3]);
 
      char *result = all_tests();
      if (result != 0) {
