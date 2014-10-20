@@ -1,5 +1,5 @@
-emul-mips>emul-mips>8: 0
-9: 0
-a: 13
-b: 88
+emul-mips>emul-mips>0x8: 0x0
+0x9: 0x0
+0xa: 0x13
+0xb: 0x88
 emul-mips>exiting mips emulator...

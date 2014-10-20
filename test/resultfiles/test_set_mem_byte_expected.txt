@@ -1,2 +1,2 @@
-emul-mips>emul-mips>a: f
+emul-mips>emul-mips>0xa: 0xf
 emul-mips>exiting mips emulator...

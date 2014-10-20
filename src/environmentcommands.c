@@ -185,7 +185,7 @@ struct ptype *env_disp(struct ptype *mips)
 			
 				mbyte bdata;                           //print the byte of the address
 				bdata = readbyte(mips,addr);
-				printf("%x: %x\n",addr, bdata);
+				printf("0x%x: 0x%x\n",addr, bdata);
 				return mips;
 			}
 			else
@@ -209,7 +209,7 @@ struct ptype *env_disp(struct ptype *mips)
 				while(addr1 <= addr2)
 				{
 					bdata = readbyte(mips, addr1);
-					printf("%x: %x\n",addr1, bdata);
+					printf("0x%x: 0x%x\n",addr1, bdata);
 					addr1++;
 				}
 				mips->report = 0;
@@ -227,7 +227,7 @@ struct ptype *env_disp(struct ptype *mips)
 		if(!strcmp(mips->argenv[1], "all")) //display all registers
 		{
 			for(regidx = 0; regidx < 32; regidx++)
-				printf("%s: %x ",regnames[regidx], *(mips->regs[regidx]));
+				printf("%s: 0x%x ",regnames[regidx], *(mips->regs[regidx]));
 			printf("\n");
 			mips->report = 0;
 			return mips;
@@ -239,7 +239,7 @@ struct ptype *env_disp(struct ptype *mips)
 		if(np == NULL){mips->report = 417; return mips;}
 
 		regidx = (int)strtol(np->defn, (char**)NULL,0);
-		printf("%s: %x\n",mips->argenv[1], *(mips->regs[regidx]));
+		printf("%s: 0x%x\n",mips->argenv[1], *(mips->regs[regidx]));
 		mips->report = 0;
 	}
 	return mips;
@@ -274,7 +274,7 @@ struct ptype *env_assert(struct ptype *mips)
 		regidx = (int)strtol(np->defn, (char**)NULL,0);
 		if(*(mips->regs[regidx]) != (int)strtol(mips->argenv[2], (char**)NULL,0))
 		{
-			printf("registers differ, value of register %s is: %x\n",mips->argenv[1], *(mips->regs[regidx]));
+			printf("registers differ, value of register %s is: 0x%x\n",mips->argenv[1], *(mips->regs[regidx]));
 		}
 		mips->report = 0;	
 		return mips;
@@ -297,7 +297,7 @@ struct ptype *env_assert(struct ptype *mips)
 
 		if(rwdata != wdata)
 		{
-			printf("words differ, word value of address %x is: %x\n",addr, rwdata);
+			printf("words differ, word value of address 0x%x is: 0x%x\n",addr, rwdata);
 		}
 		mips->report = 0;	
 		return mips;		
@@ -319,7 +319,7 @@ struct ptype *env_assert(struct ptype *mips)
 
 		if(rbdata != bdata)
 		{
-			printf("bytes differ, value of address %x is: %x\n",addr, rbdata);
+			printf("bytes differ, value of address 0x%x is: 0x%x\n",addr, rbdata);
 		}
 		mips->report = 0;	
 		return mips;		
