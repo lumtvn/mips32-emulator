@@ -1,3 +1,12 @@
+/**
+ * @file environment.c
+ * @author Luciano Mantovani
+ * @date October 2014
+ * @brief file containing functions to run the environment for the user
+ *
+ * this file has functions that react to the lines entered by the user. The commands from the
+ * file environmentcommands.c are called by functions from this file.
+ **/
 #include "headers.h"
 #include "environment.h"
 #include "memorymanagement.h"
@@ -8,7 +17,10 @@
 /**
 *@brief this function runs the environment program and allows the user to enter commands
 *
-* 
+* after obtaining a line from stdin, it parses it and analizes the command. The function
+* analize() also executes it, and if there's no report (mips->report = 0) the program leaves.
+*
+*@note this function is thought to be called within an endless loop
 **/
 void runenv(struct ptype *mips)
 {
@@ -63,8 +75,6 @@ struct ptype *parseentry(struct ptype *mips)
     char *temp2 = NULL;
     mips->n_argenv = 1; //initialized to 1 by default, it updates later if there are any arguments
 
-	 // printf("mips->entry: '%s'\n",mips->entry);
-
 	//and now we parse	
     mips->command = strtok(mips->entry, " ");
     strip(mips->command);
@@ -80,11 +90,6 @@ struct ptype *parseentry(struct ptype *mips)
 
 	for(i = 0; i < mips->n_argenv; i++)
 	strip(mips->argenv[i]);
-	
-	// printf("command: %s\n", mips->command);
-
-	// for(i = 0; i < mips->n_argenv; i++)
-	// 	printf("arguments :%s\n", mips->argenv[i]);
 
 
 	return mips;

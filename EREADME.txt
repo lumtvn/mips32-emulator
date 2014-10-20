@@ -4,31 +4,18 @@ this is the file containing the error and warning codes for all functions, defin
 	+ 00: from function readscript()
 	+ 10: from function removecommentary()
 
- 200: from file assembler.c
-	+ 00: from function compile()
-	+ 10: from function parseline()
-
  300: from file environment.c
 	+ 00: from function runenv()
 	+ 10: from function restart()
 	+ 20: from function parseentry()
 	+ 30: from function analize()
-	+ 40: from function strip()
 
  400: from file environmentcommands.c
 	+ 00: from function env_load
 	+ 10: from function env_set
 	+ 20: from function env_disp
-	
- 500: from file memorymanagement.c
-	+ 00: from function createblock()
-	+ 10: from function writebyte()
-	+ 20: from function writehalfword()
-	+ 30: from function writeword()
-	+ 40: from function readbyte()
-	+ 50: from function readhalfword()
-	+ 60: from function readword()
-	+ 70: from function displaymemory()
+	+ 30: from function env_assert
+
 
 	
-the list is incomplete
+the list is yet to be completed and some error groups may not be implemented. Some functions may call errors from other functions. This happens when the error is triggered by the same reason.

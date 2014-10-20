@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['reader_2ec',['reader.c',['../reader_8c.html',1,'']]],
-  ['reader_2eh',['reader.h',['../reader_8h.html',1,'']]],
-  ['readscript',['readscript',['../reader_8c.html#a79d1132c0232028cf93baadc69a1462c',1,'readscript(struct ptype *data):&#160;reader.c'],['../reader_8h.html#a79d1132c0232028cf93baadc69a1462c',1,'readscript(struct ptype *data):&#160;reader.c']]],
-  ['removecommentary',['removecommentary',['../reader_8c.html#aebff7d7af613b595443b40d7806730e1',1,'removecommentary(char *s):&#160;reader.c'],['../reader_8h.html#a9c78e473a01e63b1a6cbaed16d97e59c',1,'removecommentary(char *):&#160;reader.c']]],
-  ['restart',['restart',['../enviroment_8c.html#a7f8c6daa507bbe98cadd9fa3059d72d0',1,'restart(struct ptype *env):&#160;environment.c'],['../enviroment_8h.html#a7f8c6daa507bbe98cadd9fa3059d72d0',1,'restart(struct ptype *env):&#160;environment.c']]],
-  ['runenv',['runenv',['../enviroment_8c.html#ad87acf8d67cccdc9bfffef60ccf5c8a6',1,'runenv(struct ptype *env):&#160;environment.c'],['../enviroment_8h.html#ad87acf8d67cccdc9bfffef60ccf5c8a6',1,'runenv(struct ptype *env):&#160;environment.c']]]
+  ['parseentry',['parseentry',['../environment_8c.html#abe56c7942fc708683388745a9fa6fee8',1,'parseentry(struct ptype *mips):&#160;environment.c'],['../environment_8h.html#ab0b28bc422d4029eb6a1bcd29a8bc6bb',1,'parseentry(struct ptype *env):&#160;environment.c']]],
+  ['parseline',['parseline',['../assembler_8c.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9',1,'parseline(struct ptype *mips):&#160;assembler.c'],['../assembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9',1,'parseline(struct ptype *mips):&#160;assembler.c']]],
+  ['parsescript',['parsescript',['../reader_8h.html#abffb82027ef7199596c143fea26c54b3',1,'reader.h']]],
+  ['printstatus',['printstatus',['../reader_8h.html#af0e7bc6b1bda8827b0055c57c9992e88',1,'reader.h']]],
+  ['ptype',['ptype',['../structptype.html',1,'']]]
 ];

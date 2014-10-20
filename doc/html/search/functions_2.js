@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main',['main',['../main_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.c']]]
+  ['displaymemory',['displaymemory',['../memorymanagement_8c.html#ae99d5a529c7bcbdbe6f5432bfa4ec957',1,'displaymemory(struct ptype *mem):&#160;memorymanagement.c'],['../memorymanagement_8h.html#ae99d5a529c7bcbdbe6f5432bfa4ec957',1,'displaymemory(struct ptype *mem):&#160;memorymanagement.c']]]
 ];

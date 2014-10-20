@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['entry',['entry',['../structptype.html#a1072c713adb03fb67b07874dc9585a77',1,'ptype']]],
-  ['enviroment_2ec',['environment.c',['../enviroment_8c.html',1,'']]],
-  ['enviroment_2eh',['environment.h',['../enviroment_8h.html',1,'']]]
+  ['defn',['defn',['../structnlist.html#a6484d2c28591e89bcffbda34d3e1bde2',1,'nlist']]],
+  ['displaymemory',['displaymemory',['../memorymanagement_8c.html#ae99d5a529c7bcbdbe6f5432bfa4ec957',1,'displaymemory(struct ptype *mem):&#160;memorymanagement.c'],['../memorymanagement_8h.html#ae99d5a529c7bcbdbe6f5432bfa4ec957',1,'displaymemory(struct ptype *mem):&#160;memorymanagement.c']]]
 ];

@@ -1,3 +1,10 @@
+/**
+*@file lookup.c
+*@author Dennis Ritchie and Brian Kernighan
+*@brief functions taken from the book "C Programming", by Dennis Ritchie and Brian Kernighan.
+*@see for more information about lookup: http://zanasi.chem.unisa.it/download/C.pdf 
+**/
+
 #include "lookup.h"
 #include "headers.h"
 

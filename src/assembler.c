@@ -42,36 +42,8 @@ struct ptype *compile(struct ptype *mips)
             return mips;
         }
 
-    //printf("\n\n%s\n\n",mips->full_script);
-
     return mips;
 }
-
-    // mips = splitstr(mips);
-
-    //     int i;
-
-    //     for(i = 0; i < mips->nlines; i++)
-    //     printf("scriptline %d: '%s'\n",i, mips->scriptlines[i]);
-
-    //     for(i = 0; i < mips->nlines; i++)
-    //     {
-    //         printf("scriptlines[%d]: %s\n", i,mips->scriptlines[i]);
-    //         mips->incoming_line = mips->scriptlines[i];
-    //         mips = parseline(mips);
-    //         printf("parsing: %s\n", mips->incoming_line);
-
-    //         if(mips->operation != NULL)
-    //         if(!strcmp(mips->operation, "debug"))
-    //             {   
-    //                 printf("stopped compiling at line: %s\n",mips->incoming_line);
-    //                 while(!strcmp(mips->command, "resume"))
-    //                 runenv(mips);
-    //             }
-    //     }   
-
-    //     printf("return??\n");
-    // return mips;
 
 /**
 *

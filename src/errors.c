@@ -2,7 +2,7 @@
 * @file errors.c
 * @author Luciano Mantovani
 * @date October 2014
-* @brief file containgin all the error and warning reports, delivered by a switch case
+* @brief file containing all the error and warning reports, delivered by a switch case
 *
 * all the errors and warnings have a code. This codes varies according to the file and function from which this
 * error comes from. Each code is given by the file EREADME.txt
@@ -16,7 +16,7 @@ void report(int r)
 	switch(r)
 	{
 
-		case 101:	fprintf(stderr, "ERROR %d: the file does not exist or the path is incorrect\n", r); break;
+		case 100:	fprintf(stderr, "ERROR %d: the file does not exist or the path is incorrect\n", r); break;
 		case 201:	fprintf(stderr, "ERROR %d: invalid argument. vaild arguments: mem, reg\n", r); break;
 		case 410: 	fprintf(stderr, "ERROR %d: argument missing: type\n", r); break;
 		case 411: 	fprintf(stderr, "ERROR %d: argument missing: address\n", r); break;

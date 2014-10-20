@@ -20,13 +20,14 @@
 *@param *data A pointer to a ptype structure, created by the main program.
 *@return it returns the same structure, but with data->full_script modified(it now has the script, with the commentaries striped)
 *@todo the size of the string that holds the entire file should be modified when once the commentaries are removed
+*@errorcode 100 -> 109
 */
 struct ptype *readscript(struct ptype *data)
 {   
     FILE *file;
     if((file = fopen ( data->filename, "r" )) == NULL)
     {
-        data->report = 1;
+        data->report = 100;
         return data;
     }
 
@@ -48,46 +49,6 @@ struct ptype *readscript(struct ptype *data)
 
     data->report = 0;
     return data;
-}
-/**
-*
-*@brief this function interpretates each line of the script entered
-*
-*
-* TODO: this function isn't complete yet. And the main program doesn't use it for the moment.
-*/
-// struct ptype *parsescript(struct ptype *data)
-// {
-
-//     data->incoming_line = strtok(data->full_script, "\n");
-//         do{
-
-//             printf("entra al while\n");
-//             printf("%s\n",data->incoming_line);
-
-//             parseline(data);
-//             printstatus(data);
-
-//         } while((data->incoming_line = strtok(NULL, "\n")) != NULL);
-
-//         printf("me sali del while y incoming_line es '%s'\n", data->incoming_line);
-
-//     return data;
-// }
-
-/**
-* @brief this function is here only for debugging purposes, it doesn't fill any purpose of the simulator
-*
-**/
-void printstatus(struct ptype *data)
-{
-            printf("\ndata->label: '%s'\n", data->label);
-            printf("data->tag: '%s'\n", data->tag);
-            printf("data->operation: '%s'\n", data->operation);
-            printf("data->argline[0]: '%s'\n", data->argline[0]);
-            printf("data->argline[1]: '%s'\n", data->argline[1]);
-            printf("data->argline[2]: '%s'\n", data->argline[2]);
-            printf("data->argline[3]: '%s'\n\n", data->argline[3]);
 }
 
 /**

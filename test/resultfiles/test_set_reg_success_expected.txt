@@ -1,2 +1,2 @@
-emul-mips>emul-mips>$t1: 500
+emul-mips>emul-mips>$t1: 1f4
 emul-mips>exiting mips emulator...

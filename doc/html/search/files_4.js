@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['reader_2ec',['reader.c',['../reader_8c.html',1,'']]],
-  ['reader_2eh',['reader.h',['../reader_8h.html',1,'']]]
+  ['main_2ec',['main.c',['../main_8c.html',1,'']]],
+  ['memorymanagement_2ec',['memorymanagement.c',['../memorymanagement_8c.html',1,'']]],
+  ['memorymanagement_2eh',['memorymanagement.h',['../memorymanagement_8h.html',1,'']]]
 ];

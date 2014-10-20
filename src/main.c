@@ -16,11 +16,25 @@
 void hashregisters();
 struct ptype *initregisters(struct ptype *pmips);
 
+
+/**
+* @brief the main function
+*
+* -initializes the general mips structure which holds all the simulator general information.
+*
+* -initializes the registers and creates the hash table of the registers using the function lookup.
+* this function was taken from the book "C Programming" by Dennis Ritchie and Brian Kernighan.
+* The complete set of functions are hash(), lookup(), and install(). They allow the creation of a hash table.
+*
+* -creates a single memory block in which the emulator will work, reading and wirting memory slots.
+* the functionality to create many memory blocks and asingn tags to them is not yet implemented
+*
+* -if the program was called with an argument, it will try to open it as a file and compile its content
+*
+* -after all of this is done, it will run the environment in an endless loop, until "exit" is entered
+**/
 int main(int argc, char *argv[])
 {
-
-	
-
 	struct ptype mips;
 	struct ptype *pmips = &mips;
 
@@ -41,6 +55,9 @@ int main(int argc, char *argv[])
 	
 }
 
+/**
+*@brief initializes the registers, giving them a portion of memory and setting to 0 their content
+**/
 struct ptype *initregisters(struct ptype *pmips)
 {
 	int i;
@@ -52,6 +69,9 @@ struct ptype *initregisters(struct ptype *pmips)
 	return pmips;
 }
 
+/**
+*@brief sets the hash table that holds the names of the registers, and its identifier (number)
+**/
 void hashregisters()
 {
 	install("$zero", "0");
