@@ -1,0 +1,10 @@
+set reg
+set reg asd iasdo
+set reg asidj 0x12
+set reg $t1 ssuhd
+set reg $t1 0x10 23 2394 389 dij
+set reg $zero 0x10
+set reg $t1 500
+disp reg $t1
+disp reg $zero
+exit

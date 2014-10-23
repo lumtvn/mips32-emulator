@@ -139,9 +139,7 @@ build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
 
 testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@./bin/emul-mips < test/commandfiles/test_load_commands.txt > test/resultfiles/test_load_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_reg_success_commands.txt > test/resultfiles/test_set_reg_success_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_reg_invreg_commands.txt > test/resultfiles/test_set_reg_invreg_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_reg_invval_commands.txt > test/resultfiles/test_set_reg_invval_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_set_reg_commands.txt > test/resultfiles/test_set_reg_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1

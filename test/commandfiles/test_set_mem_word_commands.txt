@@ -1,3 +1,12 @@
+set mem
+set mem asd
+set mem word
+set mem word df sads
+set mem word 12 asid
+set mem word asd 12
+set mem word 0x4a3b4e00 0x10
+set mem word 0x62 0xFFFFAAAA
+set mem word 10 15 2989 39 289
 set mem word 8 5000
 disp mem 8:11
 exit

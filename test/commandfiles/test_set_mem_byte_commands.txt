@@ -1,3 +1,11 @@
+set mem
+set mem asd
+set mem byte
+set mem byte fg fdf
+set mem byte 12 sdj
+set mem byte sds 120
+set mem byte 0xFFFFFFFFFFFFFFFFFFFF 0x10
+set mem byte 10 15 10 289 38
 set mem byte 10 15
 disp mem 10
 exit

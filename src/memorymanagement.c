@@ -44,7 +44,7 @@ struct ptype *createblock(struct ptype *mem, int size)
 struct ptype *writebyte(struct ptype *mem, mbyte bdata, int simpoint)
 {
 	mem->realpoint = mem->realpointbase + simpoint;
-	*(mem->realpoint) = bdata & 0xFF;
+	*(mem->realpoint) = bdata;
 
 	return mem;
 
@@ -59,7 +59,7 @@ struct ptype *writehalfword(struct ptype *mem, mhalfword hwdata, int simpoint)
 	*(mem->realpoint) = (hwdata >> 8) & 0xFF;
 
 	mem->realpoint = mem->realpointbase + simpoint + 1;
-	*(mem->realpoint) = hwdata & 0xFF;
+	*(mem->realpoint) = hwdata;
 
 	return mem;
 }
@@ -80,7 +80,7 @@ struct ptype *writeword(struct ptype *mem, mword wdata, int simpoint)
 	*(mem->realpoint) = (wdata >> 8) & 0xFF;
 
 	mem->realpoint = mem->realpointbase + simpoint + 3;
-	*(mem->realpoint) = wdata & 0xFF;
+	*(mem->realpoint) = wdata;
 
 	return mem;
 

@@ -28,33 +28,14 @@
         return 0;
 }
 
- static char * test_set_reg_success() 
+ static char * test_set_reg() 
 {           
-    res = system("diff test/resultfiles/test_set_reg_success_expected.txt test/resultfiles/test_set_reg_success_result.txt");
+    res = system("diff test/resultfiles/test_set_reg_expected.txt test/resultfiles/test_set_reg_result.txt");
        
-    mu_assert("error, the set reg succes result file is different than expected",!res);
+    mu_assert("error, the set reg result file is different than expected",!res);
     
     return 0;
 }
-
- static char * test_set_reg_invreg() //tries to execute set reg using an invalid register argument
-{           
-    res = system("diff test/resultfiles/test_set_reg_invreg_expected.txt test/resultfiles/test_set_reg_invreg_result.txt");
-       
-    mu_assert("error, the set reg invalid register result file is different than expected",!res);
-    
-    return 0;
-}
-
- static char * test_set_reg_invval() //tries to execute set reg using an invalid register argument
-{           
-    res = system("diff test/resultfiles/test_set_reg_invval_expected.txt test/resultfiles/test_set_reg_invval_result.txt");
-       
-    mu_assert("error, the set reg invalid value result file is different than expected",!res);
-    
-    return 0;
-}
-
  static char * test_set_mem_byte() //tries to execute set reg using an invalid register argument
 {           
     res = system("diff test/resultfiles/test_set_mem_byte_expected.txt test/resultfiles/test_set_mem_byte_result.txt");
@@ -90,16 +71,37 @@
     
     return 0;
 }
+
+static char * test_find_illegal_character()
+{
+    char *succ1 = "0x00FAFA";
+    char *succ2 = "0x012322";
+    char *succ3 = "032292";
+    char *fail1 = "78fd78as";
+    char *fail2 = "0x0GHTT";
+    char *fail3 = "0x0xxx0x";
+    char *fail4 = "0x0ABKKK";
+
+    mu_assert("error, case 1 should have passed, it failed", find_illegal_character(succ1) == 0);
+    mu_assert("error, case 2 should have passed, it failed", find_illegal_character(succ2) == 0);
+    mu_assert("error, case 3 should have passed, it failed", find_illegal_character(succ3) == 0);
+    mu_assert("error, case 4 should have failed, it passed", find_illegal_character(fail1) == 1);
+    mu_assert("error, case 5 should have failed, it passed", find_illegal_character(fail2) == 1);
+    mu_assert("error, case 6 should have failed, it passed", find_illegal_character(fail3) == 1);
+    mu_assert("error, case 7 should have failed, it passed", find_illegal_character(fail4) == 1);
+
+    return 0;
+
+}
  
  
  static char * all_tests() {
     mu_run_test(test_load);
     mu_run_test(test_disp_reg);
-    mu_run_test(test_set_reg_success);
-    mu_run_test(test_set_reg_invreg);
-    mu_run_test(test_set_reg_invval);
+    mu_run_test(test_set_reg);
     mu_run_test(test_set_mem_byte);
     mu_run_test(test_set_mem_word);
+    mu_run_test(test_find_illegal_character);
     mu_run_test(test_assert);
      return 0;
 
@@ -120,3 +122,4 @@
 
     return result != 0;
  }
+

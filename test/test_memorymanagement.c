@@ -49,6 +49,7 @@ int simpoint;
 
     mu_assert("byte not written", *(pmem->realpoint) == 0x88);
 
+
 	return 0;
 }
 
@@ -89,11 +90,44 @@ int simpoint;
 
 	return 0;
 }
+/*the simulator had some trouble writing and reading powers of 2 so im making sure it works here*/
+ static char * test_read_write_2_power() 
+{
+	mbyte bdata;
+	mhalfword hwdata;
+	mword wdata;
+
+ 	simpoint = 0x32;
+ 	pmem = writeword(pmem, 0x10000000, simpoint);
+
+ 	simpoint = 0x0;
+ 	pmem = writehalfword(pmem, 0x1000, simpoint);
+
+ 	simpoint = 0x40;
+ 	pmem = writebyte(pmem, 0x20, simpoint);
+
+	simpoint = 0x32;
+	wdata = readword(pmem, simpoint);
+
+	simpoint = 0x00;
+	hwdata = readhalfword(pmem, simpoint);
+
+	simpoint = 0x40;
+	bdata = readbyte(pmem, simpoint);
+
+	mu_assert("byte read incorrect", bdata == 0x20);
+    mu_assert("halfword read incorrect", hwdata == 0x1000);
+    mu_assert("word read incorrect", wdata == 0x10000000);
+
+    return 0;
+
+}
  
  static char * all_tests() {
      mu_run_test(test_createblock);
      mu_run_test(test_write);
      mu_run_test(test_read);
+     mu_run_test(test_read_write_2_power);
      return 0;
  }
  

@@ -51,14 +51,12 @@ struct ptype *env_set(struct ptype *mips)
 	if(!strcmp(mips->argenv[0],"mem"))
 		{
 			
-			if(mips->argenv[1] == NULL)
-				mips->report = 410;
-			else if(mips->argenv[2] == NULL)
-				mips->report = 411;
-			else if(mips->argenv[3] == NULL)
-				mips->report = 412;
+			if(mips->n_argenv < 4){mips->report = 410; return mips;} 
+			if(mips->n_argenv > 4) {mips->report = 411; return mips;}
 			else
 			{
+				 if(find_illegal_character(mips->argenv[2])){mips->report = 422; return mips;}
+				 if(find_illegal_character(mips->argenv[3])){mips->report = 419; return mips;}
 
 				if(!strcmp(mips->argenv[1],"byte"))
 				{
@@ -68,8 +66,10 @@ struct ptype *env_set(struct ptype *mips)
 						mword addr;
 						mbyte bdata;
 						addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
-						struct nlist np;
-						bdata = (int)strtol(mips->argenv[3], (char**)NULL,0);
+						if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+
+						bdata = (short int)strtol(mips->argenv[3], (char**)NULL,0);
+						if(bdata > 0xFF){mips->report = 419; return mips;}
 
 						temp = readbyte(mips,addr); // check to see if we are overwriting
 						if(temp != 0) {mips->report = 413;} //if we are, we send a warning
@@ -84,6 +84,7 @@ struct ptype *env_set(struct ptype *mips)
 				}
 				else if(!strcmp(mips->argenv[1],"word"))
 				{
+
 					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->blocksize)
 					{
 
@@ -91,8 +92,11 @@ struct ptype *env_set(struct ptype *mips)
 						mword addr;
 						mword wdata;
 						addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
-						struct nlist np;
+						if(addr < 0 || (addr + 3) > mips->blocksize){mips->report = 425; return mips;}
+
 						wdata = (int)strtol(mips->argenv[3], (char**)NULL,0);
+						if(wdata > 0xFFFFFFFF){mips->report = 419; return mips;}
+
 						if(addr % 4 == 0)
 						{
 							temp = readword(mips,addr); // check to see if we are overwriting
@@ -108,38 +112,38 @@ struct ptype *env_set(struct ptype *mips)
 					else mips->report = 414;
 						 return mips;	
 				}
- 
-
-
+ 				else {mips->report = 412; return mips;}
 			}
-
-			mips->report = 0;
 		}
 	else if(!strcmp(mips->argenv[0], "reg"))
 		{
-			if(mips->argenv[1] == NULL){mips->report = 416; return mips;}
-			else if(mips->argenv[2] == NULL)
-				{mips->report = 412; return mips;}
-			else if ((int)strtol(mips->argenv[2], (char**)NULL,0) < 0 || (int)strtol(mips->argenv[2], (char**)NULL,0) > 0x4000000000000)
-				{mips->report = 419; return mips;}
+			if(mips->n_argenv < 3){mips->report = 410; return mips;} 
+			if(mips->n_argenv > 3) {mips->report = 411; return mips;}
 
-			else
-			{
-				int regidx;
-				mword wdata;
-				struct nlist *np;
 
-				np = lookup(mips->argenv[1]);
-				if(np == NULL){mips->report = 417; return mips;}
+			if(find_illegal_character(mips->argenv[2])){mips->report = 419; return mips;}
 
-				regidx = (int)strtol(np->defn, (char**)NULL,0);
-				wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
+			mword wdata;
+			wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
 
-				*(mips->regs[regidx]) = wdata;
+			if (wdata < 0 || wdata > 0xFFFFFFFF){mips->report = 419; return mips;}
 
-				mips->report = 0;
-				return mips;
-			}
+			int regidx;
+			struct nlist *np;
+
+			np = lookup(mips->argenv[1]);
+			if(np == NULL){mips->report = 417; return mips;}
+
+			regidx = (int)strtol(np->defn, (char**)NULL,0);
+			wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
+
+			if(regidx == 0) {mips->report = 4171; return mips;}
+			
+			*(mips->regs[regidx]) = wdata;
+
+			mips->report = 0;
+			return mips;
+			
 
 
 		}
@@ -167,6 +171,7 @@ struct ptype *env_disp(struct ptype *mips)
 	{
 	
 		if(mips->argenv[1] == NULL){mips->report = 420; return mips;}
+		if(mips->n_argenv > 2){mips->report = 411; return mips;}
 
 		if(!strcmp(mips->argenv[1],"map"))
 			{
@@ -180,6 +185,8 @@ struct ptype *env_disp(struct ptype *mips)
 			temp2 = strchr(mips->argenv[1], ':');
 			if(!temp2) //if no : are found
 			{
+
+				// find_illegal_character(mips->argenv[2]);
 				mword addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
 				if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
 			
@@ -312,7 +319,7 @@ struct ptype *env_assert(struct ptype *mips)
 		if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
 
 		mbyte bdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
-		if(addr < 0 || addr > 0x4000000000000){mips->report = 4210; return mips;}
+		if(addr < 0 || addr > 0x4000000000000){mips->report = 419; return mips;}
 
 		mbyte rbdata;
 		rbdata = readbyte(mips,addr);
@@ -327,4 +334,39 @@ struct ptype *env_assert(struct ptype *mips)
 
 	mips->report = 433;
 	return mips;
+}
+
+/*
+*@brief this function searches an illegal character in a string that should have a number in decimal, octal or hexadecimal format
+*
+*@param char* s the string to search
+*@return int res 0 if OK, 1 if illegal character found
+*
+*/
+int find_illegal_character(char * s)
+{
+	int i;
+	int res = 0;
+	bool hexa = false;
+
+	for (i = 0; i < strlen(s); i++)
+		{
+			if (i == 1)
+			{	
+				if(!(s[i] >= 48 && s[i] <= 57) && s[i] != 'x')
+					res = 1;
+				
+				else if(s[i] == 'x')
+					hexa = true;
+			}
+			else
+			{
+				if(!hexa && !(s[i] >= 48 && s[i] <= 57))
+					res = 1;
+				else if(hexa && !(s[i] >= 48 && s[i] <= 57) && !(s[i] >= 65 && s[i] <= 70) && !(s[i] >= 97 && s[i] <= 102))
+					res = 1;
+			}
+		}
+
+	return res;		
 }

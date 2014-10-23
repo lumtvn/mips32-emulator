@@ -1,4 +1,2 @@
-1- disp mem puede mostrar direcciones mas grandes que el bloque de memoria
-2- lo de los and con 0xff me borra bits en algunos casos
-3- no se puede asignar valores negativos a un registro (set reg)
-4- arreglar el test_write
+- disp mem puede mostrar direcciones mas grandes que el bloque de memoria
+- no se puede asignar valores negativos a un registro (set reg)
