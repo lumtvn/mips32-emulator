@@ -25,17 +25,14 @@
 void runenv(struct ptype *mips)
 {
 
-			 mips->entry = malloc(MAXSIZE);
-
-
-			printf("emul-mips>"); // prints out the prompt
+			mips->entry = readline("emul-mips> ");
 			
-			char *result = fgets(mips->entry,MAXSIZE,stdin);  
-			if (result == NULL)
+			if (mips->entry == NULL)
 			{
 				printf("\n");    
 				exit(0);
 			}
+			add_history(mips->entry);
 			mips = parseentry(mips);													
 
 			mips = analize(mips); 
@@ -43,7 +40,8 @@ void runenv(struct ptype *mips)
 			if(mips->report != 0)
 				report(mips->report);
 			mips->report = 0;
-			restart(mips);	
+			free(mips->entry);
+			restart(mips);
 }
 
 /**
