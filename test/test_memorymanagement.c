@@ -28,21 +28,26 @@ int simpoint;
 	mhalfword hwdata;
 	mword wdata;
 
- 	wdata = 0x12345678;
  	simpoint = 0x32;
- 	pmem = writeword(pmem, wdata, simpoint);
+ 	pmem = writeword(pmem, 0x12345678, simpoint);
 
- 	hwdata = 0x1122;
+    mu_assert("fourth byte of word not written", *(pmem->realpoint) == 0x78);
+    mu_assert("third byte of word not written", *(--pmem->realpoint) == 0x56);
+    mu_assert("second byte of word not written", *(--pmem->realpoint) == 0x34);
+    mu_assert("first byte of word not written", *(--pmem->realpoint) == 0x12);
+
+
  	simpoint = 0x0;
- 	pmem = writehalfword(pmem, hwdata, simpoint);
+ 	pmem = writehalfword(pmem, 0x1122, simpoint);
 
-  	bdata = 0x88;
+    mu_assert("halfword not written", *(pmem->realpoint) == 0x22);
+    mu_assert("halfword not written", *(--pmem->realpoint) == 0x11);
+
+
  	simpoint = 0x40;
- 	pmem = writebyte(pmem, bdata, simpoint);
+ 	pmem = writebyte(pmem, 0x88, simpoint);
 
-    mu_assert("byte not written", bdata == 0x88);
-    mu_assert("halfword not written", hwdata == 0x1122);
-    mu_assert("word not written", wdata == 0x12345678);
+    mu_assert("byte not written", *(pmem->realpoint) == 0x88);
 
 	return 0;
 }
@@ -53,18 +58,34 @@ int simpoint;
 	mhalfword hwdata;
 	mword wdata;
 
-	simpoint = 0x32;
+	pmem->realpoint = pmem->realpointbase + 0x20;
+
+	*(pmem->realpoint) = 0x12;
+	*(++pmem->realpoint) = 0x34;
+	*(++pmem->realpoint) = 0x56;
+	*(++pmem->realpoint) = 0x78;
+
+	simpoint = 0x20;
 	wdata = readword(pmem, simpoint);
 
-	simpoint = 0x0;
+	pmem->realpoint = pmem->realpointbase + 0x05;
+
+	*(pmem->realpoint) = 0x22;
+	*(++pmem->realpoint) = 0x33;
+
+	simpoint = 0x05;
 	hwdata = readhalfword(pmem, simpoint);
 
-	simpoint = 0x40;
+	pmem->realpoint = pmem->realpointbase + 0x60;
+
+	*(pmem->realpoint) = 0x11;
+
+	simpoint = 0x60;
 	bdata = readbyte(pmem, simpoint);
 
-	mu_assert("byte not read", bdata == 0x88);
-    mu_assert("halfword not read", hwdata == 0x1122);
-    mu_assert("word not read", wdata == 0x12345678);
+	mu_assert("byte read incorrect", bdata == 0x11);
+    mu_assert("halfword read incorrect", hwdata == 0x2233);
+    mu_assert("word read incorrect", wdata == 0x12345678);
 
 	return 0;
 }
