@@ -13,7 +13,7 @@
 all: bin/emul-mips
 
 bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o build/memorymanagement.o build/errors.o build/lookup.o
-	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips -lreadline
+	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips
 
 build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h src/memorymanagement.h src/lookup.h
 	gcc -pg -c src/main.c -o build/main.o
@@ -65,27 +65,13 @@ test: testparser testreader testautoload testenvironment testmemorymanagement te
 testparser: bin/test_parsing bin/test_parsing2 bin/test_parsing3
 	@echo starting parser test
 	@./bin/test_parsing 
-	@./bin/test_parsing2
-	@./bin/test_parsing3
 	@echo parser tests passed
 
 bin/test_parsing: build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing -lreadline
-
-bin/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing2.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing2 -lreadline
-
-bin/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing3.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing3 -lreadline
+	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing
 
 build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
 	@gcc -c test/test_parsing.c -o build/test_parsing.o
-
-build/test_parsing2.o: test/test_parsing2.c src/assembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
-	@gcc -c test/test_parsing2.c -o build/test_parsing2.o
-
-build/test_parsing3.o: test/test_parsing3.c src/assembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
-	@gcc -c test/test_parsing3.c -o build/test_parsing3.o
 
 ###########################--READER TESTS--################################
 #tests reading functions of source file reader.c
@@ -105,13 +91,13 @@ build/test_reader.o: test/test_reader.c src/reader.h src/headers.h src/errors.h
 #tests functions of source file environment.c
 
 testenvironment: bin/emul-mips bin/test_environment
-	@echo environment tests
+	@echo starting environment tests
 	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
 	@./bin/test_environment
 	@echo environment tests passed
 
 bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/errors.o build/memorymanagement.o build/reader.o build/lookup.o
-	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_environment -lreadline
+	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_environment
 
 build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
 	@gcc -pg -c test/test_environment.c -o build/test_environment.o

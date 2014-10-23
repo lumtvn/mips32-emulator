@@ -3,136 +3,184 @@
 #include "minunit.h"
 
  int tests_run = 0; 
- struct ptype testdata;
- struct ptype *ptestdata;
+ struct ptype mips;
+ struct ptype *pmips;
 
-static char * test_label() 
+static char * test_parsing1() 
 {
-        if(testdata.label != NULL)
-            {
-                mu_assert("error, the label is different to 'start'", strcmp(testdata.label, "start") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.label is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = "label: .text ADD $t1, $t2, $t3";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the label is null",  pmips->label != NULL);
+    mu_assert("error, the tag is null",  pmips->tag != NULL);
+    mu_assert("error, the operation is null",  pmips->operation != NULL);
+    mu_assert("error, the argline[0] is null",  pmips->argline[0] != NULL);
+    mu_assert("error, the argline[1] is null",  pmips->argline[1] != NULL);
+    mu_assert("error, the argline[2] is null",  pmips->argline[2] != NULL);
+
+    mu_assert("error, the label is different to 'label:'", strcmp(pmips->label, "label:") == 0);
+    mu_assert("error, the tag is different to '.text'", strcmp(pmips->tag, ".text") == 0);
+    mu_assert("error, the operation is different to 'ADD'", strcmp(pmips->operation, "ADD") == 0);
+    mu_assert("error, the arg1 is different to '$t1'", strcmp(pmips->argline[0], "$t1") == 0);
+    mu_assert("error, the arg2 is different to '$t2'", strcmp(pmips->argline[1], "$t2") == 0);
+    mu_assert("error, the arg3 is different to '$t3'", strcmp(pmips->argline[2], "$t3") == 0);
+
+    pmips = clearline(pmips);
+    return 0;
 }
 
-static char * test_tag() 
+static char * test_parsing2() 
 {
-        if(testdata.tag != NULL)
-            {
-                mu_assert("error, the tag is different to '.text'", strcmp(testdata.tag, ".text") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.tag is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = ".text ADD $t1, $t2, $t3";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the label isn't null",  pmips->label == NULL);
+
+    mu_assert("error, the tag is null",  pmips->tag != NULL);
+    mu_assert("error, the operation is null",  pmips->operation != NULL);
+    mu_assert("error, the argline[0] is null",  pmips->argline[0] != NULL);
+    mu_assert("error, the argline[1] is null",  pmips->argline[1] != NULL);
+    mu_assert("error, the argline[2] is null",  pmips->argline[2] != NULL);
+
+    mu_assert("error, the tag is different to '.text'", strcmp(pmips->tag, ".text") == 0);
+    mu_assert("error, the operation is different to 'ADD'", strcmp(pmips->operation, "ADD") == 0);
+    mu_assert("error, the arg1 is different to '$t1'", strcmp(pmips->argline[0], "$t1") == 0);
+    mu_assert("error, the arg2 is different to '$t2'", strcmp(pmips->argline[1], "$t2") == 0);
+    mu_assert("error, the arg3 is different to '$t3'", strcmp(pmips->argline[2], "$t3") == 0);
+
+    pmips = clearline(pmips);
+    return 0;
 }
 
-static char * test_operation() 
+static char * test_parsing3() 
 {
-        if(testdata.operation != NULL)
-            {
-                mu_assert("error, the operation is different to 'ADD'", strcmp(testdata.operation, "ADD") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.operation is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = "NOP";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the label isn't null",  pmips->label == NULL);
+    mu_assert("error, the tag isn't null",  pmips->tag == NULL);
+    mu_assert("error, the operation is null",  pmips->operation != NULL);
+    mu_assert("error, the argline[0] isn't null",  pmips->argline[0] == NULL);
+    mu_assert("error, the argline[1] isn't null",  pmips->argline[1] == NULL);
+    mu_assert("error, the argline[2] isn't null",  pmips->argline[2] == NULL);
+
+    mu_assert("error, the operation is different to 'NOP'", strcmp(pmips->operation, "NOP") == 0);
+
+    pmips = clearline(pmips);
+    return 0;
 }
 
-static char * test_argline1() 
+static char * test_parsing4() 
 {
-        if(testdata.argline[0]!= NULL)
-            {
-                mu_assert("error, the argline1 is different to '$r1'", strcmp(testdata.argline[0], "$r1") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.argline1 is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = ".text";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the label isn't null",  pmips->label == NULL);
+    mu_assert("error, the tag is null",  pmips->tag != NULL);
+    mu_assert("error, the operation isn't null",  pmips->operation == NULL);
+    mu_assert("error, the argline[0] isn't null",  pmips->argline[0] == NULL);
+    mu_assert("error, the argline[1] isn't null",  pmips->argline[1] == NULL);
+    mu_assert("error, the argline[2] isn't null",  pmips->argline[2] == NULL);
+
+    mu_assert("error, the tag is different to '.text'", strcmp(pmips->tag, ".text") == 0);
+
+    pmips = clearline(pmips);
+    return 0;
 }
 
-static char * test_argline2() 
+static char * test_parsing5() 
 {
-        if(testdata.argline[1] != NULL)
-            {
-                mu_assert("error, the argline2 is different to '$r2'", strcmp(testdata.argline[1], "$r2") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.argline2 is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = "label:";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the label is null",  pmips->label != NULL);
+    mu_assert("error, the tag isn't null",  pmips->tag == NULL);
+    mu_assert("error, the operation isn't null",  pmips->operation == NULL);
+    mu_assert("error, the argline[0] isn't null",  pmips->argline[0] == NULL);
+    mu_assert("error, the argline[1] isn't null",  pmips->argline[1] == NULL);
+    mu_assert("error, the argline[2] isn't null",  pmips->argline[2] == NULL);
+
+    mu_assert("error, the label is different to 'label:'", strcmp(pmips->label, "label:") == 0);
+
+    pmips = clearline(pmips);
+    return 0;
 }
 
-static char * test_argline3() 
+static char * test_parsing6() 
 {
-        if(testdata.argline[2] != NULL)
-            {
-                mu_assert("error, the argline3 is different to '$r3'", strcmp(testdata.argline[2], "$r3") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.argline3 is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = "ADD $t1";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the label isn't null",  pmips->label == NULL);
+    mu_assert("error, the tag isn't null",  pmips->tag == NULL);
+    mu_assert("error, the operation is null",  pmips->operation != NULL);
+    mu_assert("error, the argline[0] is null",  pmips->argline[0] != NULL);
+    mu_assert("error, the argline[1] isn't null",  pmips->argline[1] == NULL);
+    mu_assert("error, the argline[2] isn't null",  pmips->argline[2] == NULL);
+
+    mu_assert("error, the operation is different to 'ADD'", strcmp(pmips->operation, "ADD") == 0);
+    mu_assert("error, the arg1 is different to '$t1'", strcmp(pmips->argline[0], "$t1") == 0);
+
+    pmips = clearline(pmips);
+    return 0;
 }
 
-static char * test_argline4() 
+static char * test_parsingnull() 
 {
-        if(testdata.argline[3] != NULL)
-            {
-                mu_assert("error, the argline4 is different to '$r4'", strcmp(testdata.argline[3], "$r4") == 0);
-                return 0;
-            }
-        else
-            {
-                printf("testdata.argline4 is NULL\n");
-                return 0;
-            }    
+    pmips->incoming_line = "";
+
+    pmips = parseline(pmips);
+
+    mu_assert("error, the tag isn't null",  pmips->tag == NULL);
+    mu_assert("error, the operation isn't null",  pmips->operation == NULL);
+    mu_assert("error, the argline[0] isn't null",  pmips->argline[0] == NULL);
+    mu_assert("error, the argline[1] isn't null",  pmips->argline[1] == NULL);
+    mu_assert("error, the argline[2] isn't null",  pmips->argline[2] == NULL);
+
+    pmips = clearline(pmips);
+    return 0;
 }
+
+
  
  static char * all_tests() {
-     mu_run_test(test_label);
-     mu_run_test(test_tag);
-     mu_run_test(test_operation);
-     mu_run_test(test_argline1);
-     mu_run_test(test_argline2);
-     mu_run_test(test_argline3);
-     mu_run_test(test_argline4);
+     mu_run_test(test_parsing1);
+    printf("test_parsing1 passed\n");
+     mu_run_test(test_parsing2);
+    printf("test_parsing2 passed\n");
+     mu_run_test(test_parsing3);
+    printf("test_parsing3 passed\n");
+     mu_run_test(test_parsing4);
+    printf("test_parsing4 passed\n");
+     mu_run_test(test_parsing5);
+    printf("test_parsing5 passed\n");
+     mu_run_test(test_parsing6);
+    printf("test_parsing6 passed\n");
+     mu_run_test(test_parsingnull);
+    printf("test_parsingnull passed\n");
+
+    pmips = clearline(pmips);
      return 0;
  }
  
  int main(int argc, char **argv) {
 
 
+     pmips = &mips;
 
-     testdata.incoming_line = malloc(MAXSIZE);
-     strcpy(testdata.incoming_line, "start: .text ADD $r1, $r2, $r3, $r4");
-
-     ptestdata = &testdata;
-     ptestdata = parseline(ptestdata);
-
-
-    // printf("testdata.label: '%s'\n", testdata.label);
-    // printf("testdata.tag: '%s'\n", testdata.tag);
-    // printf("testdata.operation: '%s'\n", testdata.operation);
-    // printf("testdata.arg[0]: '%s'\n", testdata.arg[0]);
-    // printf("testdata.arg[1]: '%s'\n", testdata.arg[1]);
-    // printf("testdata.arg[2]: '%s'\n", testdata.arg[2]);
-    // printf("testdata.arg[3]: '%s'\n", testdata.arg[3]);
+    // printf("mips.label: '%s'\n", mips.label);
+    // printf("mips.tag: '%s'\n", mips.tag);
+    // printf("mips.operation: '%s'\n", mips.operation);
+    // printf("mips.arg[0]: '%s'\n", mips.arg[0]);
+    // printf("mips.arg[1]: '%s'\n", mips.arg[1]);
+    // printf("mips.arg[2]: '%s'\n", mips.arg[2]);
+    // printf("mips.arg[3]: '%s'\n", mips.arg[3]);
 
      char *result = all_tests();
      if (result != 0) {

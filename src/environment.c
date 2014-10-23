@@ -24,26 +24,26 @@
 **/
 void runenv(struct ptype *mips)
 {
-	mips->entry = readline("emul-mips>"); // prints out the prompt
-	printf("aca se retovo\n");
-    if (mips->entry == NULL)
-	{
-	    printf("\n");    
-	}
-	else{
 
-		  	add_history(mips->entry);
+			 mips->entry = malloc(MAXSIZE);
 
+
+			printf("emul-mips>"); // prints out the prompt
+			
+			char *result = fgets(mips->entry,MAXSIZE,stdin);  
+			if (result == NULL)
+			{
+				printf("\n");    
+				exit(0);
+			}
 			mips = parseentry(mips);													
+
 			mips = analize(mips); 
 
 			if(mips->report != 0)
 				report(mips->report);
-
 			mips->report = 0;
-			free(mips->entry);
-			restart(mips);
-		}	
+			restart(mips);	
 }
 
 /**

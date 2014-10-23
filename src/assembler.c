@@ -47,7 +47,7 @@ struct ptype *compile(struct ptype *mips)
 
 /**
 *
-*@brief this function parses the line entered by user and identifies the tag, the operation, the arguments, and gets rid of the commentaries
+*@brief this function parses the line entered by user and identifies the tag, the operation and the arguments.
 *
 * @param *mips A pointer to a ptype structure, created by the main program.
 * @return it returns the pointer to the same structure, but it modifies mips->operation and mips->argline[]
@@ -58,57 +58,88 @@ struct ptype *compile(struct ptype *mips)
 */
 struct ptype *parseline(struct ptype *mips)
 {
+    char *line = mips->incoming_line;
+    char *token;
+    if(!strcmp(line,"")){return mips;}
 
-	char *buffer;
-    char *temp1;
-    char *temp2 = NULL;
+    char *buffer[7];
+    int nbuf = 0;
 
-    if(mips->incoming_line == NULL){return mips;} //no line
+    while ((token = strchr(line, 32)) != NULL)
+    {   
+        char *temp;
+        size_t len = token - line;
+        temp = malloc(len + 1);
+        memcpy (temp,line,len);
+        temp[len] = '\0';
+        line += token - line + 1;
 
-    buffer = strtok(mips->incoming_line, " ");
-    //at this moment, buffer holds either a tag, a label or the operation. 
-    //if it holds a label, then buffer has a double colon at the end. we locate this using strchr()
+        buffer[nbuf] = temp;
+        nbuf++;
+    }
+    buffer[nbuf] = line;
+    nbuf++;
 
-    temp1 = strchr(buffer, ':');
-    if(temp1) //this is here in case strchr returns null, in which case there is no label
+    // we have now in buffer, the entire line which shouldn't have more than 7 strings according to MIPS assembler
+    //the first element is either a tag, an operation, or a label.
+    //if its a label, then it has a ':' character
+    
+    /// this integer is the index of buffer in which the first argument of the operation is located
+    int argidx;
+    if(strchr(buffer[0], ':') != NULL)
         {
-            size_t len = temp1 - buffer;
-            temp2 = malloc(len + 1);
-            memcpy(temp2,buffer,len);
-            temp2[len] = '\0';
-            //now temp2 has the label
-            mips->label = temp2;
-            buffer = strtok(NULL, " "); // and then we load the second string of buffer to buffer
+            mips->label = buffer[0];
+            //check to see if the line has ended
+            if(nbuf == 1){return mips;}
+
+            //if the first element is a label, then the second one can be a tag or an operation
+            if(strchr(buffer[1], '.') != NULL){mips->tag = buffer[1];}
+            if(nbuf == 2){return mips;}
+
+            //and the remaining element is the operation
+            mips->operation = buffer[2];
+            if(nbuf == 3){return mips;}
+            argidx = 3;
+
+        }
+    else if(strchr(buffer[0], '.') != NULL)
+        {
+            mips->tag = buffer[0];
+            //check to see if the line has ended
+            if(nbuf == 1){return mips;}
+
+            //if the first element is a label, then the second one has to be an operation
+            mips->operation = buffer[1];
+            if(nbuf == 2){return mips;}
+            argidx = 2;
+        }
+    else 
+        {
+            mips->operation = buffer[0];
+            if(nbuf == 1){return mips;} 
+            argidx = 1;
+        }
+       //now we add all the arguments
+        int i = 0;
+        for(argidx; argidx < nbuf - 1; argidx++)
+        {
+            token = strchr(buffer[argidx], ',');
+
+            char *temp;
+            size_t len = token - buffer[argidx];
+            temp = malloc(len + 1);
+            memcpy (temp,buffer[argidx],len);
+            temp[len] = '\0';
+            mips->argline[i] = temp;
+            i++;     
         }
 
-        // now we search for the tag
-    if(buffer[0] == '.')
-        {
-            mips->tag = buffer; //if the first character of buffer is a dot, then its a tag
-            //and then follows the command.
-            if((mips->operation = strtok(NULL, " ")) == NULL){return mips;} //if there's no operation, we just return
-        }
-    else    mips->operation = buffer; //if it's not a tag or a label, then it has to be the operation
+        //we load the last argument, which doesn't end in comma
+        if(nbuf > 1)
+        mips->argline[i] = buffer[argidx];
 
-    //the rest of the string remaining in buffer are the arguments. so we continue parsing
-    int i = 0;
-    while ((buffer = strtok(NULL, " ")) != NULL && i < 4)
-    {
-        mips->argline[i] = buffer;
-        i++;
-    }
 
-    //we proceed to clean the commas out of the arguments. It had to be done separatedly from the
-    //previous while becouse if not, strtok doesn't work correctly
-
-    i = 0;
-     while ((buffer = strtok(mips->argline[i], ",")) != NULL && i < 4)
-    {
-    	mips->argline[i] = buffer;
-    	 i++;
-    }
-
-	return mips;
+    return mips;
 }
 
 /**
@@ -146,4 +177,17 @@ struct ptype *splitstr(struct ptype *mips)
     return mips;
 
     }
+}
+
+struct ptype *clearline(struct ptype *mips)
+{
+    mips->label = NULL;
+    mips->tag = NULL;
+    mips->operation = NULL;
+    mips->argline[0] = NULL;
+    mips->argline[1] = NULL;
+    mips->argline[2] = NULL;
+    mips->argline[3] = NULL;
+
+    return mips;
 }
