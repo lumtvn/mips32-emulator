@@ -13,7 +13,7 @@
 all: bin/emul-mips
 
 bin/emul-mips: build/main.o build/reader.o build/environment.o build/environmentcommands.o build/assembler.o build/memorymanagement.o build/errors.o build/lookup.o
-	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips
+	gcc -pg build/main.o build/reader.o build/environment.o build/assembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips -lreadline
 
 build/main.o: src/main.c src/headers.h src/environment.h src/assembler.h src/memorymanagement.h src/lookup.h
 	gcc -pg -c src/main.c -o build/main.o
@@ -63,18 +63,20 @@ test: testparser testreader testautoload testenvironment testmemorymanagement te
 #tests parsing functions of source file reader.c
 
 testparser: bin/test_parsing bin/test_parsing2 bin/test_parsing3
+	@echo starting parser test
 	@./bin/test_parsing 
 	@./bin/test_parsing2
 	@./bin/test_parsing3
+	@echo parser tests passed
 
 bin/test_parsing: build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing
+	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing -lreadline
 
 bin/test_parsing2: build/test_parsing2.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing2.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing2
+	@gcc -pg build/test_parsing2.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing2 -lreadline
 
 bin/test_parsing3: build/test_parsing3.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing3.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing3
+	@gcc -pg build/test_parsing3.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing3 -lreadline
 
 build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
 	@gcc -c test/test_parsing.c -o build/test_parsing.o
@@ -89,7 +91,9 @@ build/test_parsing3.o: test/test_parsing3.c src/assembler.h src/headers.h src/en
 #tests reading functions of source file reader.c
 
 testreader: bin/test_reader
+	@echo starting reader tests
 	@./bin/test_reader
+	@echo reader tests passed
 
 bin/test_reader: build/test_reader.o build/reader.o build/errors.o
 	@gcc build/test_reader.o build/reader.o build/errors.o -o bin/test_reader
@@ -101,11 +105,13 @@ build/test_reader.o: test/test_reader.c src/reader.h src/headers.h src/errors.h
 #tests functions of source file environment.c
 
 testenvironment: bin/emul-mips bin/test_environment
+	@echo environment tests
 	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
 	@./bin/test_environment
+	@echo environment tests passed
 
 bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/errors.o build/memorymanagement.o build/reader.o build/lookup.o
-	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_environment
+	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/assembler.o build/reader.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_environment -lreadline
 
 build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
 	@gcc -pg -c test/test_environment.c -o build/test_environment.o
@@ -113,8 +119,10 @@ build/test_environment.o: test/test_environment.c src/reader.h src/headers.h
 ###########################--AUTOLOAD TESTS--################################
 #tests the autoloading function of the environment, passing a file argument when initiating the emulator
 testautoload: bin/emul-mips bin/test_autoloader
+	@echo starting autoloader tests
 	@./bin/emul-mips ./test/testscript.elf < test/commandfiles/test_autoloader_commands.txt > test/resultfiles/test_autoloader_result.txt
 	@./bin/test_autoloader
+	@echo test autoloader passed
 
 bin/test_autoloader: build/test_autoloader.o
 	@gcc build/test_autoloader.o -o bin/test_autoloader
@@ -126,7 +134,9 @@ build/test_autoloader.o: test/test_autoloader.c src/headers.h
 #tests the lookup functions from file lookup.c
 
 testlookup: bin/test_lookup
+	@echo starting lookup tests
 	@./bin/test_lookup
+	@echo lookup tests passed
 
 bin/test_lookup: build/test_lookup.o build/lookup.o
 	@gcc build/test_lookup.o build/lookup.o -o bin/test_lookup
@@ -138,6 +148,7 @@ build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
 #tests the functions in charge of executing the environment commands
 
 testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
+	@echo starting environmentcommands tests
 	@./bin/emul-mips < test/commandfiles/test_load_commands.txt > test/resultfiles/test_load_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_set_reg_commands.txt > test/resultfiles/test_set_reg_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
@@ -145,6 +156,7 @@ testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
 	@./bin/test_environmentcommands
+	@echo environmentcommands tests passed
 
 bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o build/lookup.o
 	@gcc build/test_environmentcommands.o build/environmentcommands.o build/assembler.o build/reader.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/test_environmentcommands
@@ -156,7 +168,9 @@ build/test_environmentcommands.o: test/test_environmentcommands.c src/environmen
 #tests the functions in charge of managing the memory of the simulated processor
 
 testmemorymanagement: bin/test_memorymanagement
+	@echo starting memorymanagement tests
 	@./bin/test_memorymanagement
+	@echo memorymanagement tests passed
 
 bin/test_memorymanagement: build/test_memorymanagement.o build/memorymanagement.o
 	@gcc build/test_memorymanagement.o build/memorymanagement.o -o bin/test_memorymanagement
