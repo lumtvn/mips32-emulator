@@ -42,8 +42,8 @@ struct ptype *readscript(struct ptype *data)
 
             while ( fgets ( line, MAXSIZE, file ) != NULL ) /* read a line */
                 {
-                    line = removecommentary(line);
-                    strcat(data->full_script,line);
+                        line = removecommentary(line);
+                        strcat(data->full_script,line);
                 }
             fclose ( file );
 

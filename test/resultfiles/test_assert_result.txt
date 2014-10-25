@@ -15,6 +15,4 @@ emul-mips>registers differ, value of register $t1 is: 0x0
 emul-mips>words differ, word value of address 0x8 is: 0x0
 emul-mips>bytes differ, value of address 0x4 is: 0x0
 emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>registers differ, value of register $t1 is: 0x0
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>command '' not found
-emul-mips>command '' not found
-emul-mips>
+emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>

@@ -25,7 +25,7 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	
 	//concerning a script
 	///the script without the commentaries
-	char *full_script;     
+	char *full_script;
 	///an entire line of the script without commentary (parsed out)
 	char *incoming_line;   
 	///the label of a line

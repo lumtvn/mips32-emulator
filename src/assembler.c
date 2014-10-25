@@ -11,7 +11,7 @@
  * this assembler does is read a text from an .elf file, remove the commentary and store it in a 
  * string, which is a field of the general structure ptype.
  *
- * there's an extra function called splitstr that is used by compile
+ * there's an extra function called splitscript that is used by compile
  **/
 #include "headers.h"
 #include "reader.h"
@@ -59,9 +59,9 @@ struct ptype *compile(struct ptype *mips)
 struct ptype *parseline(struct ptype *mips)
 {
     char *line = mips->incoming_line;
-    char *token;
-    if(!strcmp(line,"")){return mips;}
+    if(strlen(line) == 1){return mips;}
 
+    char *token;
     char *buffer[7];
     int nbuf = 0;
 
@@ -72,7 +72,7 @@ struct ptype *parseline(struct ptype *mips)
         temp = malloc(len + 1);
         memcpy (temp,line,len);
         temp[len] = '\0';
-        line += token - line + 1;
+        line = token + 1;
 
         buffer[nbuf] = temp;
         nbuf++;
@@ -149,7 +149,7 @@ struct ptype *parseline(struct ptype *mips)
 *
 *
 **/
-struct ptype *splitstr(struct ptype *mips)
+struct ptype *splitscript(struct ptype *mips)
 {
     char *token, *tofree, *s;
     mips->nlines = 0;
@@ -165,14 +165,25 @@ struct ptype *splitstr(struct ptype *mips)
         temp = malloc(len + 1);
         memcpy (temp,s,len);
         temp[len] = '\0';
-        s += token - s + 1;
+        s = token + 1;
 
         if(temp != NULL)
         {
-            mips->scriptlines[mips->nlines] = temp;
-            mips->nlines++;
+            // printf("va a agregar: %s, %zu\n", temp, strlen(temp));
+            if(strlen(temp) > 1)
+            {
+                mips->scriptlines[mips->nlines] = temp;
+                mips->nlines++; 
+            }
         }
+
+        // printf("scriptlines[%d]: %s\n",mips->nlines - 1,mips->scriptlines[mips->nlines - 1] );
     }
+
+    // printf("\nsalio del while\n");
+    // int i;
+    // for(i = 0; i < mips->nlines; i++)
+    //     printf("scriptlines[%d]: %s\n",i,mips->scriptlines[i] );
 
     return mips;
 
@@ -191,3 +202,4 @@ struct ptype *clearline(struct ptype *mips)
 
     return mips;
 }
+

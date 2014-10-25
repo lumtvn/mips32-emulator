@@ -56,22 +56,22 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testparser testreader testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
+test: testassembler testreader testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
 	@echo ALL TESTS PASSED
 
-###########################--PARSING TESTS--################################
-#tests parsing functions of source file reader.c
+###########################--ASSEMBLER TESTS--################################
+#tests assembler functions of source file assembler.c
 
-testparser: bin/test_parsing bin/test_parsing2 bin/test_parsing3
-	@echo starting parser test
-	@./bin/test_parsing 
-	@echo parser tests passed
+testassembler: bin/test_assembler
+	@echo starting assembler test
+	@./bin/test_assembler 
+	@echo assembler tests passed
 
-bin/test_parsing: build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_parsing.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_parsing
+bin/test_assembler: build/test_assembler.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o
+	@gcc -pg build/test_assembler.o build/assembler.o build/reader.o build/errors.o build/environment.o build/environmentcommands.o build/memorymanagement.o build/lookup.o -o bin/test_assembler
 
-build/test_parsing.o: test/test_parsing.c src/assembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
-	@gcc -c test/test_parsing.c -o build/test_parsing.o
+build/test_assembler.o: test/test_assembler.c src/assembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
+	@gcc -c test/test_assembler.c -o build/test_assembler.o
 
 ###########################--READER TESTS--################################
 #tests reading functions of source file reader.c

@@ -1,8 +1,10 @@
 #include "../src/headers.h"
 #include "../src/assembler.h"
+#include "../src/reader.h"
 #include "minunit.h"
 
  int tests_run = 0; 
+ int res;
  struct ptype mips;
  struct ptype *pmips;
 
@@ -133,7 +135,7 @@ static char * test_parsing6()
 
 static char * test_parsingnull() 
 {
-    pmips->incoming_line = "";
+    pmips->incoming_line = "\n";
 
     pmips = parseline(pmips);
 
@@ -147,23 +149,57 @@ static char * test_parsingnull()
     return 0;
 }
 
+static char * test_splitscript() 
+{
+    pmips->filename = "./test/testscript.elf";
+    pmips = readscript(pmips);
+
+    pmips = splitscript(pmips);
+    printf("\nestoy en el test\n");
+    int i;
+    for(i = 0; i < pmips->nlines; i++)
+        printf("scriptlines[%d]: %s\n",i,pmips->scriptlines[i] );
+
+    const char *filepath = "./test/resultfiles/test_splitscript_result.txt";
+
+    FILE *fp = fopen(filepath, "w+");
+    if (fp != NULL)
+        {   
+            int i;
+            for(i = 0; i < pmips->nlines; i++)
+            {
+                fputs(pmips->scriptlines[i], fp);
+                fputs("\n", fp);
+            }
+        }
+
+
+    res = system("diff test/resultfiles/test_splitscript_result.txt test/resultfiles/test_splitscript_expected.txt");
+
+    printf("%d\n", res);
+    mu_assert("error, the splitscript result file is different than expected",!res);
+
+    return 0;
+}
 
  
  static char * all_tests() {
-     mu_run_test(test_parsing1);
+    mu_run_test(test_parsing1);
     printf("test_parsing1 passed\n");
-     mu_run_test(test_parsing2);
+    mu_run_test(test_parsing2);
     printf("test_parsing2 passed\n");
-     mu_run_test(test_parsing3);
+    mu_run_test(test_parsing3);
     printf("test_parsing3 passed\n");
-     mu_run_test(test_parsing4);
+    mu_run_test(test_parsing4);
     printf("test_parsing4 passed\n");
-     mu_run_test(test_parsing5);
+    mu_run_test(test_parsing5);
     printf("test_parsing5 passed\n");
-     mu_run_test(test_parsing6);
+    mu_run_test(test_parsing6);
     printf("test_parsing6 passed\n");
-     mu_run_test(test_parsingnull);
+    mu_run_test(test_parsingnull);
     printf("test_parsingnull passed\n");
+    mu_run_test(test_splitscript);
+    printf("test_splitscript passed\n");
 
     pmips = clearline(pmips);
      return 0;
@@ -174,13 +210,13 @@ static char * test_parsingnull()
 
      pmips = &mips;
 
-    // printf("mips.label: '%s'\n", mips.label);
-    // printf("mips.tag: '%s'\n", mips.tag);
-    // printf("mips.operation: '%s'\n", mips.operation);
-    // printf("mips.arg[0]: '%s'\n", mips.arg[0]);
-    // printf("mips.arg[1]: '%s'\n", mips.arg[1]);
-    // printf("mips.arg[2]: '%s'\n", mips.arg[2]);
-    // printf("mips.arg[3]: '%s'\n", mips.arg[3]);
+    // printf("mips->label: '%s'\n", mips->label);
+    // printf("mips->tag: '%s'\n", mips->tag);
+    // printf("mips->operation: '%s'\n", mips->operation);
+    // printf("mips->argline[0]: '%s'\n", mips->argline[0]);
+    // printf("mips->argline[1]: '%s'\n", mips->argline[1]);
+    // printf("mips->argline[2]: '%s'\n", mips->argline[2]);
+    // printf("mips->argline[3]: '%s'\n", mips->argline[3]);
 
      char *result = all_tests();
      if (result != 0) {

@@ -36,14 +36,17 @@ void runenv(struct ptype *mips)
 				printf("\n");    
 				exit(0);
 			}
-			mips = parseentry(mips);													
+			if (strlen(mips->entry) > 1)
+			{
+				mips = parseentry(mips);													
 
-			mips = analize(mips); 
+				mips = analize(mips); 
 
-			if(mips->report != 0)
-				report(mips->report);
-			mips->report = 0;
-			restart(mips);	
+				if(mips->report != 0)
+					report(mips->report);
+				mips->report = 0;
+				restart(mips);
+			}
 }
 
 /**
