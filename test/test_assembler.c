@@ -10,7 +10,7 @@
 
 static char * test_parsing1() 
 {
-    mips->incoming_line = "label: .text ADD $t1, $t2, $t3";
+    strcpy(mips->incoming_line,"label: .text ADD $t1, $t2, $t3");
 
     mips = parseline(mips);
 
@@ -34,7 +34,7 @@ static char * test_parsing1()
 
 static char * test_parsing2() 
 {
-    mips->incoming_line = ".text ADD $t1, $t2, $t3";
+    strcpy(mips->incoming_line, ".text ADD $t1, $t2, $t3");
 
     mips = parseline(mips);
 
@@ -58,7 +58,7 @@ static char * test_parsing2()
 
 static char * test_parsing3() 
 {
-    mips->incoming_line = "NOP";
+    strcpy(mips->incoming_line, "NOP");
 
     mips = parseline(mips);
 
@@ -77,7 +77,7 @@ static char * test_parsing3()
 
 static char * test_parsing4() 
 {
-    mips->incoming_line = ".text";
+    strcpy(mips->incoming_line, ".text");
 
     mips = parseline(mips);
 
@@ -96,7 +96,7 @@ static char * test_parsing4()
 
 static char * test_parsing5() 
 {
-    mips->incoming_line = "label:";
+    strcpy(mips->incoming_line, "label:");
 
     mips = parseline(mips);
 
@@ -115,7 +115,7 @@ static char * test_parsing5()
 
 static char * test_parsing6() 
 {
-    mips->incoming_line = "ADD $t1";
+    strcpy(mips->incoming_line, "ADD $t1");
 
     mips = parseline(mips);
 
@@ -135,7 +135,7 @@ static char * test_parsing6()
 
 static char * test_parsingnull() 
 {
-    mips->incoming_line = "\n";
+    strcpy(mips->incoming_line, "\n");
 
     mips = parseline(mips);
 
@@ -152,8 +152,9 @@ static char * test_parsingnull()
 static char * test_splitscript() 
 {
     mips->filename = "./test/testscript.elf";
-    mips = readscript(mips);
 
+    mips = readscript(mips);
+    
     mips = splitscript(mips);
     // int i;
     // for(i = 0; i < mips->nlines; i++)
@@ -223,7 +224,7 @@ static char * test_splitscript()
          // printf("PARSING TEST 1 PASSED\n");
      }
      // printf("Tests run: %d\n", tests_run);
-
+     free(mips);
  
      return result != 0;
  }

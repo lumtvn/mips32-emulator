@@ -61,25 +61,16 @@ struct ptype *parseline(struct ptype *mips)
     char *line = mips->incoming_line;
     if(strlen(line) == 1){return mips;}
 
-    char *token;
+    char *stok;
     char *buffer[7];
     int nbuf = 0;
 
-    while ((token = strchr(line, 32)) != NULL)
+    while ((stok = strtok(line, " ")) != NULL)
     {   
-        char *temp;
-        size_t len = token - line;
-        temp = malloc(len + 1);
-        memcpy (temp,line,len);
-        temp[len] = '\0';
-        line = token + 1;
-
-        buffer[nbuf] = temp;
+        buffer[nbuf] = stok;
         nbuf++;
+        line = NULL;
     }
-    buffer[nbuf] = line;
-    nbuf++;
-
     // we have now in buffer, the entire line which shouldn't have more than 7 strings according to MIPS assembler
     //the first element is either a tag, an operation, or a label.
     //if its a label, then it has a ':' character
@@ -116,21 +107,21 @@ struct ptype *parseline(struct ptype *mips)
     else 
         {
             mips->operation = buffer[0];
-            if(nbuf == 1){return mips;} 
+            if(nbuf == 1){return mips;}
+
             argidx = 1;
         }
        //now we add all the arguments
         int i = 0;
         for(argidx; argidx < nbuf - 1; argidx++)
         {
-            token = strchr(buffer[argidx], ',');
+            if((stok = strtok(buffer[argidx], ",")) == NULL)
+            {
+                //error wtf 
+                return mips;
+            }
 
-            char *temp;
-            size_t len = token - buffer[argidx];
-            temp = malloc(len + 1);
-            memcpy (temp,buffer[argidx],len);
-            temp[len] = '\0';
-            mips->argline[i] = temp;
+            mips->argline[i] = stok;
             i++;     
         }
 

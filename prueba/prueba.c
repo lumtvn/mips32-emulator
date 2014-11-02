@@ -2,30 +2,26 @@
 #include <stdio.h>
 #include <string.h>
 
-char *mystrtok(char *s, char tok);
+int strang(char *s);
 
 int main()
 {
-	char *prueba = "esto:es:prueba";
+    int BUFFSIZE = 256;
+    char prueba[BUFFSIZE];
 
-	char *s1 = mystrtok(prueba, ':');
-	char *s2 = mystrtok(prueba, ',');
-
-	printf("s1: %s\ns2: %s\n",s1,s2);
-
+    fgets(prueba,BUFFSIZE,stdin);
+    strang(prueba);
+    
     return 0;
 }
-char *mystrtok(char *s, char tok)
+int strang(char *s)
 {
-    char *token, *res, *temp;
+    char *s1;
 
-    if((token = strchr(s, tok)) == NULL){return s;} //token not found
+    if((s1 = strtok(s, " ")) != NULL)
+    {
+    printf("s1: %s\n string ingresado: %s\n",s1,s);
+    }
 
-    size_t len = token - s;
-    temp = malloc(len + 1);
-    memcpy (temp,s,len);
-    temp[len] = '\0';
-    res = temp;
-
-    return res;
+    return 0;
 }

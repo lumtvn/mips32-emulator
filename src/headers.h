@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAXSIZE 256
+#define MAXSIZE 512
+#define MAXFILESIZE 2048
 
 typedef int bool;
 #define true 1
@@ -26,8 +27,10 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	//concerning a script
 	///the script without the commentaries
 	char *full_script;
+	///size of the elf file
+	size_t filesize;
 	///an entire line of the script without commentary (parsed out)
-	char *incoming_line;   
+	char incoming_line[MAXSIZE];   
 	///the label of a line
 	char *label; 
 	/// the tag of a line

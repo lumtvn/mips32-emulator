@@ -8,7 +8,7 @@
  * The reading of a new file, includes also the removal of the commentary.
  *
  * the only parameter taken in this and in every function in all source files is a pointer
- * to a struct data type. It makes it easier to handle information between functions.
+ * to a struct mips type. It makes it easier to handle information between functions.
  *
  **/
 #include "headers.h"
@@ -17,38 +17,59 @@
 /**
 *
 *@brief this function reads an incoming script, and removes the commentary from it
-*@param *data A pointer to a ptype structure, created by the main program.
-*@return it returns the same structure, but with data->full_script modified(it now has the script, with the commentaries striped)
+*@param *mips A pointer to a ptype structure, created by the main program.
+*@return it returns the same structure, but with mips->full_script modified(it now has the script, with the commentaries striped)
 *@todo the size of the string that holds the entire file should be modified when once the commentaries are removed
 *@errorcode 100 -> 109
 */
-struct ptype *readscript(struct ptype *data)
+struct ptype *readscript(struct ptype *mips)
 {   
     FILE *file;
-    if((file = fopen ( data->filename, "r" )) == NULL)
+    bool comm;
+    char key;
+    int i;
+
+    if((file = fopen ( mips->filename, "r" )) == NULL)
     {
-        data->report = 100;
-        return data;
+        mips->report = 100;
+        return mips;
     }
 
-    size_t filesize;
     fseek(file, 0, SEEK_END); // seek to end of file
-    filesize = ftell(file); // get current file pointer
+    mips->filesize = ftell(file); // get current file pointer
     fseek(file, 0, SEEK_SET); // seek back to beginning of file
 
-    data->full_script = malloc(filesize);
+    if((mips->full_script = malloc(mips->filesize + 1)) == NULL)
+    {
+        //error print, no memory available for malloc in script assignment
+        return mips;
+    }
 
-            char *line = malloc(MAXSIZE);
+    comm = false;
+    i = 0;
+    while ((key = fgetc (file)) != EOF ) /* read a character */
+        {
+            if(key == '\n')
+            {
+                if(!comm)
+                *(mips->full_script + i) = key;
+                comm = false;
+            }
+            else if(key == '#')
+            {
+                comm = true;
+            }
+            else if(!comm)
+            {
+                *(mips->full_script + i) = key;
+            }
+            i++;
+        }
+    fclose (file);
+    *(mips->full_script + i) = '\0';
 
-            while ( fgets ( line, MAXSIZE, file ) != NULL ) /* read a line */
-                {
-                        line = removecommentary(line);
-                        strcat(data->full_script,line);
-                }
-            fclose ( file );
-
-    data->report = 0;
-    return data;
+    mips->report = 0;
+    return mips;
 }
 
 /**

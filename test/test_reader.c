@@ -4,13 +4,30 @@
 
  int tests_run = 0;
  int res;
- struct ptype testdata;
- struct ptype *ptestdata;
+ struct ptype *mips;
  
   static char * test_diff() 
 {
-            mu_assert("error, the reader result file is different than expected", res == 0);
-            return 0;
+
+    mips->filename = "./test/testscript.elf";
+    mips = readscript(mips);
+
+    const char *filepath = "./test/resultfiles/test_reader_result.txt";
+ 
+    FILE *fp = fopen(filepath, "w+");
+    if (fp != NULL)
+        {
+            int i;
+            for(i = 0; i < mips->filesize; i++)
+            fprintf(fp, "%c", mips->full_script[i]);
+
+            fclose(fp);
+        }
+
+    res = system("diff test/resultfiles/test_reader_expected.txt test/resultfiles/test_reader_result.txt");
+
+    mu_assert("error, files test/resultfiles/test_reader_expected.txt test/resultfiles/test_reader_result.txt differ",res == 0);
+    return 0;
 }
  
  static char * all_tests() {
@@ -19,36 +36,21 @@
 
  }
  
- int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
+
+    mips = malloc(sizeof(struct ptype));
 
 
+    char *result = all_tests();
 
-     testdata.incoming_line = malloc(MAXSIZE);
+    if (result != 0) {
+     printf("%s\n", result);
+    }
+    else {
+     // printf("READING TEST PASSED\n");
+    }
+    // printf("Tests run: %d\n", tests_run);
 
-     ptestdata = &testdata;
-
-     ptestdata->filename = "./test/testscript.elf";
-     ptestdata = readscript(ptestdata);
-     
-    const char *filepath = "./test/resultfiles/test_reader_result.txt";
- 
-    FILE *fp = fopen(filepath, "w+");
-    if (fp != NULL)
-        {
-            fputs(ptestdata->full_script, fp);
-            fclose(fp);
-        }
-
-    res = system("diff test/resultfiles/test_reader_expected.txt test/resultfiles/test_reader_result.txt");
- 
-     char *result = all_tests();
-     if (result != 0) {
-         printf("%s\n", result);
-     }
-     else {
-         // printf("READING TEST PASSED\n");
-     }
-     // printf("Tests run: %d\n", tests_run);
- 
-     return result != 0;
- }
+    return result != 0;
+}
