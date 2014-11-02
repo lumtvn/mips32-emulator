@@ -154,11 +154,10 @@ static char * test_splitscript()
     mips->filename = "./test/testscript.elf";
 
     mips = readscript(mips);
-    
     mips = splitscript(mips);
-    // int i;
-    // for(i = 0; i < mips->nlines; i++)
-    //     printf("scriptlines[%d]: %s\n",i,mips->scriptlines[i] );
+/*    int i;
+    for(i = 0; i < mips->nlines; i++)
+        printf("scriptlines[%d]: %s\n",i,mips->scriptlines[i] );*/
 
     const char *filepath = "./test/resultfiles/test_splitscript_result.txt";
 
@@ -208,6 +207,8 @@ static char * test_splitscript()
 
     mips = malloc(sizeof(struct ptype));
 
+    char *result;
+
     // printf("mips->label: '%s'\n", mips->label);
     // printf("mips->tag: '%s'\n", mips->tag);
     // printf("mips->operation: '%s'\n", mips->operation);
@@ -215,16 +216,20 @@ static char * test_splitscript()
     // printf("mips->argline[1]: '%s'\n", mips->argline[1]);
     // printf("mips->argline[2]: '%s'\n", mips->argline[2]);
     // printf("mips->argline[3]: '%s'\n", mips->argline[3]);
+    if(mips != NULL)
+    {
+        result = all_tests();
 
-     char *result = all_tests();
-     if (result != 0) {
-         printf("%s\n", result);
-     }
-     else {
-         // printf("PARSING TEST 1 PASSED\n");
-     }
-     // printf("Tests run: %d\n", tests_run);
-     free(mips);
+        if (result != 0) {
+        printf("%s\n", result);
+
+        }
+        else {
+        // printf("PARSING TEST 1 PASSED\n");
+        }
+        // printf("Tests run: %d\n", tests_run);
+        free(mips);
+    }
  
      return result != 0;
  }

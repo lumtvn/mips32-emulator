@@ -51,9 +51,9 @@ struct ptype *readscript(struct ptype *mips)
         {
             if(key == '\n')
             {
-                if(!comm)
                 *(mips->full_script + i) = key;
                 comm = false;
+                i++;
             }
             else if(key == '#')
             {
@@ -62,41 +62,14 @@ struct ptype *readscript(struct ptype *mips)
             else if(!comm)
             {
                 *(mips->full_script + i) = key;
+                i++;
             }
-            i++;
         }
     fclose (file);
     *(mips->full_script + i) = '\0';
 
+   // printf("%s", mips->full_script);
+
     mips->report = 0;
     return mips;
 }
-
-/**
-*@brief this function simply removes the commentary from a char * using the string function "strchr"
-*
-*
-*
-*
-*@todo: this doesn't contemplate yet the case in which there's a # character surrounded by commas ""
-*/
-char *removecommentary(char *s)
-{   
-    char *temp1;
-    char *temp2;
-
-    temp1 = strchr(s,'#');
-
-    if(temp1) // if temp1 isn't null, then there's a commentary in this line
-        {
-            size_t len = temp1 - s;
-            temp2 = malloc(len + 1);
-            memcpy(temp2,s,len);
-            temp2[len] = '\0';
-            //now temp2 has the line without the commentary
-            return temp2;
-        }
-   
-    else    return s; //if strchr returns null, there's nothing to do   
-}
-    

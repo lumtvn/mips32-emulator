@@ -142,39 +142,23 @@ struct ptype *parseline(struct ptype *mips)
 **/
 struct ptype *splitscript(struct ptype *mips)
 {
-    char *token, *tofree, *s;
+    char *stok, *s;
     mips->nlines = 0;
 
     s = mips->full_script;
 
     if (s != NULL) {
 
-    while ((token = strchr(s, '\n')) != NULL)
+    stok = strtok(s, "\n");
+    while (stok != NULL)
     {   
-        char *temp;
-        size_t len = token - s;
-        temp = malloc(len + 1);
-        memcpy (temp,s,len);
-        temp[len] = '\0';
-        s = token + 1;
-
-        if(temp != NULL)
+        if(strlen(stok) > 1)
         {
-            // printf("va a agregar: %s, %zu\n", temp, strlen(temp));
-            if(strlen(temp) > 1)
-            {
-                mips->scriptlines[mips->nlines] = temp;
-                mips->nlines++; 
-            }
+            mips->scriptlines[mips->nlines] = stok;
+            mips->nlines++;
         }
-
-        // printf("scriptlines[%d]: %s\n",mips->nlines - 1,mips->scriptlines[mips->nlines - 1] );
+        stok = strtok(NULL, "\n");
     }
-
-    // printf("\nsalio del while\n");
-    // int i;
-    // for(i = 0; i < mips->nlines; i++)
-    //     printf("scriptlines[%d]: %s\n",i,mips->scriptlines[i] );
 
     return mips;
 

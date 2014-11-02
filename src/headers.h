@@ -66,6 +66,7 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	///the arguments array. 32 is a temporal value, i will change it
 	char *argenv[32]; 
 
+char lola;
 
 	//the script in a char * matrix, with nlines lines
 	///number of elements of scriptlines array

@@ -17,10 +17,7 @@
     FILE *fp = fopen(filepath, "w+");
     if (fp != NULL)
         {
-            int i;
-            for(i = 0; i < mips->filesize; i++)
-            fprintf(fp, "%c", mips->full_script[i]);
-
+            fputs(mips->full_script, fp);
             fclose(fp);
         }
 
@@ -35,10 +32,8 @@
      return 0;
 
  }
- 
 int main(int argc, char **argv) 
 {
-
     mips = malloc(sizeof(struct ptype));
 
 
