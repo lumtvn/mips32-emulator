@@ -6,11 +6,10 @@ int strang(char *s);
 
 int main()
 {
-    int BUFFSIZE = 256;
-    char prueba[BUFFSIZE];
-
-    fgets(prueba,BUFFSIZE,stdin);
-    strang(prueba);
+    int i = 4;
+    char *s = malloc(sizeof(int));
+    sprintf(s,"%d",i);
+    printf("%s\n",s);
     
     return 0;
 }

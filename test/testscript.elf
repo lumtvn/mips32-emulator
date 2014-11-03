@@ -17,5 +17,6 @@ syscall
 # specified in $v0
 # syscall takes its arguments from $a0, $a1, ...
 li
-$v0, 10 
+$v0, 10
+j main
 # terminate program

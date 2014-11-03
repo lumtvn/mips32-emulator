@@ -10,21 +10,21 @@
 
  static char * test_load() 
 {           
-        ptestdata->argenv[0] = "./test/testscript.elf";
-        ptestdata = env_load(ptestdata);
+        // ptestdata->argenv[0] = "./test/testscript.elf";
+        // ptestdata = env_load(ptestdata);
 
-        const char *filepath = "./test/resultfiles/test_load_result.txt";
+        // const char *filepath = "./test/resultfiles/test_load_result.txt";
 
-        FILE *fp = fopen(filepath, "w+");
-        if (fp != NULL)
-            {
-                fputs(ptestdata->full_script, fp);
-                fclose(fp);
-            }
+        // FILE *fp = fopen(filepath, "w+");
+        // if (fp != NULL)
+        //     {
+        //         fputs(ptestdata->full_script, fp);
+        //         fclose(fp);
+        //     }
 
-        res = system("diff test/resultfiles/test_load_expected.txt test/resultfiles/test_load_result.txt");
+        // res = system("diff test/resultfiles/test_load_expected.txt test/resultfiles/test_load_result.txt");
 
-        mu_assert("error, the load result file is different than expected",!res);
+        // mu_assert("error, the load result file is different than expected",!res);
         return 0;
 }
 

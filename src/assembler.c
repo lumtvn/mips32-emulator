@@ -18,6 +18,7 @@
 #include "assembler.h"
 #include "errors.h"
 #include "environment.h"
+#include "lookup.h"
 
 /**
 *
@@ -36,6 +37,8 @@ struct ptype *compile(struct ptype *mips)
 {   
 
     mips = readscript(mips);
+    mips = splitscript(mips);
+
     if(mips->report != 0)
         {
             report(mips->report);
@@ -45,136 +48,26 @@ struct ptype *compile(struct ptype *mips)
     return mips;
 }
 
-/**
-*
-*@brief this function parses the line entered by user and identifies the tag, the operation and the arguments.
-*
-* @param *mips A pointer to a ptype structure, created by the main program.
-* @return it returns the pointer to the same structure, but it modifies mips->operation and mips->argline[]
-*
-* @note this functions is meant to parse lines from an elf script, not the commands from the environment. there's another file with functions for that
-*
-* @todo fix bugs. It's not working as it should.
-*/
-struct ptype *parseline(struct ptype *mips)
+struct ptype *firstpass(struct ptype *mips)
 {
-    char *line = mips->incoming_line;
-    if(strlen(line) == 1){return mips;}
+    int i;
+    for(i = 0; i < mips->nlines; i++)
+    {
+        strcpy(mips->incoming_line, mips->scriptlines[i]);
+        if(mips->incoming_line != NULL)
+            mips = parseline(mips);
 
-    char *stok;
-    char *buffer[7];
-    int nbuf = 0;
-
-    while ((stok = strtok(line, " ")) != NULL)
-    {   
-        buffer[nbuf] = stok;
-        nbuf++;
-        line = NULL;
-    }
-    // we have now in buffer, the entire line which shouldn't have more than 7 strings according to MIPS assembler
-    //the first element is either a tag, an operation, or a label.
-    //if its a label, then it has a ':' character
-    
-    /// this integer is the index of buffer in which the first argument of the operation is located
-    int argidx;
-    if(strchr(buffer[0], ':') != NULL)
-        {
-            mips->label = buffer[0];
-            //check to see if the line has ended
-            if(nbuf == 1){return mips;}
-
-            //if the first element is a label, then the second one can be a tag or an operation
-            if(strchr(buffer[1], '.') != NULL){mips->tag = buffer[1];}
-            if(nbuf == 2){return mips;}
-
-            //and the remaining element is the operation
-            mips->operation = buffer[2];
-            if(nbuf == 3){return mips;}
-            argidx = 3;
-
-        }
-    else if(strchr(buffer[0], '.') != NULL)
-        {
-            mips->tag = buffer[0];
-            //check to see if the line has ended
-            if(nbuf == 1){return mips;}
-
-            //if the first element is a label, then the second one has to be an operation
-            mips->operation = buffer[1];
-            if(nbuf == 2){return mips;}
-            argidx = 2;
-        }
-    else 
-        {
-            mips->operation = buffer[0];
-            if(nbuf == 1){return mips;}
-
-            argidx = 1;
-        }
-       //now we add all the arguments
-        int i = 0;
-        for(argidx; argidx < nbuf - 1; argidx++)
-        {
-            if((stok = strtok(buffer[argidx], ",")) == NULL)
+        if(mips->label != NULL)
+        {   
+            char *s;
+            s = malloc(sizeof(int));
+            if(s != NULL)
             {
-                //error wtf 
-                return mips;
+                sprintf(s,"%d",i);
+                install(mips->label, s);
+                free(s);
             }
-
-            mips->argline[i] = stok;
-            i++;     
         }
-
-        //we load the last argument, which doesn't end in comma
-        if(nbuf > 1)
-        mips->argline[i] = buffer[argidx];
-
-
-    return mips;
-}
-
-/**
-*@brief this function splits the field full_script from a ptype scructure into nlines lines and stores each line in field scriptlines[][] from the same structure
-*
-* this function is not yet being used by the program due to bugs in parseline
-*
-*
-**/
-struct ptype *splitscript(struct ptype *mips)
-{
-    char *stok, *s;
-    mips->nlines = 0;
-
-    s = mips->full_script;
-
-    if (s != NULL) {
-
-    stok = strtok(s, "\n");
-    while (stok != NULL)
-    {   
-        if(strlen(stok) > 1)
-        {
-            mips->scriptlines[mips->nlines] = stok;
-            mips->nlines++;
-        }
-        stok = strtok(NULL, "\n");
-    }
-
-    return mips;
-
+        mips = clearline(mips);
     }
 }
-
-struct ptype *clearline(struct ptype *mips)
-{
-    mips->label = NULL;
-    mips->tag = NULL;
-    mips->operation = NULL;
-    mips->argline[0] = NULL;
-    mips->argline[1] = NULL;
-    mips->argline[2] = NULL;
-    mips->argline[3] = NULL;
-
-    return mips;
-}
-

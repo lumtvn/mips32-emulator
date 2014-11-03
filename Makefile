@@ -27,7 +27,7 @@ build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h
 build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h src/errors.h
 	gcc -pg -c src/environment.c -o build/environment.o
 
-build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h src/errors.h src/environment.h
+build/assembler.o: src/assembler.c src/assembler.h src/reader.h src/headers.h src/errors.h src/environment.h src/lookup.h
 	gcc -pg -c src/assembler.c -o build/assembler.o
 
 build/lookup.o: src/lookup.c src/lookup.h src/headers.h
@@ -56,7 +56,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testassembler testreader testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
+test: testreader testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
 	@echo ALL TESTS PASSED
 
 ###########################--ASSEMBLER TESTS--################################
