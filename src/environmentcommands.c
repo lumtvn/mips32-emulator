@@ -16,7 +16,7 @@
 #include "headers.h"
 #include "environmentcommands.h"
 #include "memorymanagement.h"
-#include "assembler.h"
+#include "disassembler.h"
 #include "errors.h"
 #include "lookup.h"
 
@@ -24,8 +24,8 @@ struct ptype *env_load(struct ptype *mips)
 {
 	if(mips->argenv[0] != NULL)
 		{
-			mips->filename = mips->argenv[0];
-			mips = compile(mips);
+			// mips->filename = mips->argenv[0];
+			// mips = compile(mips);
 			return mips;
 		}
 	else return mips;

@@ -1,6 +1,6 @@
 #include "../src/headers.h"
 #include "../src/environmentcommands.h"
-#include "../src/assembler.h"
+#include "../src/disassembler.h"
 #include "minunit.h"
 
  int tests_run = 0; 

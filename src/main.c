@@ -8,7 +8,7 @@
  *
  **/
 #include "headers.h"
-#include "assembler.h"
+#include "disassembler.h"
 #include "environment.h"
 #include "memorymanagement.h"
 #include "lookup.h"
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
 	if((pmips->filename = argv[1]) != NULL)
 		{
-			pmips = compile(pmips);				
+			// pmips = compile(pmips);				
 		}
 
 	while(1)

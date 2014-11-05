@@ -16,7 +16,7 @@ this is the file containing the error and warning codes for all functions, defin
 	+ 20: from function env_disp
 	+ 30: from function env_assert
 
- 1000: compilation errors (file assembler.c)
+ 1000: compilation errors (file disassembler.c)
 
 
 	

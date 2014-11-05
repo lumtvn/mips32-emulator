@@ -4,7 +4,7 @@
  * @date October 2014
  * @brief file containing functions to write bytes, halfwords and words to a simulated memory
  *
- * this file is used by the environment and the code assembler to read from and write to
+ * this file is used by the environment and the code disassembler to read from and write to
  * a simulated memory in the MIPS32 processor. The simulated memory comes from a real portion
  * of RAM memory of the HOST PC. 
  *

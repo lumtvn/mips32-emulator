@@ -129,7 +129,7 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>file containing functions to write bytes, halfwords and words to a simulated memory </p>
 <dl class="section author"><dt>Author</dt><dd>Luciano Mantovani </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>October 2014 this file is used by the environment and the code assembler to read from and write to a simulated memory in the MIPS32 processor. The simulated memory comes from a real portion of RAM memory of the HOST PC.</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>October 2014 this file is used by the environment and the code disassembler to read from and write to a simulated memory in the MIPS32 processor. The simulated memory comes from a real portion of RAM memory of the HOST PC.</dd></dl>
 <p>the set of write and read functions are thougt for a sistem that will store the bytes in memory using "big endian". Naturally, this emulator should run in big endian and little endian processors. That is why each each write and read function has a few code lines that convert the incoming data in to big endian, no matter the format of the incoming data (big or little endian).</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>the block of memory should be created with a tag that identifies it, this is yet to be implemented </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>

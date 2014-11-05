@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>MIPS32-Emulator: /home/lucho/lucho/emuladormips/mips32-emulator/src/assembler.h Source File</title>
+<title>MIPS32-Emulator: /home/lucho/lucho/emuladormips/mips32-emulator/src/disassembler.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -88,15 +88,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">assembler.h</div>  </div>
+<div class="title">disassembler.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="assembler_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">struct </span><a class="code" href="structptype.html">ptype</a> *<a class="code" href="assembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">compile</a>(<span class="keyword">struct</span> <a class="code" href="structptype.html">ptype</a> *mips);</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">struct </span><a class="code" href="structptype.html">ptype</a> *<a class="code" href="assembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">parseline</a>(<span class="keyword">struct</span> <a class="code" href="structptype.html">ptype</a> *mips);</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">struct </span><a class="code" href="structptype.html">ptype</a> *<a class="code" href="assembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">splitstr</a>(<span class="keyword">struct</span> <a class="code" href="structptype.html">ptype</a> *mips);</div>
-<div class="ttc" id="assembler_8h_html_ac13adfdfac6a5ac811cdd9f1f9fc13a9"><div class="ttname"><a href="assembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">parseline</a></div><div class="ttdeci">struct ptype * parseline(struct ptype *mips)</div><div class="ttdoc">this function parses the line entered by user and identifies the tag, the operation, the arguments, and gets rid of the commentaries </div><div class="ttdef"><b>Definition:</b> assembler.c:59</div></div>
-<div class="ttc" id="assembler_8h_html_a7aed72e6510270f49d3f3dba42605a80"><div class="ttname"><a href="assembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">splitstr</a></div><div class="ttdeci">struct ptype * splitstr(struct ptype *mips)</div><div class="ttdoc">this function splits the field full_script from a ptype scructure into nlines lines and stores each l...</div><div class="ttdef"><b>Definition:</b> assembler.c:121</div></div>
-<div class="ttc" id="assembler_8h_html_ab38b7e9260d741791b6f913a1431ee84"><div class="ttname"><a href="assembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">compile</a></div><div class="ttdeci">struct ptype * compile(struct ptype *mips)</div><div class="ttdoc">this function calls the other functions in this file and in others, to compile an elf script for now...</div><div class="ttdef"><b>Definition:</b> assembler.c:35</div></div>
+<a href="disassembler_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">struct </span><a class="code" href="structptype.html">ptype</a> *<a class="code" href="disassembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">compile</a>(<span class="keyword">struct</span> <a class="code" href="structptype.html">ptype</a> *mips);</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">struct </span><a class="code" href="structptype.html">ptype</a> *<a class="code" href="disassembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">parseline</a>(<span class="keyword">struct</span> <a class="code" href="structptype.html">ptype</a> *mips);</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">struct </span><a class="code" href="structptype.html">ptype</a> *<a class="code" href="disassembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">splitstr</a>(<span class="keyword">struct</span> <a class="code" href="structptype.html">ptype</a> *mips);</div>
+<div class="ttc" id="disassembler_8h_html_ac13adfdfac6a5ac811cdd9f1f9fc13a9"><div class="ttname"><a href="disassembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">parseline</a></div><div class="ttdeci">struct ptype * parseline(struct ptype *mips)</div><div class="ttdoc">this function parses the line entered by user and identifies the tag, the operation, the arguments, and gets rid of the commentaries </div><div class="ttdef"><b>Definition:</b> disassembler.c:59</div></div>
+<div class="ttc" id="disassembler_8h_html_a7aed72e6510270f49d3f3dba42605a80"><div class="ttname"><a href="disassembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">splitstr</a></div><div class="ttdeci">struct ptype * splitstr(struct ptype *mips)</div><div class="ttdoc">this function splits the field full_script from a ptype scructure into nlines lines and stores each l...</div><div class="ttdef"><b>Definition:</b> disassembler.c:121</div></div>
+<div class="ttc" id="disassembler_8h_html_ab38b7e9260d741791b6f913a1431ee84"><div class="ttname"><a href="disassembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">compile</a></div><div class="ttdeci">struct ptype * compile(struct ptype *mips)</div><div class="ttdoc">this function calls the other functions in this file and in others, to compile an elf script for now...</div><div class="ttdef"><b>Definition:</b> disassembler.c:35</div></div>
 <div class="ttc" id="structptype_html"><div class="ttname"><a href="structptype.html">ptype</a></div><div class="ttdoc">it&#39;s a structure that has all elements that are involved in the simulator </div><div class="ttdef"><b>Definition:</b> headers.h:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

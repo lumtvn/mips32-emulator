@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>MIPS32-Emulator: /home/lucho/lucho/emuladormips/mips32-emulator/src/assembler.h File Reference</title>
+<title>MIPS32-Emulator: /home/lucho/lucho/emuladormips/mips32-emulator/src/disassembler.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,21 +90,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">assembler.h File Reference</div>  </div>
+<div class="title">disassembler.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a href="assembler_8h_source.html">Go to the source code of this file.</a></p>
+<p><a href="disassembler_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab38b7e9260d741791b6f913a1431ee84"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="assembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">compile</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
+<tr class="memitem:ab38b7e9260d741791b6f913a1431ee84"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">compile</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
 <tr class="memdesc:ab38b7e9260d741791b6f913a1431ee84"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function calls the other functions in this file and in others, to compile an elf script for now, this function only reads a file. It's all it can do for the moment. The objetive for the first increment was to be able to include a "debug" command in a script and that way check the status of the processor after the last instruction befor "debug" was excecuted. But there were some bugs found at the last moment with function parseline that made this not possible.  <a href="#ab38b7e9260d741791b6f913a1431ee84">More...</a><br/></td></tr>
 <tr class="separator:ab38b7e9260d741791b6f913a1431ee84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac13adfdfac6a5ac811cdd9f1f9fc13a9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="assembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">parseline</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
+<tr class="memitem:ac13adfdfac6a5ac811cdd9f1f9fc13a9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">parseline</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
 <tr class="memdesc:ac13adfdfac6a5ac811cdd9f1f9fc13a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function parses the line entered by user and identifies the tag, the operation, the arguments, and gets rid of the commentaries  <a href="#ac13adfdfac6a5ac811cdd9f1f9fc13a9">More...</a><br/></td></tr>
 <tr class="separator:ac13adfdfac6a5ac811cdd9f1f9fc13a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aed72e6510270f49d3f3dba42605a80"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="assembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">splitstr</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
+<tr class="memitem:a7aed72e6510270f49d3f3dba42605a80"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">splitstr</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
 <tr class="memdesc:a7aed72e6510270f49d3f3dba42605a80"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function splits the field full_script from a ptype scructure into nlines lines and stores each line in field scriptlines[][] from the same structure  <a href="#a7aed72e6510270f49d3f3dba42605a80">More...</a><br/></td></tr>
 <tr class="separator:a7aed72e6510270f49d3f3dba42605a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
