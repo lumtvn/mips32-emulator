@@ -6,10 +6,14 @@ int strang(char *s);
 
 int main()
 {
-    int i = 4;
-    char *s = malloc(sizeof(int));
-    sprintf(s,"%d",i);
+    char *s;
+    s = malloc(10 * sizeof(char));
+    strcpy(s,"OP_");
+    strcat(s,"ADD");
+
     printf("%s\n",s);
+
+    free(s);
     
     return 0;
 }

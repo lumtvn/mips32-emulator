@@ -71,3 +71,54 @@ struct ptype *firstpass(struct ptype *mips)
         mips = clearline(mips);
     }
 }
+
+/*struct ptype *secondpass(struct ptype *mips)
+{
+    int res;
+    res = load_operations_table();
+    if(res < 0) {mips->report = 1000; return mips;}
+
+    for(i = 0; i < mips->nlines; i++)
+    {
+        strcpy(mips->incoming_line, mips->scriptlines[i]);
+        if(mips->incoming_line != NULL)
+            mips = parseline(mips);
+        //aca buscaria el tag, y si encuentra uno apunta al sector de memoria correspondiente (ROM)
+
+        if(mips->operation != NULL)
+        {
+            struct nlist *np;
+            char *s;
+            s = malloc(10 * sizeof(char));
+            if(s != NULL)
+            {
+                strcpy(s,"OP_");
+                strcat(s,mips->operation);
+
+                np = lookup(s);
+                if(np == NULL){mips->report = 1001; return mips;}
+
+                char *preq = malloc(MAXSIZE);
+                if(preq != NULL)
+                {
+                    strcpy(preq,np->defn);
+
+                    free(preq);
+                }
+                free(s);
+            }            
+        }
+    }
+
+
+}
+
+
+int load_operations_table(void)
+{
+    struct nlist np;
+
+    np = install("OP_ADD","3,100000,3"); if(np == NULL){return -1;}
+
+    return 0;
+}*/

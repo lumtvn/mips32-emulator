@@ -13,5 +13,5 @@ The amount of items depends on the operation, but the first item is always the a
 The order of the items is not random, it follows a specific protocol that every operation in the table must follow in order to the program to understand each prequisite of the operation. The order is as follows:
 
 item 1: total items (1 is the minimum)
-item 2: operation SPECIAL code
+item 2: opcode
 item 3: number of arguments required for the operation

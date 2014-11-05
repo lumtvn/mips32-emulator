@@ -16,6 +16,8 @@ this is the file containing the error and warning codes for all functions, defin
 	+ 20: from function env_disp
 	+ 30: from function env_assert
 
+ 1000: compilation errors (file assembler.c)
+
 
 	
 the list is yet to be completed and some error groups may not be implemented. Some functions may call errors from other functions. This happens when the error is triggered by the same reason.
