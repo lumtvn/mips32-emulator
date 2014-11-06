@@ -6,15 +6,20 @@ int strang(char *s);
 
 int main()
 {
-    char *s;
-    s = malloc(10 * sizeof(char));
-    strcpy(s,"OP_");
-    strcat(s,"ADD");
+    unsigned int a = 0x83AABBCC;
+    unsigned int b;
+    b = a & 0xFC000000;
+    b = b >> 26;
+    char c;
+    c = b;
 
-    printf("%s\n",s);
+    printf("%x\n",b);
 
-    free(s);
-    
+    char d = 1;
+    d = d << 2;
+    printf("%x\n",d);
+
+
     return 0;
 }
 int strang(char *s)
