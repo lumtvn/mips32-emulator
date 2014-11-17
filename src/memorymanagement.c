@@ -19,130 +19,197 @@
 
 #include "headers.h"
 #include "memorymanagement.h"
+#include "lookup.h"
+
+
+struct ptype *createsegment(struct ptype *mips, char *name, int size, int permissions, int start)
+{
+	struct nlist *np;
+
+	char *segname = malloc(20);
+	if(segname == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	char *segsize = malloc(20);
+	if(segsize == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	char *segperm = malloc(20);
+	if(segperm == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	char *segstart = malloc(20);
+	if(segstart == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	
+	strcpy(segsize, "SEGSIZE_");
+	strcat(segsize, name);
+
+	strcpy(segperm, "SEGPERM_");
+	strcat(segperm, name);
+
+	strcpy(segstart, "SEGSTART_");
+	strcat(segstart, name);
+
+	char *ssize = malloc(10);
+	if(ssize == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	char *spermissions = malloc(10);
+	if(spermissions == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	char *sstart = malloc(10);
+	if(sstart == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+
+	sprintf(ssize, "%i", size);
+	sprintf(spermissions, "%i", permissions);
+	sprintf(sstart, "%x", start);
+
+	// printf("installing %s in block %s\n",ssize, segsize);
+	np = install(segsize, ssize);
+	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
+	np = install(segperm, spermissions);
+	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
+	np = install(segstart, sstart);
+	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
+
+	free(segstart);
+	free(segperm);
+	free(segname);
+	free(sstart);
+	free(ssize);
+	free(spermissions);
+
+	return mips;
+}
 
 
 /**
 * @brief creates a block of memory
 *
 *uses a structure ptype and an integer size to create a new block.
-*this block will have a size mem->size and will start from memory position mem->realpointbase.
+*this block will have a size mips->size and will start from memory position mips->memrealpointbase.
 *
 **/
-struct ptype *createblock(struct ptype *mem, int size)
+struct ptype *creatememory(struct ptype *mips, int size)
 {
-	mem->realpointbase = malloc(size);
-	mem->blocksize = size;
+	mips->memrealpointbase = malloc(size);
+	if(mips->memrealpointbase == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	mips->memsize = size;
 
-	return mem;
+	return mips;
+}
+
+
+struct ptype *destroymemory(struct ptype *mips)
+{
+	if(mips->memrealpointbase != NULL)
+	free(mips->memrealpointbase);
+	else
+	{
+		printf("el pointer es null?\n");
+	}
+
+	return mips;
 }
 /**
-*@brief writes the byte stored in mem->bdata to the position inside the block given by simpoint
+*@brief writes the byte stored in mips->bdata to the position inside the block given by simpoint
 *
 *
 *
 **/
-struct ptype *writebyte(struct ptype *mem, mbyte bdata, int simpoint)
+struct ptype *writebyte(struct ptype *mips, mbyte bdata, int simpoint)
 {
-	mem->realpoint = mem->realpointbase + simpoint;
-	*(mem->realpoint) = bdata;
+	mips->memrealpoint = mips->memrealpointbase + simpoint;
+	*(mips->memrealpoint) = bdata;
 
-	return mem;
+	return mips;
 
 }
 /**
-*@brief writes the halfword stored in mem->hwdata to the position inside the block given by simpoint
+*@brief writes the halfword stored in mips->hwdata to the position inside the block given by simpoint
 *
 **/
-struct ptype *writehalfword(struct ptype *mem, mhalfword hwdata, int simpoint)
+struct ptype *writehalfword(struct ptype *mips, mhalfword hwdata, int simpoint)
 {
-	mem->realpoint = mem->realpointbase + simpoint;
-	*(mem->realpoint) = (hwdata >> 8) & 0xFF;
+	mips->memrealpoint = mips->memrealpointbase + simpoint;
+	*(mips->memrealpoint) = (hwdata >> 8) & 0xFF;
 
-	mem->realpoint = mem->realpointbase + simpoint + 1;
-	*(mem->realpoint) = hwdata;
+	mips->memrealpoint = mips->memrealpointbase + simpoint + 1;
+	*(mips->memrealpoint) = hwdata;
 
-	return mem;
+	return mips;
 }
 
 /**
 *@brief writes the word stored in wdata to the position inside the block given by simpoint
 *
 **/
-struct ptype *writeword(struct ptype *mem, mword wdata, int simpoint)
+struct ptype *writeword(struct ptype *mips, mword wdata, int simpoint)
 {
-	mem->realpoint = mem->realpointbase + simpoint;
-	*(mem->realpoint) = (wdata >> 24) & 0xFF;
+	mips->memrealpoint = mips->memrealpointbase + simpoint;
+	*(mips->memrealpoint) = (wdata >> 24) & 0xFF;
 
-	mem->realpoint = mem->realpointbase + simpoint + 1;
-	*(mem->realpoint) = (wdata >> 16) & 0xFF;
+	mips->memrealpoint = mips->memrealpointbase + simpoint + 1;
+	*(mips->memrealpoint) = (wdata >> 16) & 0xFF;
 
-	mem->realpoint = mem->realpointbase + simpoint + 2;
-	*(mem->realpoint) = (wdata >> 8) & 0xFF;
+	mips->memrealpoint = mips->memrealpointbase + simpoint + 2;
+	*(mips->memrealpoint) = (wdata >> 8) & 0xFF;
 
-	mem->realpoint = mem->realpointbase + simpoint + 3;
-	*(mem->realpoint) = wdata;
+	mips->memrealpoint = mips->memrealpointbase + simpoint + 3;
+	*(mips->memrealpoint) = wdata;
 
-	return mem;
+	return mips;
 
 }
 
 
 /**
-*@brief reads the byte stored in simulated address simpoint and stores it in mem->bdata
+*@brief reads the byte stored in simulated address simpoint and stores it in mips->bdata
 *
 **/
-mbyte readbyte(struct ptype *mem, int simpoint)
+mbyte readbyte(struct ptype *mips, int simpoint)
 {
 	mbyte bdata;
-	mem->realpoint = mem->realpointbase + simpoint;
-	bdata = *(mem->realpoint);
+	mips->memrealpoint = mips->memrealpointbase + simpoint;
+	bdata = *(mips->memrealpoint);
 
 	return bdata;
 
 }
 
 /**
-*@brief reads the halfword stored in simulated address simpoint and stores it in mem->hwdata
+*@brief reads the halfword stored in simulated address simpoint and stores it in mips->hwdata
 *
 **/
-mhalfword readhalfword(struct ptype *mem, int simpoint)
+mhalfword readhalfword(struct ptype *mips, int simpoint)
 {
 	mhalfword hwdata;
-	mem->realpoint = mem->realpointbase + simpoint;
-	hwdata = (*mem->realpoint << 8) | *(mem->realpoint+1);
+	mips->memrealpoint = mips->memrealpointbase + simpoint;
+	hwdata = (*mips->memrealpoint << 8) | *(mips->memrealpoint+1);
 
 	return hwdata;
 }
 
 /**
-*@brief reads the word stored in simulated address simpoint and stores it in mem->wdata
+*@brief reads the word stored in simulated address simpoint and stores it in mips->wdata
 *
 **/
-mword readword(struct ptype *mem, int simpoint)
+mword readword(struct ptype *mips, int simpoint)
 {
 	mword wdata;
-	mem->realpoint = mem->realpointbase + simpoint;
-	wdata = (*(mem->realpoint) << 24) | (*(mem->realpoint+1) << 16) | (*(mem->realpoint+2) << 8) | *(mem->realpoint+3);
+	mips->memrealpoint = mips->memrealpointbase + simpoint;
+	wdata = (*(mips->memrealpoint) << 24) | (*(mips->memrealpoint+1) << 16) | (*(mips->memrealpoint+2) << 8) | *(mips->memrealpoint+3);
 
 	return wdata;
 }
 
 
 /**
-*@brief displays a whole block of memory of size mem->blocksize, starting at address mem->realpointbase
+*@brief displays a whole block of memory of size mips->memsize, starting at address mips->memrealpointbase
 *
 *
 **/
-struct ptype *displaymemory(struct ptype *mem)
+struct ptype *displaymemory(struct ptype *mips)
 {
 	int i = 0;
-	mem->realpoint = mem->realpointbase;
-	while (i < mem->blocksize)
+	mips->memrealpoint = mips->memrealpointbase;
+	while (i < mips->memsize)
 	{
-		printf("%x %x\n",i, *(mem->realpoint));
-		mem->realpoint++;
+		printf("%x %x\n",i, *(mips->memrealpoint));
+		mips->memrealpoint++;
 		i++;
 	}
 
-	return mem;
+	return mips;
 }

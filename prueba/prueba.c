@@ -1,23 +1,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 int strang(char *s);
 
 int main()
 {
-    unsigned int a = 0x83AABBCC;
-    unsigned int b;
-    b = a & 0xFC000000;
-    b = b >> 26;
-    char c;
-    c = b;
+    FILE *fp;
+    char *file = "../test/test_elf.o";
+    fp = fopen(file, "r");
 
-    printf("%x\n",b);
+    if(fp == NULL)
+    {
+        printf("%s", strerror(errno));
+        printf("asdk\n");
+    }
 
-    char d = 1;
-    d = d << 2;
-    printf("%x\n",d);
 
 
     return 0;

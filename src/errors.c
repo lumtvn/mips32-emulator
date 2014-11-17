@@ -18,6 +18,7 @@ void report(int r)
 	{
 
 		case 100:	fprintf(stderr, "ERROR %d: the file does not exist or the path is incorrect\n", r); break;
+		case 101:	fprintf(stderr, "ERROR %d: file entered isn't ELF\n", r); break;
 		case 201:	fprintf(stderr, "ERROR %d: invalid argument. vaild arguments: mem, reg\n", r); break;
 		case 410: 	fprintf(stderr, "ERROR %d: too few arguments for function\n", r); break;
 		case 411: 	fprintf(stderr, "ERROR %d: too many arguments for function\n", r); break;
@@ -39,8 +40,6 @@ void report(int r)
 		case 430: 	fprintf(stderr, "ERROR %d: assert argument null (reg, word, byte)\n", r); break;
 		case 431: 	fprintf(stderr, "ERROR %d: argument missing or invalid: register\n", r); break;
 		case 432: 	fprintf(stderr, "ERROR %d: argument missing or invalid: value\n", r); break;
-		case 1000: 	fprintf(stderr, "COMPILATION ERROR %d: symbol table load failed\n", r); break;
-		// case 1001: 	fprintf(stderr, "COMPILATION ERROR %d: operation not found: %s\n", r, mips->operation); break;
 		default: fprintf(stderr, "no output for this report number: %d\n", r); break;
 	}
 }

@@ -1740,7 +1740,7 @@ static char * test_XOR()
         else {
         // printf("PARSING TEST 1 PASSED\n");
         }
-         printf("ran tests for %d instructions\n", tests_run);
+         printf("ran tests for %d instructions\n", tests_run/2);
     }
     else
     {

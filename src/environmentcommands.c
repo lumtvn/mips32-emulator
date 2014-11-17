@@ -60,13 +60,13 @@ struct ptype *env_set(struct ptype *mips)
 
 				if(!strcmp(mips->argenv[1],"byte"))
 				{
-					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->blocksize)
+					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->memsize)
 					{
 						mbyte temp;
 						mword addr;
 						mbyte bdata;
 						addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
-						if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+						if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
 
 						bdata = (short int)strtol(mips->argenv[3], (char**)NULL,0);
 						if(bdata > 0xFF){mips->report = 419; return mips;}
@@ -85,14 +85,14 @@ struct ptype *env_set(struct ptype *mips)
 				else if(!strcmp(mips->argenv[1],"word"))
 				{
 
-					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->blocksize)
+					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->memsize)
 					{
 
 						mword temp;
 						mword addr;
 						mword wdata;
 						addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
-						if(addr < 0 || (addr + 3) > mips->blocksize){mips->report = 425; return mips;}
+						if(addr < 0 || (addr + 3) > mips->memsize){mips->report = 425; return mips;}
 
 						wdata = (int)strtol(mips->argenv[3], (char**)NULL,0);
 						if(wdata > 0xFFFFFFFF){mips->report = 419; return mips;}
@@ -188,7 +188,7 @@ struct ptype *env_disp(struct ptype *mips)
 
 				// find_illegal_character(mips->argenv[2]);
 				mword addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
-				if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+				if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
 			
 				mbyte bdata;                           //print the byte of the address
 				bdata = readbyte(mips,addr);
@@ -293,7 +293,7 @@ struct ptype *env_assert(struct ptype *mips)
 		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
 
 		int addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
-		if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+		if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
 		if(addr % 4 != 0){mips->report = 415; return mips;}
 
 		mword wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
@@ -316,7 +316,7 @@ struct ptype *env_assert(struct ptype *mips)
 		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
 
 		int addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
-		if(addr < 0 || addr > mips->blocksize){mips->report = 422; return mips;}
+		if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
 
 		mbyte bdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
 		if(addr < 0 || addr > 0x4000000000000){mips->report = 419; return mips;}
