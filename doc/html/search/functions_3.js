@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['elf_5fload_5fsection_5fin_5fmemory',['elf_load_section_in_memory',['../elfmanager_8c.html#a36f83b9fcf85c241271aaf88bb1473d9',1,'elf_load_section_in_memory(FILE *fp, mem memory, char *scn, unsigned int permissions, unsigned long long add_start):&#160;elfmanager.c'],['../elfmanager_8h.html#a36f83b9fcf85c241271aaf88bb1473d9',1,'elf_load_section_in_memory(FILE *fp, mem memory, char *scn, unsigned int permissions, unsigned long long add_start):&#160;elfmanager.c']]],
   ['env_5fassert',['env_assert',['../environmentcommands_8c.html#ae45ab0edef77f06690d90080e0807f8c',1,'env_assert(struct ptype *mips):&#160;environmentcommands.c'],['../environmentcommands_8h.html#ae45ab0edef77f06690d90080e0807f8c',1,'env_assert(struct ptype *mips):&#160;environmentcommands.c']]],
   ['env_5fdisp',['env_disp',['../environmentcommands_8c.html#a02bbf572734894d69d515bdd026c1db5',1,'env_disp(struct ptype *mips):&#160;environmentcommands.c'],['../environmentcommands_8h.html#a02bbf572734894d69d515bdd026c1db5',1,'env_disp(struct ptype *mips):&#160;environmentcommands.c']]],
   ['env_5fload',['env_load',['../environmentcommands_8c.html#af9e98da8a1a725b19aaf32904ae4bf39',1,'env_load(struct ptype *mips):&#160;environmentcommands.c'],['../environmentcommands_8h.html#af9e98da8a1a725b19aaf32904ae4bf39',1,'env_load(struct ptype *mips):&#160;environmentcommands.c']]],

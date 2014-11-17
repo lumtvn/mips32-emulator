@@ -21,10 +21,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="1034528.da0ea8f9eea6d079b1ba3cf58cb0cd3b.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -101,12 +100,9 @@ Data Fields</h2></td></tr>
 <tr class="memitem:af8ae873dc0a6bcadf6bf4500b857288a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#af8ae873dc0a6bcadf6bf4500b857288a">report</a></td></tr>
 <tr class="memdesc:af8ae873dc0a6bcadf6bf4500b857288a"><td class="mdescLeft">&#160;</td><td class="mdescRight">integer for error handling  <a href="#af8ae873dc0a6bcadf6bf4500b857288a">More...</a><br/></td></tr>
 <tr class="separator:af8ae873dc0a6bcadf6bf4500b857288a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeea0205540a6e31e45ba622d605e5827"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#aeea0205540a6e31e45ba622d605e5827">full_script</a></td></tr>
-<tr class="memdesc:aeea0205540a6e31e45ba622d605e5827"><td class="mdescLeft">&#160;</td><td class="mdescRight">the script without the commentaries  <a href="#aeea0205540a6e31e45ba622d605e5827">More...</a><br/></td></tr>
-<tr class="separator:aeea0205540a6e31e45ba622d605e5827"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c5c9dec86e418a7f773c18c5f219a8c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a5c5c9dec86e418a7f773c18c5f219a8c">incoming_line</a></td></tr>
-<tr class="memdesc:a5c5c9dec86e418a7f773c18c5f219a8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">an entire line of the script without commentary (parsed out)  <a href="#a5c5c9dec86e418a7f773c18c5f219a8c">More...</a><br/></td></tr>
-<tr class="separator:a5c5c9dec86e418a7f773c18c5f219a8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab098377a95401616fe523fc66ce6e212"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#ab098377a95401616fe523fc66ce6e212">filesize</a></td></tr>
+<tr class="memdesc:ab098377a95401616fe523fc66ce6e212"><td class="mdescLeft">&#160;</td><td class="mdescRight">size of the elf file  <a href="#ab098377a95401616fe523fc66ce6e212">More...</a><br/></td></tr>
+<tr class="separator:ab098377a95401616fe523fc66ce6e212"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf60de4c64d60c1b9449c056bc6bfcf7"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#acf60de4c64d60c1b9449c056bc6bfcf7">label</a></td></tr>
 <tr class="memdesc:acf60de4c64d60c1b9449c056bc6bfcf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">the label of a line  <a href="#acf60de4c64d60c1b9449c056bc6bfcf7">More...</a><br/></td></tr>
 <tr class="separator:acf60de4c64d60c1b9449c056bc6bfcf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,18 +115,33 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a0d565ad5f0354bb96aaab4d9721ffb03"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a0d565ad5f0354bb96aaab4d9721ffb03">argline</a> [4]</td></tr>
 <tr class="memdesc:a0d565ad5f0354bb96aaab4d9721ffb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">line arguments. four is the maximum amount of arguments that a command can have  <a href="#a0d565ad5f0354bb96aaab4d9721ffb03">More...</a><br/></td></tr>
 <tr class="separator:a0d565ad5f0354bb96aaab4d9721ffb03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab92b95affa28cba56d93c41a9d93b8ab"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#ab92b95affa28cba56d93c41a9d93b8ab">memorytag</a></td></tr>
-<tr class="memdesc:ab92b95affa28cba56d93c41a9d93b8ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">block's tag (.text, .data, etc)  <a href="#ab92b95affa28cba56d93c41a9d93b8ab">More...</a><br/></td></tr>
-<tr class="separator:ab92b95affa28cba56d93c41a9d93b8ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3ed9720d418cb773e3153cdc0ddc89c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#ad3ed9720d418cb773e3153cdc0ddc89c">realpoint</a></td></tr>
-<tr class="memdesc:ad3ed9720d418cb773e3153cdc0ddc89c"><td class="mdescLeft">&#160;</td><td class="mdescRight">real memory pointer (in host RAM)  <a href="#ad3ed9720d418cb773e3153cdc0ddc89c">More...</a><br/></td></tr>
-<tr class="separator:ad3ed9720d418cb773e3153cdc0ddc89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa02a328ee564b4d217bb0e59dcb5e2f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#aa02a328ee564b4d217bb0e59dcb5e2f9">realpointbase</a></td></tr>
-<tr class="memdesc:aa02a328ee564b4d217bb0e59dcb5e2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">real memory pointer with fixed direction to the start of the memory segment. This is for making the reading easier  <a href="#aa02a328ee564b4d217bb0e59dcb5e2f9">More...</a><br/></td></tr>
-<tr class="separator:aa02a328ee564b4d217bb0e59dcb5e2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75e9073defcedf91712de41e4ac14800"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a75e9073defcedf91712de41e4ac14800">blocksize</a></td></tr>
-<tr class="memdesc:a75e9073defcedf91712de41e4ac14800"><td class="mdescLeft">&#160;</td><td class="mdescRight">memory block size  <a href="#a75e9073defcedf91712de41e4ac14800">More...</a><br/></td></tr>
-<tr class="separator:a75e9073defcedf91712de41e4ac14800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33171e907735d1b6db109dfcf549a760"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a33171e907735d1b6db109dfcf549a760">segname</a></td></tr>
+<tr class="memdesc:a33171e907735d1b6db109dfcf549a760"><td class="mdescLeft">&#160;</td><td class="mdescRight">segment's name(.text, .data, etc)  <a href="#a33171e907735d1b6db109dfcf549a760">More...</a><br/></td></tr>
+<tr class="separator:a33171e907735d1b6db109dfcf549a760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34aedd05342823517a829796d4833009"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a34aedd05342823517a829796d4833009">segsize</a></td></tr>
+<tr class="memdesc:a34aedd05342823517a829796d4833009"><td class="mdescLeft">&#160;</td><td class="mdescRight">segment size  <a href="#a34aedd05342823517a829796d4833009">More...</a><br/></td></tr>
+<tr class="separator:a34aedd05342823517a829796d4833009"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19818517fc2a9ad008604ba1f17955a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a19818517fc2a9ad008604ba1f17955a4">segrealpoint</a></td></tr>
+<tr class="memdesc:a19818517fc2a9ad008604ba1f17955a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">real pointer to segment (used to run over the segment) (in host RAM)  <a href="#a19818517fc2a9ad008604ba1f17955a4">More...</a><br/></td></tr>
+<tr class="separator:a19818517fc2a9ad008604ba1f17955a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6ff6feb594fbeaefbc6f361d5ba74aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#aa6ff6feb594fbeaefbc6f361d5ba74aa">segrealpointbase</a></td></tr>
+<tr class="memdesc:aa6ff6feb594fbeaefbc6f361d5ba74aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">real pointer to beggining of memory segment (remains unchanged once initialized)  <a href="#aa6ff6feb594fbeaefbc6f361d5ba74aa">More...</a><br/></td></tr>
+<tr class="separator:aa6ff6feb594fbeaefbc6f361d5ba74aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6f0c13b18c3a798a786a09003d5e851"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#ab6f0c13b18c3a798a786a09003d5e851">segpermissions</a></td></tr>
+<tr class="memdesc:ab6f0c13b18c3a798a786a09003d5e851"><td class="mdescLeft">&#160;</td><td class="mdescRight">the segment's read and write permissions  <a href="#ab6f0c13b18c3a798a786a09003d5e851">More...</a><br/></td></tr>
+<tr class="separator:ab6f0c13b18c3a798a786a09003d5e851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f5e7921f604a6a00c34a4cccca73a08"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a7f5e7921f604a6a00c34a4cccca73a08">nsegs</a></td></tr>
+<tr class="memdesc:a7f5e7921f604a6a00c34a4cccca73a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of memory segments  <a href="#a7f5e7921f604a6a00c34a4cccca73a08">More...</a><br/></td></tr>
+<tr class="separator:a7f5e7921f604a6a00c34a4cccca73a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e240a34245d5734a5ab1133bd37182a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a0e240a34245d5734a5ab1133bd37182a">memrealpoint</a></td></tr>
+<tr class="memdesc:a0e240a34245d5734a5ab1133bd37182a"><td class="mdescLeft">&#160;</td><td class="mdescRight">real memory pointer (in host RAM)  <a href="#a0e240a34245d5734a5ab1133bd37182a">More...</a><br/></td></tr>
+<tr class="separator:a0e240a34245d5734a5ab1133bd37182a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48d8e85e5f5b594209aeba44b50e810"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#ae48d8e85e5f5b594209aeba44b50e810">memrealpointbase</a></td></tr>
+<tr class="memdesc:ae48d8e85e5f5b594209aeba44b50e810"><td class="mdescLeft">&#160;</td><td class="mdescRight">real memory pointer with fixed direction to the start of the memory segment. This is for making the reading easier  <a href="#ae48d8e85e5f5b594209aeba44b50e810">More...</a><br/></td></tr>
+<tr class="separator:ae48d8e85e5f5b594209aeba44b50e810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedc8878c46b29532ca5d23cd9bca22ad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#aedc8878c46b29532ca5d23cd9bca22ad">memsize</a></td></tr>
+<tr class="memdesc:aedc8878c46b29532ca5d23cd9bca22ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">memory block size  <a href="#aedc8878c46b29532ca5d23cd9bca22ad">More...</a><br/></td></tr>
+<tr class="separator:aedc8878c46b29532ca5d23cd9bca22ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9af1a7f2757b11905240c33112496b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#aebd23a20a0f68532d8a091fb411d4d02">reg</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#ab9af1a7f2757b11905240c33112496b8">regs</a> [32]</td></tr>
 <tr class="memdesc:ab9af1a7f2757b11905240c33112496b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">general purpose registers  <a href="#ab9af1a7f2757b11905240c33112496b8">More...</a><br/></td></tr>
 <tr class="separator:ab9af1a7f2757b11905240c33112496b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,12 +160,6 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a33ff9c19364c52cc4ff54db3a01bf135"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a33ff9c19364c52cc4ff54db3a01bf135">argenv</a> [32]</td></tr>
 <tr class="memdesc:a33ff9c19364c52cc4ff54db3a01bf135"><td class="mdescLeft">&#160;</td><td class="mdescRight">the arguments array. 32 is a temporal value, i will change it  <a href="#a33ff9c19364c52cc4ff54db3a01bf135">More...</a><br/></td></tr>
 <tr class="separator:a33ff9c19364c52cc4ff54db3a01bf135"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af69ee38d2c862dbc6769fa27c5320b96"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#af69ee38d2c862dbc6769fa27c5320b96">nlines</a></td></tr>
-<tr class="memdesc:af69ee38d2c862dbc6769fa27c5320b96"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of elements of scriptlines array  <a href="#af69ee38d2c862dbc6769fa27c5320b96">More...</a><br/></td></tr>
-<tr class="separator:af69ee38d2c862dbc6769fa27c5320b96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5087951bbc882668a0cff44c0adc2a6f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html#a5087951bbc882668a0cff44c0adc2a6f">scriptlines</a> []</td></tr>
-<tr class="memdesc:a5087951bbc882668a0cff44c0adc2a6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">array containing each line in a script  <a href="#a5087951bbc882668a0cff44c0adc2a6f">More...</a><br/></td></tr>
-<tr class="separator:a5087951bbc882668a0cff44c0adc2a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>it's a structure that has all elements that are involved in the simulator </p>
@@ -184,20 +189,6 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>line arguments. four is the maximum amount of arguments that a command can have </p>
-
-</div>
-</div>
-<a class="anchor" id="a75e9073defcedf91712de41e4ac14800"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int blocksize</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>memory block size </p>
 
 </div>
 </div>
@@ -243,31 +234,17 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeea0205540a6e31e45ba622d605e5827"></a>
+<a class="anchor" id="ab098377a95401616fe523fc66ce6e212"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* full_script</td>
+          <td class="memname">size_t filesize</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>the script without the commentaries </p>
-
-</div>
-</div>
-<a class="anchor" id="a5c5c9dec86e418a7f773c18c5f219a8c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* incoming_line</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>an entire line of the script without commentary (parsed out) </p>
+<p>size of the elf file </p>
 
 </div>
 </div>
@@ -285,17 +262,45 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab92b95affa28cba56d93c41a9d93b8ab"></a>
+<a class="anchor" id="a0e240a34245d5734a5ab1133bd37182a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* memorytag</td>
+          <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>* memrealpoint</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>block's tag (.text, .data, etc) </p>
+<p>real memory pointer (in host RAM) </p>
+
+</div>
+</div>
+<a class="anchor" id="ae48d8e85e5f5b594209aeba44b50e810"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>* memrealpointbase</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>real memory pointer with fixed direction to the start of the memory segment. This is for making the reading easier </p>
+
+</div>
+</div>
+<a class="anchor" id="aedc8878c46b29532ca5d23cd9bca22ad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int memsize</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>memory block size </p>
 
 </div>
 </div>
@@ -313,17 +318,17 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af69ee38d2c862dbc6769fa27c5320b96"></a>
+<a class="anchor" id="a7f5e7921f604a6a00c34a4cccca73a08"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int nlines</td>
+          <td class="memname">unsigned int nsegs</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>number of elements of scriptlines array </p>
+<p>number of memory segments </p>
 
 </div>
 </div>
@@ -338,34 +343,6 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>the operation of a line </p>
-
-</div>
-</div>
-<a class="anchor" id="ad3ed9720d418cb773e3153cdc0ddc89c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>* realpoint</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>real memory pointer (in host RAM) </p>
-
-</div>
-</div>
-<a class="anchor" id="aa02a328ee564b4d217bb0e59dcb5e2f9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>* realpointbase</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>real memory pointer with fixed direction to the start of the memory segment. This is for making the reading easier </p>
 
 </div>
 </div>
@@ -397,17 +374,73 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5087951bbc882668a0cff44c0adc2a6f"></a>
+<a class="anchor" id="a33171e907735d1b6db109dfcf549a760"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* scriptlines[]</td>
+          <td class="memname">char* segname</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>array containing each line in a script </p>
+<p>segment's name(.text, .data, etc) </p>
+
+</div>
+</div>
+<a class="anchor" id="ab6f0c13b18c3a798a786a09003d5e851"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int segpermissions</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>the segment's read and write permissions </p>
+
+</div>
+</div>
+<a class="anchor" id="a19818517fc2a9ad008604ba1f17955a4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>* segrealpoint</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>real pointer to segment (used to run over the segment) (in host RAM) </p>
+
+</div>
+</div>
+<a class="anchor" id="aa6ff6feb594fbeaefbc6f361d5ba74aa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>* segrealpointbase</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>real pointer to beggining of memory segment (remains unchanged once initialized) </p>
+
+</div>
+</div>
+<a class="anchor" id="a34aedd05342823517a829796d4833009"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int segsize</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>segment size </p>
 
 </div>
 </div>
@@ -431,7 +464,7 @@ Data Fields</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Oct 20 2014 11:45:56 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -34,7 +34,7 @@
 *
 *@param filename the name of the file to open
 *
-*@return mips it returns the emulator structure with a new value for the fields mips->nsegs, and the fields modified by function createsegments, from "memorymanagement.c" file
+*@return mips it returns the emulator structure with a new value for the fields mips->nsegs, and the fields modified by function createsegment() .
 *
 *@todo better use of elfapi functions; less insignificant memory usage.
 *

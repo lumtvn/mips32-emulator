@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['defn',['defn',['../structnlist.html#a6484d2c28591e89bcffbda34d3e1bde2',1,'nlist']]]
+  ['entry',['entry',['../structptype.html#a1072c713adb03fb67b07874dc9585a77',1,'ptype']]]
 ];

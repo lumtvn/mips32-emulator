@@ -1,3 +1,4 @@
+disp asdoks
 disp reg $t1
 disp reg all
 exit

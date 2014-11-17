@@ -41,13 +41,13 @@ struct ptype *createsegment(struct ptype *mips, char *name, int size, int permis
 	struct nlist *np;
 
 	char *segname = malloc(20);
-	if(segname == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(segname == NULL){mips->report = 1; return mips;}
 	char *segsize = malloc(20);
-	if(segsize == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(segsize == NULL){mips->report = 1; return mips;}
 	char *segperm = malloc(20);
-	if(segperm == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(segperm == NULL){mips->report = 1; return mips;}
 	char *segstart = malloc(20);
-	if(segstart == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(segstart == NULL){mips->report = 1; return mips;}
 	
 	strcpy(segsize, "SEGSIZE_");
 	strcat(segsize, name);
@@ -59,11 +59,11 @@ struct ptype *createsegment(struct ptype *mips, char *name, int size, int permis
 	strcat(segstart, name);
 
 	char *ssize = malloc(10);
-	if(ssize == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(ssize == NULL){mips->report = 1; return mips;}
 	char *spermissions = malloc(10);
-	if(spermissions == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(spermissions == NULL){mips->report = 1; return mips;}
 	char *sstart = malloc(10);
-	if(sstart == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(sstart == NULL){mips->report = 1; return mips;}
 
 	sprintf(ssize, "%i", size);
 	sprintf(spermissions, "%i", permissions);
@@ -71,11 +71,11 @@ struct ptype *createsegment(struct ptype *mips, char *name, int size, int permis
 
 	// printf("installing %s in block %s\n",ssize, segsize);
 	np = install(segsize, ssize);
-	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
+	if(np == NULL){mips->report = 2; return mips;}
 	np = install(segperm, spermissions);
-	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
+	if(np == NULL){mips->report = 2; return mips;}
 	np = install(segstart, sstart);
-	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
+	if(np == NULL){mips->report = 2; return mips;}
 
 	free(segstart);
 	free(segperm);
@@ -98,7 +98,7 @@ struct ptype *createsegment(struct ptype *mips, char *name, int size, int permis
 struct ptype *creatememory(struct ptype *mips, int size)
 {
 	mips->memrealpointbase = malloc(size);
-	if(mips->memrealpointbase == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
+	if(mips->memrealpointbase == NULL){mips->report = 1; return mips;}
 	mips->memsize = size;
 
 	return mips;

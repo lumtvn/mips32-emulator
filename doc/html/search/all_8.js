@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['label',['label',['../structptype.html#acf60de4c64d60c1b9449c056bc6bfcf7',1,'ptype']]],
-  ['lookup',['lookup',['../lookup_8c.html#a26fc137872cf2f9e5741b30a7ed6670f',1,'lookup(char *s):&#160;lookup.c'],['../lookup_8h.html#a26fc137872cf2f9e5741b30a7ed6670f',1,'lookup(char *s):&#160;lookup.c']]],
-  ['lookup_2ec',['lookup.c',['../lookup_8c.html',1,'']]],
-  ['lookup_2eh',['lookup.h',['../lookup_8h.html',1,'']]]
+  ['initregisters',['initregisters',['../main_8c.html#af9a6298ae73a9d49db082d26d1768f11',1,'main.c']]],
+  ['install',['install',['../lookup_8c.html#a94f41788b6c7255236e7a28b1ea71580',1,'install(char *name, char *defn):&#160;lookup.c'],['../lookup_8h.html#a94f41788b6c7255236e7a28b1ea71580',1,'install(char *name, char *defn):&#160;lookup.c']]],
+  ['is_5fin_5fsymbols',['is_in_symbols',['../elfmanager_8c.html#ab5931f0255d72df1fd95c4515c89ea16',1,'is_in_symbols(char *name, stab symtab):&#160;elfmanager.c'],['../elfmanager_8h.html#ab5931f0255d72df1fd95c4515c89ea16',1,'is_in_symbols(char *name, stab symtab):&#160;elfmanager.c']]]
 ];

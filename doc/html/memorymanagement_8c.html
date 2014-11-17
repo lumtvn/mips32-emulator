@@ -21,10 +21,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="1034528.da0ea8f9eea6d079b1ba3cf58cb0cd3b.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -98,33 +97,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="headers_8h_source.html">headers.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="memorymanagement_8h_source.html">memorymanagement.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="lookup_8h_source.html">lookup.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1bdaf0c9eed8224d77514dcff797a284"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a1bdaf0c9eed8224d77514dcff797a284">createblock</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, int size)</td></tr>
-<tr class="memdesc:a1bdaf0c9eed8224d77514dcff797a284"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a block of memory  <a href="#a1bdaf0c9eed8224d77514dcff797a284">More...</a><br/></td></tr>
-<tr class="separator:a1bdaf0c9eed8224d77514dcff797a284"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68f492c5ea309f9aef8d8f0d04b4a55c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a68f492c5ea309f9aef8d8f0d04b4a55c">writebyte</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, <a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> bdata, int simpoint)</td></tr>
-<tr class="memdesc:a68f492c5ea309f9aef8d8f0d04b4a55c"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes the byte stored in mem-&gt;bdata to the position inside the block given by simpoint  <a href="#a68f492c5ea309f9aef8d8f0d04b4a55c">More...</a><br/></td></tr>
-<tr class="separator:a68f492c5ea309f9aef8d8f0d04b4a55c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a023bf1fde93969aa804ae8a44b57fdcd"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a023bf1fde93969aa804ae8a44b57fdcd">writehalfword</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, <a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a> hwdata, int simpoint)</td></tr>
-<tr class="memdesc:a023bf1fde93969aa804ae8a44b57fdcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes the halfword stored in mem-&gt;hwdata to the position inside the block given by simpoint  <a href="#a023bf1fde93969aa804ae8a44b57fdcd">More...</a><br/></td></tr>
-<tr class="separator:a023bf1fde93969aa804ae8a44b57fdcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a108add57be3da31c9784ee66a48ddf76"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a108add57be3da31c9784ee66a48ddf76">writeword</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, <a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a> wdata, int simpoint)</td></tr>
-<tr class="memdesc:a108add57be3da31c9784ee66a48ddf76"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes the word stored in wdata to the position inside the block given by simpoint  <a href="#a108add57be3da31c9784ee66a48ddf76">More...</a><br/></td></tr>
-<tr class="separator:a108add57be3da31c9784ee66a48ddf76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14b78240e6715543f38c2a80a9badff2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a14b78240e6715543f38c2a80a9badff2">readbyte</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, int simpoint)</td></tr>
-<tr class="memdesc:a14b78240e6715543f38c2a80a9badff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads the byte stored in simulated address simpoint and stores it in mem-&gt;bdata  <a href="#a14b78240e6715543f38c2a80a9badff2">More...</a><br/></td></tr>
-<tr class="separator:a14b78240e6715543f38c2a80a9badff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bb9d891ad68a04e01985203eb047df4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a0bb9d891ad68a04e01985203eb047df4">readhalfword</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, int simpoint)</td></tr>
-<tr class="memdesc:a0bb9d891ad68a04e01985203eb047df4"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads the halfword stored in simulated address simpoint and stores it in mem-&gt;hwdata  <a href="#a0bb9d891ad68a04e01985203eb047df4">More...</a><br/></td></tr>
-<tr class="separator:a0bb9d891ad68a04e01985203eb047df4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43f719968ee135dba6d01195f93de231"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a43f719968ee135dba6d01195f93de231">readword</a> (struct <a class="el" href="structptype.html">ptype</a> *mem, int simpoint)</td></tr>
-<tr class="memdesc:a43f719968ee135dba6d01195f93de231"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads the word stored in simulated address simpoint and stores it in mem-&gt;wdata  <a href="#a43f719968ee135dba6d01195f93de231">More...</a><br/></td></tr>
-<tr class="separator:a43f719968ee135dba6d01195f93de231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae99d5a529c7bcbdbe6f5432bfa4ec957"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#ae99d5a529c7bcbdbe6f5432bfa4ec957">displaymemory</a> (struct <a class="el" href="structptype.html">ptype</a> *mem)</td></tr>
-<tr class="memdesc:ae99d5a529c7bcbdbe6f5432bfa4ec957"><td class="mdescLeft">&#160;</td><td class="mdescRight">displays a whole block of memory of size mem-&gt;blocksize, starting at address mem-&gt;realpointbase  <a href="#ae99d5a529c7bcbdbe6f5432bfa4ec957">More...</a><br/></td></tr>
-<tr class="separator:ae99d5a529c7bcbdbe6f5432bfa4ec957"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a897f629b5ff78c022e0e9379418b3384"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a897f629b5ff78c022e0e9379418b3384">createsegment</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, char *name, int size, int permissions, int start)</td></tr>
+<tr class="memdesc:a897f629b5ff78c022e0e9379418b3384"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets up a segment's parameters  <a href="#a897f629b5ff78c022e0e9379418b3384">More...</a><br/></td></tr>
+<tr class="separator:a897f629b5ff78c022e0e9379418b3384"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac4b86096cffcc102d3ee6c91c67765"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#aeac4b86096cffcc102d3ee6c91c67765">creatememory</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, int size)</td></tr>
+<tr class="memdesc:aeac4b86096cffcc102d3ee6c91c67765"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a block of memory  <a href="#aeac4b86096cffcc102d3ee6c91c67765">More...</a><br/></td></tr>
+<tr class="separator:aeac4b86096cffcc102d3ee6c91c67765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5aaff9896bee3ef2604ca4c4d38dd8f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#af5aaff9896bee3ef2604ca4c4d38dd8f">destroymemory</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
+<tr class="separator:af5aaff9896bee3ef2604ca4c4d38dd8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeddb4414ba32f9f702a0ebce7911f311"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#aeddb4414ba32f9f702a0ebce7911f311">writebyte</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, <a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> bdata, int simpoint)</td></tr>
+<tr class="memdesc:aeddb4414ba32f9f702a0ebce7911f311"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes the byte stored in mips-&gt;bdata to the position inside the block given by simpoint  <a href="#aeddb4414ba32f9f702a0ebce7911f311">More...</a><br/></td></tr>
+<tr class="separator:aeddb4414ba32f9f702a0ebce7911f311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54e7d0d4a184c94e7487c6cdfb804053"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a54e7d0d4a184c94e7487c6cdfb804053">writehalfword</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, <a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a> hwdata, int simpoint)</td></tr>
+<tr class="memdesc:a54e7d0d4a184c94e7487c6cdfb804053"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes the halfword stored in mips-&gt;hwdata to the position inside the block given by simpoint  <a href="#a54e7d0d4a184c94e7487c6cdfb804053">More...</a><br/></td></tr>
+<tr class="separator:a54e7d0d4a184c94e7487c6cdfb804053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a83a83ac160e30788c793b808cff5d2"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a8a83a83ac160e30788c793b808cff5d2">writeword</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, <a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a> wdata, int simpoint)</td></tr>
+<tr class="memdesc:a8a83a83ac160e30788c793b808cff5d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes the word stored in wdata to the position inside the block given by simpoint  <a href="#a8a83a83ac160e30788c793b808cff5d2">More...</a><br/></td></tr>
+<tr class="separator:a8a83a83ac160e30788c793b808cff5d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08a84af40832349127e7467b3e46a527"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a08a84af40832349127e7467b3e46a527">readbyte</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, int simpoint)</td></tr>
+<tr class="memdesc:a08a84af40832349127e7467b3e46a527"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads the byte stored in simulated address simpoint and stores it in mips-&gt;bdata  <a href="#a08a84af40832349127e7467b3e46a527">More...</a><br/></td></tr>
+<tr class="separator:a08a84af40832349127e7467b3e46a527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccb1846c4d20cee79fe2bb3dbfdace9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a8ccb1846c4d20cee79fe2bb3dbfdace9">readhalfword</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, int simpoint)</td></tr>
+<tr class="memdesc:a8ccb1846c4d20cee79fe2bb3dbfdace9"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads the halfword stored in simulated address simpoint and stores it in mips-&gt;hwdata  <a href="#a8ccb1846c4d20cee79fe2bb3dbfdace9">More...</a><br/></td></tr>
+<tr class="separator:a8ccb1846c4d20cee79fe2bb3dbfdace9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64aa24d9d65246e2fcd07763f586c82f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#a64aa24d9d65246e2fcd07763f586c82f">readword</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, int simpoint)</td></tr>
+<tr class="memdesc:a64aa24d9d65246e2fcd07763f586c82f"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads the word stored in simulated address simpoint and stores it in mips-&gt;wdata  <a href="#a64aa24d9d65246e2fcd07763f586c82f">More...</a><br/></td></tr>
+<tr class="separator:a64aa24d9d65246e2fcd07763f586c82f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4daae96394e22511381b56c2384867c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memorymanagement_8c.html#ad4daae96394e22511381b56c2384867c">displaymemory</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
+<tr class="memdesc:ad4daae96394e22511381b56c2384867c"><td class="mdescLeft">&#160;</td><td class="mdescRight">displays a whole block of memory of size mips-&gt;memsize, starting at address mips-&gt;memrealpointbase  <a href="#ad4daae96394e22511381b56c2384867c">More...</a><br/></td></tr>
+<tr class="separator:ad4daae96394e22511381b56c2384867c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>file containing functions to write bytes, halfwords and words to a simulated memory </p>
@@ -133,15 +138,15 @@ Functions</h2></td></tr>
 <p>the set of write and read functions are thougt for a sistem that will store the bytes in memory using "big endian". Naturally, this emulator should run in big endian and little endian processors. That is why each each write and read function has a few code lines that convert the incoming data in to big endian, no matter the format of the incoming data (big or little endian).</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>the block of memory should be created with a tag that identifies it, this is yet to be implemented </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a1bdaf0c9eed8224d77514dcff797a284"></a>
+<a class="anchor" id="aeac4b86096cffcc102d3ee6c91c67765"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* createblock </td>
+          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* creatememory </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -158,11 +163,83 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>creates a block of memory </p>
-<p>uses a structure ptype and an integer size to create a new block. this block will have a size mem-&gt;size and will start from memory position mem-&gt;realpointbase. </p>
+<p>uses a structure ptype and an integer size to create a new block. this block will have a size mips-&gt;size and will start from memory position mips-&gt;memrealpointbase. </p>
 
 </div>
 </div>
-<a class="anchor" id="ae99d5a529c7bcbdbe6f5432bfa4ec957"></a>
+<a class="anchor" id="a897f629b5ff78c022e0e9379418b3384"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* createsegment </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>permissions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>start</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets up a segment's parameters </p>
+<p>this function does not literally create a segment inside a memory block. Instead, it loads the information concerning a created segment into a lookup table, which will be referenced when reading from or writing to a segment.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>the name of the segment </td></tr>
+    <tr><td class="paramname">name</td><td>the size of the segment </td></tr>
+    <tr><td class="paramname">name</td><td>the permissions of the segment </td></tr>
+    <tr><td class="paramname">name</td><td>the direction of the beggining of the segment </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af5aaff9896bee3ef2604ca4c4d38dd8f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* destroymemory </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad4daae96394e22511381b56c2384867c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -170,17 +247,17 @@ Functions</h2></td></tr>
           <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* displaymemory </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em></td><td>)</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>displays a whole block of memory of size mem-&gt;blocksize, starting at address mem-&gt;realpointbase </p>
+<p>displays a whole block of memory of size mips-&gt;memsize, starting at address mips-&gt;memrealpointbase </p>
 
 </div>
 </div>
-<a class="anchor" id="a14b78240e6715543f38c2a80a9badff2"></a>
+<a class="anchor" id="a08a84af40832349127e7467b3e46a527"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -188,7 +265,7 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a> readbyte </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -204,11 +281,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>reads the byte stored in simulated address simpoint and stores it in mem-&gt;bdata </p>
+<p>reads the byte stored in simulated address simpoint and stores it in mips-&gt;bdata </p>
 
 </div>
 </div>
-<a class="anchor" id="a0bb9d891ad68a04e01985203eb047df4"></a>
+<a class="anchor" id="a8ccb1846c4d20cee79fe2bb3dbfdace9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -216,7 +293,7 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a> readhalfword </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -232,11 +309,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>reads the halfword stored in simulated address simpoint and stores it in mem-&gt;hwdata </p>
+<p>reads the halfword stored in simulated address simpoint and stores it in mips-&gt;hwdata </p>
 
 </div>
 </div>
-<a class="anchor" id="a43f719968ee135dba6d01195f93de231"></a>
+<a class="anchor" id="a64aa24d9d65246e2fcd07763f586c82f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -244,7 +321,7 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a> readword </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -260,11 +337,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>reads the word stored in simulated address simpoint and stores it in mem-&gt;wdata </p>
+<p>reads the word stored in simulated address simpoint and stores it in mips-&gt;wdata </p>
 
 </div>
 </div>
-<a class="anchor" id="a68f492c5ea309f9aef8d8f0d04b4a55c"></a>
+<a class="anchor" id="aeddb4414ba32f9f702a0ebce7911f311"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -272,7 +349,7 @@ Functions</h2></td></tr>
           <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* writebyte </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -294,11 +371,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>writes the byte stored in mem-&gt;bdata to the position inside the block given by simpoint </p>
+<p>writes the byte stored in mips-&gt;bdata to the position inside the block given by simpoint </p>
 
 </div>
 </div>
-<a class="anchor" id="a023bf1fde93969aa804ae8a44b57fdcd"></a>
+<a class="anchor" id="a54e7d0d4a184c94e7487c6cdfb804053"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -306,7 +383,7 @@ Functions</h2></td></tr>
           <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* writehalfword </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -328,11 +405,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>writes the halfword stored in mem-&gt;hwdata to the position inside the block given by simpoint </p>
+<p>writes the halfword stored in mips-&gt;hwdata to the position inside the block given by simpoint </p>
 
 </div>
 </div>
-<a class="anchor" id="a108add57be3da31c9784ee66a48ddf76"></a>
+<a class="anchor" id="a8a83a83ac160e30788c793b808cff5d2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -340,7 +417,7 @@ Functions</h2></td></tr>
           <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* writeword </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mem</em>, </td>
+          <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -369,7 +446,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Oct 20 2014 11:45:56 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -21,10 +21,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="1034528.da0ea8f9eea6d079b1ba3cf58cb0cd3b.gif"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -81,6 +80,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_f"><span>f</span></a></li>
+      <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
@@ -118,26 +119,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>compile()
-: <a class="el" href="disassembler_8c.html#ab38b7e9260d741791b6f913a1431ee84">disassembler.c</a>
-, <a class="el" href="disassembler_8h.html#ab38b7e9260d741791b6f913a1431ee84">disassembler.h</a>
+<li>creatememory()
+: <a class="el" href="memorymanagement_8c.html#aeac4b86096cffcc102d3ee6c91c67765">memorymanagement.c</a>
+, <a class="el" href="memorymanagement_8h.html#a3c6cf2e7e24b754f8d06d5eb5eff1917">memorymanagement.h</a>
 </li>
-<li>createblock()
-: <a class="el" href="memorymanagement_8c.html#a1bdaf0c9eed8224d77514dcff797a284">memorymanagement.c</a>
-, <a class="el" href="memorymanagement_8h.html#a1bdaf0c9eed8224d77514dcff797a284">memorymanagement.h</a>
+<li>createsegment()
+: <a class="el" href="memorymanagement_8c.html#a897f629b5ff78c022e0e9379418b3384">memorymanagement.c</a>
+, <a class="el" href="memorymanagement_8h.html#a897f629b5ff78c022e0e9379418b3384">memorymanagement.h</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>destroymemory()
+: <a class="el" href="memorymanagement_8c.html#af5aaff9896bee3ef2604ca4c4d38dd8f">memorymanagement.c</a>
+, <a class="el" href="memorymanagement_8h.html#af5aaff9896bee3ef2604ca4c4d38dd8f">memorymanagement.h</a>
+</li>
 <li>displaymemory()
-: <a class="el" href="memorymanagement_8c.html#ae99d5a529c7bcbdbe6f5432bfa4ec957">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#ad4daae96394e22511381b56c2384867c">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#ae99d5a529c7bcbdbe6f5432bfa4ec957">memorymanagement.h</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>elf_load_section_in_memory()
+: <a class="el" href="elfmanager_8c.html#a36f83b9fcf85c241271aaf88bb1473d9">elfmanager.c</a>
+, <a class="el" href="elfmanager_8h.html#a36f83b9fcf85c241271aaf88bb1473d9">elfmanager.h</a>
+</li>
 <li>env_assert()
 : <a class="el" href="environmentcommands_8c.html#ae45ab0edef77f06690d90080e0807f8c">environmentcommands.c</a>
 , <a class="el" href="environmentcommands_8h.html#ae45ab0edef77f06690d90080e0807f8c">environmentcommands.h</a>
@@ -153,6 +162,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>env_set()
 : <a class="el" href="environmentcommands_8c.html#acd2ffd7c679049ba3f8de849c075a3bb">environmentcommands.c</a>
 , <a class="el" href="environmentcommands_8h.html#acd2ffd7c679049ba3f8de849c075a3bb">environmentcommands.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
+<li>find_illegal_character()
+: <a class="el" href="environmentcommands_8c.html#a2a9c165ebaece2b250cd9eebe7013b74">environmentcommands.c</a>
+, <a class="el" href="environmentcommands_8h.html#a2a9c165ebaece2b250cd9eebe7013b74">environmentcommands.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>get_normalopcode()
+: <a class="el" href="disassembler_8h.html#a0399ebc7ab120b671bea3863585660bb">disassembler.h</a>
+</li>
+<li>get_nsegments()
+: <a class="el" href="elfmanager_8c.html#a63f546e4e96db828fc78e883767c3c24">elfmanager.c</a>
+, <a class="el" href="elfmanager_8h.html#a63f546e4e96db828fc78e883767c3c24">elfmanager.h</a>
+</li>
+<li>get_regimmopcode()
+: <a class="el" href="disassembler_8h.html#aedf828d6c13f50ba4c3e5eb267e93205">disassembler.h</a>
+</li>
+<li>get_special3opcode()
+: <a class="el" href="disassembler_8h.html#a1c5b188c9bd5b68530560182863fcaca">disassembler.h</a>
+</li>
+<li>get_specialopcode()
+: <a class="el" href="disassembler_8h.html#ad4fa7759411c285ee19b791d5591988e">disassembler.h</a>
+</li>
+<li>getopcode()
+: <a class="el" href="disassembler_8c.html#a94d274d1eb5af41c6c75d19c3aeb808a">disassembler.c</a>
+, <a class="el" href="disassembler_8h.html#a4fdf0659e3e85069b05f6e8139aab13a">disassembler.h</a>
 </li>
 </ul>
 
@@ -176,10 +217,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="lookup_8c.html#a94f41788b6c7255236e7a28b1ea71580">lookup.c</a>
 , <a class="el" href="lookup_8h.html#a94f41788b6c7255236e7a28b1ea71580">lookup.h</a>
 </li>
+<li>is_in_symbols()
+: <a class="el" href="elfmanager_8c.html#ab5931f0255d72df1fd95c4515c89ea16">elfmanager.c</a>
+, <a class="el" href="elfmanager_8h.html#ab5931f0255d72df1fd95c4515c89ea16">elfmanager.h</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
+<li>load_opcodes()
+: <a class="el" href="disassembler_8c.html#a9622e42ac609decda8af42ce117ffdde">disassembler.c</a>
+, <a class="el" href="disassembler_8h.html#af0e7027d8d88c3973f275fb3780369ea">disassembler.h</a>
+</li>
 <li>lookup()
 : <a class="el" href="lookup_8c.html#a26fc137872cf2f9e5741b30a7ed6670f">lookup.c</a>
 , <a class="el" href="lookup_8h.html#a26fc137872cf2f9e5741b30a7ed6670f">lookup.h</a>
@@ -191,6 +240,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>main()
 : <a class="el" href="main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main.c</a>
 </li>
+<li>my_init_mem()
+: <a class="el" href="elfmanager_8c.html#aeaf0fcb2c48ff3caae31b1460856dafd">elfmanager.c</a>
+, <a class="el" href="elfmanager_8h.html#aeaf0fcb2c48ff3caae31b1460856dafd">elfmanager.h</a>
+</li>
 </ul>
 
 
@@ -199,39 +252,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="environment_8c.html#abe56c7942fc708683388745a9fa6fee8">environment.c</a>
 , <a class="el" href="environment_8h.html#ab0b28bc422d4029eb6a1bcd29a8bc6bb">environment.h</a>
 </li>
-<li>parseline()
-: <a class="el" href="disassembler_8c.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">disassembler.c</a>
-, <a class="el" href="disassembler_8h.html#ac13adfdfac6a5ac811cdd9f1f9fc13a9">disassembler.h</a>
-</li>
-<li>parsescript()
-: <a class="el" href="reader_8h.html#abffb82027ef7199596c143fea26c54b3">reader.h</a>
-</li>
-<li>printstatus()
-: <a class="el" href="reader_8h.html#af0e7bc6b1bda8827b0055c57c9992e88">reader.h</a>
-</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>readbyte()
-: <a class="el" href="memorymanagement_8c.html#a14b78240e6715543f38c2a80a9badff2">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#a08a84af40832349127e7467b3e46a527">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#a14b78240e6715543f38c2a80a9badff2">memorymanagement.h</a>
 </li>
 <li>readhalfword()
-: <a class="el" href="memorymanagement_8c.html#a0bb9d891ad68a04e01985203eb047df4">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#a8ccb1846c4d20cee79fe2bb3dbfdace9">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#a0bb9d891ad68a04e01985203eb047df4">memorymanagement.h</a>
 </li>
-<li>readscript()
-: <a class="el" href="reader_8c.html#a79d1132c0232028cf93baadc69a1462c">reader.c</a>
-, <a class="el" href="reader_8h.html#a79d1132c0232028cf93baadc69a1462c">reader.h</a>
-</li>
 <li>readword()
-: <a class="el" href="memorymanagement_8c.html#a43f719968ee135dba6d01195f93de231">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#a64aa24d9d65246e2fcd07763f586c82f">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#a43f719968ee135dba6d01195f93de231">memorymanagement.h</a>
-</li>
-<li>removecommentary()
-: <a class="el" href="reader_8c.html#aebff7d7af613b595443b40d7806730e1">reader.c</a>
-, <a class="el" href="reader_8h.html#a9c78e473a01e63b1a6cbaed16d97e59c">reader.h</a>
 </li>
 <li>report()
 : <a class="el" href="errors_8c.html#a21ee71274a5d6aa9fd3063a810e97926">errors.c</a>
@@ -249,10 +284,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
-<li>splitstr()
-: <a class="el" href="disassembler_8c.html#a7aed72e6510270f49d3f3dba42605a80">disassembler.c</a>
-, <a class="el" href="disassembler_8h.html#a7aed72e6510270f49d3f3dba42605a80">disassembler.h</a>
-</li>
 <li>strip()
 : <a class="el" href="environment_8c.html#a76299b86e144434260dcab80323ec9da">environment.c</a>
 , <a class="el" href="environment_8h.html#a76299b86e144434260dcab80323ec9da">environment.h</a>
@@ -262,22 +293,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
 <li>writebyte()
-: <a class="el" href="memorymanagement_8c.html#a68f492c5ea309f9aef8d8f0d04b4a55c">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#aeddb4414ba32f9f702a0ebce7911f311">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#a68f492c5ea309f9aef8d8f0d04b4a55c">memorymanagement.h</a>
 </li>
 <li>writehalfword()
-: <a class="el" href="memorymanagement_8c.html#a023bf1fde93969aa804ae8a44b57fdcd">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#a54e7d0d4a184c94e7487c6cdfb804053">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#a023bf1fde93969aa804ae8a44b57fdcd">memorymanagement.h</a>
 </li>
 <li>writeword()
-: <a class="el" href="memorymanagement_8c.html#a108add57be3da31c9784ee66a48ddf76">memorymanagement.c</a>
+: <a class="el" href="memorymanagement_8c.html#a8a83a83ac160e30788c793b808cff5d2">memorymanagement.c</a>
 , <a class="el" href="memorymanagement_8h.html#a2a9a2e017cc79e37fd56a648ba0a36b8">memorymanagement.h</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Oct 20 2014 11:45:57 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

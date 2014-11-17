@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['memorytag',['memorytag',['../structptype.html#ab92b95affa28cba56d93c41a9d93b8ab',1,'ptype']]]
+  ['operation',['operation',['../structptype.html#acb7d490f8d903ed61f6b48ff2b41e8e4',1,'ptype']]]
 ];

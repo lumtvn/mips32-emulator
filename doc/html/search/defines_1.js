@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['false',['false',['../headers_8h.html#a65e9886d74aaee76545e83dd09011727',1,'headers.h']]]
+  ['data_5fsection_5fstr',['DATA_SECTION_STR',['../elfmanager_8h.html#a4f986ae3363e6dbf75efe82d47202c86',1,'elfmanager.h']]]
 ];

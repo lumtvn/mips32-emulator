@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errnum',['ERRNUM',['../errors_8h.html#a1abf34f3d842dbc6426cfc2a3ee7e7d2',1,'errors.h']]]
+  ['bss_5fsection_5fstr',['BSS_SECTION_STR',['../elfmanager_8h.html#a92b8f6a231df9a891ce480bba1726696',1,'elfmanager.h']]]
 ];

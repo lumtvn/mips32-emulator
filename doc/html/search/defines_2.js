@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hashsize',['HASHSIZE',['../lookup_8h.html#a2b4054af9a8f1ec4104846747ded1675',1,'lookup.h']]]
+  ['errnum',['ERRNUM',['../errors_8h.html#a1abf34f3d842dbc6426cfc2a3ee7e7d2',1,'errors.h']]]
 ];

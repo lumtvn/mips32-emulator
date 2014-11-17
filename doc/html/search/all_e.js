@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['scriptlines',['scriptlines',['../structptype.html#a5087951bbc882668a0cff44c0adc2a6f',1,'ptype']]],
-  ['splitstr',['splitstr',['../disassembler_8c.html#a7aed72e6510270f49d3f3dba42605a80',1,'splitstr(struct ptype *mips):&#160;disassembler.c'],['../disassembler_8h.html#a7aed72e6510270f49d3f3dba42605a80',1,'splitstr(struct ptype *mips):&#160;disassembler.c']]],
-  ['strip',['strip',['../environment_8c.html#a76299b86e144434260dcab80323ec9da',1,'strip(char *s):&#160;environment.c'],['../environment_8h.html#a76299b86e144434260dcab80323ec9da',1,'strip(char *s):&#160;environment.c']]]
+  ['readbyte',['readbyte',['../memorymanagement_8c.html#a08a84af40832349127e7467b3e46a527',1,'readbyte(struct ptype *mips, int simpoint):&#160;memorymanagement.c'],['../memorymanagement_8h.html#a14b78240e6715543f38c2a80a9badff2',1,'readbyte(struct ptype *mem, int simpoint):&#160;memorymanagement.c']]],
+  ['readhalfword',['readhalfword',['../memorymanagement_8c.html#a8ccb1846c4d20cee79fe2bb3dbfdace9',1,'readhalfword(struct ptype *mips, int simpoint):&#160;memorymanagement.c'],['../memorymanagement_8h.html#a0bb9d891ad68a04e01985203eb047df4',1,'readhalfword(struct ptype *mem, int simpoint):&#160;memorymanagement.c']]],
+  ['readword',['readword',['../memorymanagement_8c.html#a64aa24d9d65246e2fcd07763f586c82f',1,'readword(struct ptype *mips, int simpoint):&#160;memorymanagement.c'],['../memorymanagement_8h.html#a43f719968ee135dba6d01195f93de231',1,'readword(struct ptype *mem, int simpoint):&#160;memorymanagement.c']]],
+  ['reg',['reg',['../headers_8h.html#aebd23a20a0f68532d8a091fb411d4d02',1,'headers.h']]],
+  ['regs',['regs',['../structptype.html#ab9af1a7f2757b11905240c33112496b8',1,'ptype']]],
+  ['report',['report',['../structptype.html#af8ae873dc0a6bcadf6bf4500b857288a',1,'ptype::report()'],['../errors_8c.html#a21ee71274a5d6aa9fd3063a810e97926',1,'report(int r):&#160;errors.c'],['../errors_8h.html#a21ee71274a5d6aa9fd3063a810e97926',1,'report(int r):&#160;errors.c']]],
+  ['restart',['restart',['../environment_8c.html#a2814459b97fdfb4bb98005ae434c90ec',1,'restart(struct ptype *mips):&#160;environment.c'],['../environment_8h.html#a7f8c6daa507bbe98cadd9fa3059d72d0',1,'restart(struct ptype *env):&#160;environment.c']]],
+  ['rodata_5fsection_5fstr',['RODATA_SECTION_STR',['../elfmanager_8h.html#a162ca0ad9d277c0e1951bb5e1ba09525',1,'elfmanager.h']]],
+  ['runenv',['runenv',['../environment_8c.html#a2b9126aae72ec084d893aef42b74ba6c',1,'runenv(struct ptype *mips):&#160;environment.c'],['../environment_8h.html#ad87acf8d67cccdc9bfffef60ccf5c8a6',1,'runenv(struct ptype *env):&#160;environment.c']]]
 ];

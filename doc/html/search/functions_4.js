@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['hash',['hash',['../lookup_8c.html#a998ad9aa6cfe8a43b60cdc806667bdb2',1,'hash(char *s):&#160;lookup.c'],['../lookup_8h.html#a998ad9aa6cfe8a43b60cdc806667bdb2',1,'hash(char *s):&#160;lookup.c']]],
-  ['hashregisters',['hashregisters',['../main_8c.html#afcc9243341bbe6d5ec744646e6505ca9',1,'main.c']]]
+  ['find_5fillegal_5fcharacter',['find_illegal_character',['../environmentcommands_8c.html#a2a9c165ebaece2b250cd9eebe7013b74',1,'find_illegal_character(char *s):&#160;environmentcommands.c'],['../environmentcommands_8h.html#a2a9c165ebaece2b250cd9eebe7013b74',1,'find_illegal_character(char *s):&#160;environmentcommands.c']]]
 ];
