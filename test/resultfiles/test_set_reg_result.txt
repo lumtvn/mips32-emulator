@@ -1,1 +1,9 @@
-no output for this report number: 1615383472
+ERROR 410: too few arguments for function
+ERROR 419: argument <value> out of bounds
+ERROR 417: bad register name (lookup)
+ERROR 419: argument <value> out of bounds
+ERROR 411: too many arguments for function
+WARNING 4171:register $zero can't be overwritten, was not overwritten
+emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>$t1: 0x1b70e09
+emul-mips>$zero: 0x1b6ef90
+emul-mips>exiting mips emulator...

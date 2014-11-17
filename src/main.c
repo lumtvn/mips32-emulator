@@ -39,7 +39,7 @@ void destroymips(struct ptype *mips);
 * -after all of this is done, it will run the environment in an endless loop, until "exit" is entered
 **/
 int main(int argc, char *argv[])
-{	
+{
 	struct ptype *mips;
 	mips = allocatemips(mips);
 	if(mips->report > 0){report(mips->report); return 0;}
@@ -75,7 +75,6 @@ struct ptype *initregisters(struct ptype *mips)
 	int i;
 	for(i = 0; i < 32; i++)
 	{
-		mips->regs[i] = malloc( sizeof(int) );
 		*(mips->regs[i]) = 0;
 	}
 	return mips;
@@ -123,9 +122,7 @@ void hashregisters()
 struct ptype *allocatemips(struct ptype *mips)
 {
 	//general structure allocation
-	
-	struct ptype imips;
-	mips = &imips;
+	mips = malloc(sizeof(mips));
 
 	//segment allocations
 	if(mips == NULL){mips->report = 1; return mips;}
@@ -137,6 +134,14 @@ struct ptype *allocatemips(struct ptype *mips)
 	if(mips->segperm == NULL){mips->report = 1; return mips;}
 	mips->segstart = malloc(20);
 	if(mips->segstart == NULL){mips->report = 1; return mips;}
+
+
+	int i;
+	for(i = 0; i < 32; i++)
+	{
+		mips->regs[i] = malloc(sizeof(int));
+		if(mips->regs[i] == NULL){mips->report = 1; return mips;}
+	}
 
 	return mips;
 }
