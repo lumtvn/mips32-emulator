@@ -1,2 +1,0 @@
-- disp mem puede mostrar direcciones mas grandes que el bloque de memoria
-- no se puede asignar valores negativos a un registro (set reg)
