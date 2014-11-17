@@ -20,39 +20,39 @@ int simpoint;
  
  	pmips = my_init_mem(pmips, filename);
 
- 	printf("memory total size: %d\n",pmips->memsize);
+ 	mu_assert("memory total size error",pmips->memsize == 12312);
 
  	np = lookup("SEGSIZE_.text");
  	if(np != NULL)
- 	printf("segment text's size: %s\n", np->defn);
+ 	mu_assert("segment text's size error", !strcmp(np->defn, "24"));
  	np = lookup("SEGPERM_.text");
  	if(np != NULL)
- 	printf("segment text's permissions: %s\n", np->defn);
+ 	mu_assert("segment text's permissions error", !strcmp(np->defn, "3"));
  	np = lookup("SEGSTART_.text");
  	if(np != NULL)
- 	printf("segment text's start address: %s\n", np->defn);
+ 	mu_assert("segment text's start address error", !strcmp(np->defn, "3000"));
 
  	np = lookup("SEGSIZE_.data");
  	if(np != NULL)
- 	printf("segment data's size: %s\n", np->defn);
+ 	mu_assert("segment data's size error", !strcmp(np->defn, "4"));
  	np = lookup("SEGPERM_.data");
  	if(np != NULL)
- 	printf("segment data's permissions: %s\n", np->defn);
+ 	mu_assert("segment data's permissions error", !strcmp(np->defn, "2"));
  	np = lookup("SEGSTART_.data");
  	if(np != NULL)
- 	printf("segment data's start address: %s\n", np->defn);
+ 	mu_assert("segment data's start address error", !strcmp(np->defn, "4000"));
 
  	np = lookup("SEGSIZE_.bss");
  	if(np != NULL)
- 	printf("segment bss's size: %s\n", np->defn);
+ 	mu_assert("segment bss's size error", !strcmp(np->defn, "0"));
  	np = lookup("SEGPERM_.bss");
  	if(np != NULL)
- 	printf("segment bss's permissions: %s\n", np->defn);
+ 	mu_assert("segment bss's permissions error", !strcmp(np->defn, "2"));
  	np = lookup("SEGSTART_.bss");
  	if(np != NULL)
- 	printf("segment bss's start address: %s\n", np->defn);
+ 	mu_assert("segment bss's start address error", !strcmp(np->defn, "5000"));
 
- 	printf("%d\n", pmips->report);
+ 	// printf("%d\n", pmips->report);
 
  	mu_assert("np is null", np != NULL);
 

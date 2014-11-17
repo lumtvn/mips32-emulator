@@ -97,7 +97,7 @@ struct ptype *destroymemory(struct ptype *mips)
 	free(mips->memrealpointbase);
 	else
 	{
-		printf("el pointer es null?\n");
+		printf("null pointer??????\n");
 	}
 
 	return mips;

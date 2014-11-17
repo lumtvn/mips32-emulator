@@ -81,12 +81,6 @@ struct ptype *my_init_mem(struct ptype *mips, char *filename)
 }
 
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
-////////////////////untouched functions taken from file "mipself_test.c"///////////////////////////
-
-
-
 // Fonction permettant de verifier si une chaine de caracteres
 // est bien dans la liste des symboles du fichier ELF
 // parametres :

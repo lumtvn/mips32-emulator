@@ -71,7 +71,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testdisassembler testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
+test: testdisassembler testelfmanager testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
