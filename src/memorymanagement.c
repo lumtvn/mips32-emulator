@@ -22,27 +22,19 @@
 #include "lookup.h"
 
 
+
 struct ptype *createsegment(struct ptype *mips, char *name, int size, int permissions, int start)
 {
 	struct nlist *np;
-
-	char *segname = malloc(20);
-	if(segname == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
-	char *segsize = malloc(20);
-	if(segsize == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
-	char *segperm = malloc(20);
-	if(segperm == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
-	char *segstart = malloc(20);
-	if(segstart == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
 	
-	strcpy(segsize, "SEGSIZE_");
-	strcat(segsize, name);
+	strcpy(mips->segsize, "SEGSIZE_");
+	strcat(mips->segsize, name);
 
-	strcpy(segperm, "SEGPERM_");
-	strcat(segperm, name);
+	strcpy(mips->segperm, "SEGPERM_");
+	strcat(mips->segperm, name);
 
-	strcpy(segstart, "SEGSTART_");
-	strcat(segstart, name);
+	strcpy(mips->segstart, "SEGSTART_");
+	strcat(mips->segstart, name);
 
 	char *ssize = malloc(10);
 	if(ssize == NULL){mips->report = 0; printf("malloc null\n"); return mips;}
@@ -55,17 +47,15 @@ struct ptype *createsegment(struct ptype *mips, char *name, int size, int permis
 	sprintf(spermissions, "%i", permissions);
 	sprintf(sstart, "%x", start);
 
-	// printf("installing %s in block %s\n",ssize, segsize);
-	np = install(segsize, ssize);
+	// printf("installing %s in block %s\n",ssize, mips->segsize);
+	np = install(mips->segsize, ssize);
 	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
-	np = install(segperm, spermissions);
+	np = install(mips->segperm, spermissions);
 	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
-	np = install(segstart, sstart);
+	np = install(mips->segstart, sstart);
 	if(np == NULL){mips->report = 0; printf("no install\n"); return mips;}
 
-	free(segstart);
-	free(segperm);
-	free(segname);
+
 	free(sstart);
 	free(ssize);
 	free(spermissions);

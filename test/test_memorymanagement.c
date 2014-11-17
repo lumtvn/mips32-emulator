@@ -23,6 +23,7 @@ int simpoint;
 
  static char * test_createsegment() 
 {
+
 	char *name = "mysegment";
 	int size = 50;
 	int permissions = 1;
@@ -156,6 +157,16 @@ int simpoint;
 
  	pmem = &mem;
 
+
+ 	pmem->segname = malloc(20);
+	if(pmem->segname == NULL){pmem->report = 0; printf("malloc null\n");}
+	pmem->segsize = malloc(20);
+	if(pmem->segsize == NULL){pmem->report = 0; printf("malloc null\n");}
+	pmem->segperm = malloc(20);
+	if(pmem->segperm == NULL){pmem->report = 0; printf("malloc null\n");}
+	pmem->segstart = malloc(20);
+	if(pmem->segstart == NULL){pmem->report = 0; printf("malloc null\n");}
+
 	char *result = all_tests();
 	if (result != 0) {
 	 printf("%s\n", result);
@@ -163,6 +174,11 @@ int simpoint;
 	else {
 	 // printf("PARSING TEST 3 PASSED\n");
 	}
+
+	free(pmem->segstart);
+	free(pmem->segperm);
+	free(pmem->segname);
+	free(pmem->memrealpointbase);
 	// printf("Tests run: %d\n", tests_run);
 
 	return result != 0;

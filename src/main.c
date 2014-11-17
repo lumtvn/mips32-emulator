@@ -16,7 +16,10 @@
 // #include "../elfapi/include/elf/format.h"
 
 void hashregisters();
-struct ptype *initregisters(struct ptype *pmips);
+struct ptype *initregisters(struct ptype *mips);
+struct ptype *allocatemips(struct ptype *mips);
+void destroymips(struct ptype *mips);
+
 
 
 /**
@@ -36,42 +39,46 @@ struct ptype *initregisters(struct ptype *pmips);
 * -after all of this is done, it will run the environment in an endless loop, until "exit" is entered
 **/
 int main(int argc, char *argv[])
-{
-	struct ptype mips;
-	struct ptype *pmips = &mips;
+{	
+	struct ptype *mips;
+	mips = allocatemips(mips);
+	if(mips->report > 0){report(mips->report); return 0;}
 
 	hashregisters();
-	pmips = initregisters(pmips);
+	mips = initregisters(mips);
+
 
 	int size = 20;
-	pmips = creatememory(pmips, size);
+	mips = creatememory(mips, size);
 
-	if((pmips->filename = argv[1]) != NULL)
+	if((mips->filename = argv[1]) != NULL)
 		{
-			// pmips = compile(pmips);				
+			// mips = compile(mips);				
 		}
 
 	while(1)
 	{
-	runenv(pmips);
+	runenv(mips);
 	}
 
-	free(pmips->memrealpointbase);
+	destroymips(mips);
+
+	return 0;
 	
 }
 
 /**
 *@brief initializes the registers, giving them a portion of memory and setting to 0 their content
 **/
-struct ptype *initregisters(struct ptype *pmips)
+struct ptype *initregisters(struct ptype *mips)
 {
 	int i;
 	for(i = 0; i < 32; i++)
 	{
-		pmips->regs[i] = malloc( sizeof(int) );
-		*(pmips->regs[i]) = 0;
+		mips->regs[i] = malloc( sizeof(int) );
+		*(mips->regs[i]) = 0;
 	}
-	return pmips;
+	return mips;
 }
 
 /**
@@ -111,4 +118,38 @@ void hashregisters()
 	install("$sp", "29");
 	install("$fp", "30");
 	install("$ra", "31");
+}
+
+struct ptype *allocatemips(struct ptype *mips)
+{
+	//general structure allocation
+	
+	struct ptype imips;
+	mips = &imips;
+
+	//segment allocations
+	if(mips == NULL){mips->report = 1; return mips;}
+	mips->segname = malloc(20);
+	if(mips->segname == NULL){mips->report = 1; return mips;}
+	mips->segsize = malloc(20);
+	if(mips->segsize == NULL){mips->report = 1; return mips;}
+	mips->segperm = malloc(20);
+	if(mips->segperm == NULL){mips->report = 1; return mips;}
+	mips->segstart = malloc(20);
+	if(mips->segstart == NULL){mips->report = 1; return mips;}
+
+	return mips;
+}
+
+
+void destroymips(struct ptype *mips)
+{
+	free(mips->segname);
+	free(mips->segsize);
+	free(mips->segperm);
+	free(mips->segstart);
+
+	free(mips->memrealpointbase);
+
+	free(mips);
 }

@@ -17,6 +17,7 @@ void report(int r)
 	switch(r)
 	{
 
+		case 1:	fprintf(stderr, "ERROR %d: unable to allocate memory\n", r); break;
 		case 100:	fprintf(stderr, "ERROR %d: the file does not exist or the path is incorrect\n", r); break;
 		case 101:	fprintf(stderr, "ERROR %d: file entered isn't ELF\n", r); break;
 		case 201:	fprintf(stderr, "ERROR %d: invalid argument. vaild arguments: mem, reg\n", r); break;
@@ -37,6 +38,7 @@ void report(int r)
 		case 423: 	fprintf(stderr, "ERROR %d: second address not valid\n", r); break;
 		case 424: 	fprintf(stderr, "ERROR %d: second address can't be smaller than the first one\n", r); break;
 		case 425: 	fprintf(stderr, "ERROR %d: word reaches outside of memory block\n", r); break;
+		case 426: 	fprintf(stderr, "ERROR %d: invalid argument for 'disp'\n", r); break;
 		case 430: 	fprintf(stderr, "ERROR %d: assert argument null (reg, word, byte)\n", r); break;
 		case 431: 	fprintf(stderr, "ERROR %d: argument missing or invalid: register\n", r); break;
 		case 432: 	fprintf(stderr, "ERROR %d: argument missing or invalid: value\n", r); break;

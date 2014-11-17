@@ -19,39 +19,40 @@
 #include "environment.h"
 #include "lookup.h"
 
-struct ptype *getopcode(struct ptype *mips, mword word)
+struct ptype *getopcode(struct ptype *mips, mword inword)
 {
 
 	mword sixmsb; //the first six more significant bits
 	mword opcode;
 
-	if(word == 0){mips->operation = "NOP"; return mips;}
+	if(inword == 0){mips->operation = "NOP"; return mips;}
 
-	sixmsb = word & 0xFC000000;
+	sixmsb = inword & 0xFC000000;
 	sixmsb = sixmsb >> 26; //we shift 26 places to the right, so we get the first bits in the least significant byte
 
 	char *sopcode = malloc(20); //string operation code
-	if(sopcode == NULL){/*error de memoria*/return mips;}
+	if(sopcode == NULL){/*memory error*/return mips;}
 	char *psopcode = malloc(10); //string operation code with the prefix
-	if(psopcode == NULL){/*error de memoria*/return mips;}
+	if(psopcode == NULL){/*memory error*/return mips;}
 
 	struct nlist *np;
 
+//this if chain checks the six more significant bytes of inword, ckecking the type of code operation
 	if(sixmsb == SPECIAL)
 	{
 		strcpy(psopcode,"S_OPCODE_");
-		opcode = word & 0x3F;
+		opcode = inword & 0x3F;
 	}
 	else if(sixmsb == SPECIAL3)
 	{
 		strcpy(psopcode,"S3_OPCODE_");
-		opcode = word & 0x7C0;
+		opcode = inword & 0x7C0;
 		opcode = opcode >> 6;
 	}
 	else if(sixmsb == REGIMM)
 	{
 		strcpy(psopcode,"RG_OPCODE_");
-		opcode = word & 0x1F0000;
+		opcode = inword & 0x1F0000;
 		opcode = opcode >> 16;
 	}
 	else
@@ -60,7 +61,7 @@ struct ptype *getopcode(struct ptype *mips, mword word)
 		opcode = sixmsb;
 	}
 
-	sprintf(sopcode,"%x",opcode); // we turn the number into word readable string for lookup
+	sprintf(sopcode,"%x",opcode); // we turn the number into a readable string for lookup
     strcat(psopcode,sopcode); // we add the prefix	
 
     np = lookup(psopcode);
@@ -124,9 +125,3 @@ int load_opcodes()
 
     return 0;
 }
-/*
-int load_prequisites()
-{
-	struct nlist *np;
-	np = install("PREQ_ADD","3,3"); if(np == NULL){return -1;}
-}*/

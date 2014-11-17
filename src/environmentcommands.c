@@ -249,6 +249,7 @@ struct ptype *env_disp(struct ptype *mips)
 		printf("%s: 0x%x\n",mips->argenv[1], *(mips->regs[regidx]));
 		mips->report = 0;
 	}
+	else {mips->report = 426; return mips;}
 	return mips;
 }
 

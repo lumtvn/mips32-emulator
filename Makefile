@@ -71,7 +71,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testdisassembler testelfmanager testautoload testenvironment testmemorymanagement testenvironmentcommands testlookup
+test: testdisassembler  testmemorymanagement testenvironmentcommands testautoload testenvironment
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
@@ -136,13 +136,13 @@ build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
 
 testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@echo starting environmentcommands tests
-	@./bin/emul-mips < test/commandfiles/test_load_commands.txt > test/resultfiles/test_load_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_reg_commands.txt > test/resultfiles/test_set_reg_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
-	@./bin/test_environmentcommands
+	./bin/emul-mips < test/commandfiles/test_load_commands.txt > test/resultfiles/test_load_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_set_reg_commands.txt > test/resultfiles/test_set_reg_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
+	./bin/test_environmentcommands
 	@echo environmentcommands tests passed
 
 bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/memorymanagement.o build/errors.o build/lookup.o

@@ -1,18 +1,1 @@
-ERROR 432: argument missing or invalid: value
-ERROR 432: argument missing or invalid: value
-ERROR 432: argument missing or invalid: value
-ERROR 432: argument missing or invalid: value
-ERROR 432: argument missing or invalid: value
-ERROR 432: argument missing or invalid: value
-ERROR 431: argument missing or invalid: register
-ERROR 420: argument missing: address
-ERROR 420: argument missing: address
-ERROR 417: bad register name (lookup)
-ERROR 432: argument missing or invalid: value
-ERROR 415: address is not aligned
-ERROR 422: argument <address> out of bounds
-emul-mips>registers differ, value of register $t1 is: 0x0
-emul-mips>words differ, word value of address 0x8 is: 0x0
-emul-mips>bytes differ, value of address 0x4 is: 0x0
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>registers differ, value of register $t1 is: 0x0
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>
+no output for this report number: 0

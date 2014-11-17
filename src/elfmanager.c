@@ -42,11 +42,6 @@ struct ptype *my_init_mem(struct ptype *mips, char *filename)
     // allouer la memoire virtuelle
     memory=init_mem(nsegments);
 
-    /*transition to my code*/
-    mips->nsegs = nsegments;
-    mips = creatememory(mips,START_MEM + mips->nsegs * sizeof( mem ) );
-    /*end transition*/
-
 
         // Ne pas oublier d'allouer les differentes sections
     j=0;

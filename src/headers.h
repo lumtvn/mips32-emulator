@@ -51,13 +51,15 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	/// segment's name(.text, .data, etc)
 	char *segname;
 	///segment size
-	int segsize;
+	char *segsize;
+	///the segment's read and write permissions
+	char *segperm;
+	///the segment's starting address
+	char *segstart;
 	///real pointer to segment (used to run over the segment) (in host RAM)
 	mbyte *segrealpoint;
 	///real pointer to beggining of memory segment (remains unchanged once initialized)
 	mbyte *segrealpointbase;
-	///the segment's read and write permissions
-	int segpermissions;
 
 
 	//the entire memory
