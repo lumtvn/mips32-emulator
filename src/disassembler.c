@@ -1,17 +1,17 @@
 /**
  * @file disassembler.c
  * @author Luciano Mantovani
- * @date October 2014
- * @brief file containing functions meant to assemble the code from an elf script
+ * @date November 2014
+ * @brief file containing functions meant to disassemble the code from an elf script
  *
- * This file has functions called by the main program when it has to assemble an elf script.
+ * This file has functions called by the main program when it has to disassemble an elf script.
  * 
- * for now, it only has two main functions: compile and parseline. The idea is to parse line per line
- * and store the disassembler code in memory, but this is not yet implemented. For now, the only thing
- * this disassembler does is read a text from an .elf file, remove the commentary and store it in a 
- * string, which is a field of the general structure ptype.
+ * for now, it has two functions. One that loads all the code operations into a lookup table, and
+ * another that recieves as a parameter a 32 bit word and returns the operation given by the word.
  *
- * there's an extra function called splitscript that is used by compile
+ * @todo function to get the operation prequisites, such as number of arguments, etc.
+ * 
+ *
  **/
 #include "headers.h"
 #include "disassembler.h"
@@ -19,6 +19,16 @@
 #include "environment.h"
 #include "lookup.h"
 
+
+/**
+*@brief this function obtains the operation code, coded in a 32 bit word
+*
+*@param word the word to be analized
+*
+*@return mips it returns the emulator structure with a new value for the field mips->operation
+*
+*@note for this function to work correctly, the function load_opcodes MUST be called before its execution
+**/
 struct ptype *getopcode(struct ptype *mips, mword word)
 {
 
@@ -75,7 +85,13 @@ struct ptype *getopcode(struct ptype *mips, mword word)
 	return mips;
 	
 }
-
+/**
+*@brief this function loads all the operation codes in a lookup table for future reference.
+*
+* the main program has to call this function in order to get getopcode function working correctly.
+*
+*@return int it returns 0 if no error, -1 if there was an error in install function.
+**/
 int load_opcodes()
 {
     struct nlist *np;

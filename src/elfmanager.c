@@ -1,3 +1,19 @@
+/**
+ * @file elfmanager.c
+ * @author Luciano Mantovani
+ * @date November 2014
+ * @brief file containing functions to work with an elf file.
+ * 
+ * this file uses functions from the directory elfapi
+ *
+ * the usage of "elfapi" functions is not correctly done. I intended to build an interface 
+ * between my memory functions and the memory managment of this files, but doing that i added
+ * many unnecesary processing and inneficiencies. For now, i leave it like this because it passes
+ * the tests, but this file will be dramatically changed as soon as possible to make a better use of
+ * the elfapi functions
+ * 
+ *
+ **/
 #include "../elfapi/include/common/bits.h"
 #include "../elfapi/include/common/notify.h"
 #include "../elfapi/include/elf/elf.h"
@@ -6,12 +22,23 @@
 #include "headers.h"
 #include "memorymanagement.h"
 #include "elfmanager.h"
-#include <errno.h>
 
 #define START_MEM 0x3000
 
 
-
+/**
+*@brief this function creates the memory and the segments of the mips program. Using the information read from an output elf file.
+*
+*this function is not good. I wrote it using most of the "main" function in mipself_test.c, with
+*some modifications to allow a transition to my code, but it's not working as intended and it needs change
+*
+*@param filename the name of the file to open
+*
+*@return mips it returns the emulator structure with a new value for the fields mips->nsegs, and the fields modified by function createsegments, from "memorymanagement.c" file
+*
+*@todo better use of elfapi functions; less insignificant memory usage.
+*
+**/
 struct ptype *my_init_mem(struct ptype *mips, char *filename)
 {
     char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
@@ -28,7 +55,7 @@ struct ptype *my_init_mem(struct ptype *mips, char *filename)
     stab symtab= new_stab(0); // table des symboles
 
     fp = fopen(filename,"r");
-	if (fp == NULL){mips->report = 100; printf("%s",strerror(errno));/*no such file*/ return mips;}
+	if (fp == NULL){mips->report = 100;/*no such file*/ return mips;}
 
 	if (!assert_elf_file(fp)) {mips->report = 101;/*is not an elf file*/ return mips;}
 
@@ -79,6 +106,9 @@ struct ptype *my_init_mem(struct ptype *mips, char *filename)
 
 
 }
+
+///////////
+////////// the next functions are identical to those in file mipself_test.c
 
 
 // Fonction permettant de verifier si une chaine de caracteres

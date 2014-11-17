@@ -12,8 +12,6 @@
 #include "environment.h"
 #include "memorymanagement.h"
 #include "lookup.h"
-// #include "../elfapi/include/elf/elf.h"
-// #include "../elfapi/include/elf/format.h"
 
 void hashregisters();
 struct ptype *initregisters(struct ptype *pmips);
@@ -31,7 +29,6 @@ struct ptype *initregisters(struct ptype *pmips);
 * -creates a single memory block in which the emulator will work, reading and wirting memory slots.
 * the functionality to create many memory blocks and asingn tags to them is not yet implemented
 *
-* -if the program was called with an argument, it will try to open it as a file and compile its content
 *
 * -after all of this is done, it will run the environment in an endless loop, until "exit" is entered
 **/

@@ -21,7 +21,21 @@
 #include "memorymanagement.h"
 #include "lookup.h"
 
-
+/**
+* @brief sets up a segment's parameters
+*
+* this function does not literally create a segment inside a memory block. Instead, it loads
+* the information concerning a created segment into a lookup table, which will be referenced
+* when reading from or writing to a segment.
+*
+* @param name the name of the segment
+* @param name the size of the segment
+* @param name the permissions of the segment
+* @param name the direction of the beggining of the segment
+*
+*
+*
+**/
 struct ptype *createsegment(struct ptype *mips, char *name, int size, int permissions, int start)
 {
 	struct nlist *np;
