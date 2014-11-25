@@ -26,86 +26,98 @@
 #define START_MEM 0x3000
 
 
-/**
-*@brief this function creates the memory and the segments of the mips program. Using the information read from an output elf file.
-*
-*this function is not good. I wrote it using most of the "main" function in mipself_test.c, with
-*some modifications to allow a transition to my code, but it's not working as intended and it needs change
-*
-*@param filename the name of the file to open
-*
-*@return mips it returns the emulator structure with a new value for the fields mips->nsegs, and the fields modified by function createsegment() .
-*
-*@todo better use of elfapi functions; less insignificant memory usage.
-*
-**/
-struct ptype *my_init_mem(struct ptype *mips, char *filename)
+segment *get_seg_by_name( mem m, char *name)
 {
-    char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
+    int i;
+    for(i = 0; i< m->nseg; i++)
+    {
+        if(!strcmp(m->seg[i].name, name))
+            return &m->seg[i];
+    }
+    //no segment found with that name!
+    return NULL;
+}
+
+//returns true or false if a segment of a given name has the address n 
+bool is_in_segment( mem m,  segment *seg,/*char *name,*/ vaddr32 v, mword n)
+{
+    // segment *seg;
+    // seg = get_seg_by_name(m, name);
+
+    if(v < seg->start._32)
+        return false;
+    if(v + n-1 > seg->start._32 + seg->size._32)
+        return false;
+
+    //if in-bounds, it belongs to this segment    
+    return true;
+}
+//given an address value, gives the segment
+ segment *which_seg( mem m, vaddr32 v, mword n)
+{
+    int i;
+    for(i = 0; i<m->nseg; i++)
+    {
+        if(is_in_segment(m,&m->seg[i], v, n))
+            return &m->seg[i];
+    }
+    //address doesn't belong to any segment
+    return NULL;
+}
+
+//TODO stack allocation (modify number of sections)
+void start_and_load(mem memory, stab symtab, FILE *pf_elf, char *filename)
+{
+     char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
     unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
-	FILE *fp;
     unsigned int nsegments;
-    unsigned int endianness;   //little or big endian
-    unsigned int bus_width;    // 32 bits or 64bits
-    unsigned int machine_type;
     int i=0,j=0;
-    unsigned int next_segment_start = START_MEM;
+    unsigned int type_machine;
+    unsigned int endianness;   //little ou big endian
+    unsigned int bus_width;    // 32 bits ou 64bits
+    unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
 
-    mem memory;  // virtual memory, it will contain all of the program's data
-    stab symtab= new_stab(0); // table des symboles
+    symtab = new_stab(0);
 
-    fp = fopen(filename,"r");
-	if (fp == NULL){mips->report = 100;/*no such file*/ return mips;}
+    if ((pf_elf = fopen(filename,"r")) == NULL) {
+        ERROR_MSG("cannot open file %s", filename);
+    }
 
-	if (!assert_elf_file(fp)) {mips->report = 101;/*is not an elf file*/ return mips;}
+    if (!assert_elf_file(pf_elf))
+        ERROR_MSG("file %s is not an ELF file", filename);
 
-	// get architecture
-    elf_get_arch_info(fp, &machine_type, &endianness, &bus_width);
-    // get simbols
-    elf_load_symtab(fp, bus_width, endianness, &symtab);
-    // get number of segments
+
+    // recuperation des info de l'architecture
+    elf_get_arch_info(pf_elf, &type_machine, &endianness, &bus_width);
+    // et des symboles
+    elf_load_symtab(pf_elf, bus_width, endianness, &symtab);
+
+
     nsegments = get_nsegments(symtab,section_names,NB_SECTIONS);
 
     // allouer la memoire virtuelle
     memory=init_mem(nsegments);
 
-    /*transition to my code*/
-    mips->nsegs = nsegments;
-    mips = creatememory(mips,START_MEM + mips->nsegs * sizeof( mem ) );
-    /*end transition*/
-
-
-        // Ne pas oublier d'allouer les differentes sections
+    // Ne pas oublier d'allouer les differentes sections
     j=0;
-    for (i=0; i<NB_SECTIONS; i++) 
-    {
-        if (is_in_symbols(section_names[i],symtab)) 
-        {
-            elf_load_section_in_memory(fp,memory, section_names[i],segment_permissions[i],next_segment_start);
-
-            /*transition to my code*/
-            mips = createsegment(mips, section_names[i], memory->seg[j].size._32, segment_permissions[i], next_segment_start);
-            /*end transition*/
-
+    for (i=0; i<NB_SECTIONS; i++) {
+        if (is_in_symbols(section_names[i],symtab)) {
+            elf_load_section_in_memory(pf_elf,memory, section_names[i],segment_permissions[i],next_segment_start);
             next_segment_start+= ((memory->seg[j].size._32+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
             j++;
         }
     }
+}
 
-    // on fait le ménage avant de partir
+void destroy_mem(mem memory, stab symtab, FILE *pf_elf)
+{
     del_mem(memory);
     del_stab(symtab);
-    fclose(fp);
+    fclose(pf_elf);
     puts("");
-
-    mips->report = 0;
-
-
-    return mips;
-
-
-
 }
+
+
 
 ///////////
 ////////// the next functions are identical to those in file mipself_test.c
