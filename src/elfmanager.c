@@ -65,6 +65,19 @@ bool is_in_segment( mem m,  segment *seg, vaddr32 v)
     return NULL;
 }
 
+
+struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr)
+{
+    vsize size;
+    size._32 = sizeof(byte);
+    segment *seg;
+    seg = which_seg(m,addr);
+
+    if(fill_mem_scn(m, seg->name, size, seg->start, &bdata ) != 0)
+       { mips->report = 0; return mips; }
+
+}
+
 //TODO stack allocation (modify number of sections)
 struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
 {
