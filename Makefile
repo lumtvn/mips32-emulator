@@ -13,9 +13,9 @@
 all: bin/emul-mips
 
 bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/memorymanagement.o build/errors.o build/lookup.o build/elfmanager.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o
-	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips
+	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o build/elfmanager.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o -o bin/emul-mips
 
-build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h src/memorymanagement.h src/lookup.h
+build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h src/memorymanagement.h src/lookup.h src/elfmanager.h
 	gcc -pg -c src/main.c -o build/main.o
 
 build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/disassembler.h src/headers.h src/memorymanagement.h src/errors.h src/lookup.h
@@ -30,7 +30,7 @@ build/disassembler.o: src/disassembler.c src/disassembler.h src/headers.h src/er
 build/lookup.o: src/lookup.c src/lookup.h src/headers.h
 	gcc -pg -c src/lookup.c -o build/lookup.o
 
-build/memorymanagement.o: src/memorymanagement.c src/headers.h src/lookup.h
+build/memorymanagement.o: src/memorymanagement.c src/headers.h src/lookup.h src/elfmanager.h elfapi/include/mem.h elfapi/include/elf/syms.h elfapi/include/elf/elf.h elfapi/include/common/notify.h elfapi/include/common/bits.h
 	gcc -pg -c src/memorymanagement.c -o build/memorymanagement.o
 
 build/errors.o: src/errors.c src/errors.h
@@ -159,11 +159,11 @@ testmemorymanagement: bin/test_memorymanagement
 	@./bin/test_memorymanagement
 	@echo memorymanagement tests passed
 
-bin/test_memorymanagement: build/test_memorymanagement.o build/memorymanagement.o build/lookup.o
-	@gcc build/test_memorymanagement.o build/memorymanagement.o build/lookup.o -o bin/test_memorymanagement
+bin/test_memorymanagement: build/test_memorymanagement.o build/memorymanagement.o build/elfmanager.o build/lookup.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o
+	@gcc build/test_memorymanagement.o build/memorymanagement.o build/elfmanager.o build/lookup.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o -o bin/test_memorymanagement
 
 build/test_memorymanagement.o: test/test_memorymanagement.c src/memorymanagement.h src/headers.h src/lookup.h
-	@gcc -pg -c test/test_memorymanagement.c -o build/test_memorymanagement.o
+	@gcc -pg -c test/test_memorymanagement.c  -o build/test_memorymanagement.o
 
 
 testelfmanager: bin/test_elfmanager

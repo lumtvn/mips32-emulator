@@ -16,8 +16,8 @@
  *
  * @todo the block of memory should be created with a tag that identifies it, this is yet to be implemented
  **/
-
 #include "headers.h"
+#include "elfmanager.h"
 #include "memorymanagement.h"
 #include "lookup.h"
 
@@ -96,7 +96,7 @@ struct ptype *createsegment(struct ptype *mips, char *name, int size, int permis
 *
 **/
 struct ptype *creatememory(struct ptype *mips, int size)
-{
+{	
 	mips->memrealpointbase = malloc(size);
 	if(mips->memrealpointbase == NULL){mips->report = 1; return mips;}
 	mips->memsize = size;
@@ -126,6 +126,8 @@ struct ptype *writebyte(struct ptype *mips, mbyte bdata, int simpoint)
 {
 	mips->memrealpoint = mips->memrealpointbase + simpoint;
 	*(mips->memrealpoint) = bdata;
+
+
 
 	return mips;
 

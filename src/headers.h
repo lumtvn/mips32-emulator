@@ -1,6 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "../elfapi/include/common/bits.h"
+#include "../elfapi/include/common/notify.h"
+#include "../elfapi/include/elf/elf.h"
+#include "../elfapi/include/elf/syms.h"
+#include "../elfapi/include/mem.h"
 
 #define MAXSIZE 512
 #define MAXFILESIZE 2048
@@ -92,3 +97,8 @@ struct ptype /// it's a structure that has all elements that are involved in the
 
 };
 
+struct elfstr{
+	mem memory;
+	stab symtab;
+	FILE *pf_elf;
+};

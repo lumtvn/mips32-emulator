@@ -14,11 +14,7 @@
  * 
  *
  **/
-#include "../elfapi/include/common/bits.h"
-#include "../elfapi/include/common/notify.h"
-#include "../elfapi/include/elf/elf.h"
-#include "../elfapi/include/elf/syms.h"
-#include "../elfapi/include/mem.h"
+
 #include "headers.h"
 #include "memorymanagement.h"
 #include "elfmanager.h"
@@ -110,6 +106,29 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
 
     return elfdata;
 }
+
+
+
+
+
+
+struct elfstr *start_mem(struct elfstr *elfdata)
+{
+    char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
+    unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
+    unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
+    elfdata->memory = init_mem(4);
+
+    int i;
+    int j=0;
+    for (i=0; i<NB_SECTIONS; i++) {
+            elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
+            next_segment_start+= ((0x1000+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
+            j++;
+        
+    }
+}
+
 
 void destroy_mem(struct elfstr *elfdata)
 {

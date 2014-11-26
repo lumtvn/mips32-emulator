@@ -8,6 +8,7 @@
  *
  **/
 #include "headers.h"
+#include "elfmanager.h"
 #include "disassembler.h"
 #include "environment.h"
 #include "memorymanagement.h"
@@ -36,17 +37,19 @@ int main(int argc, char *argv[])
 {
 	struct ptype mips;
 	struct ptype *pmips = &mips;
+	struct elfstr *elfdata;
 
 	hashregisters();
 	pmips = initregisters(pmips);
 
-	int size = 20;
-	pmips = creatememory(pmips, size);
-
 	if((pmips->filename = argv[1]) != NULL)
 		{
-			// pmips = compile(pmips);				
+			 elfdata = start_and_load(elfdata,argv[1]);				
 		}
+	else
+	{
+		start_mem(elfdata);
+	}
 
 	while(1)
 	{
