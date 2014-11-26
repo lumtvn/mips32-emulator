@@ -11,10 +11,10 @@
 #include <strings.h>
 #include <string.h>
 
-#include "common/notify.h"
-#include "common/bits.h"
-#include "elf/elf.h"
-#include "elf/formats.h"
+#include "../include/common/notify.h"
+#include "../include/common/bits.h"
+#include "../include/elf/elf.h"
+#include "../include/elf/formats.h"
 
 // strdup is defined in the string.h header but included only for glibc >=2.12.
 // the following declaration bypasses the version declaration

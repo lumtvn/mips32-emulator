@@ -7,8 +7,8 @@
  * Bit twiddling.
  */
 
-#include "common/types.h"
-#include "common/bits.h"
+#include "../include/common/types.h"
+#include "../include/common/bits.h"
 
 
 /**

@@ -14,11 +14,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "common/bits.h"
-#include "common/notify.h"
-#include "elf/elf.h"
-#include "elf/syms.h"
-#include "mem.h"
+#include "../include/common/bits.h"
+#include "../include/common/notify.h"
+#include "../include/elf/elf.h"
+#include "../include/elf/syms.h"
+#include "../include/mem.h"
 
 // On fixe ici une adresse basse dans la mémoire virtuelle. Le premier segment
 // ira se loger à cette adresse.

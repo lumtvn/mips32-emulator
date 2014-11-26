@@ -39,26 +39,26 @@ segment *get_seg_by_name( mem m, char *name)
 }
 
 //returns true or false if a segment of a given name has the address n 
-bool is_in_segment( mem m,  segment *seg,/*char *name,*/ vaddr32 v, mword n)
+bool is_in_segment( mem m,  segment *seg, vaddr32 v)
 {
     // segment *seg;
     // seg = get_seg_by_name(m, name);
 
     if(v < seg->start._32)
         return false;
-    if(v + n-1 > seg->start._32 + seg->size._32)
+    if(v > seg->start._32 + seg->size._32 - 1)
         return false;
 
     //if in-bounds, it belongs to this segment    
     return true;
 }
 //given an address value, gives the segment
- segment *which_seg( mem m, vaddr32 v, mword n)
+ segment *which_seg( mem m, vaddr32 v)
 {
     int i;
     for(i = 0; i<m->nseg; i++)
     {
-        if(is_in_segment(m,&m->seg[i], v, n))
+        if(is_in_segment(m,&m->seg[i], v))
             return &m->seg[i];
     }
     //address doesn't belong to any segment
@@ -66,7 +66,7 @@ bool is_in_segment( mem m,  segment *seg,/*char *name,*/ vaddr32 v, mword n)
 }
 
 //TODO stack allocation (modify number of sections)
-void start_and_load(mem memory, stab symtab, FILE *pf_elf, char *filename)
+struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
 {
      char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
     unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
@@ -77,43 +77,45 @@ void start_and_load(mem memory, stab symtab, FILE *pf_elf, char *filename)
     unsigned int bus_width;    // 32 bits ou 64bits
     unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
 
-    symtab = new_stab(0);
 
-    if ((pf_elf = fopen(filename,"r")) == NULL) {
+    elfdata->symtab = new_stab(0);
+
+    if ((elfdata->pf_elf = fopen(filename,"r")) == NULL) {
         ERROR_MSG("cannot open file %s", filename);
     }
 
-    if (!assert_elf_file(pf_elf))
+    if (!assert_elf_file(elfdata->pf_elf))
         ERROR_MSG("file %s is not an ELF file", filename);
 
 
     // recuperation des info de l'architecture
-    elf_get_arch_info(pf_elf, &type_machine, &endianness, &bus_width);
+    elf_get_arch_info(elfdata->pf_elf, &type_machine, &endianness, &bus_width);
     // et des symboles
-    elf_load_symtab(pf_elf, bus_width, endianness, &symtab);
+    elf_load_symtab(elfdata->pf_elf, bus_width, endianness, &(elfdata->symtab));
 
 
-    nsegments = get_nsegments(symtab,section_names,NB_SECTIONS);
+    nsegments = get_nsegments(elfdata->symtab,section_names,NB_SECTIONS);
 
     // allouer la memoire virtuelle
-    memory=init_mem(nsegments);
+    elfdata->memory=init_mem(nsegments);
 
-    // Ne pas oublier d'allouer les differentes sections
     j=0;
     for (i=0; i<NB_SECTIONS; i++) {
-        if (is_in_symbols(section_names[i],symtab)) {
-            elf_load_section_in_memory(pf_elf,memory, section_names[i],segment_permissions[i],next_segment_start);
-            next_segment_start+= ((memory->seg[j].size._32+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
+        if (is_in_symbols(section_names[i],elfdata->symtab)) {
+            elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
+            next_segment_start+= ((elfdata->memory->seg[j].size._32+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
             j++;
         }
     }
+
+    return elfdata;
 }
 
-void destroy_mem(mem memory, stab symtab, FILE *pf_elf)
+void destroy_mem(struct elfstr *elfdata)
 {
-    del_mem(memory);
-    del_stab(symtab);
-    fclose(pf_elf);
+    fclose(elfdata->pf_elf);
+    del_mem(elfdata->memory);
+    del_stab(elfdata->symtab);
     puts("");
 }
 

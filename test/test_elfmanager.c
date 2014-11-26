@@ -17,11 +17,44 @@ int simpoint;
 {
 	char *filename = "test/test_elf.o";
 
+	struct elfstr *elfdata;
 	mem memory;  // memoire virtuelle, c'est elle qui contiendra toute les données du programme
     stab symtab; // table des symboles
     FILE * pf_elf;
 
-	start_and_load(memory, symtab, pf_elf, filename);
+	elfdata = start_and_load(elfdata, filename);
+
+	segment *seg;
+	char name[] = ".text";
+
+	seg = get_seg_by_name(elfdata->memory, name);
+	mu_assert("get segment by name incorrect.", !strcmp(seg->name,".text"));
+
+	char name2[] = ".data";
+
+	seg = get_seg_by_name(elfdata->memory, name2);
+	mu_assert("get segment by name incorrect.", !strcmp(seg->name,".data"));
+
+
+	mu_assert("is in segment data failed %d\n", is_in_segment(elfdata->memory, seg, 0x4000));
+	mu_assert("is in segment data failed %d\n", is_in_segment(elfdata->memory, seg, 0x4002));
+	mu_assert("is in segment data failed %d\n", !is_in_segment(elfdata->memory, seg, 0x4004));
+
+	seg = which_seg(elfdata->memory, 0x3003);
+	mu_assert("which_seg failed, should be .text", !strcmp(seg->name,".text"));
+	seg = which_seg(elfdata->memory, 0x3000);
+	mu_assert("which_seg failed, should be .text", !strcmp(seg->name,".text"));
+	seg = which_seg(elfdata->memory, 0x3060);
+	mu_assert("which_seg failed, should be null", seg == NULL);
+	seg = which_seg(elfdata->memory, 0x4000);
+	mu_assert("which_seg failed, should be .data", !strcmp(seg->name,".data"));
+
+	// printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", filename) ;
+ //    print_mem(elfdata->memory);
+ //    stab32_print( elfdata->symtab);
+
+ 	destroy_mem(elfdata);
+
 
 	// struct nlist *np;
  
@@ -66,7 +99,6 @@ int simpoint;
  	// pmips = displaymemory(pmips);
 
  	// pmips = destroymemory(pmips);
- 	destroy_mem(memory, symtab, pf_elf);
 	return 0;
 }
  

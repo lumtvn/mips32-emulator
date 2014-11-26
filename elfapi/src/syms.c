@@ -17,8 +17,8 @@
 // the following declaration bypasses the version declaration
 char *strdup( const char * );
 
-#include "common/notify.h"
-#include "elf/syms.h"
+#include "../include/common/notify.h"
+#include "../include/elf/syms.h"
 
 
 /**

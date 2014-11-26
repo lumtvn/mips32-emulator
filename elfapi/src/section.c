@@ -8,8 +8,8 @@
  * Section handling.
  */
 
-#include "common/notify.h"
-#include "elf/section.h"
+#include "../include/common/notify.h"
+#include "../include/elf/section.h"
 
 
 /**

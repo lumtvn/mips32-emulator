@@ -12,7 +12,7 @@
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/memorymanagement.o build/errors.o build/lookup.o build/elfmanager.o ../elfapi/src/bits.o ../elfapi/src/elf.o ../elfapi/src/mem.o ../elfapi/src/section.o ../elfapi/src/syms.o
+bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/memorymanagement.o build/errors.o build/lookup.o build/elfmanager.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o
 	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/memorymanagement.o build/errors.o build/lookup.o -o bin/emul-mips
 
 build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h src/memorymanagement.h src/lookup.h
@@ -36,23 +36,23 @@ build/memorymanagement.o: src/memorymanagement.c src/headers.h src/lookup.h
 build/errors.o: src/errors.c src/errors.h
 	gcc -pg -c src/errors.c -o build/errors.o
 
-build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h ../elfapi/include/mem.h ../elfapi/include/elf/syms.h ../elfapi/include/elf/elf.h ../elfapi/include/common/notify.h ../elfapi/include/common/bits.h
+build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h elfapi/include/mem.h elfapi/include/elf/syms.h elfapi/include/elf/elf.h elfapi/include/common/notify.h elfapi/include/common/bits.h
 	gcc -pg -c src/elfmanager.c -o build/elfmanager.o
 
-../elfapi/src/bits.o: ../elfapi/src/bits.c ../elfapi/include/common/types.h ../elfapi/include/common/bits.h
-	gcc -pg -c ../elfapi/src/bits.c -o ../elfapi/src/bits.o
+elfapi/src/bits.o: elfapi/src/bits.c elfapi/include/common/types.h elfapi/include/common/bits.h
+	gcc -pg -c elfapi/src/bits.c -o elfapi/src/bits.o
 
-../elfapi/src/elf.o: ../elfapi/src/elf.c ../elfapi/include/common/notify.h ../elfapi/include/common/bits.h ../elfapi/include/elf/elf.h ../elfapi/include/elf/formats.h
-	gcc -pg -c ../elfapi/src/elf.c -o ../elfapi/src/elf.o
+elfapi/src/elf.o: elfapi/src/elf.c elfapi/include/common/notify.h elfapi/include/common/bits.h elfapi/include/elf/elf.h elfapi/include/elf/formats.h
+	gcc -pg -c elfapi/src/elf.c -o elfapi/src/elf.o
 
-../elfapi/src/mem.o: ../elfapi/src/mem.c ../elfapi/include/mem.h ../elfapi/include/common/notify.h ../elfapi/include/common/bits.h
-	gcc -pg -c ../elfapi/src/mem.c -o ../elfapi/src/mem.o
+elfapi/src/mem.o: elfapi/src/mem.c elfapi/include/mem.h elfapi/include/common/notify.h elfapi/include/common/bits.h
+	gcc -pg -c elfapi/src/mem.c -o elfapi/src/mem.o
 
-../elfapi/src/section.o: ../elfapi/src/section.c ../elfapi/include/elf/section.h ../elfapi/include/common/notify.h
-	gcc -pg -c ../elfapi/src/section.c -o ../elfapi/src/section.o
+elfapi/src/section.o: elfapi/src/section.c elfapi/include/elf/section.h elfapi/include/common/notify.h
+	gcc -pg -c elfapi/src/section.c -o elfapi/src/section.o
 
-../elfapi/src/syms.o: ../elfapi/src/syms.c ../elfapi/include/elf/syms.h ../elfapi/include/common/notify.h
-	gcc -pg -c ../elfapi/src/syms.c -o ../elfapi/src/syms.o
+elfapi/src/syms.o: elfapi/src/syms.c elfapi/include/elf/syms.h elfapi/include/common/notify.h
+	gcc -pg -c elfapi/src/syms.c -o elfapi/src/syms.o
 
 ###############################--INSTALL--################################
 ##########################################################################
@@ -171,10 +171,10 @@ testelfmanager: bin/test_elfmanager
 	@./bin/test_elfmanager
 	@echo elfmanager tests passed
 
-bin/test_elfmanager: build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o ../elfapi/src/bits.o ../elfapi/src/elf.o ../elfapi/src/mem.o ../elfapi/src/section.o ../elfapi/src/syms.o
-	@gcc build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o ../elfapi/src/bits.o ../elfapi/src/elf.o ../elfapi/src/mem.o ../elfapi/src/section.o ../elfapi/src/syms.o -o bin/test_elfmanager
+bin/test_elfmanager: build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o
+	@gcc build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o elfapi/src/bits.o elfapi/src/elf.o elfapi/src/mem.o elfapi/src/section.o elfapi/src/syms.o -o bin/test_elfmanager
 
-build/test_elfmanager.o: test/test_elfmanager.c src/elfmanager.h src/headers.h src/lookup.h src/memorymanagement.h ../elfapi/include/mem.h ../elfapi/include/elf/syms.h ../elfapi/include/elf/elf.h ../elfapi/include/common/notify.h ../elfapi/include/common/bits.h
+build/test_elfmanager.o: test/test_elfmanager.c src/elfmanager.h src/headers.h src/lookup.h src/memorymanagement.h elfapi/include/mem.h elfapi/include/elf/syms.h elfapi/include/elf/elf.h elfapi/include/common/notify.h elfapi/include/common/bits.h
 	@gcc -pg -c test/test_elfmanager.c -o build/test_elfmanager.o
 
 

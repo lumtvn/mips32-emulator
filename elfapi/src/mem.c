@@ -11,9 +11,9 @@
 #include <strings.h>
 #include <string.h>
 
-#include "mem.h"
-#include "common/bits.h"
-#include "common/notify.h"
+#include "../include/mem.h"
+#include "../include/common/bits.h"
+#include "../include/common/notify.h"
 
 
 
