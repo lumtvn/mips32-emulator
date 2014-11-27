@@ -93,6 +93,48 @@ static char * test_writebytememory()
 
 } 
 
+static char * test_writewordmemory()
+{
+	char *filename = "test/test_elf.o";
+
+	struct elfstr myelfstr; 
+	struct elfstr *elfdata = &myelfstr;
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	elfdata = start_and_load(elfdata, filename);
+
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+
+	word data = 0xAABBCCDD;
+	vaddr32 addr = 0x3004;
+
+	mips = elfwriteword(mips, elfdata->memory, data, addr);
+
+	mu_assert("address not assigned to any segment", mips->report != 1);
+	mu_assert("seg->content is null", mips->report != 2);
+
+	mu_assert("there was a problem in writing", mips->report == 0);
+
+	segment *seg = get_seg_by_name(elfdata->memory, ".text");
+
+	// printf("0x%x", *(seg->content + addr - seg->start._32));
+	// printf("%x", *(seg->content + addr - seg->start._32+1));
+	// printf("%x", *(seg->content + addr - seg->start._32+2));
+	// printf("%x\n", *(seg->content + addr - seg->start._32+3));
+
+	mu_assert("fourth byte writing incorrect", *(seg->content + addr - seg->start._32 + 3) == 0xDD);
+	mu_assert("third byte writing incorrect", *(seg->content + addr - seg->start._32 + 2) == 0xCC);
+	mu_assert("second byte writing incorrect", *(seg->content + addr - seg->start._32 + 1) == 0xBB);
+	mu_assert("first byte writing incorrect", *(seg->content + addr - seg->start._32) == 0xAA);
+
+	 // print_segment_raw_content(seg);
+
+
+	return 0;
+
+} 
+
 static char * test_readbytememory()
 {
 	char *filename = "test/test_elf.o";
@@ -125,6 +167,41 @@ static char * test_readbytememory()
 
 }
 
+static char * test_readwordmemory()
+{
+	char *filename = "test/test_elf.o";
+
+	struct elfstr myelfstr; 
+	struct elfstr *elfdata = &myelfstr;
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	elfdata = start_and_load(elfdata, filename);
+
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+
+	vaddr32 addr = 0x3000;
+
+	mips = elfreadword(mips, elfdata->memory, addr);
+
+	mu_assert("address not assigned to any segment", mips->report != 1);
+	mu_assert("seg->content is null", mips->report != 2);
+
+	mu_assert("there was a problem in reading", mips->report == 0);
+
+	// printf("0x%x\n", mips->wdata);
+
+	mu_assert("word read incorrectly",mips->wdata == 0x2009000c);
+
+
+	
+	// segment *seg = get_seg_by_name(elfdata->memory, ".text");
+	// print_segment_raw_content(seg);
+
+	return 0;
+
+}
+
 
 // static char * test_start_mem()
 // {
@@ -147,6 +224,10 @@ static char * test_readbytememory()
      printf("test_writebytememory passed\n");
      mu_run_test(test_readbytememory);
      printf("test_readbytememory passed\n");
+     mu_run_test(test_writewordmemory);
+     printf("test_writewordmemory passed\n");
+     mu_run_test(test_readwordmemory);
+     printf("test_readwordmemory passed\n");     
      return 0;
  }
  

@@ -78,6 +78,7 @@ struct ptype /// it's a structure that has all elements that are involved in the
 
 	///for reading files in elfmanager.c
 	byte bdata;
+	word wdata;
 
 
 	///general purpose registers

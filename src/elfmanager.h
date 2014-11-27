@@ -14,5 +14,7 @@ segment *get_seg_by_name( mem m, char *name);
 segment *which_seg( mem m, vaddr32 v, uint size);
 struct elfstr *start_mem(struct elfstr *elfdata);
 struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr);
+struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr);
 struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr);
+struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr);
 void print_segment_raw_content(segment* seg);

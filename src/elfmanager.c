@@ -113,7 +113,7 @@ struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr)
     vsize size;
     size._32 = sizeof(byte);
     segment *seg;
-    seg = which_seg(m,addr,0);
+    seg = which_seg(m,addr,1);
     if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
 
     if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
@@ -129,7 +129,7 @@ struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
     vsize size;
     size._32 = sizeof(byte);
     segment *seg;
-    seg = which_seg(m,addr,0);
+    seg = which_seg(m,addr,1);
     if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
 
     if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
@@ -139,24 +139,59 @@ struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
     return mips;
 }
 
+struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr)
+{
+    vsize size;
+    size._32 = sizeof(word);
+    segment *seg;
+    seg = which_seg(m,addr,4);
+    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
+
+    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+
+    // printf("0x%x\n", *(seg->content + addr - seg->start._32));
+    *(seg->content + addr - seg->start._32) = (wdata >> 24) & 0xFF;
+    *(seg->content + addr - seg->start._32 + 1) = (wdata >> 16) & 0xFF;
+    *(seg->content + addr - seg->start._32 + 2) = (wdata >> 8) & 0xFF;
+    *(seg->content + addr - seg->start._32 + 3) = wdata;
+
+    mips->report = 0;
+    return mips;
+}
+
+struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr)
+{
+    vsize size;
+    size._32 = sizeof(word);
+    segment *seg;
+    seg = which_seg(m,addr,1);
+    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
+
+    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+
+    mips->wdata = (*(seg->content + addr - seg->start._32) << 24) | (*(seg->content + addr - seg->start._32+1) << 16) | (*(seg->content + addr - seg->start._32+2) << 8) | *(seg->content + addr - seg->start._32+3);
+    mips->report = 0;
 
 
-// struct elfstr *start_mem(struct elfstr *elfdata)
-// {
-//     char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
-//     unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
-//     unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
-//     elfdata->memory = init_mem(4);
+    return mips;
+}
 
-//     int i;
-//     int j=0;
-//     for (i=0; i<NB_SECTIONS; i++) {
-//             elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
-//             next_segment_start+= ((0x1000+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
-//             j++;
+/*struct elfstr *start_mem(struct elfstr *elfdata)
+{
+    char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
+    unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
+    unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
+    elfdata->memory = init_mem(4);
+
+    int i;
+    int j=0;
+    for (i=0; i<NB_SECTIONS; i++) {
+            elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
+            next_segment_start+= ((0x1000+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
+            j++;
         
-//     }
-// }
+    }
+}*/
 
 
 void destroy_mem(struct elfstr *elfdata)
