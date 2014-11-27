@@ -1,2 +1,2 @@
-load ./test/testscript.elf
+load ./test/test_elf.o
 exit

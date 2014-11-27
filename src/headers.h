@@ -29,6 +29,8 @@ static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", 
 		, "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp"
 		, "$sp", "$fp", "$ra"};
 
+
+
 struct ptype /// it's a structure that has all elements that are involved in the simulator
 {   
 	///integer for error handling
@@ -76,6 +78,8 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	/// memory block size
 	int memsize;
 
+	///memory
+	struct elfstr *elfdata;
 	///for reading files in elfmanager.c
 	byte bdata;
 	word wdata;
@@ -98,6 +102,10 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	///the arguments array. 32 is a temporal value, i will change it
 	char *argenv[32]; 
 
+	///flag to know if there's a file loaded
+	bool fl_file_loaded; 
+	///exit flag
+	bool fl_exit;
 
 };
 
@@ -105,4 +113,5 @@ struct elfstr{
 	mem memory;
 	stab symtab;
 	FILE *pf_elf;
+	bool success;
 };

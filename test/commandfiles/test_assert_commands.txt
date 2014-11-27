@@ -1,3 +1,4 @@
+load test/test_elf.o
 assert reg $t1 5
 assert word 8 5
 assert byte 4 5

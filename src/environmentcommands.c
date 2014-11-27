@@ -15,7 +15,7 @@
 **/
 #include "headers.h"
 #include "environmentcommands.h"
-#include "memorymanagement.h"
+#include "elfmanager.h"
 #include "disassembler.h"
 #include "errors.h"
 #include "lookup.h"
@@ -24,8 +24,29 @@ struct ptype *env_load(struct ptype *mips)
 {
 	if(mips->argenv[0] != NULL)
 		{
-			// mips->filename = mips->argenv[0];
-			// mips = compile(mips);
+			char *filename = mips->argenv[0];
+			mips->elfdata = start_and_load(mips->elfdata, filename);
+			if(!mips->elfdata->success)
+			{
+				mips->report = 10;
+				//elf file not loaded correctly
+				return mips;
+			}
+			mips->fl_file_loaded = true;
+
+			printf("\n---NEW FILE LOADED:  %s ---\n",filename);
+			int j = 0;
+			int i;
+		    print_mem(mips->elfdata->memory);
+		    for (i=0; i<NB_SECTIONS; i++) {
+		        if (is_in_symbols(section_names[i],mips->elfdata->symtab)) {
+       				print_segment_raw_content(&mips->elfdata->memory->seg[j]);
+		            j++;
+		        }
+		    }
+
+
+			mips->report = 0;
 			return mips;
 		}
 	else return mips;
@@ -53,64 +74,44 @@ struct ptype *env_set(struct ptype *mips)
 			
 			if(mips->n_argenv < 4){mips->report = 410; return mips;} 
 			if(mips->n_argenv > 4) {mips->report = 411; return mips;}
+			if(!mips->fl_file_loaded){mips->report = 3; return mips;}
 			else
 			{
 				 if(find_illegal_character(mips->argenv[2])){mips->report = 422; return mips;}
 				 if(find_illegal_character(mips->argenv[3])){mips->report = 419; return mips;}
 
 				if(!strcmp(mips->argenv[1],"byte"))
-				{
-					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->memsize)
-					{
-						mbyte temp;
-						mword addr;
-						mbyte bdata;
+				{		
+						byte temp;
+						vaddr32 addr;
+						byte bdata;
 						addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
-						if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
 
 						bdata = (short int)strtol(mips->argenv[3], (char**)NULL,0);
 						if(bdata > 0xFF){mips->report = 419; return mips;}
 
-						temp = readbyte(mips,addr); // check to see if we are overwriting
-						if(temp != 0) {mips->report = 413;} //if we are, we send a warning
-						else {mips->report = 0;} 
-
-						mips = writebyte(mips, bdata, addr); // but the writing is done anyway
-
+						mips = elfwritebyte(mips, mips->elfdata->memory, bdata, addr); // breaks alone if no writing permits in segment
 						return mips;
-					}
-					else mips->report = 414;
-						 return mips;
+
 				}
 				else if(!strcmp(mips->argenv[1],"word"))
 				{
 
-					if((int)strtol(mips->argenv[2], (char**)NULL,0) < mips->memsize)
+					word temp;
+					vaddr32 addr;
+					word wdata;
+					addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
+					wdata = (int)strtol(mips->argenv[3], (char**)NULL,0);
+
+					if(wdata > 0xFFFFFFFF){mips->report = 419; return mips;}
+
+					if(addr % 4 == 0) //number should be divisable by 4
 					{
-
-						mword temp;
-						mword addr;
-						mword wdata;
-						addr = (int)strtol(mips->argenv[2], (char**)NULL,0);
-						if(addr < 0 || (addr + 3) > mips->memsize){mips->report = 425; return mips;}
-
-						wdata = (int)strtol(mips->argenv[3], (char**)NULL,0);
-						if(wdata > 0xFFFFFFFF){mips->report = 419; return mips;}
-
-						if(addr % 4 == 0)
-						{
-							temp = readword(mips,addr); // check to see if we are overwriting
-							if(temp != 0) {mips->report = 413;} //if we are, we send a warning
-							else {mips->report = 0;} 
-
-							mips = writeword(mips, wdata, addr); // but the writing is done anyway
-
-							return mips;
-						}
-						else {mips->report = 415;}
+						mips = elfwriteword(mips,mips->elfdata->memory, wdata, addr); // but the writing is done anyway
+						return mips;
 					}
-					else mips->report = 414;
-						 return mips;	
+					else {mips->report = 415;}
+					
 				}
  				else {mips->report = 412; return mips;}
 			}
@@ -123,7 +124,7 @@ struct ptype *env_set(struct ptype *mips)
 
 			if(find_illegal_character(mips->argenv[2])){mips->report = 419; return mips;}
 
-			mword wdata;
+			word wdata;
 			wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
 
 			if (wdata < 0 || wdata > 0xFFFFFFFF){mips->report = 419; return mips;}
@@ -172,10 +173,21 @@ struct ptype *env_disp(struct ptype *mips)
 	
 		if(mips->argenv[1] == NULL){mips->report = 420; return mips;}
 		if(mips->n_argenv > 2){mips->report = 411; return mips;}
+		if(!mips->fl_file_loaded){mips->report = 3; return mips;}
 
 		if(!strcmp(mips->argenv[1],"map"))
 			{
-				mips = displaymemory(mips);
+			    int j=0;
+			    int i;
+
+			    print_mem(mips->elfdata->memory);
+			    for (i=0; i<NB_SECTIONS; i++) {
+			        if (is_in_symbols(section_names[i],mips->elfdata->symtab)) {
+           				print_segment_raw_content(&mips->elfdata->memory->seg[j]);
+			            j++;
+			        }
+			    }
+
 				mips->report = 0;
 				return mips;
 			}
@@ -187,18 +199,19 @@ struct ptype *env_disp(struct ptype *mips)
 			{
 
 				// find_illegal_character(mips->argenv[2]);
-				mword addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
-				if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
+				vaddr32 addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
 			
-				mbyte bdata;                           //print the byte of the address
-				bdata = readbyte(mips,addr);
-				printf("0x%x: 0x%x\n",addr, bdata);
+				byte bdata;                           //print the byte of the address
+				mips = elfreadbyte(mips, mips->elfdata->memory, addr);
+				if(mips->report > 0){return mips;}
+
+				printf("0x%x: 0x%x\n",addr, mips->bdata);
 				return mips;
 			}
 			else
 			{	
-				mword addr1, addr2;
-				mbyte bdata;
+				vaddr32 addr1, addr2;
+				byte bdata;
 
 				size_t len = temp2 - mips->argenv[1]; //we retrieve the : out of the string
 	            temp1 = malloc(len + 1);
@@ -215,8 +228,9 @@ struct ptype *env_disp(struct ptype *mips)
 
 				while(addr1 <= addr2)
 				{
-					bdata = readbyte(mips, addr1);
-					printf("0x%x: 0x%x\n",addr1, bdata);
+					mips = elfreadbyte(mips, mips->elfdata->memory, addr1);
+					if(mips->report > 0){return mips;}
+					printf("0x%x: 0x%x\n",addr1, mips->bdata);
 					addr1++;
 				}
 				mips->report = 0;
@@ -269,6 +283,8 @@ struct ptype *env_disp(struct ptype *mips)
 struct ptype *env_assert(struct ptype *mips)
 {
 	if(mips->argenv[0] == NULL){mips->report = 430; return mips;}
+	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
+
 	if(!strcmp(mips->argenv[0],"reg"))
 	{
 		if(mips->argenv[1] == NULL){mips->report = 431; return mips;}
@@ -294,18 +310,18 @@ struct ptype *env_assert(struct ptype *mips)
 		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
 
 		int addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
-		if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
+
 		if(addr % 4 != 0){mips->report = 415; return mips;}
 
-		mword wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
-		if(addr < 0 || addr > 0x4000000000000){mips->report = 419; return mips;}
+		word wdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
+		if(addr < 0 || addr > 0xFFFFFFFF){mips->report = 419; return mips;}
 
-		mword rwdata;
-		rwdata = readword(mips,addr);
+		mips = elfreadword(mips, mips->elfdata->memory, addr);
+		if(mips->report > 0){return mips;}
 
-		if(rwdata != wdata)
+		if(mips->wdata != wdata)
 		{
-			printf("words differ, word value of address 0x%x is: 0x%x\n",addr, rwdata);
+			printf("words differ, word value of address 0x%x is: 0x%x\n",addr, mips->wdata);
 		}
 		mips->report = 0;	
 		return mips;		
@@ -317,17 +333,16 @@ struct ptype *env_assert(struct ptype *mips)
 		if(mips->argenv[2] == NULL){mips->report = 432; return mips;}
 
 		int addr = (int)strtol(mips->argenv[1], (char**)NULL,0);
-		if(addr < 0 || addr > mips->memsize){mips->report = 422; return mips;}
+		if(addr < 0 || addr > 0xFF){mips->report = 419; return mips;}
 
-		mbyte bdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
-		if(addr < 0 || addr > 0x4000000000000){mips->report = 419; return mips;}
+		byte bdata = (int)strtol(mips->argenv[2], (char**)NULL,0);
 
-		mbyte rbdata;
-		rbdata = readbyte(mips,addr);
+		mips = elfreadbyte(mips, mips->elfdata->memory, addr);
+		if(mips->report > 0){return mips;}
 
-		if(rbdata != bdata)
+		if(mips->bdata != bdata)
 		{
-			printf("bytes differ, value of address 0x%x is: 0x%x\n",addr, rbdata);
+			printf("bytes differ, value of address 0x%x is: 0x%x\n",addr, mips->bdata);
 		}
 		mips->report = 0;	
 		return mips;		

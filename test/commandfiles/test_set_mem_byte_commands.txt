@@ -1,3 +1,4 @@
+load test/test_elf.o
 set mem
 set mem asd
 set mem byte

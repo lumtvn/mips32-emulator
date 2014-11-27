@@ -36,10 +36,7 @@ segment *get_seg_by_name( mem m, char *name)
 
 //returns true or false if a segment of a given name has the address v
 bool is_in_segment(segment *seg, vaddr32 v, uint size)
-{   //SACAR MEM M SI NO LO VAS A USAR
-    // segment *seg;
-    // seg = get_seg_by_name(m, name);
-
+{ 
     if(v < seg->start._32)
         return false;
     if(v + size - 1 > seg->start._32 + seg->size._32 - 1)
@@ -65,8 +62,6 @@ bool is_in_segment(segment *seg, vaddr32 v, uint size)
 //TODO stack allocation (modify number of sections)
 struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
 {
-     char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
-    unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
     unsigned int nsegments;
     int i=0,j=0;
     unsigned int type_machine;
@@ -78,10 +73,16 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
 
     if ((elfdata->pf_elf = fopen(filename,"r")) == NULL) {
         ERROR_MSG("cannot open file %s", filename);
+        elfdata->success = false;
+        return elfdata;
     }
 
     if (!assert_elf_file(elfdata->pf_elf))
+    {
         ERROR_MSG("file %s is not an ELF file", filename);
+        elfdata->success = false;
+        return elfdata;
+    }
 
 
     // recuperation des info de l'architecture
@@ -104,35 +105,32 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
         }
     }
 
+    elfdata->success = true;
     return elfdata;
 }
 
 
 struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr)
 {
-    vsize size;
-    size._32 = sizeof(byte);
     segment *seg;
     seg = which_seg(m,addr,1);
-    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
-
-    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+    if(seg == NULL){mips->report = 501;  /*no segment asociated to address*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
+    if(SCN_RIGHTS(seg->attr) != RW_){mips->report = 503; /*no writing permissions for this segment*/ return mips;}
 
     // printf("0x%x\n", *(seg->content + addr - seg->start._32));
     *(seg->content + addr - seg->start._32) = bdata;
     mips->report = 0;
+
     return mips;
 }
 
 struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
 {
-    vsize size;
-    size._32 = sizeof(byte);
     segment *seg;
     seg = which_seg(m,addr,1);
-    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
-
-    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+    if(seg == NULL){mips->report = 501;  /*no segment asociated to address*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
 
     mips->bdata = *(seg->content + addr - seg->start._32);
     mips->report = 0;
@@ -141,13 +139,12 @@ struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
 
 struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr)
 {
-    vsize size;
-    size._32 = sizeof(word);
     segment *seg;
     seg = which_seg(m,addr,4);
-    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
+    if(seg == NULL){mips->report = 501;  /*no segment or address out of bounds*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
+    if(SCN_RIGHTS(seg->attr) != RW_){mips->report = 503; /*no writing permissions for this segment*/ return mips;}
 
-    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
 
     // printf("0x%x\n", *(seg->content + addr - seg->start._32));
     *(seg->content + addr - seg->start._32) = (wdata >> 24) & 0xFF;
@@ -161,13 +158,11 @@ struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr)
 
 struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr)
 {
-    vsize size;
-    size._32 = sizeof(word);
     segment *seg;
     seg = which_seg(m,addr,1);
-    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
+    if(seg == NULL){mips->report = 501;  /*no segment asociated to address*/ return mips;}
 
-    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
 
     mips->wdata = (*(seg->content + addr - seg->start._32) << 24) | (*(seg->content + addr - seg->start._32+1) << 16) | (*(seg->content + addr - seg->start._32+2) << 8) | *(seg->content + addr - seg->start._32+3);
     mips->report = 0;
@@ -199,7 +194,7 @@ void destroy_mem(struct elfstr *elfdata)
     fclose(elfdata->pf_elf);
     del_mem(elfdata->memory);
     del_stab(elfdata->symtab);
-    puts("");
+    // puts("");
 }
 
 

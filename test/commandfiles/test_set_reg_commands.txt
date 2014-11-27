@@ -1,3 +1,4 @@
+load test/test_elf.o
 set reg
 set reg asd iasdo
 set reg asidj 0x12

@@ -19,34 +19,34 @@
 *
 * after obtaining a line from stdin, it parses it and analizes the command. The function
 * analize() also executes it, and if there's no report (mips->report = 0) the program leaves.
-*
+*F
 *@note this function is thought to be called within an endless loop
 **/
-void runenv(struct ptype *mips)
+int runenv(struct ptype *mips)
 {
 
-			 mips->entry = malloc(MAXSIZE);
+	printf("emul-mips>"); // prints out the prompt
+	
+	char *result = fgets(mips->entry,MAXSIZE,stdin);  
+	if (result == NULL)
+	{
+		printf("\n");    
+		exit(0);
+	}
 
+	if (strlen(mips->entry) > 1)
+	{
+		mips = parseentry(mips);													
+		mips = analize(mips); 
 
-			printf("emul-mips>"); // prints out the prompt
-			
-			char *result = fgets(mips->entry,MAXSIZE,stdin);  
-			if (result == NULL)
-			{
-				printf("\n");    
-				exit(0);
-			}
-			if (strlen(mips->entry) > 1)
-			{
-				mips = parseentry(mips);													
+		if(mips->report != 0)
+			report(mips->report);
+		mips->report = 0;
 
-				mips = analize(mips); 
+		restart(mips);
+	}
 
-				if(mips->report != 0)
-					report(mips->report);
-				mips->report = 0;
-				restart(mips);
-			}
+	return 0;
 }
 
 /**
@@ -110,27 +110,29 @@ struct ptype *analize(struct ptype *mips)
 	if(!strcmp(mips->command,"exit"))
     {
     	printf("exiting mips emulator...\n");
-    	exit(0);   
+    	mips->fl_exit = true;
+    	mips->report = 0;
+    	return mips;
     }
-	else if(!strcmp(mips->command,"load"))		mips = env_load(mips);
+	else if(!strcmp(mips->command,"load")){ mips = env_load(mips); return mips;}
 
-	else if(!strcmp(mips->command,"disp"))		mips = env_disp(mips);
+	else if(!strcmp(mips->command,"disp"))	{	mips = env_disp(mips); return mips;}
 
-	else if(!strcmp(mips->command,"disasm"))	printf("disasm was entered...\n");
+	else if(!strcmp(mips->command,"disasm")){	printf("disasm was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"set"))		mips = env_set(mips);
+	else if(!strcmp(mips->command,"set"))	{	mips = env_set(mips); return mips;}
 
-	else if(!strcmp(mips->command,"assert"))	mips = env_assert(mips);
+	else if(!strcmp(mips->command,"assert")){	mips = env_assert(mips); return mips;}
 
-	else if(!strcmp(mips->command,"debug"))		printf("debug was entered...\n");
+	else if(!strcmp(mips->command,"debug"))	{	printf("debug was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"resume"))	printf("resume was entered...\n");
+	else if(!strcmp(mips->command,"resume")){	printf("resume was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"run"))		printf("run was entered...\n");
+	else if(!strcmp(mips->command,"run"))	{	printf("run was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"step"))		printf("step was entered...\n");
+	else if(!strcmp(mips->command,"step"))	{	printf("step was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"break"))		printf("break was entered...\n");
+	else if(!strcmp(mips->command,"break"))	{	printf("break was entered...\n"); return mips;}
 
 	else printf("command '%s' not found\n",mips->command);
 

@@ -15,7 +15,7 @@
 #include "lookup.h"
 
 void hashregisters();
-struct ptype *initregisters(struct ptype *pmips);
+struct ptype *initregisters(struct ptype *mips);
 
 
 /**
@@ -35,43 +35,50 @@ struct ptype *initregisters(struct ptype *pmips);
 **/
 int main(int argc, char *argv[])
 {
-	struct ptype mips;
-	struct ptype *pmips = &mips;
-	struct elfstr *elfdata;
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+	struct elfstr myelfdata;
+	struct elfstr *elfdata = &myelfdata;
+	mips->entry = malloc(MAXSIZE);
+	mips->fl_file_loaded = false;
+	mips->fl_exit = false;
 
 	hashregisters();
-	pmips = initregisters(pmips);
+	mips = initregisters(mips);
 
-	if((pmips->filename = argv[1]) != NULL)
+	if((mips->filename = argv[1]) != NULL)
 		{
-			 elfdata = start_and_load(elfdata,argv[1]);				
+			mips->fl_file_loaded = true;
+			elfdata = start_and_load(elfdata,argv[1]);				
 		}
 	else
 	{
-		// start_mem(elfdata);
+		printf("starting emulator with no elf file loaded!\n");
 	}
-
 	while(1)
 	{
-	runenv(pmips);
+	runenv(mips);
+	if(mips->fl_exit)
+		break;
 	}
 
-	free(pmips->memrealpointbase);
+	free(mips->entry);
+	return 0;
 	
 }
 
 /**
 *@brief initializes the registers, giving them a portion of memory and setting to 0 their content
 **/
-struct ptype *initregisters(struct ptype *pmips)
+struct ptype *initregisters(struct ptype *mips)
 {
 	int i;
 	for(i = 0; i < 32; i++)
 	{
-		pmips->regs[i] = malloc( sizeof(int) );
-		*(pmips->regs[i]) = 0;
+		mips->regs[i] = malloc( sizeof(int) );
+		*(mips->regs[i]) = 0;
 	}
-	return pmips;
+	return mips;
 }
 
 /**

@@ -4,6 +4,9 @@
 #define BSS_SECTION_STR ".bss"
 #define NB_SECTIONS 4
 
+static char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
+static unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
+
 struct elfstr *start_and_load(struct elfstr *elfdata, char *filename);
 int is_in_symbols(char* name, stab symtab);
 unsigned int get_nsegments(stab symtab,char* section_names[],int nb_sections);

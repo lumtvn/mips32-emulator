@@ -4,6 +4,22 @@ ERROR 417: bad register name (lookup)
 ERROR 419: argument <value> out of bounds
 ERROR 411: too many arguments for function
 WARNING 4171:register $zero can't be overwritten, was not overwritten
+starting emulator with no elf file loaded!
+emul-mips>
+---NEW FILE LOADED:  test/test_elf.o ---
+Virtual memory map (3 segments)
+.text   	r-x	Vaddr: 0x00003000	Size: 24 bytes
+.data   	rw-	Vaddr: 0x00004000	Size: 4 bytes
+.bss    	rw-	Vaddr: 0x00005000	Size: 0 bytes
+
+raw content of segment .text:
+
+  0x00000000 0x2009000c 0x00005020 0x214a0001 0x1549fffe 
+  0x00000010 0x00000000 0x00005020 
+raw content of segment .data:
+
+  0x00000000 0x00000004 
+raw content of segment .bss:
 emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>$t1: 0x1f4
 emul-mips>$zero: 0x0
 emul-mips>exiting mips emulator...

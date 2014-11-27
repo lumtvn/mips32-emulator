@@ -74,17 +74,21 @@ static char * test_writebytememory()
 	struct ptype *mips = &mymips;
 
 	byte data = 0xAA;
-	vaddr32 addr = 0x300F;
+	vaddr32 addr = 0x4002;
 
 	mips = elfwritebyte(mips, elfdata->memory, data, addr);
 
-	mu_assert("address not assigned to any segment", mips->report != 1);
-	mu_assert("seg->content is null", mips->report != 2);
+	mu_assert("address not assigned to any segment", mips->report != 501);
+	mu_assert("seg->content is null", mips->report != 502);
 
-	mu_assert("there was a problem in writing", mips->report == 0);
+	mu_assert("there was a problem in writing byte", mips->report == 0);
 
-	segment *seg = get_seg_by_name(elfdata->memory, ".text");
+	segment *seg = get_seg_by_name(elfdata->memory, ".data");
 	mu_assert("writing incorrect", *(seg->content + addr - seg->start._32) == data);
+
+	addr = 0x3002;
+	mips = elfwritebyte(mips, elfdata->memory, data, addr);
+	mu_assert("writing was allowed when it shouln't", mips->report == 503);
 
 	// print_segment_raw_content(seg);
 
@@ -107,16 +111,23 @@ static char * test_writewordmemory()
 	struct ptype *mips = &mymips;
 
 	word data = 0xAABBCCDD;
-	vaddr32 addr = 0x3004;
+	vaddr32 addr = 0x4001;
+	mips = elfwriteword(mips, elfdata->memory, data, addr);
+	mu_assert("its trying to write in addess out of bounds", mips->report == 501);
 
+	addr = 0x3000;
+	mips = elfwriteword(mips, elfdata->memory, data, addr);
+	mu_assert("its trying to write in addres without writing permissions", mips->report == 503);
+
+	addr = 0x4000;
 	mips = elfwriteword(mips, elfdata->memory, data, addr);
 
-	mu_assert("address not assigned to any segment", mips->report != 1);
+	mu_assert("address not assigned to any segment or writing overruns end of section", mips->report != 501);
 	mu_assert("seg->content is null", mips->report != 2);
 
 	mu_assert("there was a problem in writing", mips->report == 0);
 
-	segment *seg = get_seg_by_name(elfdata->memory, ".text");
+	segment *seg = get_seg_by_name(elfdata->memory, ".data");
 
 	// printf("0x%x", *(seg->content + addr - seg->start._32));
 	// printf("%x", *(seg->content + addr - seg->start._32+1));
@@ -152,8 +163,8 @@ static char * test_readbytememory()
 
 	mips = elfreadbyte(mips, elfdata->memory, addr);
 
-	mu_assert("address not assigned to any segment", mips->report != 1);
-	mu_assert("seg->content is null", mips->report != 2);
+	mu_assert("address not assigned to any segment", mips->report != 501);
+	mu_assert("seg->content is null", mips->report != 502);
 
 	mu_assert("there was a problem in reading", mips->report == 0);
 
