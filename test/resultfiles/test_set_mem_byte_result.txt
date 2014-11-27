@@ -4,7 +4,8 @@ ERROR 410: too few arguments for function
 ERROR 422: argument <address> out of bounds
 ERROR 419: argument <value> out of bounds
 ERROR 422: argument <address> out of bounds
-ERROR 422: argument <address> out of bounds
+ERROR 414: address not in memory block
 ERROR 411: too many arguments for function
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>0xa: 0xf
+ERROR 414: address not in memory block
+emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>0xa: 0x0
 emul-mips>exiting mips emulator...

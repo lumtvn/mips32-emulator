@@ -43,6 +43,8 @@ void report(int r)
 		case 430: 	fprintf(stderr, "ERROR %d: assert argument null (reg, word, byte)\n", r); break;
 		case 431: 	fprintf(stderr, "ERROR %d: argument missing or invalid: register\n", r); break;
 		case 432: 	fprintf(stderr, "ERROR %d: argument missing or invalid: value\n", r); break;
+		case 501: 	fprintf(stderr, "ERROR %d: address not assigned to any segment\n", r); break;
+		case 502: 	fprintf(stderr, "ERROR %d: seg->content is null\n", r); break;
 		default: fprintf(stderr, "no output for this report number: %d\n", r); break;
 	}
 }

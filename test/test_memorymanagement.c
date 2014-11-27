@@ -5,7 +5,7 @@
 #include "minunit.h"
 
 int tests_run = 0;
-struct ptype mem;
+struct ptype mymem;
 struct ptype *pmem;
 
 
@@ -154,7 +154,7 @@ int simpoint;
  
  int main(int argc, char **argv) {
 
- 	pmem = &mem;
+ 	pmem = &mymem;
 
 	char *result = all_tests();
 	if (result != 0) {

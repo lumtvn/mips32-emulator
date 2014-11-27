@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 		}
 	else
 	{
-		start_mem(elfdata);
+		// start_mem(elfdata);
 	}
 
 	while(1)

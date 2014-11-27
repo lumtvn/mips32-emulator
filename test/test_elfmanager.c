@@ -15,15 +15,18 @@ int simpoint;
 {
 	char *filename = "test/test_elf.o";
 
-	struct elfstr *elfdata;
+	struct elfstr myelfstr; 
+	struct elfstr *elfdata = &myelfstr;
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
 	elfdata = start_and_load(elfdata, filename);
 
 	segment *seg;
 	char name[] = ".text";
-
+// BORRAR VARIABLES NAME Y NAME2 Y REEMPLAZAR CON TEXTO DIRECTAMENTE
 	seg = get_seg_by_name(elfdata->memory, name);
 	mu_assert("get segment by name incorrect.", !strcmp(seg->name,".text"));
+	mu_assert("is in segment text failed \n", is_in_segment(seg, 0x3017, 1));
 
 	char name2[] = ".data";
 
@@ -31,17 +34,19 @@ int simpoint;
 	mu_assert("get segment by name incorrect.", !strcmp(seg->name,".data"));
 
 
-	mu_assert("is in segment data failed %d\n", is_in_segment(elfdata->memory, seg, 0x4000));
-	mu_assert("is in segment data failed %d\n", is_in_segment(elfdata->memory, seg, 0x4002));
-	mu_assert("is in segment data failed %d\n", !is_in_segment(elfdata->memory, seg, 0x4004));
+	mu_assert("is in segment data failed 1 \n", is_in_segment(seg, 0x4002, 1));
+	mu_assert("is in segment data failed 2 \n", !is_in_segment(seg, 0x4004, 2));
 
-	seg = which_seg(elfdata->memory, 0x3003);
-	mu_assert("which_seg failed, should be .text", !strcmp(seg->name,".text"));
-	seg = which_seg(elfdata->memory, 0x3000);
-	mu_assert("which_seg failed, should be .text", !strcmp(seg->name,".text"));
-	seg = which_seg(elfdata->memory, 0x3060);
+	seg = which_seg(elfdata->memory, 0x3017, 1);
+	if(seg == NULL){printf("seg is null 1\n"); mu_assert("", 0);}
+	mu_assert("which_seg failed, should be .text 1", !strcmp(seg->name,".text"));
+	seg = which_seg(elfdata->memory, 0x3000, 2);
+	if(seg == NULL){printf("seg is null 2\n"); mu_assert("", 0);}
+	mu_assert("which_seg failed, should be .text 2", !strcmp(seg->name,".text"));
+	seg = which_seg(elfdata->memory, 0x3060, 12);
 	mu_assert("which_seg failed, should be null", seg == NULL);
-	seg = which_seg(elfdata->memory, 0x4000);
+	seg = which_seg(elfdata->memory, 0x4000, 3);
+	if(seg == NULL){printf("seg is null 3\n"); mu_assert("", 0);}
 	mu_assert("which_seg failed, should be .data", !strcmp(seg->name,".data"));
 
 	// printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", filename) ;
@@ -49,9 +54,77 @@ int simpoint;
  //    stab32_print( elfdata->symtab);
 
  	destroy_mem(elfdata);
+ 	// free(elfdata);
 
 	return 0;
 }
+
+
+static char * test_writebytememory()
+{
+	char *filename = "test/test_elf.o";
+
+	struct elfstr myelfstr; 
+	struct elfstr *elfdata = &myelfstr;
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	elfdata = start_and_load(elfdata, filename);
+
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+
+	byte data = 0xAA;
+	vaddr32 addr = 0x300F;
+
+	mips = elfwritebyte(mips, elfdata->memory, data, addr);
+
+	mu_assert("address not assigned to any segment", mips->report != 1);
+	mu_assert("seg->content is null", mips->report != 2);
+
+	mu_assert("there was a problem in writing", mips->report == 0);
+
+	segment *seg = get_seg_by_name(elfdata->memory, ".text");
+	mu_assert("writing incorrect", *(seg->content + addr - seg->start._32) == data);
+
+	// print_segment_raw_content(seg);
+
+
+	return 0;
+
+} 
+
+static char * test_readbytememory()
+{
+	char *filename = "test/test_elf.o";
+
+	struct elfstr myelfstr; 
+	struct elfstr *elfdata = &myelfstr;
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	elfdata = start_and_load(elfdata, filename);
+
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+
+	vaddr32 addr = 0x3001;
+
+	mips = elfreadbyte(mips, elfdata->memory, addr);
+
+	mu_assert("address not assigned to any segment", mips->report != 1);
+	mu_assert("seg->content is null", mips->report != 2);
+
+	mu_assert("there was a problem in reading", mips->report == 0);
+
+	mu_assert("byte read incorrectly",mips->bdata == 0x09);
+
+	
+	// segment *seg = get_seg_by_name(elfdata->memory, ".text");
+	// print_segment_raw_content(seg);
+
+	return 0;
+
+}
+
 
 // static char * test_start_mem()
 // {
@@ -70,6 +143,10 @@ int simpoint;
  static char * all_tests() {
      mu_run_test(test_start_and_load);
      printf("test_start_and_load passed\n");
+     mu_run_test(test_writebytememory);
+     printf("test_writebytememory passed\n");
+     mu_run_test(test_readbytememory);
+     printf("test_readbytememory passed\n");
      return 0;
  }
  

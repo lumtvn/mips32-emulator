@@ -34,30 +34,31 @@ segment *get_seg_by_name( mem m, char *name)
     return NULL;
 }
 
-//returns true or false if a segment of a given name has the address n 
-bool is_in_segment( mem m,  segment *seg, vaddr32 v)
-{
+//returns true or false if a segment of a given name has the address v
+bool is_in_segment(segment *seg, vaddr32 v, uint size)
+{   //SACAR MEM M SI NO LO VAS A USAR
     // segment *seg;
     // seg = get_seg_by_name(m, name);
 
     if(v < seg->start._32)
         return false;
-    if(v > seg->start._32 + seg->size._32 - 1)
+    if(v + size - 1 > seg->start._32 + seg->size._32 - 1)
         return false;
 
-    //if in-bounds, it belongs to this segment    
+    //if in-bounds, it belongs to this segment  
     return true;
 }
 //given an address value, gives the segment
- segment *which_seg( mem m, vaddr32 v)
+ segment *which_seg( mem m, vaddr32 v, uint size)
 {
     int i;
     for(i = 0; i<m->nseg; i++)
     {
-        if(is_in_segment(m,&m->seg[i], v))
+        if(is_in_segment(&m->seg[i], v, size))
             return &m->seg[i];
     }
     //address doesn't belong to any segment
+
     return NULL;
 }
 
@@ -72,7 +73,6 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
     unsigned int endianness;   //little ou big endian
     unsigned int bus_width;    // 32 bits ou 64bits
     unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
-
 
     elfdata->symtab = new_stab(0);
 
@@ -108,26 +108,55 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
 }
 
 
-
-
-
-
-struct elfstr *start_mem(struct elfstr *elfdata)
+struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr)
 {
-    char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
-    unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
-    unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
-    elfdata->memory = init_mem(4);
+    vsize size;
+    size._32 = sizeof(byte);
+    segment *seg;
+    seg = which_seg(m,addr,0);
+    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
 
-    int i;
-    int j=0;
-    for (i=0; i<NB_SECTIONS; i++) {
-            elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
-            next_segment_start+= ((0x1000+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
-            j++;
-        
-    }
+    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+
+    // printf("0x%x\n", *(seg->content + addr - seg->start._32));
+    *(seg->content + addr - seg->start._32) = bdata;
+    mips->report = 0;
+    return mips;
 }
+
+struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
+{
+    vsize size;
+    size._32 = sizeof(byte);
+    segment *seg;
+    seg = which_seg(m,addr,0);
+    if(seg == NULL){mips->report = 1;  /*no segment asociated to address*/ return mips;}
+
+    if(seg->content == NULL){mips->report = 2; /*can't write to null content*/ return mips;}
+
+    mips->bdata = *(seg->content + addr - seg->start._32);
+    mips->report = 0;
+    return mips;
+}
+
+
+
+// struct elfstr *start_mem(struct elfstr *elfdata)
+// {
+//     char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
+//     unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
+//     unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
+//     elfdata->memory = init_mem(4);
+
+//     int i;
+//     int j=0;
+//     for (i=0; i<NB_SECTIONS; i++) {
+//             elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
+//             next_segment_start+= ((0x1000+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
+//             j++;
+        
+//     }
+// }
 
 
 void destroy_mem(struct elfstr *elfdata)
@@ -240,4 +269,22 @@ int elf_load_section_in_memory(FILE* fp, mem memory, char* scn,unsigned int perm
     free( ehdr );
 
     return 0;
+}
+
+// fonction affichant les octets d'un segment sur la sortie standard
+// parametres :
+//   seg        : le segment de la mémoire virtuelle à afficher
+
+void print_segment_raw_content(segment* seg) {
+    int k;
+    printf("\nraw content of segment %s:\n", seg->name);
+    int word =0;
+    if (seg!=NULL && seg->size._32>0) {
+        for(k=0; k<seg->size._32; k+=4) {
+            if(k%16==0) printf("\n  0x%08x ",k);
+            word = *((unsigned int *) (seg->content+k));
+            FLIP_ENDIANNESS(word);
+            printf("0x%08x ",   word);
+        }
+    }
 }

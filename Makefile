@@ -107,7 +107,7 @@ build/test_environment.o: test/test_environment.c src/headers.h
 #tests the autoloading function of the environment, passing a file argument when initiating the emulator
 testautoload: bin/emul-mips bin/test_autoloader
 	@echo starting autoloader tests
-	@./bin/emul-mips ./test/testscript.elf < test/commandfiles/test_autoloader_commands.txt > test/resultfiles/test_autoloader_result.txt
+	@./bin/emul-mips ./test/test_elf.o < test/commandfiles/test_autoloader_commands.txt > test/resultfiles/test_autoloader_result.txt
 	@./bin/test_autoloader
 	@echo test autoloader passed
 
