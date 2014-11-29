@@ -38,7 +38,7 @@ build/memorymanagement.o: src/memorymanagement.c src/headers.h src/lookup.h src/
 build/errors.o: src/errors.c src/errors.h
 	gcc -pg -c src/errors.c -o build/errors.o
 
-build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h $(ELF_HDRS)
+build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h
 	gcc -pg -c src/elfmanager.c -o build/elfmanager.o
 
 elfapi/src/bits.o: elfapi/src/bits.c elfapi/include/common/types.h elfapi/include/common/bits.h
@@ -73,7 +73,7 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands testlookup
+test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands testloadanddisasm testlookup
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
@@ -178,22 +178,37 @@ testelfmanager: bin/test_elfmanager
 bin/test_elfmanager: build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o $(ELF_OBJ)
 	@gcc build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o $(ELF_OBJ) -o bin/test_elfmanager
 
-build/test_elfmanager.o: test/test_elfmanager.c src/elfmanager.h src/headers.h src/lookup.h src/memorymanagement.h $(ELF_HDRS)
+build/test_elfmanager.o: test/test_elfmanager.c src/elfmanager.h src/headers.h $(ELF_HDRS)
 	@gcc -pg -c test/test_elfmanager.c -o build/test_elfmanager.o
 
 ###########################--LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################
 #tests the functions in charge of dissasembling the text segment of an elf file.
 
-# testelfmanager: bin/test_load_and_disasm
-# 	@echo starting test_load_and_disasm tests
-# 	@./bin/test_load_and_disasm
-# 	@echo test_load_and_disasm tests passed
+testloadanddisasm: bin/test_load_and_disasm
+	@echo starting test_load_and_disasm tests
+	@./bin/test_load_and_disasm
+	@echo test_load_and_disasm tests passed
 
-# bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
-# 	@gcc build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ) -o bin/test_load_and_disasm
+bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
+	@gcc build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ) -o bin/test_load_and_disasm
 
-# build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h
-# 	@gcc -pg -c test/test_load_and_disasm.c -o build/test_load_and_disasm.o
+build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h $(ELF_HDRS)
+	@gcc -pg -c test/test_load_and_disasm.c -o build/test_load_and_disasm.o
+
+
+###########################--MANUAL LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################
+#tests the functions in charge of dissasembling the text segment of an elf file.
+#it shows an output, so it requires a manual comparison between an elf script
+
+manualtestloadanddisasm: bin/manual_test_load_and_disasm
+	@echo starting manual_test_load_and_disasm tests
+	@./bin/manual_test_load_and_disasm
+
+bin/manual_test_load_and_disasm: build/manual_test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
+	@gcc build/manual_test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ) -o bin/manual_test_load_and_disasm
+
+build/manual_test_load_and_disasm.o: test/manual_test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h $(ELF_HDRS)
+	@gcc -pg -c test/manual_test_load_and_disasm.c -o build/manual_test_load_and_disasm.o
 
 ##########clean unnecesary files
 

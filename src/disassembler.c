@@ -26,6 +26,27 @@
 
 
 
+// disassemble()
+// {
+//     size = get_seg_size(mips->elfdata->memory, ".text");
+//     start = get_seg_start(mips->elfdata->memory, ".text");
+
+//     // printf("start: 0x%x\n", start);
+//     // printf("size: %d\n", size);
+
+//     int i;
+//     for(i = (int)start; i < (int)size + (int)start ; i = i + 4)
+//     {
+
+//         mips = elfreadword(mips, mips->elfdata->memory, i);
+//         mips = getopcode(mips, mips->wdata);
+//         // printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->wdata, mips->operation);
+
+        
+
+//     }
+// }
+
 /**
 *@brief this function obtains the operation code, coded in a 32 bit word
 *

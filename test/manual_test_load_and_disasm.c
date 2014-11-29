@@ -17,12 +17,23 @@ static char * test_disasm_text()
     mips = malloc(sizeof(mips));
     mu_assert("no memory for mips", mips != NULL);
     mips->elfdata = &myelfdata;
+
+    char *file;
+    printf("choose file to disassemble\n");
+    fgets(file, 100, stdin);
+    mu_assert("file is null", file != NULL);
+    strtok(file, "\n");
+
     // mips->elfdata = malloc(sizeof(mips->elfdata));
     // mu_assert("no memory for mips->elfdata", mips->elfdata != NULL);
 
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, file);
 
-    mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
+    if(mips->elfdata->report == 100)
+    {
+        printf("the file %s does not exist or the path is incorrect\n", file);
+        mu_assert("",0);
+    }
     mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
 
 
@@ -48,17 +59,7 @@ static char * test_disasm_text()
         mu_assert("mips->operation is null, something went wrong", mips->operation != NULL);
 
 
-        // printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->wdata, mips->operation);
-        switch(i)
-        {
-            case 0x3000:mu_assert("wrong operation in address 0x3000", !strcmp(mips->operation, "ADDI")); break;
-            case 0x3004:mu_assert("wrong operation in address 0x3004", !strcmp(mips->operation, "ADD")); break;
-            case 0x3008:mu_assert("wrong operation in address 0x3008", !strcmp(mips->operation, "ADDI")); break;
-            case 0x300C:mu_assert("wrong operation in address 0x300C", !strcmp(mips->operation, "BNE")); break;
-            case 0x3010:mu_assert("wrong operation in address 0x3010", !strcmp(mips->operation, "NOP")); break;
-            case 0x3014:mu_assert("wrong operation in address 0x3014", !strcmp(mips->operation, "ADD")); break;
-            default: mu_assert("?????????", 0);
-        }
+         printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->wdata, mips->operation);
     }
 
     // free(mips->elfdata);

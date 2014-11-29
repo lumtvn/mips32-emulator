@@ -157,7 +157,7 @@ struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr)
 struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr)
 {
     segment *seg;
-    seg = which_seg(m,addr,1);
+    seg = which_seg(m,addr,4);
     if(seg == NULL){mips->report = 501;  /*no segment asociated to address*/ return mips;}
 
     if(seg->content == NULL){mips->report = 502; /*can't read null content*/ return mips;}

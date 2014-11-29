@@ -1,7 +1,5 @@
 #include "../src/headers.h"
-#include "../src/memorymanagement.h"
 #include "../src/elfmanager.h"
-#include "../src/lookup.h"
 #include "minunit.h"
 
 int tests_run = 0;
@@ -246,7 +244,7 @@ static char * test_get_seg_start()
 	struct ptype mymips;
 	struct ptype *mips = &mymips;
 	mips->elfdata = malloc(sizeof(mips->elfdata));
-	
+
 	if (mips->elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
 	mips->elfdata = start_and_load(mips->elfdata, filename);
