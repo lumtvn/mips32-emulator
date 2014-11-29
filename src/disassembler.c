@@ -16,6 +16,7 @@
 #include "headers.h"
 #include "disassembler.h"
 #include "errors.h"
+#include "elfmanager.h"
 #include "environment.h"
 #include "lookup.h"
 
@@ -25,9 +26,18 @@
 #define RG_OPCODE_BITS 0x1F0000
 
 
+word get_loc(word instr)
+{
+    word opsscodesssloc;
+    opsscodesssloc = instr & SIX_MSB;
+    opsscodesssloc = opsscodesssloc >> 26; //we shift 26 places to the right, so we get the first bits in the least significant byte
+    return opsscodesssloc;
+}
 
-// disassemble()
+// struct ptype *disassemble(struct ptype *mips)
 // {
+//     int size,start;
+
 //     size = get_seg_size(mips->elfdata->memory, ".text");
 //     start = get_seg_start(mips->elfdata->memory, ".text");
 
@@ -39,13 +49,62 @@
 //     {
 
 //         mips = elfreadword(mips, mips->elfdata->memory, i);
-//         mips = getopcode(mips, mips->wdata);
-//         // printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->wdata, mips->operation);
+//         mips->instr = mips->wdata;
 
-        
+//         word opsscodesssloc = get_loc(instr);
+
+//         switch(opsscodesssloc)
+//         {
+//             case SPECIAL: mips = manage_special(mips, instr); break;
+//             case SPECIAL3: mips = manage_special3(mips, instr); break;
+//             case REGIMM: mips = manage_regimm(mips, instr); break;
+//             default: mips = manage_normal(mips, instr); break;
+//         }
+
+//         mips = getinstr(mips, mips->instr);
+//         printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->instr, mips->operation);
 
 //     }
+
+//     return mips;
 // }
+
+// struct ptype *manage_normal(struct ptype *mips, word instr)
+// {
+//     mips->n_arg1 = (instr >> 21) & 0x1F;
+//     mips->n_arg2 = (instr >> 16) & 0x1F;
+//     mips->inmediate = instr & 0xFFFF;
+
+//     return mips;
+// }
+
+// struct ptype *manage_special(struct ptype *mips, word instr)
+// {
+//     mips->s_arg1 = (instr >> 21) & 0x1F;
+//     mips->s_arg2 = (instr >> 16) & 0x1F;
+//     mips->s_arg3 = (instr >> 11) & 0x1F;
+//     mips->s_arg4 = (instr >> 6) & 0x1F;
+
+//     return mips;
+// }
+
+// struct ptype *manage_special3(struct ptype *mips, word instr)
+// {
+//     mips->s_arg1 = (instr >> 16) & 0x1F;
+//     mips->s_arg2 = (instr >> 11) & 0x1F;
+
+//     return mips; 
+// }
+
+// struct ptype *manage_regimm(struct ptype *mips, word instr)
+// {
+//     mips->s_arg1 = (instr >> 21) & 0x1F;
+
+//     return mips;
+// }
+
+
+
 
 /**
 *@brief this function obtains the operation code, coded in a 32 bit word
@@ -59,13 +118,12 @@
 struct ptype *getopcode(struct ptype *mips, word wd)
 {
 
-	word sixmsb; //the first six more significant bits
-	word opcode;
+	word opsscodesssloc; //operation code location
+	word instr;
 
 	if(wd == 0){mips->operation = "NOP"; return mips;}
 
-	sixmsb = wd & SIX_MSB;
-	sixmsb = sixmsb >> 26; //we shift 26 places to the right, so we get the first bits in the least significant byte
+    opsscodesssloc = get_loc(wd); //gets location of opcode
 
 	char *sopcode = malloc(20); //string operation code
 	if(sopcode == NULL){/*error de memoria*/return mips;}
@@ -74,30 +132,30 @@ struct ptype *getopcode(struct ptype *mips, word wd)
 
 	struct nlist *np;
 
-	if(sixmsb == SPECIAL)
+	if(opsscodesssloc == SPECIAL)
 	{
 		strcpy(psopcode,"S_OPCODE_");
-		opcode = wd & S_OPCODE_BITS;
+		instr = wd & S_OPCODE_BITS;
 	}
-	else if(sixmsb == SPECIAL3)
+	else if(opsscodesssloc == SPECIAL3)
 	{
 		strcpy(psopcode,"S3_OPCODE_");
-		opcode = wd & S3_OPCODE_BITS;
-		opcode = opcode >> 6;
+		instr = wd & S3_OPCODE_BITS;
+		instr = instr >> 6;
 	}
-	else if(sixmsb == REGIMM)
+	else if(opsscodesssloc == REGIMM)
 	{
 		strcpy(psopcode,"RG_OPCODE_");
-		opcode = wd & RG_OPCODE_BITS;
-		opcode = opcode >> 16;
+		instr = wd & RG_OPCODE_BITS;
+		instr = instr >> 16;
 	}
 	else
 	{
 		strcpy(psopcode,"OPCODE_");
-		opcode = sixmsb;
+		instr = opsscodesssloc;
 	}
 
-	sprintf(sopcode,"%x",opcode); // we turn the number into word readable string for lookup
+	sprintf(sopcode,"%x",instr); // we turn the number into word readable string for lookup
     strcat(psopcode,sopcode); // we add the prefix	
 
     np = lookup(psopcode);

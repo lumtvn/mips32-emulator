@@ -26,7 +26,7 @@ build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h
 build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h src/errors.h
 	gcc -pg -c src/environment.c -o build/environment.o
 
-build/disassembler.o: src/disassembler.c src/disassembler.h src/headers.h src/errors.h src/environment.h src/lookup.h
+build/disassembler.o: src/disassembler.c src/disassembler.h src/headers.h src/errors.h src/environment.h src/elfmanager.h src/lookup.h
 	gcc -pg -c src/disassembler.c -o build/disassembler.o
 
 build/lookup.o: src/lookup.c src/lookup.h src/headers.h
@@ -84,8 +84,8 @@ testdisassembler: bin/test_disassembler
 	@./bin/test_disassembler 
 	@echo disassembler tests passed
 
-bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_disassembler
+bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
+	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o build/elfmanager.o $(ELF_OBJ) -o bin/test_disassembler
 
 build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
 	@gcc -c test/test_disassembler.c -o build/test_disassembler.o
@@ -137,15 +137,15 @@ build/test_lookup.o: test/test_lookup.c src/lookup.h src/headers.h
 #tests the functions in charge of executing the environment commands
 
 testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
-	@echo starting environmentcommands tests
-	@./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_load_commands.txt > test/resultfiles/test_load_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_reg_commands.txt > test/resultfiles/test_set_reg_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
-	@./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
-	@./bin/test_environmentcommands
-	@echo environmentcommands tests passed
+	echo starting environmentcommands tests
+	./bin/emul-mips < test/commandfiles/test_set_mem_byte_commands.txt > test/resultfiles/test_set_mem_byte_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_load_commands.txt > test/resultfiles/test_load_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_set_reg_commands.txt > test/resultfiles/test_set_reg_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
+	./bin/test_environmentcommands
+	echo environmentcommands tests passed
 
 bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/elfmanager.o build/errors.o build/lookup.o $(ELF_OBJ)
 	@gcc build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/elfmanager.o build/errors.o build/lookup.o $(ELF_OBJ) -o bin/test_environmentcommands

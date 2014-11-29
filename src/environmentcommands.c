@@ -22,33 +22,32 @@
 
 struct ptype *env_load(struct ptype *mips)
 {
-	if(mips->argenv[0] != NULL)
-		{
-			char *filename = mips->argenv[0];
-			mips->elfdata = start_and_load(mips->elfdata, filename);
-			mips->report = mips->elfdata->report;
-			if(mips->report > 0)
-			{
-				return mips;
-			}
-			mips->fl_file_loaded = true;
+	if(mips->argenv[0] == NULL){/*no file entered!! */printf("nullll\n"); return mips;}
 
-			printf("\n---NEW FILE LOADED:  %s ---\n",filename);
-			int j = 0;
-			int i;
-		    print_mem(mips->elfdata->memory);
-		    for (i=0; i<NB_SECTIONS; i++) {
-		        if (is_in_symbols(section_names[i],mips->elfdata->symtab)) {
-       				print_segment_raw_content(&mips->elfdata->memory->seg[j]);
-		            j++;
-		        }
-		    }
+	char *filename = mips->argenv[0];
+	mips->elfdata = start_and_load(mips->elfdata, filename);
+	mips->report = mips->elfdata->report;
+	if(mips->report > 0)
+	{
+		return mips;
+	}
+	mips->fl_file_loaded = true;
+
+	printf("\n---NEW FILE LOADED:  %s ---\n",filename);
+	int j = 0;
+	int i;
+    print_mem(mips->elfdata->memory);
+    for (i=0; i<NB_SECTIONS; i++) {
+        if (is_in_symbols(section_names[i],mips->elfdata->symtab)) {
+				print_segment_raw_content(&mips->elfdata->memory->seg[j]);
+            j++;
+        }
+    }
 
 
-			mips->report = 0;
-			return mips;
-		}
-	else return mips;
+	mips->report = 0;
+	return mips;
+		
 }
 /**
 * @brief function set. explained in environment documentation

@@ -1,5 +1,6 @@
 #include "../src/headers.h"
 #include "../src/disassembler.h"
+#include "../src/elfmanager.h"
 #include "../src/lookup.h"
 #include "minunit.h"
 

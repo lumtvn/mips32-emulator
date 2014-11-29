@@ -20,9 +20,6 @@ typedef unsigned int *reg;
 typedef unsigned short int mhalfword;
 typedef unsigned char mbyte;
 
-static mword const SPECIAL = 0X0;
-static mword const SPECIAL3 = 0X1F;
-static mword const REGIMM = 0X1;
 
 static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0"
 		, "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2"
@@ -82,7 +79,16 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	struct elfstr *elfdata;
 	///for reading files in elfmanager.c
 	byte bdata;
+	///for reading files in elfmanager.c
 	word wdata;
+
+
+	//for dissasembler
+	/// the code operation
+	word opcode;
+	/// the operation type
+	int optype;
+	///the first argument
 
 
 	///general purpose registers
