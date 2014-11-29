@@ -113,5 +113,5 @@ struct elfstr{
 	mem memory;
 	stab symtab;
 	FILE *pf_elf;
-	bool success;
+	int report;
 };

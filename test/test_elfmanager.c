@@ -5,11 +5,8 @@
 #include "minunit.h"
 
 int tests_run = 0;
-struct ptype mips;
-struct ptype *pmips;
 
 
-int simpoint;
  
  static char * test_start_and_load() 
 {
@@ -155,6 +152,8 @@ static char * test_readbytememory()
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
 	elfdata = start_and_load(elfdata, filename);
+	mu_assert("file not existant or path incorrect", elfdata->report != 101);
+	mu_assert("file is not elf", elfdata->report != 102);
 
 	struct ptype mymips;
 	struct ptype *mips = &mymips;
@@ -214,6 +213,58 @@ static char * test_readwordmemory()
 }
 
 
+static char * test_get_seg_size()
+{
+	char *filename = "test/test_elf.o";
+
+	struct elfstr myelfstr; 
+	struct elfstr *elfdata = &myelfstr;
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	elfdata = start_and_load(elfdata, filename);
+
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+
+
+	uint32_t a;
+	a = get_seg_size(elfdata->memory, ".text");
+	mu_assert("size of text is wrong", a == 24);
+	a = get_seg_size(elfdata->memory, ".data");
+	mu_assert("size of text is wrong", a == 4);
+
+	return 0;
+
+}
+
+static char * test_get_seg_start()
+{
+	char *filename = "test/test_elf.o";
+
+	struct elfstr myelfstr; 
+
+	struct ptype mymips;
+	struct ptype *mips = &mymips;
+	mips->elfdata = malloc(sizeof(mips->elfdata));
+	
+	if (mips->elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	mips->elfdata = start_and_load(mips->elfdata, filename);
+
+
+	vaddr32 a;
+	a = get_seg_start(mips->elfdata->memory, ".text");
+	// printf("start of text: 0x%x\n",a);
+	mu_assert("start of text is wrong", a == 0x3000);
+	a = get_seg_start(mips->elfdata->memory, ".data");
+	// printf("start of data: 0x%x\n",a);
+	mu_assert("start of text is wrong", a == 0x4000);
+
+	return 0;
+
+}
+
+
 // static char * test_start_mem()
 // {
 // 	struct elfstr *elfdata;
@@ -238,7 +289,11 @@ static char * test_readwordmemory()
      mu_run_test(test_writewordmemory);
      printf("test_writewordmemory passed\n");
      mu_run_test(test_readwordmemory);
-     printf("test_readwordmemory passed\n");     
+     printf("test_readwordmemory passed\n");  
+     mu_run_test(test_get_seg_size);
+     printf("test_get_seg_size passed\n");  
+     mu_run_test(test_get_seg_start);
+     printf("test_get_seg_start passed\n"); 
      return 0;
  }
  

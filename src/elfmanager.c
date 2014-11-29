@@ -72,15 +72,13 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
     elfdata->symtab = new_stab(0);
 
     if ((elfdata->pf_elf = fopen(filename,"r")) == NULL) {
-        ERROR_MSG("cannot open file %s", filename);
-        elfdata->success = false;
+        elfdata->report = 100;
         return elfdata;
     }
 
     if (!assert_elf_file(elfdata->pf_elf))
     {
-        ERROR_MSG("file %s is not an ELF file", filename);
-        elfdata->success = false;
+        elfdata->report = 101;
         return elfdata;
     }
 
@@ -105,7 +103,7 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename)
         }
     }
 
-    elfdata->success = true;
+    elfdata->report = 0;
     return elfdata;
 }
 
@@ -162,13 +160,33 @@ struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr)
     seg = which_seg(m,addr,1);
     if(seg == NULL){mips->report = 501;  /*no segment asociated to address*/ return mips;}
 
-    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't read null content*/ return mips;}
 
     mips->wdata = (*(seg->content + addr - seg->start._32) << 24) | (*(seg->content + addr - seg->start._32+1) << 16) | (*(seg->content + addr - seg->start._32+2) << 8) | *(seg->content + addr - seg->start._32+3);
     mips->report = 0;
 
 
     return mips;
+}
+
+uint32_t get_seg_size(mem m, char *name)
+{   
+    segment *seg;
+    seg = get_seg_by_name(m, name);
+    if(seg == NULL)
+        return 0;
+
+    return seg->size._32;
+}
+
+vaddr32 get_seg_start(mem m, char *name)
+{   
+    segment *seg;
+    seg = get_seg_by_name(m, name);
+    if(seg == NULL)
+        return 0;
+
+    return seg->start._32;
 }
 
 /*struct elfstr *start_mem(struct elfstr *elfdata)

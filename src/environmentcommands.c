@@ -26,10 +26,9 @@ struct ptype *env_load(struct ptype *mips)
 		{
 			char *filename = mips->argenv[0];
 			mips->elfdata = start_and_load(mips->elfdata, filename);
-			if(!mips->elfdata->success)
+			mips->report = mips->elfdata->report;
+			if(mips->report > 0)
 			{
-				mips->report = 10;
-				//elf file not loaded correctly
 				return mips;
 			}
 			mips->fl_file_loaded = true;

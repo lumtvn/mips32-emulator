@@ -167,6 +167,8 @@ bin/test_memorymanagement: build/test_memorymanagement.o build/memorymanagement.
 build/test_memorymanagement.o: test/test_memorymanagement.c src/memorymanagement.h src/headers.h src/lookup.h
 	@gcc -pg -c test/test_memorymanagement.c  -o build/test_memorymanagement.o
 
+###########################--ELFMANAGER MANAGEMENT TESTS--################################
+#tests the functions in charge of managing the interface between an elf file and the emulator
 
 testelfmanager: bin/test_elfmanager
 	@echo starting elfmanager tests
@@ -179,6 +181,19 @@ bin/test_elfmanager: build/test_elfmanager.o build/elfmanager.o build/memorymana
 build/test_elfmanager.o: test/test_elfmanager.c src/elfmanager.h src/headers.h src/lookup.h src/memorymanagement.h $(ELF_HDRS)
 	@gcc -pg -c test/test_elfmanager.c -o build/test_elfmanager.o
 
+###########################--LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################
+#tests the functions in charge of dissasembling the text segment of an elf file.
+
+# testelfmanager: bin/test_load_and_disasm
+# 	@echo starting test_load_and_disasm tests
+# 	@./bin/test_load_and_disasm
+# 	@echo test_load_and_disasm tests passed
+
+# bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
+# 	@gcc build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ) -o bin/test_load_and_disasm
+
+# build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h
+# 	@gcc -pg -c test/test_load_and_disasm.c -o build/test_load_and_disasm.o
 
 ##########clean unnecesary files
 

@@ -20,4 +20,6 @@ struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr);
 struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr);
 struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr);
 struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr);
+uint32_t get_seg_size(mem m, char *name);
+vaddr32 get_seg_start(mem m, char *name);
 void print_segment_raw_content(segment* seg);

@@ -19,25 +19,31 @@
 #include "environment.h"
 #include "lookup.h"
 
+#define SIX_MSB 0xFC000000
+#define S_OPCODE_BITS 0x3F
+#define S3_OPCODE_BITS 0x7C0
+#define RG_OPCODE_BITS 0x1F0000
+
+
 
 /**
 *@brief this function obtains the operation code, coded in a 32 bit word
 *
-*@param word the word to be analized
+*@param wd the word to be analized
 *
 *@return mips it returns the emulator structure with a new value for the field mips->operation
 *
 *@note for this function to work correctly, the function load_opcodes MUST be called before its execution
 **/
-struct ptype *getopcode(struct ptype *mips, mword word)
+struct ptype *getopcode(struct ptype *mips, word wd)
 {
 
-	mword sixmsb; //the first six more significant bits
-	mword opcode;
+	word sixmsb; //the first six more significant bits
+	word opcode;
 
-	if(word == 0){mips->operation = "NOP"; return mips;}
+	if(wd == 0){mips->operation = "NOP"; return mips;}
 
-	sixmsb = word & 0xFC000000;
+	sixmsb = wd & SIX_MSB;
 	sixmsb = sixmsb >> 26; //we shift 26 places to the right, so we get the first bits in the least significant byte
 
 	char *sopcode = malloc(20); //string operation code
@@ -50,18 +56,18 @@ struct ptype *getopcode(struct ptype *mips, mword word)
 	if(sixmsb == SPECIAL)
 	{
 		strcpy(psopcode,"S_OPCODE_");
-		opcode = word & 0x3F;
+		opcode = wd & S_OPCODE_BITS;
 	}
 	else if(sixmsb == SPECIAL3)
 	{
 		strcpy(psopcode,"S3_OPCODE_");
-		opcode = word & 0x7C0;
+		opcode = wd & S3_OPCODE_BITS;
 		opcode = opcode >> 6;
 	}
 	else if(sixmsb == REGIMM)
 	{
 		strcpy(psopcode,"RG_OPCODE_");
-		opcode = word & 0x1F0000;
+		opcode = wd & RG_OPCODE_BITS;
 		opcode = opcode >> 16;
 	}
 	else
