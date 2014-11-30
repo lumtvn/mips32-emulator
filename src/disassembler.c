@@ -28,10 +28,10 @@
 
 word get_loc(word instr)
 {
-    word opsscodesssloc;
-    opsscodesssloc = instr & SIX_MSB;
-    opsscodesssloc = opsscodesssloc >> 26; //we shift 26 places to the right, so we get the first bits in the least significant byte
-    return opsscodesssloc;
+    word opcodeloc;
+    opcodeloc = instr & SIX_MSB;
+    opcodeloc = opcodeloc >> 26; //we shift 26 places to the right, so we get the first bits in the least significant byte
+    return opcodeloc;
 }
 
 // struct ptype *disassemble(struct ptype *mips)
@@ -51,9 +51,10 @@ word get_loc(word instr)
 //         mips = elfreadword(mips, mips->elfdata->memory, i);
 //         mips->instr = mips->wdata;
 
-//         word opsscodesssloc = get_loc(instr);
 
-//         switch(opsscodesssloc)
+//         word opcodeloc = get_loc(instr);
+
+//         switch(opcodeloc)
 //         {
 //             case SPECIAL: mips = manage_special(mips, instr); break;
 //             case SPECIAL3: mips = manage_special3(mips, instr); break;
@@ -67,6 +68,7 @@ word get_loc(word instr)
 //     }
 
 //     return mips;
+
 // }
 
 // struct ptype *manage_normal(struct ptype *mips, word instr)
@@ -117,58 +119,57 @@ word get_loc(word instr)
 **/
 struct ptype *getopcode(struct ptype *mips, word wd)
 {
+    word opcodeloc; //operation code location
+    word instr;
 
-	word opsscodesssloc; //operation code location
-	word instr;
+    if(wd == 0){mips->operation = "NOP"; return mips;}
 
-	if(wd == 0){mips->operation = "NOP"; return mips;}
+    opcodeloc = get_loc(wd); //gets location of opcode
 
-    opsscodesssloc = get_loc(wd); //gets location of opcode
+    char *sopcode = malloc(20); //string operation code
+    if(sopcode == NULL){/*error de memoria*/return mips;}
+    char *psopcode = malloc(10); //string operation code with the prefix
+    if(psopcode == NULL){/*error de memoria*/return mips;}
 
-	char *sopcode = malloc(20); //string operation code
-	if(sopcode == NULL){/*error de memoria*/return mips;}
-	char *psopcode = malloc(10); //string operation code with the prefix
-	if(psopcode == NULL){/*error de memoria*/return mips;}
+    struct nlist *np;
 
-	struct nlist *np;
+    if(opcodeloc == SPECIAL)
+    {
+        strcpy(psopcode,"S_OPCODE_");
+        instr = wd & S_OPCODE_BITS;
+    }
+    else if(opcodeloc == SPECIAL3)
+    {
+        strcpy(psopcode,"S3_OPCODE_");
+        instr = wd & S3_OPCODE_BITS;
+        instr = instr >> 6;
+    }
+    else if(opcodeloc == REGIMM)
+    {
+        strcpy(psopcode,"RG_OPCODE_");
+        instr = wd & RG_OPCODE_BITS;
+        instr = instr >> 16;
+    }
+    else
+    {
+        strcpy(psopcode,"OPCODE_");
+        instr = opcodeloc;
+    }
 
-	if(opsscodesssloc == SPECIAL)
-	{
-		strcpy(psopcode,"S_OPCODE_");
-		instr = wd & S_OPCODE_BITS;
-	}
-	else if(opsscodesssloc == SPECIAL3)
-	{
-		strcpy(psopcode,"S3_OPCODE_");
-		instr = wd & S3_OPCODE_BITS;
-		instr = instr >> 6;
-	}
-	else if(opsscodesssloc == REGIMM)
-	{
-		strcpy(psopcode,"RG_OPCODE_");
-		instr = wd & RG_OPCODE_BITS;
-		instr = instr >> 16;
-	}
-	else
-	{
-		strcpy(psopcode,"OPCODE_");
-		instr = opsscodesssloc;
-	}
-
-	sprintf(sopcode,"%x",instr); // we turn the number into word readable string for lookup
-    strcat(psopcode,sopcode); // we add the prefix	
+    sprintf(sopcode,"%x",instr); // we turn the number into word readable string for lookup
+    strcat(psopcode,sopcode); // we add the prefix  
 
     np = lookup(psopcode);
 
-	if(np == NULL){printf("installation or lookup error. this should never appear\n"); return mips;}
+    if(np == NULL){printf("installation or lookup error. this should never appear\n"); return mips;}
 
-	mips->operation = np->defn;
+    mips->operation = np->defn;
 
-	free(sopcode);
-	free(psopcode);
+    free(sopcode);
+    free(psopcode);
 
-	return mips;
-	
+    return mips;
+    
 }
 /**
 *@brief this function loads all the operation codes in a lookup table for future reference.
@@ -228,6 +229,6 @@ int load_opcodes()
 /*
 int load_prequisites()
 {
-	struct nlist *np;
-	np = install("PREQ_ADD","3,3"); if(np == NULL){return -1;}
+    struct nlist *np;
+    np = install("PREQ_ADD","3,3"); if(np == NULL){return -1;}
 }*/
