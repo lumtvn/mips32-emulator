@@ -9,11 +9,13 @@ enum{
 
 
 
- int load_opcodes(void);
-struct ptype *disassemble(struct ptype *mips);
- struct ptype *getopcode(struct ptype *mips, word a);
- struct ptype *get_normalopcode(struct ptype *mips, word a);
- struct ptype *get_specialopcode(struct ptype *mips, word a);
- struct ptype *get_special3opcode(struct ptype *mips, word a);
- struct ptype *get_regimmopcode(struct ptype *mips, word a);
+int load_opcodes(void);
+struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, bool fl_exec);
+struct ptype *getopcode(struct ptype *mips, word a);
+struct ptype *which_operation(struct ptype *mips);
+struct ptype *send_operation(struct ptype *mips, bool fl_exec);
+struct ptype *manage_normal(struct ptype *mips, word instr);
+struct ptype *manage_special(struct ptype *mips, word instr);
+struct ptype *manage_special3(struct ptype *mips, word instr);
+struct ptype *manage_regimm(struct ptype *mips, word instr);
 word get_loc(word opcode);

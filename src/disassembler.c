@@ -15,6 +15,7 @@
  **/
 #include "headers.h"
 #include "disassembler.h"
+#include "operations.h"
 #include "errors.h"
 #include "elfmanager.h"
 #include "environment.h"
@@ -34,75 +35,145 @@ word get_loc(word instr)
     return opcodeloc;
 }
 
-// struct ptype *disassemble(struct ptype *mips)
-// {
-//     int size,start;
+//dissassembles one instruction found in address addr from section text
+// fl_exec == 1 : execute instruccion (execute code)
+// fl_exec == 0 : print instruccion (disasm)
+struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, bool fl_exec)
+{
+    word instr;
 
-//     size = get_seg_size(mips->elfdata->memory, ".text");
-//     start = get_seg_start(mips->elfdata->memory, ".text");
+    mips = elfreadword(mips, mips->elfdata->memory, addr);
+    instr = mips->wdata;
 
-//     // printf("start: 0x%x\n", start);
-//     // printf("size: %d\n", size);
+    word opcodeloc = get_loc(instr);
 
-//     int i;
-//     for(i = (int)start; i < (int)size + (int)start ; i = i + 4)
-//     {
+    if(opcodeloc == SPECIAL){mips = manage_special(mips, instr);}
+    else if(opcodeloc == SPECIAL3){mips = manage_special3(mips, instr);}
+    else if(opcodeloc == REGIMM){mips = manage_regimm(mips, instr);}
+    else {mips = manage_normal(mips, instr);}
 
-//         mips = elfreadword(mips, mips->elfdata->memory, i);
-//         mips->instr = mips->wdata;
 
-//         word opcodeloc = get_loc(instr);
+    mips = getopcode(mips,instr);
 
-//         switch(opcodeloc)
-//         {
-//             case SPECIAL: mips = manage_special(mips, instr); break;
-//             case SPECIAL3: mips = manage_special3(mips, instr); break;
-//             case REGIMM: mips = manage_regimm(mips, instr); break;
-//             default: mips = manage_normal(mips, instr); break;
-//         }
+    mips = which_operation(mips);
+    if(mips->opnum < 1){/*couldn't find operation*/ return mips;}
 
-//         mips = getinstr(mips, mips->instr);
-//         printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->instr, mips->operation);
+    send_operation(mips, fl_exec);
 
-//     }
 
-//     return mips;
-// }
+    // printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->instr, mips->operation);
 
-// struct ptype *manage_normal(struct ptype *mips, word instr)
-// {
-//     mips->n_arg1 = (instr >> 21) & 0x1F;
-//     mips->n_arg2 = (instr >> 16) & 0x1F;
-//     mips->inmediate = instr & 0xFFFF;
+    return mips;
+}
 
-//     return mips;
-// }
+struct ptype *send_operation(struct ptype *mips, bool fl_exec)
+{
+    switch(mips->opnum)
+    {
+        case 1:
+        if(fl_exec)
+        {op_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else 
+        {print_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        // case 2: op_addi(fl_exec) break;
+        // case 3: op_addiu(fl_exec) break;
+        // case 4: op_addu(fl_exec) break;
+        // case 5: op_and(fl_exec) break;
+        // case 6: op_andi(fl_exec) break;
+        // case 7: op_beq(fl_exec) break;
+        // case 8: op_bgez(fl_exec) break;
+        // case 9: op_bgtz(fl_exec) break;
+        // case 10: op_blez(fl_exec) break;
+        // case 11: op_bltz(fl_exec) break;
+        // case 12: op_bne(fl_exec) break;
+        // case 13: op_break(fl_exec) break;
+        // case 14: op_div(fl_exec) break;
+        // case 15: op_j(fl_exec) break;
+        // case 16: op_jal(fl_exec) break;
+        // case 17: op_jalr(fl_exec) break;
+        // case 18: op_jr(fl_exec) break;
+        // case 19: op_lb(fl_exec) break;
+        // case 20: op_lbu(fl_exec) break;
+        // case 21: op_lui(fl_exec) break;
+        // case 22: op_lw(fl_exec) break;
+        // case 23: op_mfhi(fl_exec) break;
+        // case 24: op_mflo(fl_exec) break;
+        // case 25: op_mult(fl_exec) break;
+        // case 26: op_nop(fl_exec) break;
+        // case 27: op_or(fl_exec) break;
+        // case 28: op_ori(fl_exec) break;
+        // case 29: op_sb(fl_exec) break;
+        // case 30: op_seb(fl_exec) break;
+        // case 31: op_sll(fl_exec) break;
+        // case 32: op_slt(fl_exec) break;
+        // case 33: op_slti(fl_exec) break;
+        // case 34: op_sltiu(fl_exec) break;
+        // case 35: op_sltu(fl_exec) break;
+        // case 36: op_sra(fl_exec) break;
+        // case 37: op_srl(fl_exec) break;
+        // case 38: op_sub(fl_exec) break;
+        // case 39: op_subu(fl_exec) break;
+        // case 40: op_sw(fl_exec) break;
+        // case 41: op_syscall(fl_exec) break;
+        // case 42: op_xor(fl_exec) break;
 
-// struct ptype *manage_special(struct ptype *mips, word instr)
-// {
-//     mips->s_arg1 = (instr >> 21) & 0x1F;
-//     mips->s_arg2 = (instr >> 16) & 0x1F;
-//     mips->s_arg3 = (instr >> 11) & 0x1F;
-//     mips->s_arg4 = (instr >> 6) & 0x1F;
+        default: printf("not implemented or not existant\n"); break;
+    }
 
-//     return mips;
-// }
+    return mips;
+}
 
-// struct ptype *manage_special3(struct ptype *mips, word instr)
-// {
-//     mips->s_arg1 = (instr >> 16) & 0x1F;
-//     mips->s_arg2 = (instr >> 11) & 0x1F;
 
-//     return mips; 
-// }
+struct ptype *manage_normal(struct ptype *mips, word instr)
+{
+    mips->n_arg1 = (instr >> 21) & 0x1F;
+    mips->n_arg2 = (instr >> 16) & 0x1F;
+    mips->inmediate = instr & 0xFFFF;
 
-// struct ptype *manage_regimm(struct ptype *mips, word instr)
-// {
-//     mips->s_arg1 = (instr >> 21) & 0x1F;
+    return mips;
+}
 
-//     return mips;
-// }
+struct ptype *manage_special(struct ptype *mips, word instr)
+{
+    mips->s_arg1 = (instr >> 21) & 0x1F;
+    mips->s_arg2 = (instr >> 16) & 0x1F;
+    mips->s_arg3 = (instr >> 11) & 0x1F;
+    mips->s_arg4 = (instr >> 6) & 0x1F;
 
+    return mips;
+}
+
+struct ptype *manage_special3(struct ptype *mips, word instr)
+{
+    mips->s_arg1 = (instr >> 16) & 0x1F;
+    mips->s_arg2 = (instr >> 11) & 0x1F;
+
+    return mips; 
+}
+
+struct ptype *manage_regimm(struct ptype *mips, word instr)
+{
+    mips->s_arg1 = (instr >> 21) & 0x1F;
+
+    return mips;
+}
+
+struct ptype *which_operation(struct ptype *mips)
+{
+    int i;
+    for(i = 1; i <= 42; i++)
+    {
+        if(!strcmp(opnames[i], mips->operation))
+        {
+            mips->opnum = i;
+            mips->report = 0;
+            return mips;
+        }
+    }
+    mips->opnum = 0;
+    mips->report = 80085; /*operation not found*/
+    return mips;
+}
 
 
 
@@ -225,6 +296,8 @@ int load_opcodes()
 
     return 0;
 }
+
+
 /*
 int load_prequisites()
 {

@@ -35,11 +35,16 @@ struct ptype *initregisters(struct ptype *mips);
 **/
 int main(int argc, char *argv[])
 {
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	// struct ptype mymips;
+	struct ptype *mips = malloc(sizeof(mips));
+	if(mips == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 	struct elfstr myelfdata;
-	struct elfstr *elfdata = &myelfdata;
+	mips->elfdata = &myelfdata;/*malloc(sizeof(mips->elfdata));*/
+	// if(mips->elfdata == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
+
 	mips->entry = malloc(MAXSIZE);
+	if(mips->entry == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
+
 	mips->fl_file_loaded = false;
 	mips->fl_exit = false;
 
@@ -49,7 +54,7 @@ int main(int argc, char *argv[])
 	if((mips->filename = argv[1]) != NULL)
 		{
 			mips->fl_file_loaded = true;
-			elfdata = start_and_load(elfdata,argv[1]);				
+			mips->elfdata = start_and_load(mips->elfdata,argv[1]);				
 		}
 	else
 	{
@@ -63,6 +68,8 @@ int main(int argc, char *argv[])
 	}
 
 	free(mips->entry);
+	// free(mips->elfdata);
+	free(mips);
 	return 0;
 	
 }

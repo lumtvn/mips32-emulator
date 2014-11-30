@@ -18,6 +18,7 @@ static char * test_load_opcodes()
     return 0;
 
 }
+
 static char * test_ADD() 
 {
     mword n1 = 0x00FA8120;
@@ -1633,9 +1634,45 @@ static char * test_XOR()
 }
 
 
+static char * test_which_operation()
+{
+    mips->operation = malloc(10);
+    strcpy(mips->operation, "BNE");
+
+    mips = which_operation(mips);
+
+    mu_assert("opnum is 0", mips->opnum != 0);
+
+    mu_assert("wrong operation number", mips->opnum == 11);
+
+    free(mips->operation);
+
+    return 0;
+} 
+
+static char * test_send_operation()
+{
+    mips->opnum = 1;
+    mips->s_arg1 = 0;
+    mips->s_arg2 = 1;
+    mips->s_arg3 = 2;
+
+    mips->disasm_output = malloc(80);
+
+    mips = send_operation(mips, false);
+
+    mu_assert("printing incorrect for ADD $v0, $zero, $at", !strcmp(mips->disasm_output, "ADD $v0, $zero, $at"));
+
+    free(mips->disasm_output);
+
+    return 0;
+}
+
+
+
+
  static char * all_tests() {
     mu_run_test(test_load_opcodes);
-    tests_run++;
     mu_run_test(test_ADD);
     tests_run++;
     mu_run_test(test_ADDI);
@@ -1719,7 +1756,9 @@ static char * test_XOR()
     mu_run_test(test_SYSCALL);
     tests_run++;
     mu_run_test(test_XOR);
-    tests_run++;
+    tests_run++;    
+    mu_run_test(test_which_operation);
+    mu_run_test(test_send_operation);
     return 0;
  }
  
@@ -1746,6 +1785,9 @@ static char * test_XOR()
     {
        printf("unable to allocate size for structure\n");
     }
+
+    free(mips);
  
      return result != 0;
+
  }

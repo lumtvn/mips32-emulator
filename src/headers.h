@@ -25,6 +25,11 @@ static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", 
 		, "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp"
 		, "$sp", "$fp", "$ra"};
 
+static char *opnames[42] = {"ADD", "ADDI", "ADDIU", "ADDU", "AND", "ANDI", "BEQ", "BGEZ", "BGTZ"
+		, "BLEZ", "BLTZ", "BNE", "BREAK", "DIV", "J", "JAL", "JALR", "JR", "LB", "LBU", "LUI", "LW"
+		, "MFHI", "MFLO", "MULT", "NOP", "OR", "ORI", "SB", "SEB", "SLL", "SLT", "SLTI", "SLTIU"
+		, "SLTU", "SRA", "SRL", "SUB", "SUBU", "SW", "SYSCALL", "XOR"};
+
 
 
 struct ptype /// it's a structure that has all elements that are involved in the simulator
@@ -78,7 +83,21 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	struct elfstr *elfdata;
 	///for reading files in elfmanager.c
 	byte bdata;
+	///for reading files in elfmanager.c
 	word wdata;
+
+	///for information read in words from segment text
+	byte n_arg1;
+	byte n_arg2;
+	word inmediate;
+	byte s_arg1;
+	byte s_arg2;
+	byte s_arg3;
+	byte s_arg4;
+
+	char *disasm_output;
+	///index for array opnames
+	int opnum;
 
 
 	///general purpose registers

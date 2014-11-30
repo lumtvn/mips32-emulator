@@ -14,8 +14,8 @@ ELF_HDRS = elfapi/include/mem.h elfapi/include/elf/syms.h elfapi/include/elf/elf
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
-	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o $(ELF_OBJ) -o bin/emul-mips
+bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ)
+	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ) -o bin/emul-mips
 
 build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h src/memorymanagement.h src/lookup.h src/elfmanager.h
 	gcc -pg -c src/main.c -o build/main.o
@@ -26,7 +26,7 @@ build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h
 build/environment.o: src/environment.c src/environment.h src/environmentcommands.h src/headers.h src/errors.h
 	gcc -pg -c src/environment.c -o build/environment.o
 
-build/disassembler.o: src/disassembler.c src/disassembler.h src/headers.h src/errors.h src/environment.h src/lookup.h
+build/disassembler.o: src/disassembler.c src/disassembler.h src/headers.h src/errors.h src/operations.h src/environment.h src/lookup.h
 	gcc -pg -c src/disassembler.c -o build/disassembler.o
 
 build/lookup.o: src/lookup.c src/lookup.h src/headers.h
@@ -37,6 +37,9 @@ build/memorymanagement.o: src/memorymanagement.c src/headers.h src/lookup.h src/
 
 build/errors.o: src/errors.c src/errors.h
 	gcc -pg -c src/errors.c -o build/errors.o
+
+build/operations.o: src/operations.c src/operations.h src/headers.h
+	gcc -pg -c src/operations.c -o build/operations.o
 
 build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h
 	gcc -pg -c src/elfmanager.c -o build/elfmanager.o
@@ -84,10 +87,10 @@ testdisassembler: bin/test_disassembler
 	@./bin/test_disassembler 
 	@echo disassembler tests passed
 
-bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o
-	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_disassembler
+bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/operations.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
+	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_disassembler
 
-build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/environmentcommands.h src/memorymanagement.h src/lookup.h
+build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/environmentcommands.h src/operations.h src/memorymanagement.h src/lookup.h
 	@gcc -c test/test_disassembler.c -o build/test_disassembler.o
 
 ###########################--environment TESTS--################################
@@ -147,8 +150,8 @@ testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@./bin/test_environmentcommands
 	@echo environmentcommands tests passed
 
-bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/elfmanager.o build/errors.o build/lookup.o $(ELF_OBJ)
-	@gcc build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/elfmanager.o build/errors.o build/lookup.o $(ELF_OBJ) -o bin/test_environmentcommands
+bin/test_environmentcommands: build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/elfmanager.o build/operations.o build/errors.o build/lookup.o $(ELF_OBJ)
+	@gcc build/test_environmentcommands.o build/environmentcommands.o build/disassembler.o build/elfmanager.o build/operations.o build/errors.o build/lookup.o $(ELF_OBJ) -o bin/test_environmentcommands
 
 build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/disassembler.h src/errors.h src/elfmanager.h $(ELF_HDRS)
 	@gcc -pg -c test/test_environmentcommands.c -o build/test_environmentcommands.o
@@ -189,8 +192,8 @@ testloadanddisasm: bin/test_load_and_disasm
 	@./bin/test_load_and_disasm
 	@echo test_load_and_disasm tests passed
 
-bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
-	@gcc build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ) -o bin/test_load_and_disasm
+bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o build/operations.o $(ELF_OBJ)
+	@gcc build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o build/operations.o $(ELF_OBJ) -o bin/test_load_and_disasm
 
 build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h $(ELF_HDRS)
 	@gcc -pg -c test/test_load_and_disasm.c -o build/test_load_and_disasm.o
