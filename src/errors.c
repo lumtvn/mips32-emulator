@@ -48,6 +48,12 @@ void report(int r)
 		case 501: 	fprintf(stderr, "ERROR %d: address not assigned to any segment or overrides end of segment\n", r); break;
 		case 502: 	fprintf(stderr, "ERROR %d: seg->content is null\n", r); break;
 		case 503: 	fprintf(stderr, "ERROR %d: writing not permitted in this segment. operation canceled\n", r); break;
+		case 601:  	fprintf(stderr, "ERROR %d: no file loaded\n", r); break;
+		case 602:  	fprintf(stderr, "ERROR %d: reading section out of bounds\n", r); break;
+		case 603:  	fprintf(stderr, "ERROR %d: can't dissassemble in section out of text\n", r); break;
+		case 604:  	fprintf(stderr, "ERROR %d: couldn't find operation\n", r); break;
+		case 610:  	fprintf(stderr, "ERROR %d: operation not implemented or not existant\n", r); break;
+
 		default: fprintf(stderr, "no output for this report number: %d\n", r); break;
 	}
 }

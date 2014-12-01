@@ -189,6 +189,14 @@ vaddr32 get_seg_start(mem m, char *name)
     return seg->start._32;
 }
 
+struct ptype *cleandata(struct ptype *mips)
+{
+    mips->bdata = 0;
+    mips->wdata = 0;
+
+    return mips;
+}
+
 /*struct elfstr *start_mem(struct elfstr *elfdata)
 {
     char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};

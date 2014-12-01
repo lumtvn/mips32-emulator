@@ -36,11 +36,18 @@ word get_loc(word instr)
 }
 
 //dissassembles one instruction found in address addr from section text
-// fl_exec == 1 : execute instruccion (execute code)
-// fl_exec == 0 : print instruccion (disasm)
-struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, bool fl_exec)
+// act == D_EXEC : execute instruccion (execute code)
+// act == D_PRINT : print instruccion (disasm)
+struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
 {
     word instr;
+    segment *segtest;
+
+    if(mips->elfdata->memory == NULL){mips->report = 601; return mips;}
+    
+    segtest = which_seg(mips->elfdata->memory, addr, 4);
+    if(segtest == NULL){mips->report = 602; return mips;}
+    if(strcmp(segtest->name, ".text")){mips->report = 603; return mips;}
 
     mips = elfreadword(mips, mips->elfdata->memory, addr);
     instr = mips->wdata;
@@ -55,71 +62,69 @@ struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, bool fl_exec)
 
     mips = getopcode(mips,instr);
 
-    mips = which_operation(mips);
-    if(mips->opnum < 1){/*couldn't find operation*/ return mips;}
+    mips = which_operation_number(mips); //changes value of mips->opnum to actual operation number
+    if(mips->opnum < 0){mips->report = 604; return mips;}
 
-    send_operation(mips, fl_exec);
-
+    send_operation(mips, act);
 
     // printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->instr, mips->operation);
 
     return mips;
 }
 
-struct ptype *send_operation(struct ptype *mips, bool fl_exec)
+struct ptype *send_operation(struct ptype *mips, action act)
 {
     switch(mips->opnum)
     {
-        case 1:
-        if(fl_exec)
+        case 0:
+        if(act == D_EXEC)
         {op_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
-        else 
+        else if(act == D_PRINT) 
         {print_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
-        // case 2: op_addi(fl_exec) break;
-        // case 3: op_addiu(fl_exec) break;
-        // case 4: op_addu(fl_exec) break;
-        // case 5: op_and(fl_exec) break;
-        // case 6: op_andi(fl_exec) break;
-        // case 7: op_beq(fl_exec) break;
-        // case 8: op_bgez(fl_exec) break;
-        // case 9: op_bgtz(fl_exec) break;
-        // case 10: op_blez(fl_exec) break;
-        // case 11: op_bltz(fl_exec) break;
-        // case 12: op_bne(fl_exec) break;
-        // case 13: op_break(fl_exec) break;
-        // case 14: op_div(fl_exec) break;
-        // case 15: op_j(fl_exec) break;
-        // case 16: op_jal(fl_exec) break;
-        // case 17: op_jalr(fl_exec) break;
-        // case 18: op_jr(fl_exec) break;
-        // case 19: op_lb(fl_exec) break;
-        // case 20: op_lbu(fl_exec) break;
-        // case 21: op_lui(fl_exec) break;
-        // case 22: op_lw(fl_exec) break;
-        // case 23: op_mfhi(fl_exec) break;
-        // case 24: op_mflo(fl_exec) break;
-        // case 25: op_mult(fl_exec) break;
-        // case 26: op_nop(fl_exec) break;
-        // case 27: op_or(fl_exec) break;
-        // case 28: op_ori(fl_exec) break;
-        // case 29: op_sb(fl_exec) break;
-        // case 30: op_seb(fl_exec) break;
-        // case 31: op_sll(fl_exec) break;
-        // case 32: op_slt(fl_exec) break;
-        // case 33: op_slti(fl_exec) break;
-        // case 34: op_sltiu(fl_exec) break;
-        // case 35: op_sltu(fl_exec) break;
-        // case 36: op_sra(fl_exec) break;
-        // case 37: op_srl(fl_exec) break;
-        // case 38: op_sub(fl_exec) break;
-        // case 39: op_subu(fl_exec) break;
-        // case 40: op_sw(fl_exec) break;
-        // case 41: op_syscall(fl_exec) break;
-        // case 42: op_xor(fl_exec) break;
+        // case 2: op_addi(act) break;
+        // case 3: op_addiu(act) break;
+        // case 4: op_addu(act) break;
+        // case 5: op_and(act) break;
+        // case 6: op_andi(act) break;
+        // case 7: op_beq(act) break;
+        // case 8: op_bgez(act) break;
+        // case 9: op_bgtz(act) break;
+        // case 10: op_blez(act) break;
+        // case 11: op_bltz(act) break;
+        // case 12: op_bne(act) break;
+        // case 13: op_break(act) break;
+        // case 14: op_div(act) break;
+        // case 15: op_j(act) break;
+        // case 16: op_jal(act) break;
+        // case 17: op_jalr(act) break;
+        // case 18: op_jr(act) break;
+        // case 19: op_lb(act) break;
+        // case 20: op_lbu(act) break;
+        // case 21: op_lui(act) break;
+        // case 22: op_lw(act) break;
+        // case 23: op_mfhi(act) break;
+        // case 24: op_mflo(act) break;
+        // case 25: op_mult(act) break;
+        // case 26: op_nop(act) break;
+        // case 27: op_or(act) break;
+        // case 28: op_ori(act) break;
+        // case 29: op_sb(act) break;
+        // case 30: op_seb(act) break;
+        // case 31: op_sll(act) break;
+        // case 32: op_slt(act) break;
+        // case 33: op_slti(act) break;
+        // case 34: op_sltiu(act) break;
+        // case 35: op_sltu(act) break;
+        // case 36: op_sra(act) break;
+        // case 37: op_srl(act) break;
+        // case 38: op_sub(act) break;
+        // case 39: op_subu(act) break;
+        // case 40: op_sw(act) break;
+        // case 41: op_syscall(act) break;
+        // case 42: op_xor(act) break;
 
-        default: printf("not implemented or not existant\n"); break;
+        default: mips->report = 610; break;
     }
-
     return mips;
 }
 
@@ -158,10 +163,10 @@ struct ptype *manage_regimm(struct ptype *mips, word instr)
     return mips;
 }
 
-struct ptype *which_operation(struct ptype *mips)
+struct ptype *which_operation_number(struct ptype *mips)
 {
     int i;
-    for(i = 1; i <= 42; i++)
+    for(i = 0; i <= 42; i++)
     {
         if(!strcmp(opnames[i], mips->operation))
         {
@@ -170,7 +175,7 @@ struct ptype *which_operation(struct ptype *mips)
             return mips;
         }
     }
-    mips->opnum = 0;
+    mips->opnum = -1;
     mips->report = 80085; /*operation not found*/
     return mips;
 }

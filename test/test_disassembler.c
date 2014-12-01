@@ -1639,7 +1639,7 @@ static char * test_which_operation()
     mips->operation = malloc(10);
     strcpy(mips->operation, "BNE");
 
-    mips = which_operation(mips);
+    mips = which_operation_number(mips);
 
     mu_assert("opnum is 0", mips->opnum != 0);
 
@@ -1652,14 +1652,14 @@ static char * test_which_operation()
 
 static char * test_send_operation()
 {
-    mips->opnum = 1;
+    mips->opnum = 0;
     mips->s_arg1 = 0;
     mips->s_arg2 = 1;
     mips->s_arg3 = 2;
 
     mips->disasm_output = malloc(80);
 
-    mips = send_operation(mips, false);
+    mips = send_operation(mips, D_PRINT);
 
     mu_assert("printing incorrect for ADD $v0, $zero, $at", !strcmp(mips->disasm_output, "ADD $v0, $zero, $at"));
 
@@ -1667,7 +1667,6 @@ static char * test_send_operation()
 
     return 0;
 }
-
 
 
 

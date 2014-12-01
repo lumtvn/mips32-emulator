@@ -16,7 +16,12 @@ this is the file containing the error and warning codes for all functions, defin
 	+ 20: from function env_disp
 	+ 30: from function env_assert
 
- 1000: compilation errors (file disassembler.c)
+ 500: from file elfmanager.c
+
+ 600: from file dissassembler.c
+ 	+ 00: from function disasm_instr
+
+ 1000: compilation errors (file operations.c)
 
 
 	

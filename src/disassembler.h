@@ -7,13 +7,18 @@ enum{
 	R_TYPE, I_TYPE, J_TYPE
 };
 
+typedef int action;
+enum{
+	D_PRINT, D_EXEC
+};
+
 
 
 int load_opcodes(void);
-struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, bool fl_exec);
+struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action ac);
 struct ptype *getopcode(struct ptype *mips, word a);
-struct ptype *which_operation(struct ptype *mips);
-struct ptype *send_operation(struct ptype *mips, bool fl_exec);
+struct ptype *which_operation_number(struct ptype *mips);
+struct ptype *send_operation(struct ptype *mips, action ac);
 struct ptype *manage_normal(struct ptype *mips, word instr);
 struct ptype *manage_special(struct ptype *mips, word instr);
 struct ptype *manage_special3(struct ptype *mips, word instr);
