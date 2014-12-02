@@ -57,3 +57,13 @@ void report(int r)
 		default: fprintf(stderr, "no output for this report number: %d\n", r); break;
 	}
 }
+
+void op_report(int r)
+{
+	switch(r)
+	{
+		case 1:	fprintf(stderr, "ADD ERROR %d: overflow. invalid operation\n", r); break;
+
+		default: fprintf(stderr, "no output for this operation report number: %d\n", r); break;
+	}
+}

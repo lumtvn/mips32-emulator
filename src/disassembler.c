@@ -74,56 +74,61 @@ struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
 
 struct ptype *send_operation(struct ptype *mips, action act)
 {
+    int op_error;
     switch(mips->opnum)
     {
         case 0:
         if(act == D_EXEC)
-        {op_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        {op_error = op_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
         else if(act == D_PRINT) 
         {print_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
-        // case 2: op_addi(act) break;
-        // case 3: op_addiu(act) break;
-        // case 4: op_addu(act) break;
-        // case 5: op_and(act) break;
-        // case 6: op_andi(act) break;
-        // case 7: op_beq(act) break;
-        // case 8: op_bgez(act) break;
-        // case 9: op_bgtz(act) break;
-        // case 10: op_blez(act) break;
-        // case 11: op_bltz(act) break;
-        // case 12: op_bne(act) break;
-        // case 13: op_break(act) break;
-        // case 14: op_div(act) break;
-        // case 15: op_j(act) break;
-        // case 16: op_jal(act) break;
-        // case 17: op_jalr(act) break;
-        // case 18: op_jr(act) break;
-        // case 19: op_lb(act) break;
-        // case 20: op_lbu(act) break;
-        // case 21: op_lui(act) break;
-        // case 22: op_lw(act) break;
-        // case 23: op_mfhi(act) break;
-        // case 24: op_mflo(act) break;
-        // case 25: op_mult(act) break;
-        // case 26: op_nop(act) break;
-        // case 27: op_or(act) break;
-        // case 28: op_ori(act) break;
-        // case 29: op_sb(act) break;
-        // case 30: op_seb(act) break;
-        // case 31: op_sll(act) break;
-        // case 32: op_slt(act) break;
-        // case 33: op_slti(act) break;
-        // case 34: op_sltiu(act) break;
-        // case 35: op_sltu(act) break;
-        // case 36: op_sra(act) break;
-        // case 37: op_srl(act) break;
-        // case 38: op_sub(act) break;
-        // case 39: op_subu(act) break;
-        // case 40: op_sw(act) break;
-        // case 41: op_syscall(act) break;
-        // case 42: op_xor(act) break;
+        // case 2: op_error = op_addi(act) break;
+        // case 3: op_error = op_addiu(act) break;
+        // case 4: op_error = op_addu(act) break;
+        // case 5: op_error = op_and(act) break;
+        // case 6: op_error = op_andi(act) break;
+        // case 7: op_error = op_beq(act) break;
+        // case 8: op_error = op_bgez(act) break;
+        // case 9: op_error = op_bgtz(act) break;
+        // case 10: op_error = op_blez(act) break;
+        // case 11: op_error = op_bltz(act) break;
+        // case 12: op_error = op_bne(act) break;
+        // case 13: op_error = op_break(act) break;
+        // case 14: op_error = op_div(act) break;
+        // case 15: op_error = op_j(act) break;
+        // case 16: op_error = op_jal(act) break;
+        // case 17: op_error = op_jalr(act) break;
+        // case 18: op_error = op_jr(act) break;
+        // case 19: op_error = op_lb(act) break;
+        // case 20: op_error = op_lbu(act) break;
+        // case 21: op_error = op_lui(act) break;
+        // case 22: op_error = op_lw(act) break;
+        // case 23: op_error = op_mfhi(act) break;
+        // case 24: op_error = op_mflo(act) break;
+        // case 25: op_error = op_mult(act) break;
+        // case 26: op_error = op_nop(act) break;
+        // case 27: op_error = op_or(act) break;
+        // case 28: op_error = op_ori(act) break;
+        // case 29: op_error = op_sb(act) break;
+        // case 30: op_error = op_seb(act) break;
+        // case 31: op_error = op_sll(act) break;
+        // case 32: op_error = op_slt(act) break;
+        // case 33: op_error = op_slti(act) break;
+        // case 34: op_error = op_sltiu(act) break;
+        // case 35: op_error = op_sltu(act) break;
+        // case 36: op_error = op_sra(act) break;
+        // case 37: op_error = op_srl(act) break;
+        // case 38: op_error = op_sub(act) break;
+        // case 39: op_error = op_subu(act) break;
+        // case 40: op_error = op_sw(act) break;
+        // case 41: op_error = op_syscall(act) break;
+        // case 42: op_error = op_xor(act) break;
 
         default: mips->report = 610; break;
+    }
+    if(op_error > 0)
+    {
+    op_report(op_error);
     }
     return mips;
 }

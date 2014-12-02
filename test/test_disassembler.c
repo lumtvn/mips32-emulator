@@ -1,5 +1,6 @@
 #include "../src/headers.h"
 #include "../src/disassembler.h"
+#include "../src/errors.h"
 #include "../src/lookup.h"
 #include "minunit.h"
 
@@ -53,6 +54,9 @@ static char * test_ADD()
     else
     mu_assert("mips->operation is null for n4 in test_ADD", 0);
     mips->operation = NULL;   
+
+
+    
 
     return 0;
 

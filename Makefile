@@ -76,7 +76,8 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands testloadanddisasm testlookup
+test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands \
+		 testloadanddisasm testlookup testoperations
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
@@ -90,7 +91,7 @@ testdisassembler: bin/test_disassembler
 bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/operations.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
 	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_disassembler
 
-build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/environmentcommands.h src/operations.h src/memorymanagement.h src/lookup.h
+build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/errors.h src/environmentcommands.h src/operations.h src/memorymanagement.h src/lookup.h
 	@gcc -c test/test_disassembler.c -o build/test_disassembler.o
 
 ###########################--environment TESTS--################################
@@ -192,11 +193,25 @@ testloadanddisasm: bin/test_load_and_disasm
 	@./bin/test_load_and_disasm
 	@echo test_load_and_disasm tests passed
 
-bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o build/operations.o $(ELF_OBJ)
-	@gcc build/test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o build/operations.o $(ELF_OBJ) -o bin/test_load_and_disasm
+bin/test_load_and_disasm: build/test_load_and_disasm.o build/elfmanager.o build/errors.o build/lookup.o build/disassembler.o build/operations.o $(ELF_OBJ)
+	@gcc build/test_load_and_disasm.o build/elfmanager.o build/errors.o build/lookup.o build/disassembler.o build/operations.o $(ELF_OBJ) -o bin/test_load_and_disasm
 
-build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h $(ELF_HDRS)
+build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/headers.h src/errors.h src/disassembler.h $(ELF_HDRS)
 	@gcc -pg -c test/test_load_and_disasm.c -o build/test_load_and_disasm.o
+
+###########################--OPERATION TESTS--################################
+#tests in raw all of the 42 mips operations defined in operations.c
+
+testoperations: bin/test_operations
+	@echo starting test_operations tests
+	@./bin/test_operations
+	@echo test_operations tests passed
+
+bin/test_operations: build/test_operations.o build/errors.o build/operations.o
+	@gcc build/test_operations.o build/errors.o build/operations.o -o bin/test_operations
+
+build/test_operations.o: test/test_operations.c src/headers.h src/errors.h src/operations.h
+	@gcc -pg -c test/test_operations.c -o build/test_operations.o
 
 
 ###########################--MANUAL LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################
@@ -207,7 +222,7 @@ manualtestloadanddisasm: bin/manual_test_load_and_disasm
 	@echo starting manual_test_load_and_disasm tests
 	@./bin/manual_test_load_and_disasm
 
-bin/manual_test_load_and_disasm: build/manual_test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
+bin/manual_test_load_and_disasm: build/manual_test_load_and_disasm.o  build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ)
 	@gcc build/manual_test_load_and_disasm.o build/elfmanager.o build/lookup.o build/disassembler.o $(ELF_OBJ) -o bin/manual_test_load_and_disasm
 
 build/manual_test_load_and_disasm.o: test/manual_test_load_and_disasm.c src/elfmanager.h src/headers.h src/disassembler.h $(ELF_HDRS)
