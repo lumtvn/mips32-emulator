@@ -45,7 +45,7 @@ int simpoint;
 {	
 
 	mbyte bdata;
-	mhalfword hwdata;
+	halfword hwdata;
 	mword wdata;
 
  	simpoint = 0x32;
@@ -76,7 +76,7 @@ int simpoint;
  static char * test_read() 
 {
 	mbyte bdata;
-	mhalfword hwdata;
+	halfword hwdata;
 	mword wdata;
 
 	pmem->memrealpoint = pmem->memrealpointbase + 0x20;
@@ -114,7 +114,7 @@ int simpoint;
  static char * test_read_write_2_power() 
 {
 	mbyte bdata;
-	mhalfword hwdata;
+	halfword hwdata;
 	mword wdata;
 
  	simpoint = 0x32;

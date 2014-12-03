@@ -17,7 +17,7 @@ typedef int bool;
 typedef unsigned int mword;
 
 typedef unsigned int *reg;
-typedef unsigned short int mhalfword;
+typedef unsigned short int halfword;
 typedef unsigned char mbyte;
 
 static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0"

@@ -10,7 +10,7 @@ var searchData=
   ['memrealpoint',['memrealpoint',['../structptype.html#a0e240a34245d5734a5ab1133bd37182a',1,'ptype']]],
   ['memrealpointbase',['memrealpointbase',['../structptype.html#ae48d8e85e5f5b594209aeba44b50e810',1,'ptype']]],
   ['memsize',['memsize',['../structptype.html#aedc8878c46b29532ca5d23cd9bca22ad',1,'ptype']]],
-  ['mhalfword',['mhalfword',['../headers_8h.html#a7ad0a1895ae4d065394e08555be78273',1,'headers.h']]],
+  ['halfword',['halfword',['../headers_8h.html#a7ad0a1895ae4d065394e08555be78273',1,'headers.h']]],
   ['mword',['mword',['../headers_8h.html#a1ef678860994dda67d11967343d827bf',1,'headers.h']]],
   ['my_5finit_5fmem',['my_init_mem',['../elfmanager_8c.html#aeaf0fcb2c48ff3caae31b1460856dafd',1,'my_init_mem(struct ptype *mips, char *filename):&#160;elfmanager.c'],['../elfmanager_8h.html#aeaf0fcb2c48ff3caae31b1460856dafd',1,'my_init_mem(struct ptype *mips, char *filename):&#160;elfmanager.c']]]
 ];

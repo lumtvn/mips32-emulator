@@ -77,7 +77,7 @@ install: bin/emul-mips
 #environment testing is not included in general testing
 
 test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands \
-		 testloadanddisasm testlookup testoperations
+		 testloadanddisasm testlookup testexecoperations
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
@@ -202,16 +202,16 @@ build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/h
 ###########################--OPERATION TESTS--################################
 #tests in raw all of the 42 mips operations defined in operations.c
 
-testoperations: bin/test_operations
-	@echo starting test_operations tests
-	@./bin/test_operations
-	@echo test_operations tests passed
+testexecoperations: bin/test_exec_operations
+	@echo starting test_exec_operations tests
+	@./bin/test_exec_operations
+	@echo test_exec_operations tests passed
 
-bin/test_operations: build/test_operations.o build/errors.o build/operations.o
-	@gcc build/test_operations.o build/errors.o build/operations.o -o bin/test_operations
+bin/test_exec_operations: build/test_exec_operations.o build/errors.o build/operations.o
+	@gcc build/test_exec_operations.o build/errors.o build/operations.o -o bin/test_exec_operations
 
-build/test_operations.o: test/test_operations.c src/headers.h src/errors.h src/operations.h
-	@gcc -pg -c test/test_operations.c -o build/test_operations.o
+build/test_exec_operations.o: test/test_exec_operations.c src/headers.h src/errors.h src/operations.h
+	@gcc -pg -c test/test_exec_operations.c -o build/test_exec_operations.o
 
 
 ###########################--MANUAL LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################
@@ -230,6 +230,6 @@ build/manual_test_load_and_disasm.o: test/manual_test_load_and_disasm.c src/elfm
 
 ##########clean unnecesary files
 
-clear: 
-	find . -name *.o -delete
+clean: 
+	find ./build -name *.o -delete
 	rm -f *~

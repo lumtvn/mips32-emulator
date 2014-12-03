@@ -128,7 +128,7 @@ struct ptype *send_operation(struct ptype *mips, action act)
     }
     if(op_error > 0)
     {
-    op_report(op_error);
+    op_report(op_error);            
     }
     return mips;
 }

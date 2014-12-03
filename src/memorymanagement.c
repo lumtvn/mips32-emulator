@@ -136,7 +136,7 @@ struct ptype *writebyte(struct ptype *mips, mbyte bdata, int simpoint)
 *@brief writes the halfword stored in mips->hwdata to the position inside the block given by simpoint
 *
 **/
-struct ptype *writehalfword(struct ptype *mips, mhalfword hwdata, int simpoint)
+struct ptype *writehalfword(struct ptype *mips, halfword hwdata, int simpoint)
 {
 	mips->memrealpoint = mips->memrealpointbase + simpoint;
 	*(mips->memrealpoint) = (hwdata >> 8) & 0xFF;
@@ -188,9 +188,9 @@ mbyte readbyte(struct ptype *mips, int simpoint)
 *@brief reads the halfword stored in simulated address simpoint and stores it in mips->hwdata
 *
 **/
-mhalfword readhalfword(struct ptype *mips, int simpoint)
+halfword readhalfword(struct ptype *mips, int simpoint)
 {
-	mhalfword hwdata;
+	halfword hwdata;
 	mips->memrealpoint = mips->memrealpointbase + simpoint;
 	hwdata = (*mips->memrealpoint << 8) | *(mips->memrealpoint+1);
 

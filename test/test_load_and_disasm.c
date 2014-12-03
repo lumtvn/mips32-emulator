@@ -193,7 +193,7 @@ static char * test_exec_instr()
     // free(mips);
     // free(mips->elfdata);
     // free(mips);
-    return 0;
+    return result != 0;
 }
 
 
