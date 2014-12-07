@@ -17,7 +17,7 @@ all: bin/emul-mips
 bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ)
 	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ) -o bin/emul-mips
 
-build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h src/memorymanagement.h src/lookup.h src/elfmanager.h
+build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h  src/lookup.h src/elfmanager.h
 	gcc -pg -c src/main.c -o build/main.o
 
 build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/disassembler.h src/headers.h src/elfmanager.h src/errors.h src/lookup.h
@@ -32,16 +32,13 @@ build/disassembler.o: src/disassembler.c src/disassembler.h src/headers.h src/er
 build/lookup.o: src/lookup.c src/lookup.h src/headers.h
 	gcc -pg -c src/lookup.c -o build/lookup.o
 
-build/memorymanagement.o: src/memorymanagement.c src/headers.h src/lookup.h src/elfmanager.h $(ELF_HDRS)
-	gcc -pg -c src/memorymanagement.c -o build/memorymanagement.o
-
 build/errors.o: src/errors.c src/errors.h
 	gcc -pg -c src/errors.c -o build/errors.o
 
 build/operations.o: src/operations.c src/operations.h src/headers.h
 	gcc -pg -c src/operations.c -o build/operations.o
 
-build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h
+build/elfmanager.o: src/elfmanager.c src/elfmanager.h 
 	gcc -pg -c src/elfmanager.c -o build/elfmanager.o
 
 elfapi/src/bits.o: elfapi/src/bits.c elfapi/include/common/types.h elfapi/include/common/bits.h
@@ -76,8 +73,8 @@ install: bin/emul-mips
 
 #environment testing is not included in general testing
 
-test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands \
-		 testloadanddisasm testlookup testoperations
+test: testdisassembler testelfmanager testautoload testenvironmentcommands \
+		 testloadanddisasm testlookup testexecoperations testprintoperations
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
@@ -88,10 +85,10 @@ testdisassembler: bin/test_disassembler
 	@./bin/test_disassembler 
 	@echo disassembler tests passed
 
-bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/operations.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
-	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_disassembler
+bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o  build/operations.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
+	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o  build/lookup.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_disassembler
 
-build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/errors.h src/environmentcommands.h src/operations.h src/memorymanagement.h src/lookup.h
+build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/errors.h src/environmentcommands.h src/operations.h  src/lookup.h
 	@gcc -c test/test_disassembler.c -o build/test_disassembler.o
 
 ###########################--environment TESTS--################################
@@ -103,8 +100,8 @@ build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/heade
 # 	@./bin/test_environment
 # 	@echo environment tests passed
 
-# bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o
-# 	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/memorymanagement.o build/lookup.o -o bin/test_environment
+# bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o  build/lookup.o
+# 	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o  build/lookup.o -o bin/test_environment
 
 # build/test_environment.o: test/test_environment.c src/headers.h src/environment.h
 # 	@gcc -pg -c test/test_environment.c -o build/test_environment.o
@@ -157,19 +154,6 @@ bin/test_environmentcommands: build/test_environmentcommands.o build/environment
 build/test_environmentcommands.o: test/test_environmentcommands.c src/environmentcommands.h src/headers.h src/disassembler.h src/errors.h src/elfmanager.h $(ELF_HDRS)
 	@gcc -pg -c test/test_environmentcommands.c -o build/test_environmentcommands.o
 
-###########################--MEMORY MANAGEMENT TESTS--################################
-#tests the functions in charge of managing the memory of the simulated processor
-
-testmemorymanagement: bin/test_memorymanagement
-	@echo starting memorymanagement tests
-	@./bin/test_memorymanagement
-	@echo memorymanagement tests passed
-
-bin/test_memorymanagement: build/test_memorymanagement.o build/memorymanagement.o build/elfmanager.o build/lookup.o $(ELF_OBJ)
-	@gcc build/test_memorymanagement.o build/memorymanagement.o build/elfmanager.o build/lookup.o $(ELF_OBJ) -o bin/test_memorymanagement
-
-build/test_memorymanagement.o: test/test_memorymanagement.c src/memorymanagement.h src/headers.h src/lookup.h
-	@gcc -pg -c test/test_memorymanagement.c  -o build/test_memorymanagement.o
 
 ###########################--ELFMANAGER MANAGEMENT TESTS--################################
 #tests the functions in charge of managing the interface between an elf file and the emulator
@@ -179,8 +163,8 @@ testelfmanager: bin/test_elfmanager
 	@./bin/test_elfmanager
 	@echo elfmanager tests passed
 
-bin/test_elfmanager: build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o $(ELF_OBJ)
-	@gcc build/test_elfmanager.o build/elfmanager.o build/memorymanagement.o build/lookup.o $(ELF_OBJ) -o bin/test_elfmanager
+bin/test_elfmanager: build/test_elfmanager.o build/elfmanager.o  build/lookup.o $(ELF_OBJ)
+	@gcc build/test_elfmanager.o build/elfmanager.o  build/lookup.o $(ELF_OBJ) -o bin/test_elfmanager
 
 build/test_elfmanager.o: test/test_elfmanager.c src/elfmanager.h src/headers.h $(ELF_HDRS)
 	@gcc -pg -c test/test_elfmanager.c -o build/test_elfmanager.o
@@ -202,16 +186,29 @@ build/test_load_and_disasm.o: test/test_load_and_disasm.c src/elfmanager.h src/h
 ###########################--OPERATION TESTS--################################
 #tests in raw all of the 42 mips operations defined in operations.c
 
-testoperations: bin/test_operations
-	@echo starting test_operations tests
-	@./bin/test_operations
-	@echo test_operations tests passed
+testexecoperations: bin/test_exec_operations
+	@echo starting test_exec_operations tests
+	@./bin/test_exec_operations
+	@echo test_exec_operations tests passed
 
-bin/test_operations: build/test_operations.o build/errors.o build/operations.o
-	@gcc build/test_operations.o build/errors.o build/operations.o -o bin/test_operations
+bin/test_exec_operations: build/test_exec_operations.o build/errors.o build/operations.o
+	@gcc build/test_exec_operations.o build/errors.o build/operations.o -o bin/test_exec_operations
 
-build/test_operations.o: test/test_operations.c src/headers.h src/errors.h src/operations.h
-	@gcc -pg -c test/test_operations.c -o build/test_operations.o
+build/test_exec_operations.o: test/test_exec_operations.c src/headers.h src/errors.h src/operations.h
+	@gcc -pg -c test/test_exec_operations.c -o build/test_exec_operations.o
+
+###########	
+
+testprintoperations: bin/test_print_operations
+	@echo starting test_print_operations tests
+	@./bin/test_print_operations
+	@echo test_print_operations tests passed
+
+bin/test_print_operations: build/test_print_operations.o build/errors.o build/operations.o
+	@gcc build/test_print_operations.o build/errors.o build/operations.o -o bin/test_print_operations
+
+build/test_print_operations.o: test/test_print_operations.c src/headers.h src/errors.h src/operations.h
+	@gcc -pg -c test/test_print_operations.c -o build/test_print_operations.o
 
 
 ###########################--MANUAL LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################

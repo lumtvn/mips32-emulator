@@ -9,7 +9,6 @@
  **/
 #include "headers.h"
 #include "environment.h"
-#include "memorymanagement.h"
 #include "environmentcommands.h"
 #include "errors.h"
 

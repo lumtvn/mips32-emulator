@@ -17,7 +17,7 @@ typedef int bool;
 typedef unsigned int mword;
 
 typedef unsigned int *reg;
-typedef unsigned short int mhalfword;
+typedef unsigned short int halfword;
 typedef unsigned char mbyte;
 
 static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0"
@@ -36,6 +36,8 @@ struct ptype /// it's a structure that has all elements that are involved in the
 {   
 	///integer for error handling
 	int report; 
+
+	word PC;
 	
 
 	//concerning an operation
@@ -102,6 +104,10 @@ struct ptype /// it's a structure that has all elements that are involved in the
 
 	///general purpose registers
 	reg regs[32];
+
+	reg hi;
+	reg lo;
+
 
 
 	//concerning an entry for the IDE of the simulator

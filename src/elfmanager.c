@@ -16,7 +16,6 @@
  **/
 
 #include "headers.h"
-#include "memorymanagement.h"
 #include "elfmanager.h"
 
 #define START_MEM 0x3000

@@ -11,7 +11,6 @@
 #include "elfmanager.h"
 #include "disassembler.h"
 #include "environment.h"
-#include "memorymanagement.h"
 #include "lookup.h"
 
 void hashregisters();
