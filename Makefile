@@ -14,8 +14,8 @@ ELF_HDRS = elfapi/include/mem.h elfapi/include/elf/syms.h elfapi/include/elf/elf
 
 all: bin/emul-mips
 
-bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ)
-	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ) -o bin/emul-mips
+bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o build/stack.o $(ELF_OBJ)
+	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o build/stack.o $(ELF_OBJ) -o bin/emul-mips
 
 build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h src/memorymanagement.h src/lookup.h src/elfmanager.h
 	gcc -pg -c src/main.c -o build/main.o
@@ -44,6 +44,9 @@ build/operations.o: src/operations.c src/operations.h src/headers.h
 build/elfmanager.o: src/elfmanager.c src/elfmanager.h src/memorymanagement.h
 	gcc -pg -c src/elfmanager.c -o build/elfmanager.o
 
+build/stack.o: src/headers.h src/stack.c
+	gcc -pg -c src/stack.c -o build/stack.o
+
 elfapi/src/bits.o: elfapi/src/bits.c elfapi/include/common/types.h elfapi/include/common/bits.h
 	gcc -pg -c elfapi/src/bits.c -o elfapi/src/bits.o
 
@@ -58,6 +61,8 @@ elfapi/src/section.o: elfapi/src/section.c elfapi/include/elf/section.h elfapi/i
 
 elfapi/src/syms.o: elfapi/src/syms.c elfapi/include/elf/syms.h elfapi/include/common/notify.h
 	gcc -pg -c elfapi/src/syms.c -o elfapi/src/syms.o
+
+
 
 ###############################--INSTALL--################################
 ##########################################################################
@@ -77,7 +82,7 @@ install: bin/emul-mips
 #environment testing is not included in general testing
 
 test: testdisassembler testelfmanager testautoload testmemorymanagement testenvironmentcommands \
-		 testloadanddisasm testlookup testexecoperations
+		 testloadanddisasm testlookup testexecoperations testprintoperations
 	@echo ALL TESTS PASSED
 
 ###########################--disassembler TESTS--################################
@@ -212,6 +217,19 @@ bin/test_exec_operations: build/test_exec_operations.o build/errors.o build/oper
 
 build/test_exec_operations.o: test/test_exec_operations.c src/headers.h src/errors.h src/operations.h
 	@gcc -pg -c test/test_exec_operations.c -o build/test_exec_operations.o
+
+###########	
+
+testprintoperations: bin/test_print_operations
+	@echo starting test_print_operations tests
+	@./bin/test_print_operations
+	@echo test_print_operations tests passed
+
+bin/test_print_operations: build/test_print_operations.o build/errors.o build/operations.o
+	@gcc build/test_print_operations.o build/errors.o build/operations.o -o bin/test_print_operations
+
+build/test_print_operations.o: test/test_print_operations.c src/headers.h src/errors.h src/operations.h
+	@gcc -pg -c test/test_print_operations.c -o build/test_print_operations.o
 
 
 ###########################--MANUAL LOAD AND DISASSEMBLY MANAGEMENT TESTS--################################

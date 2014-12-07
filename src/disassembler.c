@@ -26,6 +26,22 @@
 #define S3_OPCODE_BITS 0x7C0
 #define RG_OPCODE_BITS 0x1F0000
 
+struct ptype *execute_text(struct ptype *mips)
+{
+    segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+    word textsize = segtext->size._32;
+
+    while(mips->PC < textsize)
+    {
+        mips->PC++;
+        disasm_instr(mips, mips->PC, D_EXEC);
+
+        if(mips->report > 0){return mips;}
+    }
+
+    return mips;
+}
+
 
 word get_loc(word instr)
 {
@@ -71,68 +87,6 @@ struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
 
     return mips;
 }
-
-struct ptype *send_operation(struct ptype *mips, action act)
-{
-    int op_error;
-    switch(mips->opnum)
-    {
-        case 0:
-        if(act == D_EXEC)
-        {op_error = op_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
-        else if(act == D_PRINT) 
-        {print_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
-        // case 2: op_error = op_addi(act) break;
-        // case 3: op_error = op_addiu(act) break;
-        // case 4: op_error = op_addu(act) break;
-        // case 5: op_error = op_and(act) break;
-        // case 6: op_error = op_andi(act) break;
-        // case 7: op_error = op_beq(act) break;
-        // case 8: op_error = op_bgez(act) break;
-        // case 9: op_error = op_bgtz(act) break;
-        // case 10: op_error = op_blez(act) break;
-        // case 11: op_error = op_bltz(act) break;
-        // case 12: op_error = op_bne(act) break;
-        // case 13: op_error = op_break(act) break;
-        // case 14: op_error = op_div(act) break;
-        // case 15: op_error = op_j(act) break;
-        // case 16: op_error = op_jal(act) break;
-        // case 17: op_error = op_jalr(act) break;
-        // case 18: op_error = op_jr(act) break;
-        // case 19: op_error = op_lb(act) break;
-        // case 20: op_error = op_lbu(act) break;
-        // case 21: op_error = op_lui(act) break;
-        // case 22: op_error = op_lw(act) break;
-        // case 23: op_error = op_mfhi(act) break;
-        // case 24: op_error = op_mflo(act) break;
-        // case 25: op_error = op_mult(act) break;
-        // case 26: op_error = op_nop(act) break;
-        // case 27: op_error = op_or(act) break;
-        // case 28: op_error = op_ori(act) break;
-        // case 29: op_error = op_sb(act) break;
-        // case 30: op_error = op_seb(act) break;
-        // case 31: op_error = op_sll(act) break;
-        // case 32: op_error = op_slt(act) break;
-        // case 33: op_error = op_slti(act) break;
-        // case 34: op_error = op_sltiu(act) break;
-        // case 35: op_error = op_sltu(act) break;
-        // case 36: op_error = op_sra(act) break;
-        // case 37: op_error = op_srl(act) break;
-        // case 38: op_error = op_sub(act) break;
-        // case 39: op_error = op_subu(act) break;
-        // case 40: op_error = op_sw(act) break;
-        // case 41: op_error = op_syscall(act) break;
-        // case 42: op_error = op_xor(act) break;
-
-        default: mips->report = 610; break;
-    }
-    if(op_error > 0)
-    {
-    op_report(op_error);            
-    }
-    return mips;
-}
-
 
 struct ptype *manage_normal(struct ptype *mips, word instr)
 {
@@ -308,9 +262,217 @@ int load_opcodes()
 }
 
 
-/*
-int load_prequisites()
+struct ptype *send_operation(struct ptype *mips, action act)
 {
-    struct nlist *np;
-    np = install("PREQ_ADD","3,3"); if(np == NULL){return -1;}
-}*/
+    int op_error = 0;
+    switch(mips->opnum)
+    {
+    case 0: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC)
+        {op_error = op_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_add(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+    
+
+    case 1:
+        if(act == D_EXEC) 
+        {op_error = op_addi(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_addi(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    case 2:
+        if(act == D_EXEC) 
+        {op_error = op_addiu(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_addiu(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    case 3: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_addu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_addu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+
+    case 4: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_and(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_and(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+    
+    case 5: 
+        if(act == D_EXEC) 
+        {op_error = op_andi(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_andi(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    case 6: 
+        if(act == D_EXEC) 
+        {op_error = op_beq(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_beq(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    case 7: 
+        if(mips->s_arg2 != 1){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_bgez(mips, mips->n_arg1, mips->inmediate); break;}
+        else mips = print_bgez(mips, mips->n_arg1, mips->inmediate); break;
+
+    case 8: 
+        if(mips->s_arg2 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_bgtz(mips, mips->n_arg1, mips->inmediate); break;}
+        else mips = print_bgtz(mips, mips->n_arg1, mips->inmediate); break;
+
+    case 9: 
+        if(mips->s_arg2 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_blez(mips, mips->n_arg1, mips->inmediate); break;}
+        else mips = print_blez(mips, mips->n_arg1, mips->inmediate); break;
+
+    case 10: 
+        if(mips->s_arg2 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_bltz(mips, mips->n_arg1, mips->inmediate); break;}
+        else mips = print_bltz(mips, mips->n_arg1, mips->inmediate); break;
+
+    case 11: 
+        if(act == D_EXEC) 
+        {op_error = op_bne(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_bne(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    // case 13: op_error = op_break(ct) break;
+
+    case 13: 
+        if(mips->s_arg3 != 0){mips->report = 620; break;}
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_div(mips, mips->s_arg1, mips->s_arg2); break;}
+        else mips = print_div(mips, mips->s_arg1, mips->s_arg2); break;
+
+    // case 15: op_error = op_j(act) break;
+
+    // case 16: op_error = op_jal(act) break;
+
+    // case 17: op_error = op_jalr(act) break;
+
+    // case 18: op_error = op_jr(act) break;
+
+    // case 19: op_error = op_lb(act) break;
+
+    // case 20: op_error = op_lbu(act) break;
+
+    // case 21: op_error = op_lui(act) break;
+
+    // case 22: op_error = op_lw(act) break;
+
+    case 22: 
+        if(mips->s_arg1 != 0 && mips->s_arg2 != 0 && mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC)
+        {op_error = op_mfhi(mips, mips->s_arg3); break;}
+        else mips = print_mfhi(mips, mips->s_arg3); break;
+    
+    case 23: 
+        if(mips->s_arg1 != 0 && mips->s_arg2 != 0 && mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC)
+        {op_error = op_mflo(mips, mips->s_arg3); break;}
+        else mips = print_mflo(mips, mips->s_arg3); break;
+    
+
+    case 24: 
+        if(mips->s_arg3 != 0){mips->report = 620; break;}
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_mult(mips, mips->s_arg1, mips->s_arg2); break;}
+        else mips = print_mult(mips, mips->s_arg1, mips->s_arg2); break;
+
+    case 25: 
+        if(act == D_EXEC) 
+        {op_error = op_nop(mips); break;}
+        else mips = print_nop(mips); break;
+
+    case 26: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_or(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_or(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+
+    case 27: 
+        if(act == D_EXEC) 
+        {op_error = op_ori(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_ori(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    // case 29: op_error = op_sb(act) break;
+
+    case 29: 
+        if(act == D_EXEC) 
+        {op_error = op_seb(mips, mips->s_arg1, mips->s_arg2); break;}
+        else mips = print_seb(mips, mips->s_arg1, mips->s_arg2); break;
+
+    case 30: 
+        if(mips->s_arg1 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_sll(mips, mips->s_arg2, mips->s_arg3, mips->s_arg4); break;}
+        else mips = print_sll(mips, mips->s_arg2, mips->s_arg3, mips->s_arg4); break;
+
+    case 31: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_slt(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_slt(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+
+    case 32: 
+        if(act == D_EXEC) 
+        {op_error = op_slti(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_slti(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    case 33: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_sltu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_sltu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+
+    case 34: 
+        if(act == D_EXEC) 
+        {op_error = op_sltiu(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_sltiu(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
+
+    case 35: 
+        if(mips->s_arg1 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_sra(mips, mips->s_arg2, mips->s_arg3, mips->s_arg4); break;}
+        else mips = print_sra(mips, mips->s_arg2, mips->s_arg3, mips->s_arg4); break;
+
+    case 36: 
+        if(mips->s_arg1 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_srl(mips, mips->s_arg2, mips->s_arg3, mips->s_arg4); break;}
+        else mips = print_srl(mips, mips->s_arg2, mips->s_arg3, mips->s_arg4); break;
+
+    case 37: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC)
+        {op_error = op_sub(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_sub(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+
+
+    case 38: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC)
+        {op_error = op_subu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_subu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+
+
+    // case 40: op_error = op_sw(act) break;
+
+    // case 41: op_error = op_syscall(act) break;
+
+    case 41: 
+        if(mips->s_arg4 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_xor(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;}
+        else mips = print_xor(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
+    }
+
+    if(op_error > 0)
+    {
+    op_report(op_error);
+    }    
+
+    return mips;
+}
+

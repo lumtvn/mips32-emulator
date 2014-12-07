@@ -20,6 +20,40 @@ static char * test_load_opcodes()
 
 }
 
+static char * test_which_operation()
+{
+    mips->operation = malloc(10);
+    strcpy(mips->operation, "BNE");
+
+    mips = which_operation_number(mips);
+
+    mu_assert("opnum is 0", mips->opnum != 0);
+
+    mu_assert("wrong operation number", mips->opnum == 11);
+
+    free(mips->operation);
+
+    return 0;
+} 
+
+static char * test_send_operation()
+{
+    mips->opnum = 0;
+    mips->s_arg1 = 0;
+    mips->s_arg2 = 1;
+    mips->s_arg3 = 2;
+    mips->s_arg4 = 0;
+
+    mips->disasm_output = malloc(80);
+
+    mips = send_operation(mips, D_PRINT);
+    mu_assert("printing incorrect for ADD $v0, $zero, $at", !strcmp(mips->disasm_output, "ADD $v0, $zero, $at"));
+
+    free(mips->disasm_output);
+
+    return 0;
+}
+
 static char * test_ADD() 
 {
     mword n1 = 0x00FA8120;
@@ -1636,43 +1670,6 @@ static char * test_XOR()
     return 0;
 
 }
-
-
-static char * test_which_operation()
-{
-    mips->operation = malloc(10);
-    strcpy(mips->operation, "BNE");
-
-    mips = which_operation_number(mips);
-
-    mu_assert("opnum is 0", mips->opnum != 0);
-
-    mu_assert("wrong operation number", mips->opnum == 11);
-
-    free(mips->operation);
-
-    return 0;
-} 
-
-static char * test_send_operation()
-{
-    mips->opnum = 0;
-    mips->s_arg1 = 0;
-    mips->s_arg2 = 1;
-    mips->s_arg3 = 2;
-
-    mips->disasm_output = malloc(80);
-
-    mips = send_operation(mips, D_PRINT);
-
-    mu_assert("printing incorrect for ADD $v0, $zero, $at", !strcmp(mips->disasm_output, "ADD $v0, $zero, $at"));
-
-    free(mips->disasm_output);
-
-    return 0;
-}
-
-
 
  static char * all_tests() {
     mu_run_test(test_load_opcodes);

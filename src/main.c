@@ -42,6 +42,9 @@ int main(int argc, char *argv[])
 	mips->elfdata = &myelfdata;/*malloc(sizeof(mips->elfdata));*/
 	// if(mips->elfdata == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 
+	//initiate the stack pointer
+	mips->sp = 0;
+
 	mips->entry = malloc(MAXSIZE);
 	if(mips->entry == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 

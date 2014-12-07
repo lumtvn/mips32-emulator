@@ -1,4 +1,4 @@
-#include <stdlib.h>
+	#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "../elfapi/include/common/bits.h"
@@ -9,6 +9,7 @@
 
 #define MAXSIZE 512
 #define MAXFILESIZE 2048
+#define STACKSIZE 16
 
 typedef int bool;
 #define true 1
@@ -20,23 +21,107 @@ typedef unsigned int *reg;
 typedef unsigned short int halfword;
 typedef unsigned char mbyte;
 
-static char *regnames[32] = {"$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0"
-		, "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2"
-		, "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp"
-		, "$sp", "$fp", "$ra"};
+typedef int alert;
+enum{ A_SYSCALL, AL_BREAKPOINT};
 
-static char *opnames[42] = {"ADD", "ADDI", "ADDIU", "ADDU", "AND", "ANDI", "BEQ", "BGEZ", "BGTZ"
-		, "BLEZ", "BLTZ", "BNE", "BREAK", "DIV", "J", "JAL", "JALR", "JR", "LB", "LBU", "LUI", "LW"
-		, "MFHI", "MFLO", "MULT", "NOP", "OR", "ORI", "SB", "SEB", "SLL", "SLT", "SLTI", "SLTIU"
-		, "SLTU", "SRA", "SRL", "SUB", "SUBU", "SW", "SYSCALL", "XOR"};
+static char *regnames[32] = {
+"$zero",
+"$at", 
+"$v0", 
+"$v1", 
+"$a0", 
+"$a1", 
+"$a2", 
+"$a3", 
+"$t0", 
+"$t1", 
+"$t2", 
+"$t3", 
+"$t4", 
+"$t5", 
+"$t6", 
+"$t7", 
+"$s0", 
+"$s1", 
+"$s2", 
+"$s3", 
+"$s4", 
+"$s5", 
+"$s6", 
+"$s7", 
+"$t8", 
+"$t9", 
+"$k0", 
+"$k1", 
+"$gp", 
+"$sp", 
+"$fp", 
+"$ra"
+};
+
+static char *opnames[42] = {
+"ADD", 
+"ADDI", 
+"ADDIU", 
+"ADDU", 
+"AND", 
+"ANDI", 
+"BEQ", 
+"BGEZ", 
+"BGTZ",
+"BLEZ", 
+"BLTZ", 
+"BNE", 
+"BREAK", 
+"DIV", 
+"J", 
+"JAL", 
+"JALR", 
+"JR", 
+"LB", 
+"LBU", 
+"LUI", 
+"LW",
+"MFHI", 
+"MFLO", 
+"MULT", 
+"NOP", 
+"OR", 
+"ORI", 
+"SB", 
+"SEB", 
+"SLL", 
+"SLT", 
+"SLTI", 
+"SLTIU",
+"SLTU", 
+"SRA", 
+"SRL", 
+"SUB", 
+"SUBU", 
+"SW", 
+"SYSCALL", 
+"XOR"
+};
 
 
 
 struct ptype /// it's a structure that has all elements that are involved in the simulator
 {   
 	///integer for error handling
-	int report; 
+	int report;
+	///alert for syscall or breakpoint while executing file
+	alert special;
+
+	///the program counter
+	word PC;
+
+	//concerning the stack
 	
+	///the stack
+	word stack[STACKSIZE];
+	///next free stack position
+	int sp;
 
 	//concerning an operation
 
@@ -95,6 +180,7 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	byte s_arg3;
 	byte s_arg4;
 
+
 	char *disasm_output;
 	///index for array opnames
 	int opnum;
@@ -103,6 +189,10 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	///general purpose registers
 	reg regs[32];
 
+	///special register hi
+	reg hi;
+	///special register lo
+	reg lo;
 
 	//concerning an entry for the IDE of the simulator
 

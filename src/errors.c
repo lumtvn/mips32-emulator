@@ -53,6 +53,7 @@ void report(int r)
 		case 603:  	fprintf(stderr, "ERROR %d: can't dissassemble in section out of text\n", r); break;
 		case 604:  	fprintf(stderr, "ERROR %d: couldn't find operation\n", r); break;
 		case 610:  	fprintf(stderr, "ERROR %d: operation not implemented or not existant\n", r); break;
+		case 620:	fprintf(stderr, "COMPILATION ERROR %d: operation not existant\n", r); break;
 
 		default: fprintf(stderr, "no output for this report number: %d\n", r); break;
 	}
@@ -62,7 +63,8 @@ void op_report(int r)
 {
 	switch(r)
 	{
-		case 1:	fprintf(stderr, "ADD ERROR %d: overflow. invalid operation\n", r); break;
+		case 1:	fprintf(stderr, "COMPILATION ERROR %d: overflow. invalid operation\n", r); break;
+		case 10: fprintf(stderr, "COMPILATION ERROR %d, DIV: division by 0\n", r); break;
 
 		default: fprintf(stderr, "no output for this operation report number: %d\n", r); break;
 	}

@@ -844,7 +844,7 @@ int elf_load_symtab( FILE *fp,  unsigned int width, unsigned int endian,  stab *
                 }
 
 
-//                printf( "ST_NAME[%02u] info %d: %u : %s \n", i,t, elf_sym[i].st_name, &snames[elf_sym[i].st_name] );
+               // printf( "ST_NAME[%02u] info %d: %u : %s \n", i,t, elf_sym[i].st_name, &snames[elf_sym[i].st_name] );
 
 
                 if ( section == t ) {
