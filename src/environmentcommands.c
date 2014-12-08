@@ -50,6 +50,8 @@ struct ptype *env_load(struct ptype *mips)
 		}
 	else return mips;
 }
+
+
 /**
 * @brief function set. explained in environment documentation
 *
@@ -350,6 +352,93 @@ struct ptype *env_assert(struct ptype *mips)
 	mips->report = 433;
 	return mips;
 }
+
+
+
+struct ptype *env_disasm(struct ptype *mips)
+{
+	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
+	printf("%d\n", mips->n_argenv);
+	if(mips->n_argenv != 1){mips->report = 440; /*usage: disasm address:address or disasm address+address*/ return mips;}
+
+	char *temp, *caddr1, *caddr2;
+	vaddr32 addr1, addr2, offset;
+
+	if((temp = strchr(mips->argenv[0], ':')) != NULL)
+	{
+		caddr1 = strtok(mips->argenv[0], ":");
+		caddr2 = strtok(NULL, "\n");
+		if(caddr1 == NULL || caddr2 == NULL){mips->report = 441; /*null argument(s)*/ return mips;}
+		if(find_illegal_character(caddr1) || find_illegal_character(caddr2)){mips->report = 442; /*bad argument(s)*/ return mips;}
+
+		addr1 = (int)strtol(caddr1, (char**)NULL,0);
+		addr2 = (int)strtol(caddr2, (char**)NULL,0);
+
+		if(addr1 > addr2){mips->report = 443; /*addr1 must be smaller than addr2*/ return mips;}
+
+		if(!is_in_segment(get_seg_by_name(mips->elfdata->memory, "text"), addr1, addr2 - addr1)){mips->report = 444; /*disasm must be inside text segment*/ return mips;}
+
+		mips->disasm_output = malloc(50);
+		mips->instr_output = malloc(50);
+		uint i;
+		for(i = addr1; i <= addr2; i++)
+		{
+
+			mips = disasm_instr(mips, i, D_PRINT);
+			if(mips->report > 0)
+				{
+					free(mips->disasm_output);
+					free(mips->instr_output);
+					return mips;
+				}
+
+			printf("%x :: %s	%s\n", i, mips->instr_output, mips->disasm_output);
+		}
+
+		free(mips->disasm_output);
+		free(mips->instr_output);
+
+	}
+	else if((temp = strchr(mips->argenv[0], '+')) != NULL)
+	{
+		caddr1 = strtok(mips->argenv[0], ":");
+		caddr2 = strtok(NULL, "\n");
+		if(caddr1 == NULL || caddr2 == NULL){mips->report = 441; /*null argument(s)*/ return mips;}
+		if(find_illegal_character(caddr1) || find_illegal_character(caddr2)){mips->report = 442; /*bad argument(s)*/ return mips;}
+
+		addr1 = (int)strtol(caddr1, (char**)NULL,0);
+		offset = (int)strtol(caddr2, (char**)NULL,0);
+
+		if(addr1 > offset){mips->report = 445; /*addr1 must be smaller than offset*/ return mips;}
+
+		if(!is_in_segment(get_seg_by_name(mips->elfdata->memory, "text"), addr1, offset - addr1)){mips->report = 444; /*disasm must be inside text segment*/ return mips;}
+
+		mips->disasm_output = malloc(50);
+		mips->instr_output = malloc(50);
+
+		mips = disasm_instr(mips, addr1, D_PRINT);
+		if(mips->report > 0)
+			{
+				free(mips->disasm_output);
+				free(mips->instr_output);
+				return mips;
+			}
+		printf("%x :: %s	%s\n", addr1, mips->instr_output, mips->disasm_output);
+		mips = disasm_instr(mips, addr1 + offset, D_PRINT);
+		if(mips->report > 0)
+			{
+				free(mips->disasm_output);
+				free(mips->instr_output);
+				return mips;
+			}
+		printf("%x :: %s	%s\n", addr1 + offset, mips->instr_output, mips->disasm_output);
+		free(mips->disasm_output);
+		free(mips->instr_output);
+	}
+	else{mips->report = 449;/*invalid argument for disasm*/ return mips;}
+}
+
+
 
 /*
 *@brief this function searches an illegal character in a string that should have a number in decimal, octal or hexadecimal format

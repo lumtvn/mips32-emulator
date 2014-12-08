@@ -38,7 +38,6 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	int report; 
 
 	word PC;
-	
 
 	//concerning an operation
 
@@ -97,6 +96,7 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	byte s_arg3;
 	byte s_arg4;
 
+	char *instr_output;
 	char *disasm_output;
 	///index for array opnames
 	int opnum;

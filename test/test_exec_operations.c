@@ -1,6 +1,7 @@
 #include "../src/headers.h"
 #include "../src/errors.h"
 #include "../src/operations.h"
+#include "../src/elfmanager.h"
 #include "minunit.h"
 
  int tests_run = 0; 
@@ -188,10 +189,132 @@ static char * test_div()
 
 static char * test_j()
 {	
-	// mips->PC = 0x10003000;
-	// error = op_j(mips,0x000032FF);
-	// mu_assert("jump operation failed to jump", mips->PC == 0x1000CBFC);
+	mips->PC = 0x90003000;
+	error = op_j(mips,0x000032FF);
+	mu_assert("jump operation failed to jump", mips->PC == 0x9000CBFC);
 	
+	return 0;
+}
+
+static char * test_jal()
+{	
+	mips->PC = 0x90003000;
+	error = op_jal(mips,0x000032FF);
+	mu_assert("jump and link operation failed to store return address",*(mips->regs[31]) == 0x90003008);
+	mu_assert("jump and link operation failed to jump", mips->PC == 0x9000CBFC);
+	
+	return 0;
+}
+
+static char * test_jalr()
+{	
+	*(mips->regs[9]) = 0x9000CBFC;
+	*(mips->regs[10]) = 0;
+	mips->PC = 0x90003000;
+	error = op_jalr(mips,9,10);
+	mu_assert("jalr operation failed to store return address",*(mips->regs[31]) == 0x90003008);
+	mu_assert("jalr operation failed to jump", mips->PC == 0x9000CBFC);
+	*(mips->regs[9]) = 0x9000CBFF;
+	error = op_jalr(mips,9,10);
+	mu_assert("jalr operation failed to return unaligned", error == 20);
+	
+	return 0;
+}
+
+static char * test_jr()
+{	
+	mips->PC = 0x90003000;
+	*(mips->regs[9]) = 0x9000CBFC;
+	error = op_jr(mips,9);
+	mu_assert("jr operation failed to jump", mips->PC == 0x9000CBFC);
+	*(mips->regs[9]) = 0x9000CBFF;
+	error = op_jr(mips,9);
+	mu_assert("jr operation failed to return unaligned", error == 21);
+	
+	return 0;
+}
+
+
+static char * test_lb()
+{	
+	struct elfstr myelfdata;
+    mips->elfdata = &myelfdata;
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
+    mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
+
+
+	*(mips->regs[9]) = 0x3000;
+	*(mips->regs[10]) = 0x4000;
+	error = op_lb(mips,9,10,7);
+
+	mu_assert("lb operation returned read null", error != 30);
+	mu_assert("lb operation returned no segment associated", error != 31);
+	mu_assert("lb operation failed", *(mips->regs[10]) == 0x20);
+
+	del_mem(mips->elfdata->memory);
+    del_stab(mips->elfdata->symtab);
+    fclose(mips->elfdata->pf_elf);
+
+	return 0;
+}
+
+static char * test_lbu()
+{	
+	struct elfstr myelfdata;
+    mips->elfdata = &myelfdata;
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
+    mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
+
+
+	*(mips->regs[9]) = 0x3000;
+	*(mips->regs[10]) = 0x4000;
+	error = op_lbu(mips,9,10,7);
+
+	mu_assert("lbu operation returned read null", error != 30);
+	mu_assert("lbu operation returned no segment associated", error != 31);
+	mu_assert("lbu operation failed", *(mips->regs[10]) == 0x20);
+	
+	del_mem(mips->elfdata->memory);
+    del_stab(mips->elfdata->symtab);
+    fclose(mips->elfdata->pf_elf);
+
+	return 0;
+}
+
+static char * test_lui()
+{	
+	*(mips->regs[9]) = 0x3000;
+	error = op_lui(mips,9,0xFEFE);
+	mu_assert("lui operation failed", *(mips->regs[9]) == 0xFEFE0000);
+
+	return 0;
+}
+
+static char * test_lw()
+{	
+	struct elfstr myelfdata;
+    mips->elfdata = &myelfdata;
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
+    mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
+
+
+	*(mips->regs[9]) = 0x3000;
+	*(mips->regs[10]) = 0x4000;
+	error = op_lw(mips,9,10,8);
+	mu_assert("lw operation returned read null", error != 30);
+	mu_assert("lw operation returned no segment associated", error != 31);
+	mu_assert("lw operation failed", *(mips->regs[10]) == 0x214a0001);
+
+	error = op_lw(mips,9,10,7);
+	mu_assert("lw operation should return address not aligned", error == 50);
+	
+	del_mem(mips->elfdata->memory);
+    del_stab(mips->elfdata->symtab);
+    fclose(mips->elfdata->pf_elf);
+
 	return 0;
 }
 
@@ -249,6 +372,31 @@ static char * test_ori()
 	*(mips->regs[10]) = 0;
 	error = op_ori(mips,9,10,0x324F);
 	mu_assert("ori operation failed", *(mips->regs[10]) == (0x47BF040B | 0x324F) && error == 0);	
+	return 0;
+}
+
+static char * test_sb()
+{	
+	struct elfstr myelfdata;
+    mips->elfdata = &myelfdata;
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
+    mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
+
+
+	*(mips->regs[9]) = 0x4000;
+	*(mips->regs[10]) = 0xFE;
+	error = op_sb(mips,9,10,3);
+	mu_assert("sb operation returned read null", error != 60);
+	mu_assert("sb operation returned no segment associated", error != 61);
+	mu_assert("sb operation returned no writing allowed", error != 62);
+	mips = elfreadbyte(mips, mips->elfdata->memory, 0x4003);
+	mu_assert("sb operation failed", mips->bdata == 0xFE);
+
+	del_mem(mips->elfdata->memory);
+    del_stab(mips->elfdata->symtab);
+    fclose(mips->elfdata->pf_elf);
+
 	return 0;
 }
 
@@ -387,6 +535,36 @@ static char * test_subu()
 	return 0;
 }
 
+static char * test_sw()
+{	
+	struct elfstr myelfdata;
+    mips->elfdata = &myelfdata;
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
+    mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
+
+
+	*(mips->regs[9]) = 0x4000;
+	*(mips->regs[10]) = 0xFEFEABAB;
+	error = op_sw(mips,9,10,0);
+	mu_assert("sw operation returned no aligned address", error != 73);
+	mu_assert("sw operation returned read null", error != 70);
+	mu_assert("sw operation returned no segment associated", error != 71);
+	mu_assert("sw operation returned no writing allowed", error != 72);
+	mips = elfreadword(mips, mips->elfdata->memory, 0x4000);
+	mu_assert("sw operation failed", mips->wdata == 0xFEFEABAB);
+
+	error = op_sw(mips,9,10,3);
+	mu_assert("sw operation should return not aligned address", error == 73);
+
+
+	del_mem(mips->elfdata->memory);
+    del_stab(mips->elfdata->symtab);
+    fclose(mips->elfdata->pf_elf);
+
+	return 0;
+}
+
 static char * test_xor()
 {
 	*(mips->regs[9]) = 0x67537F99;
@@ -416,10 +594,18 @@ static char * test_xor()
     mu_run_test(test_nop);
     mu_run_test(test_div);
     mu_run_test(test_j);
+    mu_run_test(test_jal);
+    mu_run_test(test_jalr);
+    mu_run_test(test_jr);
+    mu_run_test(test_lb);
+    mu_run_test(test_lbu);
+    mu_run_test(test_lui);
+    mu_run_test(test_lw);
     mu_run_test(test_mfhi);
     mu_run_test(test_mult);
     mu_run_test(test_or);
     mu_run_test(test_ori);
+    mu_run_test(test_sb);
     mu_run_test(test_seb);
     mu_run_test(test_sll);
     mu_run_test(test_slt);
@@ -430,6 +616,7 @@ static char * test_xor()
     mu_run_test(test_srl);
     // mu_run_test(test_sub);
     mu_run_test(test_subu);
+    mu_run_test(test_sw);
     mu_run_test(test_xor);
 
 	return 0;

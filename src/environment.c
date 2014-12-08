@@ -117,7 +117,7 @@ struct ptype *analize(struct ptype *mips)
 
 	else if(!strcmp(mips->command,"disp"))	{	mips = env_disp(mips); return mips;}
 
-	else if(!strcmp(mips->command,"disasm")){	printf("disasm was entered...\n"); return mips;}
+	else if(!strcmp(mips->command,"disasm")){	mips = env_disasm(mips); return mips;}
 
 	else if(!strcmp(mips->command,"set"))	{	mips = env_set(mips); return mips;}
 

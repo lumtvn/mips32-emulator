@@ -35,7 +35,7 @@ build/lookup.o: src/lookup.c src/lookup.h src/headers.h
 build/errors.o: src/errors.c src/errors.h
 	gcc -pg -c src/errors.c -o build/errors.o
 
-build/operations.o: src/operations.c src/operations.h src/headers.h
+build/operations.o: src/operations.c src/operations.h src/headers.h src/elfmanager.h
 	gcc -pg -c src/operations.c -o build/operations.o
 
 build/elfmanager.o: src/elfmanager.c src/elfmanager.h 
@@ -191,8 +191,8 @@ testexecoperations: bin/test_exec_operations
 	@./bin/test_exec_operations
 	@echo test_exec_operations tests passed
 
-bin/test_exec_operations: build/test_exec_operations.o build/errors.o build/operations.o
-	@gcc build/test_exec_operations.o build/errors.o build/operations.o -o bin/test_exec_operations
+bin/test_exec_operations: build/test_exec_operations.o build/errors.o build/operations.o build/elfmanager.o $(ELF_OBJ)
+	@gcc build/test_exec_operations.o build/errors.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_exec_operations
 
 build/test_exec_operations.o: test/test_exec_operations.c src/headers.h src/errors.h src/operations.h
 	@gcc -pg -c test/test_exec_operations.c -o build/test_exec_operations.o
@@ -204,8 +204,8 @@ testprintoperations: bin/test_print_operations
 	@./bin/test_print_operations
 	@echo test_print_operations tests passed
 
-bin/test_print_operations: build/test_print_operations.o build/errors.o build/operations.o
-	@gcc build/test_print_operations.o build/errors.o build/operations.o -o bin/test_print_operations
+bin/test_print_operations: build/test_print_operations.o build/errors.o build/operations.o build/elfmanager.o $(ELF_OBJ)
+	@gcc build/test_print_operations.o build/errors.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_print_operations
 
 build/test_print_operations.o: test/test_print_operations.c src/headers.h src/errors.h src/operations.h
 	@gcc -pg -c test/test_print_operations.c -o build/test_print_operations.o

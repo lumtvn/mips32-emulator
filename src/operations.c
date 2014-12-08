@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "elfmanager.h"
 
 //Add word
 int op_add(struct ptype *mips, byte rs, byte rt, byte rd)
@@ -226,13 +227,150 @@ struct ptype *print_div(struct ptype *mips, byte rs, byte rt)
 //Jump
 int op_j(struct ptype *mips, word idx)
 {	
-	mips->PC = (0xC0000000 & mips->PC) + (idx << 2);
+	mips->PC = (0xF0000000 & mips->PC) + (idx << 2);
 	return 0;
 }
 
 struct ptype *print_j(struct ptype *mips, word idx)
 {
 	sprintf(mips->disasm_output, "J 0x%x", idx);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Jump and Link
+int op_jal(struct ptype *mips, word idx)
+{	
+	*(mips->regs[31]) = mips->PC + 8;
+	mips->PC = (0xF0000000 & mips->PC) + (idx << 2);
+	return 0;
+}
+
+struct ptype *print_jal(struct ptype *mips, word idx)
+{
+	sprintf(mips->disasm_output, "JAL 0x%x", idx);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Jump and Link Register
+int op_jalr(struct ptype *mips, byte rs, byte rd)
+{	
+	word temp;
+	temp = *(mips->regs[rs]);
+	*(mips->regs[rd]) = mips->PC + 8;
+	if(temp%4 != 0)
+		return 20;
+	else mips->PC = temp;
+
+	return 0;
+}
+
+struct ptype *print_jalr(struct ptype *mips, byte rs, byte rd)
+{
+	sprintf(mips->disasm_output, "JALR %s, %s", regnames[rd], regnames[rs]);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Jump Register
+int op_jr(struct ptype *mips, byte rs)
+{	
+	word temp;
+	temp = *(mips->regs[rs]);
+	if(temp%4 != 0)
+		return 21;
+	else mips->PC = temp;
+	return 0;
+}
+
+struct ptype *print_jr(struct ptype *mips, byte rs, byte rd)
+{
+	sprintf(mips->disasm_output, "JR %s", regnames[rs]);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Load Byte
+int op_lb(struct ptype *mips, byte base, byte rt, halfword offset)
+{	
+	vaddr32 addr = *(mips->regs[base]) + (signed) offset;
+	mips = elfreadbyte(mips, mips->elfdata->memory, addr);
+	if(mips->report == 502)
+		return 30;
+	if(mips->report == 501)
+		return 31;
+	*(mips->regs[rt]) = mips->bdata;
+	return 0;
+}
+
+struct ptype *print_lb(struct ptype *mips, byte base, byte rt, halfword offset)
+{
+	sprintf(mips->disasm_output, "LB %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Load Byte Unsigned
+int op_lbu(struct ptype *mips, byte base, byte rt, halfword offset)
+{	
+	vaddr32 addr = *(mips->regs[base]) + offset;
+	mips = elfreadbyte(mips, mips->elfdata->memory, addr);
+	if(mips->report == 502)
+		return 40;
+	if(mips->report == 501)
+		return 41;
+	*(mips->regs[rt]) = mips->bdata;
+	return 0;
+}
+
+struct ptype *print_lbu(struct ptype *mips, byte base, byte rt, halfword offset)
+{
+	sprintf(mips->disasm_output, "LBU %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Load Upper Inmediate
+int op_lui(struct ptype *mips, byte rt, halfword inmediate)
+{	
+	 *(mips->regs[rt]) = inmediate << 16;
+	 return 0;
+}
+
+struct ptype *print_lui(struct ptype *mips, byte rt, halfword inmediate)
+{
+	sprintf(mips->disasm_output, "LUI %s, %x", regnames[rt], inmediate);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Load Word
+int op_lw(struct ptype *mips, byte base, byte rt, halfword offset)
+{	
+	vaddr32 addr = *(mips->regs[base]) + offset;
+	if(addr%4 != 0)
+		return 50;
+	mips = elfreadword(mips, mips->elfdata->memory, addr);
+	if(mips->report == 502)
+		return 51;
+	if(mips->report == 501)
+		return 52;
+
+	*(mips->regs[rt]) = mips->wdata;
+	return 0;
+}
+
+struct ptype *print_lw(struct ptype *mips, byte base, byte rt, halfword offset)
+{
+	sprintf(mips->disasm_output, "LW %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 
@@ -325,6 +463,28 @@ int op_ori(struct ptype *mips, byte rs, byte rt, halfword inm)
 struct ptype *print_ori(struct ptype *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "ORI %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Store Byte
+int op_sb(struct ptype *mips, byte base, byte rt, halfword offset)
+{	
+	vaddr32 addr = *(mips->regs[base]) + (signed) offset;
+	mips = elfwritebyte(mips, mips->elfdata->memory, *(mips->regs[rt]), addr);
+	if(mips->report == 502)
+		return 60;
+	if(mips->report == 501)
+		return 61;
+	if(mips->report == 503)
+		return 62;
+	return 0;
+}
+
+struct ptype *print_sb(struct ptype *mips, byte base, byte rt, halfword offset)
+{
+	sprintf(mips->disasm_output, "SB %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 
@@ -481,6 +641,30 @@ int op_subu(struct ptype *mips, byte rs, byte rt, byte rd)
 struct ptype *print_subu(struct ptype *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "SUBU %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
+	return mips;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Store Word
+int op_sw(struct ptype *mips, byte base, byte rt, halfword offset)
+{	
+	vaddr32 addr = *(mips->regs[base]) + (signed) offset;
+	if(addr%4 != 0)
+		return 73;
+	mips = elfwriteword(mips, mips->elfdata->memory, *(mips->regs[rt]), addr);
+	if(mips->report == 502)
+		return 70;
+	if(mips->report == 501)
+		return 71;
+	if(mips->report == 503)
+		return 72;
+	return 0;
+}
+
+struct ptype *print_sw(struct ptype *mips, byte base, byte rt, halfword offset)
+{
+	sprintf(mips->disasm_output, "SW %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 

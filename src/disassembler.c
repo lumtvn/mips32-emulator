@@ -76,14 +76,21 @@ struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
     else {mips = manage_normal(mips, instr);}
 
 
-    mips = getopcode(mips,instr);
+    mips = getopcode(mips,instr); //loads mips->operation with operation name
 
     mips = which_operation_number(mips); //changes value of mips->opnum to actual operation number
     if(mips->opnum < 0){mips->report = 604; return mips;}
 
+    if(mips->opnum == 14 || mips->opnum == 15) //j and jal instructions
+        mips->inmediate = 0x03FFFFFF & instr;
+
+    if(act == D_PRINT)
+        sprintf(mips->instr_output, "%x", instr);
+
     send_operation(mips, act);
 
     // printf("hexa in 0x%x: 0x%x, operation: %s\n",i, mips->instr, mips->operation);
+    mips->report = 0;
 
     return mips;
 }
@@ -344,21 +351,49 @@ struct ptype *send_operation(struct ptype *mips, action act)
         {op_error = op_div(mips, mips->s_arg1, mips->s_arg2); break;}
         else mips = print_div(mips, mips->s_arg1, mips->s_arg2); break;
 
-    // case 15: op_error = op_j(act) break;
+    case 14:
+        if(act == D_EXEC) 
+        {op_error = op_j(mips, mips->inmediate); break;}
+        else mips = print_j(mips, mips->inmediate); break;
 
-    // case 16: op_error = op_jal(act) break;
+    case 15:
+        if(act == D_EXEC) 
+        {op_error = op_jal(mips, mips->inmediate); break;}
+        else mips = print_jal(mips, mips->inmediate); break;
 
-    // case 17: op_error = op_jalr(act) break;
+    case 16: 
+        if(mips->s_arg2 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_jalr(mips, mips->s_arg1, mips->s_arg3); break;}
+        else mips = print_jalr(mips, mips->s_arg1, mips->s_arg3); break;
 
-    // case 18: op_error = op_jr(act) break;
+    case 17: 
+        if(mips->s_arg2 != 0){mips->report = 620; break;}
+        if(mips->s_arg3 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_jr(mips, mips->s_arg1); break;}
+        else mips = print_jr(mips, mips->s_arg1); break;
 
-    // case 19: op_error = op_lb(act) break;
+    case 18: 
+        if(act == D_EXEC) 
+        {op_error = op_lb(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_lb(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
-    // case 20: op_error = op_lbu(act) break;
+    case 19: 
+        if(act == D_EXEC) 
+        {op_error = op_lbu(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_lbu(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
-    // case 21: op_error = op_lui(act) break;
+    case 20: 
+        if(mips->s_arg1 != 0){mips->report = 620; break;}
+        if(act == D_EXEC) 
+        {op_error = op_lui(mips, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_lui(mips, mips->n_arg2, mips->inmediate); break;
 
-    // case 22: op_error = op_lw(act) break;
+    case 21: 
+        if(act == D_EXEC) 
+        {op_error = op_lw(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_lw(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
     case 22: 
         if(mips->s_arg1 != 0 && mips->s_arg2 != 0 && mips->s_arg4 != 0){mips->report = 620; break;}
@@ -396,7 +431,10 @@ struct ptype *send_operation(struct ptype *mips, action act)
         {op_error = op_ori(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
         else mips = print_ori(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
-    // case 29: op_error = op_sb(act) break;
+    case 28: 
+        if(act == D_EXEC) 
+        {op_error = op_sb(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_sb(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
     case 29: 
         if(act == D_EXEC) 

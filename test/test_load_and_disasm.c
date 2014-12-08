@@ -74,6 +74,7 @@ static char * test_disasm_instr()
     // mu_assert("test_disasm_instr: no memory for elfdata", mips->disasm_output != NULL);
     mips->elfdata = &myelfdata;
     mips->disasm_output = malloc(80);
+    mips->instr_output = malloc(80);
     mu_assert("test_disasm_instr: no memory for disasm_output", mips->disasm_output != NULL);
 
     mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
@@ -104,6 +105,7 @@ static char * test_disasm_instr()
     // destroy_mem(mips->elfdata);
     // free(mips->elfdata);
     free(mips->disasm_output);
+    free(mips->instr_output);
 
     return 0;
 
@@ -117,6 +119,7 @@ static char * test_disasm_text()
     // mu_assert("test_disasm_text: no memory for elfdata", mips->disasm_output != NULL);
     mips->elfdata = &myelfdata;
     mips->disasm_output = malloc(80);
+    mips->instr_output = malloc(80);
     mu_assert("test_disasm_text: no memory for disasm_output", mips->disasm_output != NULL);
 
     mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
@@ -159,6 +162,7 @@ static char * test_disasm_text()
     // destroy_mem(mips->elfdata);
     // free(mips->elfdata);
     free(mips->disasm_output);
+    free(mips->instr_output);
 
     return 0;
 
@@ -172,6 +176,7 @@ static char * test_exec_instr()
     // mu_assert("no memory for elfdata", mips->disasm_output != NULL);
     mips->elfdata = &myelfdata;
     mips->disasm_output = malloc(80);
+    mips->instr_output = malloc(80);
     mu_assert("text_exec_instr: no memory for disasm_output", mips->disasm_output != NULL);
 
     mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
@@ -216,6 +221,9 @@ static char * test_exec_instr()
     {
         free(mips->regs[i]);
     }
+
+    free(mips->disasm_output);
+    free(mips->instr_output);
 
     return 0;
 
