@@ -239,7 +239,7 @@ static char * test_lb()
 {	
 	struct elfstr myelfdata;
     mips->elfdata = &myelfdata;
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
     mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
 
@@ -263,7 +263,7 @@ static char * test_lbu()
 {	
 	struct elfstr myelfdata;
     mips->elfdata = &myelfdata;
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
     mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
 
@@ -296,7 +296,7 @@ static char * test_lw()
 {	
 	struct elfstr myelfdata;
     mips->elfdata = &myelfdata;
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
     mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
 
@@ -379,7 +379,7 @@ static char * test_sb()
 {	
 	struct elfstr myelfdata;
     mips->elfdata = &myelfdata;
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
     mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
 
@@ -539,7 +539,7 @@ static char * test_sw()
 {	
 	struct elfstr myelfdata;
     mips->elfdata = &myelfdata;
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
     mu_assert("the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("file entered isn't ELF", mips->elfdata->report != 101);
 

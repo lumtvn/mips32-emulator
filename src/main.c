@@ -12,9 +12,11 @@
 #include "disassembler.h"
 #include "environment.h"
 #include "lookup.h"
+#include "errors.h"
 
 void hashregisters();
 struct ptype *initregisters(struct ptype *mips);
+void finish(struct ptype *mips);
 
 
 /**
@@ -49,15 +51,49 @@ int main(int argc, char *argv[])
 
 	hashregisters();
 	mips = initregisters(mips);
+	int error = load_opcodes();
+	if(error < 0)
+	{
+		printf("error loading codes\n");
+		finish(mips);
+	}
 
-	if((mips->filename = argv[1]) != NULL)
+	if((mips->filename = argv[1]) != NULL && argv[2] != NULL)
 		{
 			mips->fl_file_loaded = true;
-			mips->elfdata = start_and_load(mips->elfdata,argv[1]);				
+			uint start_mem = (int)strtol(argv[2], (char**)NULL,0);
+			mips->elfdata = start_and_load(mips->elfdata,argv[1], start_mem);		
+
+			mips->report = mips->elfdata->report;
+			if(mips->report > 0)
+			{
+				report(mips->report);
+			}
+			else
+			{
+				mips->fl_file_loaded = true;
+
+				printf("\n---NEW FILE LOADED:  %s ---\n",argv[1]);
+				int j = 0;
+				int i;
+			    print_mem(mips->elfdata->memory);
+			    for (i=0; i<NB_SECTIONS; i++) {
+			        if (is_in_symbols(section_names[i],mips->elfdata->symtab)) {
+	       				print_segment_raw_content(&mips->elfdata->memory->seg[j]);
+			            j++;
+			        }
+			    }
+			}		
 		}
 	else
 	{
 		printf("starting emulator with no elf file loaded!\n");
+		if(argv[2] == NULL)
+		{
+			printf("no address for memory start specified\n");
+		}
+
+		printf("to load new file: load <file> <start of memory>\n");
 	}
 	while(1)
 	{
@@ -66,11 +102,18 @@ int main(int argc, char *argv[])
 		break;
 	}
 
+	finish(mips);
+	return 0;
+	
+}
+
+void finish(struct ptype *mips)
+{
 	free(mips->entry);
 	// free(mips->elfdata);
 	free(mips);
-	return 0;
-	
+
+	exit(0);
 }
 
 /**

@@ -5,6 +5,7 @@ ERROR 419: argument <value> out of bounds
 ERROR 411: too many arguments for function
 WARNING 4171:register $zero can't be overwritten, was not overwritten
 starting emulator with no elf file loaded!
+to load new file: load <file> <start of memory>
 emul-mips>
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)

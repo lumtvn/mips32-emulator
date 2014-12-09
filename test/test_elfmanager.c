@@ -14,7 +14,7 @@ int tests_run = 0;
 	struct elfstr *elfdata = &myelfstr;
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	elfdata = start_and_load(elfdata, filename);
+	elfdata = start_and_load(elfdata, filename, 0x3000);
 
 	segment *seg;
 	char name[] = ".text";
@@ -63,7 +63,7 @@ static char * test_writebytememory()
 	struct elfstr *elfdata = &myelfstr;
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	elfdata = start_and_load(elfdata, filename);
+	elfdata = start_and_load(elfdata, filename, 0x3000);
 
 	struct ptype mymips;
 	struct ptype *mips = &mymips;
@@ -100,7 +100,7 @@ static char * test_writewordmemory()
 	struct elfstr *elfdata = &myelfstr;
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	elfdata = start_and_load(elfdata, filename);
+	elfdata = start_and_load(elfdata, filename, 0x3000);
 
 	struct ptype mymips;
 	struct ptype *mips = &mymips;
@@ -149,7 +149,7 @@ static char * test_readbytememory()
 	struct elfstr *elfdata = &myelfstr;
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	elfdata = start_and_load(elfdata, filename);
+	elfdata = start_and_load(elfdata, filename, 0x3000);
 	mu_assert("file not existant or path incorrect", elfdata->report != 101);
 	mu_assert("file is not elf", elfdata->report != 102);
 
@@ -183,7 +183,7 @@ static char * test_readwordmemory()
 	struct elfstr *elfdata = &myelfstr;
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	elfdata = start_and_load(elfdata, filename);
+	elfdata = start_and_load(elfdata, filename, 0x3000);
 
 	struct ptype mymips;
 	struct ptype *mips = &mymips;
@@ -219,7 +219,7 @@ static char * test_get_seg_size()
 	struct elfstr *elfdata = &myelfstr;
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	elfdata = start_and_load(elfdata, filename);
+	elfdata = start_and_load(elfdata, filename, 0x3000);
 
 	struct ptype mymips;
 	struct ptype *mips = &mymips;
@@ -247,7 +247,7 @@ static char * test_get_seg_start()
 
 	if (mips->elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
-	mips->elfdata = start_and_load(mips->elfdata, filename);
+	mips->elfdata = start_and_load(mips->elfdata, filename, 0x3000);
 
 
 	vaddr32 a;

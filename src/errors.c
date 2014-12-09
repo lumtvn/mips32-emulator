@@ -50,6 +50,8 @@ void report(int r)
 		case 443: 	fprintf(stderr, "ERROR %d: addr1 must be smaller than addr2\n", r); break;
 		case 444: 	fprintf(stderr, "ERROR %d: disasm must be inside text segment\n", r); break;
 		case 445: 	fprintf(stderr, "ERROR %d: addr1 must be smaller than offset\n", r); break;
+		case 446: 	fprintf(stderr, "ERROR %d: no more memory available\n", r); break;
+		case 447: 	fprintf(stderr, "ERROR %d: all addresses must be aligned\n", r); break;
 		case 449: 	fprintf(stderr, "ERROR %d: invalid argument for disasm\n", r); break;
 		case 432: 	fprintf(stderr, "ERROR %d: argument missing or invalid: value\n", r); break;
 		case 501: 	fprintf(stderr, "ERROR %d: address not assigned to any segment or overrides end of segment\n", r); break;

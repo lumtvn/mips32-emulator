@@ -14,9 +14,13 @@ struct elfstr myelfstr;
 {           
     ptestdata->elfdata = &myelfstr;
     ptestdata->argenv[0] = "./test/test_elf.o";
+    ptestdata->argenv[1] = "0x3000";
+    ptestdata->n_argenv = 2;
 
     dup2(fileno(stdout), fileno(stderr));
     ptestdata = env_load(ptestdata);
+
+    mu_assert("hay error en env_load", ptestdata->report == 0);
 
     // res = system("diff test/resultfiles/test_load_expected.txt test/resultfiles/test_load_result.txt");
 
@@ -35,7 +39,7 @@ struct elfstr myelfstr;
 
     ptestdata = env_set(ptestdata);
 
-    mu_assert("deberia haber algun error pero no hay", ptestdata->report == 501);
+    mu_assert("deberia haber error 501 pero no hay", ptestdata->report == 501);
 
     ptestdata->argenv[0] = "mem";
     ptestdata->argenv[1] = "byte";
@@ -44,7 +48,7 @@ struct elfstr myelfstr;
 
     ptestdata = env_set(ptestdata);
 
-    mu_assert("deberia haber algun error pero no hay", ptestdata->report == 503);
+    mu_assert("deberia haber error 503 pero no hay", ptestdata->report == 503);
 
     ptestdata->argenv[0] = "mem";
     ptestdata->argenv[1] = "byte";
@@ -136,6 +140,15 @@ struct elfstr myelfstr;
     return 0;
 }
 
+ static char * test_disasm() //tries to execute set reg using an invalid register argument
+{           
+    res = system("diff test/resultfiles/test_disasm_expected.txt test/resultfiles/test_disasm_result.txt");
+       
+    mu_assert("error, the disasm result file is different than expected",!res);
+    
+    return 0;
+}
+
 static char * test_find_illegal_character()
 {
     char *succ1 = "0x00FAFA";
@@ -171,6 +184,7 @@ static char * test_find_illegal_character()
     mu_run_test(sys_test_set_mem_byte);
     mu_run_test(sys_test_set_mem_word);
     mu_run_test(test_assert);
+    mu_run_test(test_disasm);
     mu_run_test(test_find_illegal_character);
      return 0;
 

@@ -9,6 +9,7 @@ ERROR 411: too many arguments for function
 ERROR 501: address not assigned to any segment or overrides end of segment
 ERROR 501: address not assigned to any segment or overrides end of segment
 starting emulator with no elf file loaded!
+to load new file: load <file> <start of memory>
 emul-mips>
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)

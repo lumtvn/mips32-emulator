@@ -20,7 +20,7 @@ static char * test_getopcodes_text()
     // mips->elfdata = malloc(sizeof(mips->elfdata));
     // mu_assert("test_getopcodes_text: no memory for mips->elfdata", mips->elfdata != NULL);
 
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
 
     mu_assert("test_getopcodes_text: the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("test_getopcodes_text: file entered isn't ELF", mips->elfdata->report != 101);
@@ -77,7 +77,7 @@ static char * test_disasm_instr()
     mips->instr_output = malloc(80);
     mu_assert("test_disasm_instr: no memory for disasm_output", mips->disasm_output != NULL);
 
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
 
     mu_assert("test_disasm_instr: the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("test_disasm_instr: file entered isn't ELF", mips->elfdata->report != 101);
@@ -122,7 +122,7 @@ static char * test_disasm_text()
     mips->instr_output = malloc(80);
     mu_assert("test_disasm_text: no memory for disasm_output", mips->disasm_output != NULL);
 
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
 
     mu_assert("test_disasm_text: the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("test_disasm_text: file entered isn't ELF", mips->elfdata->report != 101);
@@ -179,7 +179,7 @@ static char * test_exec_instr()
     mips->instr_output = malloc(80);
     mu_assert("text_exec_instr: no memory for disasm_output", mips->disasm_output != NULL);
 
-    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o");
+    mips->elfdata = start_and_load(mips->elfdata, "test/test_elf.o", 0x3000);
 
     mu_assert("text_exec_instr: the file does not exist or the path is incorrect", mips->elfdata->report != 100);
     mu_assert("text_exec_instr: file entered isn't ELF", mips->elfdata->report != 101);

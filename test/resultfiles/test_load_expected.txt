@@ -1,4 +1,5 @@
 starting emulator with no elf file loaded!
+to load new file: load <file> <start of memory>
 emul-mips>
 ---NEW FILE LOADED:  ./test/test_elf.o ---
 Virtual memory map (3 segments)

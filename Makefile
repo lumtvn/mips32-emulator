@@ -17,7 +17,7 @@ all: bin/emul-mips
 bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ)
 	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ) -o bin/emul-mips
 
-build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h  src/lookup.h src/elfmanager.h
+build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h  src/lookup.h src/elfmanager.h src/errors.h
 	gcc -pg -c src/main.c -o build/main.o
 
 build/environmentcommands.o: src/environmentcommands.c src/environmentcommands.h src/disassembler.h src/headers.h src/elfmanager.h src/errors.h src/lookup.h
@@ -88,7 +88,7 @@ testdisassembler: bin/test_disassembler
 bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/errors.o  build/operations.o build/lookup.o build/elfmanager.o $(ELF_OBJ)
 	@gcc -pg build/test_disassembler.o build/disassembler.o build/errors.o  build/lookup.o build/operations.o build/elfmanager.o $(ELF_OBJ) -o bin/test_disassembler
 
-build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/errors.h src/environmentcommands.h src/operations.h  src/lookup.h
+build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/errors.h src/environmentcommands.h src/elfmanager.h src/operations.h  src/lookup.h
 	@gcc -c test/test_disassembler.c -o build/test_disassembler.o
 
 ###########################--environment TESTS--################################
@@ -110,7 +110,7 @@ build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/heade
 #tests the autoloading function of the environment, passing a file argument when initiating the emulator
 testautoload: bin/emul-mips bin/test_autoloader
 	@echo starting autoloader tests
-	@./bin/emul-mips ./test/test_elf.o < test/commandfiles/test_autoloader_commands.txt > test/resultfiles/test_autoloader_result.txt
+	@./bin/emul-mips ./test/test_elf.o 0x3000 < test/commandfiles/test_autoloader_commands.txt > test/resultfiles/test_autoloader_result.txt
 	@./bin/test_autoloader
 	@echo test autoloader passed
 
@@ -145,6 +145,7 @@ testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	@./bin/emul-mips < test/commandfiles/test_set_mem_word_commands.txt > test/resultfiles/test_set_mem_word_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_disp_reg_commands.txt > test/resultfiles/test_disp_reg_result.txt 2>&1
 	@./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
+	@./bin/emul-mips < test/commandfiles/test_disasm_commands.txt > test/resultfiles/test_disasm_result.txt 2>&1
 	@./bin/test_environmentcommands
 	@echo environmentcommands tests passed
 

@@ -33,10 +33,10 @@ struct ptype *execute_text(struct ptype *mips)
 
     while(mips->PC < textsize)
     {
-        mips->PC++;
         disasm_instr(mips, mips->PC, D_EXEC);
-
         if(mips->report > 0){return mips;}
+
+        mips->PC = mips->PC + 4;
     }
 
     return mips;
@@ -85,7 +85,7 @@ struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
         mips->inmediate = 0x03FFFFFF & instr;
 
     if(act == D_PRINT)
-        sprintf(mips->instr_output, "%x", instr);
+        sprintf(mips->instr_output, "%08x", instr);
 
     send_operation(mips, act);
 

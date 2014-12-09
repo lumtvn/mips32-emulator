@@ -1,4 +1,4 @@
-load test/test_elf.o
+load test/test_elf.o 0x3000
 set mem
 set mem asd
 set mem word

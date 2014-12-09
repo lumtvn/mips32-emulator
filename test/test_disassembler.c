@@ -1,12 +1,32 @@
 #include "../src/headers.h"
 #include "../src/disassembler.h"
 #include "../src/errors.h"
+#include "../src/elfmanager.h"
 #include "../src/lookup.h"
 #include "minunit.h"
 
  int tests_run = 0; 
  int res;
  struct ptype *mips;
+
+
+static char * test_execute_text() 
+{
+    struct elfstr myelfdata;
+    mips->elfdata = &myelfdata;
+
+    mips->elfdata = start_and_load(mips->elfdata, "./test/test_elf.o", 0x3000);
+        mips->report = mips->elfdata->report;
+            mu_assert("error loading file",mips->report == 0);
+
+
+    mips = execute_text(mips);
+    printf("%d\n", mips->report);
+    mu_assert("error", mips->report == 0);
+
+    return 0;
+
+}
 
 static char * test_load_opcodes() 
 {
@@ -1672,6 +1692,7 @@ static char * test_XOR()
 }
 
  static char * all_tests() {
+    // mu_run_test(test_execute_text);
     mu_run_test(test_load_opcodes);
     mu_run_test(test_ADD);
     tests_run++;

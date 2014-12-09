@@ -1,4 +1,4 @@
-load test/test_elf.o
+load test/test_elf.o 0x3000
 set reg
 set reg asd iasdo
 set reg asidj 0x12
