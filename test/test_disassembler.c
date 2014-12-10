@@ -20,8 +20,8 @@ static char * test_execute_text()
             mu_assert("error loading file",mips->report == 0);
 
 
-    mips = execute_text(mips);
-    printf("%d\n", mips->report);
+    mips = run(mips);
+    report(mips->report);
     mu_assert("error", mips->report == 0);
 
     return 0;
@@ -1692,7 +1692,7 @@ static char * test_XOR()
 }
 
  static char * all_tests() {
-    // mu_run_test(test_execute_text);
+    mu_run_test(test_execute_text);
     mu_run_test(test_load_opcodes);
     mu_run_test(test_ADD);
     tests_run++;

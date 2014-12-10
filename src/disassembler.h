@@ -23,5 +23,5 @@ struct ptype *manage_normal(struct ptype *mips, word instr);
 struct ptype *manage_special(struct ptype *mips, word instr);
 struct ptype *manage_special3(struct ptype *mips, word instr);
 struct ptype *manage_regimm(struct ptype *mips, word instr);
-struct ptype *execute_text(struct ptype *mips);
+struct ptype *run(struct ptype *mips);
 word get_loc(word opcode);

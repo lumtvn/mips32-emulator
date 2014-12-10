@@ -108,8 +108,6 @@ struct ptype /// it's a structure that has all elements that are involved in the
 	reg hi;
 	reg lo;
 
-
-
 	//concerning an entry for the IDE of the simulator
 
 	///number of arguments of the entry

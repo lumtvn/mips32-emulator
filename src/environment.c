@@ -55,7 +55,7 @@ int runenv(struct ptype *mips)
 **/
 void restart(struct ptype *mips)
 {		
-	mips->command = NULL;
+	// mips->command = NULL;
 	int i;
 	for (i = 0; i<mips->n_argenv;i++)
 		mips->argenv[i] = NULL;
@@ -125,7 +125,7 @@ struct ptype *analize(struct ptype *mips)
 
 	else if(!strcmp(mips->command,"debug"))	{	printf("debug was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"resume")){	printf("resume was entered...\n"); return mips;}
+	else if(!strcmp(mips->command,"resume")){return mips;}
 
 	else if(!strcmp(mips->command,"run"))	{	printf("run was entered...\n"); return mips;}
 

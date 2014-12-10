@@ -46,16 +46,18 @@ struct ptype *env_load(struct ptype *mips)
 		        }
 		    }
 
-		    // printf("\nload output:\n");
-		    // mips = execute_text(mips);
-
-
 			mips->report = 0;
 			return mips;
 		}
 	else return mips;
 }
 
+struct ptype *env_run(struct ptype *mips)
+{
+
+
+	return mips;
+}
 
 /**
 * @brief function set. explained in environment documentation

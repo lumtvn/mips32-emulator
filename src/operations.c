@@ -617,7 +617,7 @@ int op_sub(struct ptype *mips, byte rs, byte rt, byte rd)
 {
 	word temp;
 	temp = (signed)(*(mips->regs[rs])) - (signed)(*(mips->regs[rt]));
-	if(((signed)temp >> 31) & 0xFFFFFFFE  == (((signed)*(mips->regs[rs])) >> 31) & 0xFFFFFFFE) 
+	if(0x80000000 & temp != 0x80000000 & (signed)(*(mips->regs[rs]))) 
 		return 1; //overflow
 	*(mips->regs[rd]) = temp;
 	return 0;

@@ -26,13 +26,24 @@
 #define S3_OPCODE_BITS 0x7C0
 #define RG_OPCODE_BITS 0x1F0000
 
-struct ptype *execute_text(struct ptype *mips)
+struct ptype *run(struct ptype *mips)
 {
     segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
     word textsize = segtext->size._32;
+    mips->PC = segtext->start._32;
 
     while(mips->PC < textsize)
     {
+/*        if(findbreak(mips->PC))
+        {
+            printf("paused running for breakpoint found at PC: %08x\n", mips->PC);
+            while(strcmp(mips->command,"resume"))
+            {
+            runenv();
+            }
+            printf("resuming at PC: %08x\n", mips->PC);
+        }*/
+
         disasm_instr(mips, mips->PC, D_EXEC);
         if(mips->report > 0){return mips;}
 
@@ -41,6 +52,22 @@ struct ptype *execute_text(struct ptype *mips)
 
     return mips;
 }
+/*
+bool findbreak(uint addr)
+{
+    int i;
+    for(i = 0; i < BREAKMAX; i++)
+    {
+        if(addr == breakpoints[i])
+            return true;
+    }
+    return false;
+}
+
+int addbreak(uint addr)
+{
+    return 0;
+}*/
 
 
 word get_loc(word instr)
@@ -495,7 +522,10 @@ struct ptype *send_operation(struct ptype *mips, action act)
         else mips = print_subu(mips, mips->s_arg1, mips->s_arg2, mips->s_arg3); break;
 
 
-    // case 40: op_error = op_sw(act) break;
+    case 39: 
+        if(act == D_EXEC) 
+        {op_error = op_sw(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
+        else mips = print_sw(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
     // case 41: op_error = op_syscall(act) break;
 
