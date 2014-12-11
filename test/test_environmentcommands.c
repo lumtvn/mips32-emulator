@@ -6,21 +6,21 @@
 int tests_run = 0; 
 int res;
 struct ptype testdata;
-struct ptype *ptestdata;
+struct ptype *mips;
 struct elfstr myelfstr;
 
 
  static char * test_load() 
 {           
-    ptestdata->elfdata = &myelfstr;
-    ptestdata->argenv[0] = "./test/test_elf.o";
-    ptestdata->argenv[1] = "0x3000";
-    ptestdata->n_argenv = 2;
+    mips->elfdata = &myelfstr;
+    mips->argenv[0] = "./test/test_elf.o";
+    mips->argenv[1] = "0x3000";
+    mips->n_argenv = 2;
 
     dup2(fileno(stdout), fileno(stderr));
-    ptestdata = env_load(ptestdata);
+    mips = env_load(mips);
 
-    mu_assert("hay error en env_load", ptestdata->report == 0);
+    mu_assert("hay error en env_load", mips->report == 0);
 
     // res = system("diff test/resultfiles/test_load_expected.txt test/resultfiles/test_load_result.txt");
 
@@ -30,68 +30,68 @@ struct elfstr myelfstr;
 }
  static char * test_set_mem_byte() 
 {
-    ptestdata->n_argenv = 4;
+    mips->n_argenv = 4;
 
-    ptestdata->argenv[0] = "mem";
-    ptestdata->argenv[1] = "byte";
-    ptestdata->argenv[2] = "10";
-    ptestdata->argenv[3] = "15";
+    mips->argenv[0] = "mem";
+    mips->argenv[1] = "byte";
+    mips->argenv[2] = "10";
+    mips->argenv[3] = "15";
 
-    ptestdata = env_set(ptestdata);
+    mips = env_set(mips);
 
-    mu_assert("deberia haber error 501 pero no hay", ptestdata->report == 501);
+    mu_assert("deberia haber error 501 pero no hay", mips->report == 501);
 
-    ptestdata->argenv[0] = "mem";
-    ptestdata->argenv[1] = "byte";
-    ptestdata->argenv[2] = "0x3000";
-    ptestdata->argenv[3] = "0xFF";
+    mips->argenv[0] = "mem";
+    mips->argenv[1] = "byte";
+    mips->argenv[2] = "0x3000";
+    mips->argenv[3] = "0xFF";
 
-    ptestdata = env_set(ptestdata);
+    mips = env_set(mips);
 
-    mu_assert("deberia haber error 503 pero no hay", ptestdata->report == 503);
+    mu_assert("deberia haber error 503 pero no hay", mips->report == 503);
 
-    ptestdata->argenv[0] = "mem";
-    ptestdata->argenv[1] = "byte";
-    ptestdata->argenv[2] = "0x4001";
-    ptestdata->argenv[3] = "0xFF";
+    mips->argenv[0] = "mem";
+    mips->argenv[1] = "byte";
+    mips->argenv[2] = "0x4001";
+    mips->argenv[3] = "0xFF";
 
-    ptestdata = env_set(ptestdata);
+    mips = env_set(mips);
 
-    mu_assert("no deberia haber errores", ptestdata->report == 0);
+    mu_assert("no deberia haber errores", mips->report == 0);
 
     return 0;
 }
 
  static char * test_set_mem_word()
  {
-    ptestdata->n_argenv = 4;
+    mips->n_argenv = 4;
 
-    ptestdata->argenv[0] = "mem";
-    ptestdata->argenv[1] = "word";
-    ptestdata->argenv[2] = "10";
-    ptestdata->argenv[3] = "15";
+    mips->argenv[0] = "mem";
+    mips->argenv[1] = "word";
+    mips->argenv[2] = "10";
+    mips->argenv[3] = "15";
 
-    ptestdata = env_set(ptestdata);
+    mips = env_set(mips);
 
-    mu_assert("it's accepting a non-aligned address", ptestdata->report == 415);
+    mu_assert("it's accepting a non-aligned address", mips->report == 415);
 
-    ptestdata->argenv[0] = "mem";
-    ptestdata->argenv[1] = "word";
-    ptestdata->argenv[2] = "0x3000";
-    ptestdata->argenv[3] = "0xFF";
+    mips->argenv[0] = "mem";
+    mips->argenv[1] = "word";
+    mips->argenv[2] = "0x3000";
+    mips->argenv[3] = "0xFF";
 
-    ptestdata = env_set(ptestdata);
+    mips = env_set(mips);
 
-    mu_assert("it's writing into a segment with no writing access", ptestdata->report == 503);
+    mu_assert("it's writing into a segment with no writing access", mips->report == 503);
 
-    ptestdata->argenv[0] = "mem";
-    ptestdata->argenv[1] = "word";
-    ptestdata->argenv[2] = "0x4000";
-    ptestdata->argenv[3] = "0xABCDEF12";
+    mips->argenv[0] = "mem";
+    mips->argenv[1] = "word";
+    mips->argenv[2] = "0x4000";
+    mips->argenv[3] = "0xABCDEF12";
 
-    ptestdata = env_set(ptestdata);
+    mips = env_set(mips);
 
-    mu_assert("it should pass here", ptestdata->report == 0);
+    mu_assert("it should pass here", mips->report == 0);
  }
 
 
@@ -149,6 +149,15 @@ struct elfstr myelfstr;
     return 0;
 }
 
+ static char * test_break() //tries to execute set reg using an invalid register argument
+{           
+    res = system("diff test/resultfiles/test_break_expected.txt test/resultfiles/test_break_result.txt");
+       
+    mu_assert("error, the break result file is different than expected",!res);
+    
+    return 0;
+}
+
 static char * test_find_illegal_character()
 {
     char *succ1 = "0x00FAFA";
@@ -185,6 +194,7 @@ static char * test_find_illegal_character()
     mu_run_test(sys_test_set_mem_word);
     mu_run_test(test_assert);
     mu_run_test(test_disasm);
+    mu_run_test(test_break);
     mu_run_test(test_find_illegal_character);
      return 0;
 
@@ -192,7 +202,7 @@ static char * test_find_illegal_character()
  
  int main(int argc, char **argv) {
 
-    ptestdata = &testdata;
+    mips = (struct ptype *) malloc(sizeof(struct ptype));
 
     char *result = all_tests();
     if (result != 0) {

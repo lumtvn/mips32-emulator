@@ -53,6 +53,11 @@ void report(int r)
 		case 446: 	fprintf(stderr, "ERROR %d: no more memory available\n", r); break;
 		case 447: 	fprintf(stderr, "ERROR %d: all addresses must be aligned\n", r); break;
 		case 449: 	fprintf(stderr, "ERROR %d: invalid argument for disasm\n", r); break;
+		case 450: 	fprintf(stderr, "ERROR %d: usage: break add addresses, break del addressess/all, break list\n", r); break;
+		case 451: 	fprintf(stderr, "ERROR %d: not enough arguments. address missing\n", r); break;
+		case 452: 	fprintf(stderr, "ERROR %d: illegal character\n", r); break;
+		case 453: 	fprintf(stderr, "ERROR %d: can't add breakpoints to area other than text\n", r); break;
+		case 454: 	fprintf(stderr, "ERROR %d: all addresess must be aligned\n", r); break;
 		case 432: 	fprintf(stderr, "ERROR %d: argument missing or invalid: value\n", r); break;
 		case 501: 	fprintf(stderr, "ERROR %d: address not assigned to any segment or overrides end of segment\n", r); break;
 		case 502: 	fprintf(stderr, "ERROR %d: seg->content is null\n", r); break;

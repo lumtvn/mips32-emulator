@@ -34,16 +34,6 @@ struct ptype *run(struct ptype *mips)
 
     while(mips->PC < textsize)
     {
-/*        if(findbreak(mips->PC))
-        {
-            printf("paused running for breakpoint found at PC: %08x\n", mips->PC);
-            while(strcmp(mips->command,"resume"))
-            {
-            runenv();
-            }
-            printf("resuming at PC: %08x\n", mips->PC);
-        }*/
-
         disasm_instr(mips, mips->PC, D_EXEC);
         if(mips->report > 0){return mips;}
 
@@ -52,22 +42,6 @@ struct ptype *run(struct ptype *mips)
 
     return mips;
 }
-/*
-bool findbreak(uint addr)
-{
-    int i;
-    for(i = 0; i < BREAKMAX; i++)
-    {
-        if(addr == breakpoints[i])
-            return true;
-    }
-    return false;
-}
-
-int addbreak(uint addr)
-{
-    return 0;
-}*/
 
 
 word get_loc(word instr)
@@ -527,7 +501,10 @@ struct ptype *send_operation(struct ptype *mips, action act)
         {op_error = op_sw(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
         else mips = print_sw(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
 
-    // case 41: op_error = op_syscall(act) break;
+    case 40: 
+        if(act == D_EXEC) 
+        {op_error = op_syscall(mips); break;}
+        else mips = print_syscall(mips); break;
 
     case 41: 
         if(mips->s_arg4 != 0){mips->report = 620; break;}

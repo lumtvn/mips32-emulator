@@ -23,6 +23,8 @@
 **/
 int runenv(struct ptype *mips)
 {
+	mips->breakpoints[0] = 0xFFFFFFFF;
+	mips->fl_step_into = false;
 
 	printf("emul-mips>"); // prints out the prompt
 	
@@ -87,6 +89,11 @@ struct ptype *parseentry(struct ptype *mips)
     {	
         mips->argenv[i] = buffer;
         i++;
+        if(i == 32)
+        {
+        	/*array cant hold more than 32 arguments. operation failed*/
+        	return mips;
+        }
     }
     mips->n_argenv = i;
 
@@ -127,11 +134,11 @@ struct ptype *analize(struct ptype *mips)
 
 	else if(!strcmp(mips->command,"resume")){return mips;}
 
-	else if(!strcmp(mips->command,"run"))	{	printf("run was entered...\n"); return mips;}
+	else if(!strcmp(mips->command,"run"))	{	mips = env_run(mips); return mips;}
 
-	else if(!strcmp(mips->command,"step"))	{	printf("step was entered...\n"); return mips;}
+	else if(!strcmp(mips->command,"step"))	{	mips = env_step(mips); return mips;}
 
-	else if(!strcmp(mips->command,"break"))	{	printf("break was entered...\n"); return mips;}
+	else if(!strcmp(mips->command,"break"))	{	mips = env_break(mips); return mips;}
 
 	else printf("command '%s' not found\n",mips->command);
 

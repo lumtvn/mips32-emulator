@@ -46,6 +46,9 @@ struct ptype *env_load(struct ptype *mips)
 		        }
 		    }
 
+		    segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+		    mips->PC = segtext->start._32;		    
+
 			mips->report = 0;
 			return mips;
 		}
@@ -54,10 +57,69 @@ struct ptype *env_load(struct ptype *mips)
 
 struct ptype *env_run(struct ptype *mips)
 {
+	segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+	mips->fl_stop = false;
 
+	if(mips->PC >= (segtext->start._32 + segtext->size._32))
+		mips->PC = segtext->start._32;
+
+	// printf("%x\n", mips->PC);
+
+	while((mips->PC < (segtext->start._32 + segtext->size._32)) && !mips->fl_stop)
+	{
+		mips = disasm_instr(mips, mips->PC, D_EXEC);
+		if(mips->fl_step_into)
+		{
+			mips->fl_step_into = false;
+			mips->fl_stop = true;
+			printf("program stopped at: %08x\n", mips->PC);
+		}
+		int i;
+		// printf("bpts(0): %x, pc: %x\n", mips->breakpoints[0], mips->PC);
+		for(i = 0; i < MAXBREAKPOINTS; i++)
+		{	
+			if(mips->breakpoints[i] == mips->PC)
+			{
+				mips->fl_stop = true;
+				printf("program stopped at: %08x\n", mips->PC);
+			}
+		}
+
+		if(mips->report > 0)
+			report(mips->report);
+	}
 
 	return mips;
 }
+
+struct ptype *env_step(struct ptype *mips)
+{	
+	if(mips->n_argenv == 0)
+	{
+
+		segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+		if(mips->PC >= (segtext->start._32 + segtext->size._32))
+		mips->PC = segtext->start._32;
+
+		mips->breakpoints[0] = mips->PC + 4;
+		// printf("%x\n", mips->breakpoints[0]);
+		mips = env_run(mips);
+	}
+	else if(mips->n_argenv == 1 && !strcmp(mips->argenv[0], "into"))
+	{
+
+		segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+		if(mips->PC >= (segtext->start._32 + segtext->size._32))
+		mips->PC = segtext->start._32;
+
+		mips->fl_step_into = true;
+		mips = env_run(mips);
+	}
+	else{printf("usage: step, step into\n");}
+
+	return mips;
+}
+
 
 /**
 * @brief function set. explained in environment documentation
@@ -176,6 +238,8 @@ struct ptype *env_set(struct ptype *mips)
 **/
 struct ptype *env_disp(struct ptype *mips)
 {
+	if(mips->n_argenv < 1){return mips;}
+
 	if(!strcmp(mips->argenv[0],"mem"))
 	{
 	
@@ -272,6 +336,8 @@ struct ptype *env_disp(struct ptype *mips)
 		mips->report = 0;
 	}
 	else {mips->report = 426; return mips;}
+
+
 	return mips;
 }
 
@@ -469,6 +535,107 @@ struct ptype *env_disasm(struct ptype *mips)
 }
 
 
+struct ptype *env_break(struct ptype *mips)
+{
+	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
+	if(mips->n_argenv < 1){mips->report = 450; return mips;}
+
+	segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+
+	if(!strcmp(mips->argenv[0], "add"))
+	{
+		if(mips->n_argenv < 2){mips->report = 451; return mips;}
+		int i;
+		for(i = 1; i < mips->n_argenv; i++)
+		{
+			if(find_illegal_character(mips->argenv[i])){mips->report = 452; return mips;}
+			uint bpt = (uint)strtol(mips->argenv[i], (char**)NULL,0);
+			if(segtext != which_seg(mips->elfdata->memory,bpt,4)){mips->report = 453; return mips;}
+			if(bpt%4 != 0){mips->report = 454; return mips;}
+			int j;
+			for(j = 1; j < MAXBREAKPOINTS; j++)
+			{
+				if(mips->breakpoints[j] == 0xFFFFFFFF)
+				{
+					mips->breakpoints[j] = bpt;
+					printf("breakpoint added at address 0x%08x\n", bpt);
+					j = MAXBREAKPOINTS + 1;
+				}
+			}
+			if(j == MAXBREAKPOINTS)
+				printf("no more room for breakpoints\n");
+		}
+
+		return mips;
+	}
+	else if(!strcmp(mips->argenv[0], "del"))
+	{
+		if(mips->n_argenv < 2){mips->report = 450; return mips;}
+		if(!strcmp(mips->argenv[1], "all"))
+		{
+
+			uint i;
+			for(i = segtext->start._32; i < segtext->start._32 + segtext->size._32; i = i + 4)
+			{	
+				int j;
+				for(j = 1; j < MAXBREAKPOINTS; j++)
+				{
+					if(mips->breakpoints[j] == i)
+					{
+						mips->breakpoints[j] = 0xFFFFFFFF;
+						printf("breakpoint removed at address 0x%08x\n", i);
+						j = MAXBREAKPOINTS + 1;
+					}
+				}
+			}
+		}			
+		else
+		{
+			int i;
+			for(i = 1; i < mips->n_argenv; i++)
+			{
+				if(find_illegal_character(mips->argenv[i])){mips->report = 452; return mips;}
+
+				uint bpt = (uint)strtol(mips->argenv[i], (char**)NULL,0);
+				if(segtext != which_seg(mips->elfdata->memory,bpt,4)){mips->report = 453; return mips;}
+				if(bpt%4 != 0){mips->report = 454; return mips;}
+				
+				int j;
+				for(j = 1; j < MAXBREAKPOINTS; j++)
+				{
+					if(mips->breakpoints[j] == bpt)
+					{
+						mips->breakpoints[j] = 0xFFFFFFFF;
+						printf("breakpoint removed at address 0x%08x\n", bpt);
+						j = MAXBREAKPOINTS + 1;
+					}
+				}
+				if(j == MAXBREAKPOINTS)
+				printf("no breakpoint in address %08x\n", bpt);
+			}				
+		}
+		return mips;
+	}
+	else if(!strcmp(mips->argenv[0], "list"))
+	{
+
+		int j;
+		for(j = 1; j < MAXBREAKPOINTS; j++)
+		{
+			if(mips->breakpoints[j] != 0xFFFFFFFF)
+			{
+				printf("0x%08x\n", mips->breakpoints[j]);
+			}
+		}
+		return mips;
+	}
+	else mips->report = 459;
+
+	mips->report = 0;
+	return mips;
+}
+
+
 
 /*
 *@brief this function searches an illegal character in a string that should have a number in decimal, octal or hexadecimal format
@@ -504,3 +671,5 @@ int find_illegal_character(char * s)
 
 	return res;		
 }
+
+

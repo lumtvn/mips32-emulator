@@ -37,14 +37,17 @@ void finish(struct ptype *mips);
 int main(int argc, char *argv[])
 {
 	// struct ptype mymips;
-	struct ptype *mips = malloc(sizeof(mips));
+	struct ptype *mips = (struct ptype *) malloc(sizeof(struct ptype));
 	if(mips == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 	struct elfstr myelfdata;
-	mips->elfdata = &myelfdata;/*malloc(sizeof(mips->elfdata));*/
-	// if(mips->elfdata == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
+	mips->elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));/*malloc(sizeof(mips->elfdata));*/
+	if(mips->elfdata == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 
 	mips->entry = malloc(MAXSIZE);
 	if(mips->entry == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
+
+	// mips->disasm_output = malloc(80);
+	// if(mips->disasm_output == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 
 	mips->fl_file_loaded = false;
 	mips->fl_exit = false;
@@ -57,12 +60,17 @@ int main(int argc, char *argv[])
 		printf("error loading codes\n");
 		finish(mips);
 	}
+	int i;
+	for(i = 0; i < MAXBREAKPOINTS; i++)
+		mips->breakpoints[i] = 0xFFFFFFFF;
+
+
 
 	if((mips->filename = argv[1]) != NULL && argv[2] != NULL)
 		{
 			mips->fl_file_loaded = true;
 			uint start_mem = (int)strtol(argv[2], (char**)NULL,0);
-			mips->elfdata = start_and_load(mips->elfdata,argv[1], start_mem);		
+			mips->elfdata = start_and_load(mips->elfdata,argv[1], start_mem);	
 
 			mips->report = mips->elfdata->report;
 			if(mips->report > 0)
@@ -83,6 +91,8 @@ int main(int argc, char *argv[])
 			            j++;
 			        }
 			    }
+			    segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
+			    mips->PC = segtext->start._32;
 			}		
 		}
 	else
@@ -110,7 +120,12 @@ int main(int argc, char *argv[])
 void finish(struct ptype *mips)
 {
 	free(mips->entry);
-	// free(mips->elfdata);
+	// free(mips->disasm_output);
+	if(mips->fl_file_loaded)
+	{
+		destroy_mem(mips->elfdata);
+		free(mips->elfdata);
+	}
 	free(mips);
 
 	exit(0);
@@ -127,6 +142,11 @@ struct ptype *initregisters(struct ptype *mips)
 		mips->regs[i] = malloc( sizeof(int) );
 		*(mips->regs[i]) = 0;
 	}
+	mips->hi = malloc( sizeof(int) );
+	mips->lo = malloc( sizeof(int) );
+	*(mips->hi) = 0;
+	*(mips->lo) = 0;
+
 	return mips;
 }
 

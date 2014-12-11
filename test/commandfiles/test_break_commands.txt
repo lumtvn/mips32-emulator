@@ -1,0 +1,17 @@
+break
+load test/test_elf.o 0x3000
+break
+break asodas aisjdpa
+break 10000
+break add 0x3000 0x3001
+break add 0x3000 0x3004 0x4000
+break del 0x3001
+
+
+
+break add 0x3000 0x3004
+break del 0x3000
+break list
+break del all
+break list
+exit 

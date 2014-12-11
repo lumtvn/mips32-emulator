@@ -78,3 +78,5 @@ int op_sw(struct ptype *mips, byte base, byte rt, halfword offset);
 struct ptype *print_sw(struct ptype *mips, byte base, byte rt, halfword offset);
 int op_xor(struct ptype *mips, byte rs, byte rt, byte rd);
 struct ptype *print_xor(struct ptype *mips, byte rs, byte rt, byte rd);
+int op_syscall(struct ptype *mips);
+struct ptype *print_syscall(struct ptype *mips);

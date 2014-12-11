@@ -95,9 +95,9 @@ static char * test_beq()
 	*(mips->regs[11]) = 0x4726710B;
 	mips->PC = 0;
 	error = op_beq(mips,10,11,16);
-	mu_assert("beq operation failed", mips->PC == 0);	
+	mu_assert("beq 1 operation failed", mips->PC == 4);	
 	error = op_beq(mips,9,10,16);
-	mu_assert("beq operation failed", mips->PC == 64);	
+	mu_assert("beq 2 operation failed", mips->PC == 20);	
 	return 0;
 }
 
@@ -108,11 +108,11 @@ static char * test_bgez()
 	*(mips->regs[11]) = 1;
 	mips->PC = 0;
 	error = op_bgez(mips,9,16);
-	mu_assert("bgez 1 operation failed", mips->PC == 0);	
+	mu_assert("bgez 1 operation failed", mips->PC == 4);	
 	error = op_bgez(mips,10,16);
-	mu_assert("bgez 2 operation failed", mips->PC == 64);	
+	mu_assert("bgez 2 operation failed", mips->PC == 20);	
 	error = op_bgez(mips,11,16);
-	mu_assert("bgez 3 operation failed", mips->PC == 128);	
+	mu_assert("bgez 3 operation failed", mips->PC == 36);	
 	return 0;
 }
 
@@ -123,11 +123,11 @@ static char * test_bgtz()
 	*(mips->regs[11]) = 1;
 	mips->PC = 0;
 	error = op_bgtz(mips,9,16);
-	mu_assert("bgtz 1 operation failed", mips->PC == 0);	
+	mu_assert("bgtz 1 operation failed", mips->PC == 4);	
 	error = op_bgtz(mips,10,16);
-	mu_assert("bgtz 2 operation failed", mips->PC == 0);	
+	mu_assert("bgtz 2 operation failed", mips->PC == 8);	
 	error = op_bgtz(mips,11,16);
-	mu_assert("bgtz 3 operation failed", mips->PC == 64);	
+	mu_assert("bgtz 3 operation failed", mips->PC == 24);	
 	return 0;
 }
 
@@ -138,11 +138,11 @@ static char * test_blez()
 	*(mips->regs[11]) = -1;
 	mips->PC = 0;
 	error = op_blez(mips,9,16);
-	mu_assert("blez 1 operation failed", mips->PC == 0);	
+	mu_assert("blez 1 operation failed", mips->PC == 4);	
 	error = op_blez(mips,10,16);
-	mu_assert("blez 2 operation failed", mips->PC == 64);	
+	mu_assert("blez 2 operation failed", mips->PC == 20);	
 	error = op_blez(mips,11,16);
-	mu_assert("blez 3 operation failed", mips->PC == 128);	
+	mu_assert("blez 3 operation failed", mips->PC == 36);	
 	return 0;
 }
 
@@ -153,11 +153,11 @@ static char * test_bltz()
 	*(mips->regs[11]) = -1;
 	mips->PC = 0;
 	error = op_bltz(mips,9,16);
-	mu_assert("bltz 1 operation failed", mips->PC == 0);	
+	mu_assert("bltz 1 operation failed", mips->PC == 4);	
 	error = op_bltz(mips,10,16);
-	mu_assert("bltz 2 operation failed", mips->PC == 0);	
+	mu_assert("bltz 2 operation failed", mips->PC == 8);	
 	error = op_bltz(mips,11,16);
-	mu_assert("bltz 3 operation failed", mips->PC == 64);	
+	mu_assert("bltz 3 operation failed", mips->PC == 24);	
 	return 0;
 }
 
@@ -168,9 +168,9 @@ static char * test_bne()
 	*(mips->regs[11]) = 0x4726710B;
 	mips->PC = 0;
 	error = op_bne(mips,9,10,16);
-	mu_assert("bne operation failed", mips->PC == 0);	
+	mu_assert("bne operation failed", mips->PC == 4);	
 	error = op_bne(mips,10,11,16);
-	mu_assert("bne operation failed", mips->PC == 64);	
+	mu_assert("bne operation failed", mips->PC == 20);	
 	return 0;
 }
 
@@ -191,7 +191,7 @@ static char * test_j()
 {	
 	mips->PC = 0x90003000;
 	error = op_j(mips,0x000032FF);
-	mu_assert("jump operation failed to jump", mips->PC == 0x9000CBFC);
+	mu_assert("jump operation failed to jump", mips->PC == 0x900032FF);
 	
 	return 0;
 }
@@ -201,7 +201,7 @@ static char * test_jal()
 	mips->PC = 0x90003000;
 	error = op_jal(mips,0x000032FF);
 	mu_assert("jump and link operation failed to store return address",*(mips->regs[31]) == 0x90003008);
-	mu_assert("jump and link operation failed to jump", mips->PC == 0x9000CBFC);
+	mu_assert("jump and link operation failed to jump", mips->PC == 0x900032FF);
 	
 	return 0;
 }
@@ -504,15 +504,14 @@ static char * test_sub()
 {
 	*(mips->regs[9]) = 7;
 	*(mips->regs[10]) = 3;
-	*(mips->regs[13]) = 0xFFFFFFFA;
-	*(mips->regs[12]) = 0x00000007;
+	*(mips->regs[12]) = 0xFFFFFFFA;
+	*(mips->regs[13]) = -7;
 	*(mips->regs[11]) = 0;
 
 	error = op_sub(mips,9,10,11);
 	mu_assert("sub operation returned overflow exception",  error == 0);
 	mu_assert("sub operation failed to sub", *(mips->regs[11]) == 4);
 	error = op_sub(mips,12,13,11);
-	printf("%d\n", *(mips->regs[11]));
 	mu_assert("sub operation failed to return overflow exception", error == 1);
 	mu_assert("sub operation failed to keep original value", *(mips->regs[11]) == 4);
 	
@@ -614,7 +613,7 @@ static char * test_xor()
     mu_run_test(test_sltiu);
     mu_run_test(test_sra);
     mu_run_test(test_srl);
-    // mu_run_test(test_sub);
+    mu_run_test(test_sub);
     mu_run_test(test_subu);
     mu_run_test(test_sw);
     mu_run_test(test_xor);

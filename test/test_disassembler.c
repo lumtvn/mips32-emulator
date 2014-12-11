@@ -10,7 +10,7 @@
  struct ptype *mips;
 
 
-static char * test_execute_text() 
+/*static char * test_execute_text() 
 {
     struct elfstr myelfdata;
     mips->elfdata = &myelfdata;
@@ -26,7 +26,7 @@ static char * test_execute_text()
 
     return 0;
 
-}
+}*/
 
 static char * test_load_opcodes() 
 {
@@ -1692,7 +1692,7 @@ static char * test_XOR()
 }
 
  static char * all_tests() {
-    mu_run_test(test_execute_text);
+    // mu_run_test(test_execute_text);
     mu_run_test(test_load_opcodes);
     mu_run_test(test_ADD);
     tests_run++;
@@ -1786,12 +1786,11 @@ static char * test_XOR()
  int main(int argc, char **argv) {
 
     char *result;
-    mips = malloc(sizeof(mips));
+    mips = malloc(sizeof(struct ptype));
 
     if(mips != NULL)
     {
         result = all_tests();
-
 
         if (result != 0) {
         printf("%s\n", result);

@@ -10,8 +10,7 @@ int tests_run = 0;
 {
 	char *filename = "test/test_elf.o";
 
-	struct elfstr myelfstr; 
-	struct elfstr *elfdata = &myelfstr;
+	struct elfstr *elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));
 	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
 
 	elfdata = start_and_load(elfdata, filename, 0x3000);
@@ -49,7 +48,7 @@ int tests_run = 0;
  //    stab32_print( elfdata->symtab);
 
  	destroy_mem(elfdata);
- 	// free(elfdata);
+ 	free(elfdata);
 
 	return 0;
 }

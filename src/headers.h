@@ -9,6 +9,7 @@
 
 #define MAXSIZE 512
 #define MAXFILESIZE 2048
+#define MAXBREAKPOINTS 20 //20 is more than enough to debug
 
 typedef int bool;
 #define true 1
@@ -34,10 +35,22 @@ static char *opnames[42] = {"ADD", "ADDI", "ADDIU", "ADDU", "AND", "ANDI", "BEQ"
 
 struct ptype /// it's a structure that has all elements that are involved in the simulator
 {   
+
+	int pepe[50];
 	///integer for error handling
 	int report; 
 
+	///program counter
 	word PC;
+
+	//debugging
+
+	///breakpoint array
+	uint breakpoints[MAXBREAKPOINTS];
+	///step into flag
+	bool fl_step_into;
+	///stop flag
+	bool fl_stop;
 
 	//concerning an operation
 
