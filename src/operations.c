@@ -1,3 +1,13 @@
+/**
+ * @file operations.c
+ * @author Luciano Mantovani
+ * @date November 2014
+ * @brief this file contains all the implementations for the operations required from the mips processor. For executing them and printing them
+ * @details each excecution function may return an integer bigger than 0 if and only if the 
+ * description of the operation has exceptions. If not it does what it can with what it has.
+ * 
+ */
+
 #include "headers.h"
 #include "elfmanager.h"
 

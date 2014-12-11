@@ -2,15 +2,11 @@
  * @file elfmanager.c
  * @author Luciano Mantovani
  * @date November 2014
- * @brief file containing functions to work with an elf file.
+ * @brief file containing functions to work with an elf file. this file uses functions from the directory elfapi
  * 
- * this file uses functions from the directory elfapi
+ * @details apart from the functions found in file mipself_test.c, i added a few functions that
+ * allow me to interact with the memory block created by the elf api
  *
- * the usage of "elfapi" functions is not correctly done. I intended to build an interface 
- * between my memory functions and the memory managment of this files, but doing that i added
- * many unnecesary processing and inneficiencies. For now, i leave it like this because it passes
- * the tests, but this file will be dramatically changed as soon as possible to make a better use of
- * the elfapi functions
  * 
  *
  **/
@@ -20,7 +16,15 @@
 
 #define START_MEM 0x3000
 
-
+/**
+ * @brief function to get a segment from a string and a memory
+ * @details this function searches all the segments in a created memory for one that has an name equal to the name parameter
+ * 
+ * @param m the memory. It has to be already initialized
+ * @param name the name of the segment
+ * 
+ * @return returns the segment if found. NULL if no segment asociated to that name
+ */
 segment *get_seg_by_name( mem m, char *name)
 {
     int i;
@@ -33,7 +37,14 @@ segment *get_seg_by_name( mem m, char *name)
     return NULL;
 }
 
-//returns true or false if a segment of a given name has the address v
+/**
+ * @brief function to know if an address range is inside a specific segment
+ * 
+ * @param seg the segment to evaluate
+ * @param v the start address
+ * @param size the range
+ * @return true if belongs to segment. false if not
+ */
 bool is_in_segment(segment *seg, vaddr32 v, uint size)
 { 
     if(v < seg->start._32)
@@ -44,7 +55,14 @@ bool is_in_segment(segment *seg, vaddr32 v, uint size)
     //if in-bounds, it belongs to this segment  
     return true;
 }
-//given an address value, gives the segment
+/**
+ * @brief given an address v and a range size, this function returns the segment asociated to that range
+ * 
+ * @param m the memory where the segment exists
+ * @param v starting address
+ * @param size range
+ * @return the segment asociated to the range. NULL if no segment found
+ */
  segment *which_seg( mem m, vaddr32 v, uint size)
 {
     int i;
@@ -58,7 +76,15 @@ bool is_in_segment(segment *seg, vaddr32 v, uint size)
     return NULL;
 }
 
-//TODO stack allocation (modify number of sections)
+/**
+ * @brief function very similar to main() in mipself_test.c
+ * @details it's used to load data into host memory, given an elf file
+ * 
+ * @param elfstr the structure holding data concerning the symbol table, the memory, and the file pointer
+ * @param filename the name of the elf binary file
+ * @param start_mem the starting address of the memory
+ * @return the structure with the memory, the symtable, and the file pointer. for further usage by program
+ */
 struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start_mem)
 {
     unsigned int nsegments;
@@ -106,7 +132,14 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start
     return elfdata;
 }
 
-
+/**
+ * @brief writes a byte in a memory section, as long as allowed by it's permissions
+ * 
+ * @param mips->bdata it changes this field of mips
+ * @param m reference to memory being used
+ * @param bdata byte to write
+ * @param addr address to write byte
+ */
 struct mipsstr *elfwritebyte(struct mipsstr *mips, mem m, byte bdata, vaddr32 addr)
 {
     segment *seg;
@@ -121,19 +154,32 @@ struct mipsstr *elfwritebyte(struct mipsstr *mips, mem m, byte bdata, vaddr32 ad
 
     return mips;
 }
-
+/**
+ * @brief reads a byte in a memory section
+ * 
+ * @param mips->bdata it changes this field of mips
+ * @param m reference to memory being used
+ * @param addr address to read byte
+ */
 struct mipsstr *elfreadbyte(struct mipsstr *mips, mem m, vaddr32 addr)
 {
     segment *seg;
     seg = which_seg(m,addr,1);
     if(seg == NULL){mips->report = 501;  /*no segment asociated to address*/ return mips;}
-    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't read to null content*/ return mips;}
 
     mips->bdata = *(seg->content + addr - seg->start._32);
     mips->report = 0;
     return mips;
 }
-
+/**
+ * @brief writes a word in a memory section, as long as allowed by it's permissions
+ * 
+ * @param mips->wdata it changes this field of mips
+ * @param m reference to memory being used
+ * @param bdata word to write
+ * @param addr address to write word
+ */
 struct mipsstr *elfwriteword(struct mipsstr *mips, mem m, word wdata, vaddr32 addr)
 {
     segment *seg;
@@ -152,7 +198,13 @@ struct mipsstr *elfwriteword(struct mipsstr *mips, mem m, word wdata, vaddr32 ad
     mips->report = 0;
     return mips;
 }
-
+/**
+ * @brief reads a word in a memory section
+ * 
+ * @param mips->wdata it changes this field of mips
+ * @param m reference to memory being used
+ * @param addr address to read word
+ */
 struct mipsstr *elfreadword(struct mipsstr *mips, mem m, vaddr32 addr)
 {
     segment *seg;
@@ -168,6 +220,14 @@ struct mipsstr *elfreadword(struct mipsstr *mips, mem m, vaddr32 addr)
     return mips;
 }
 
+/**
+ * @brief get size of a segment given a name
+ * 
+ * @param m the memory where the segment exists
+ * @param name name of the segment
+ * 
+ * @return the segment size if it exists, 0 if it doesn't
+ */
 uint32_t get_seg_size(mem m, char *name)
 {   
     segment *seg;
@@ -177,7 +237,14 @@ uint32_t get_seg_size(mem m, char *name)
 
     return seg->size._32;
 }
-
+/**
+ * @brief gets the start address of a segment
+ * 
+ * @param m the memory where the segment exists
+ * @param name name of the segment
+ * 
+ * @return the start address of the segment
+ */
 vaddr32 get_seg_start(mem m, char *name)
 {   
     segment *seg;
@@ -188,6 +255,12 @@ vaddr32 get_seg_start(mem m, char *name)
     return seg->start._32;
 }
 
+/**
+ * @brief resets bdata and wdata
+ * 
+ * @param mips->bdata is changed in this function
+ * @param mips->wdata is changed in this function
+ */
 struct mipsstr *cleandata(struct mipsstr *mips)
 {
     mips->bdata = 0;
@@ -196,7 +269,9 @@ struct mipsstr *cleandata(struct mipsstr *mips)
     return mips;
 }
 
-
+/**
+ * @brief function to clean the memory created. used at end of program
+ */
 void destroy_mem(struct elfstr *elfdata)
 {
     fclose(elfdata->pf_elf);

@@ -36,7 +36,6 @@ static char *opnames[42] = {"ADD", "ADDI", "ADDIU", "ADDU", "AND", "ANDI", "BEQ"
 struct mipsstr /// it's a structure that has all elements that are involved in the simulator
 {   
 
-	int pepe[50];
 	///integer for error handling
 	int report; 
 
@@ -52,46 +51,9 @@ struct mipsstr /// it's a structure that has all elements that are involved in t
 	///stop flag
 	bool fl_stop;
 
-	//concerning an operation
-
-	///size of the elf file
-	size_t filesize;
-	///the label of a line
-	char *label; 
-	/// the tag of a line
-	char *tag;	
-	///the operation of a line
+	/// the operation in a string
 	char *operation; 
-	/// line arguments. four is the maximum amount of arguments that a command can have
-	char *argline[4];
 
-
-	//concerning the memory and its segments
-
-	//a segment
-
-	/// segment's name(.text, .data, etc)
-	char *segname;
-	///segment size
-	int segsize;
-	///real pointer to segment (used to run over the segment) (in host RAM)
-	mbyte *segrealpoint;
-	///real pointer to beggining of memory segment (remains unchanged once initialized)
-	mbyte *segrealpointbase;
-	///the segment's read and write permissions
-	int segpermissions;
-
-
-	//the entire memory
-
-	///number of memory segments
-	unsigned int nsegs;
-	///real memory pointer (in host RAM)
-	mbyte *memrealpoint; 
-	///real memory pointer with fixed direction to the start of the memory segment. This is for making the reading easier
-	mbyte *memrealpointbase; 
-	/// memory block size
-	int memsize;
 
 	///memory
 	struct elfstr *elfdata;

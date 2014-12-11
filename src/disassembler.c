@@ -4,7 +4,7 @@
  * @date November 2014
  * @brief file containing functions meant to disassemble the code from an elf script
  *
- * This file has functions called by the main program when it has to disassemble an elf script.
+ * @details This file has functions called by the main program when it has to disassemble an instruction held somewhere inside the text segment of an elf file loaded to program
  * 
  * 
  *
@@ -83,9 +83,14 @@ struct mipsstr *disasm_instr(struct mipsstr *mips, vaddr32 addr, action act)
 
     return mips;
 }
-/*
-*
-*/
+/**
+ * @brief sets fields of mips according to the format of a normal instruction and the instruction itself
+ * 
+ * @param mips->n_arg1 changes this value of mips
+ * @param mips->n_arg2 changes this value of mips
+ * @param mips->inmediate changes this value of mips
+ * 
+ */
 struct mipsstr *manage_normal(struct mipsstr *mips, word instr)
 {
     mips->n_arg1 = (instr >> 21) & 0x1F;
@@ -94,7 +99,15 @@ struct mipsstr *manage_normal(struct mipsstr *mips, word instr)
 
     return mips;
 }
-
+/**
+ * @brief sets fields of mips according to the format of a special instruction and the instruction itself
+ * 
+ * @param mips->n_arg1 changes this value of mips
+ * @param mips->n_arg2 changes this value of mips
+ * @param mips->n_arg3 changes this value of mips
+ * @param mips->n_arg4 changes this value of mips
+ * 
+ */
 struct mipsstr *manage_special(struct mipsstr *mips, word instr)
 {
     mips->s_arg1 = (instr >> 21) & 0x1F;
@@ -104,7 +117,13 @@ struct mipsstr *manage_special(struct mipsstr *mips, word instr)
 
     return mips;
 }
-
+/**
+ * @brief sets fields of mips according to the format of a special3 instruction and the instruction itself
+ * 
+ * @param mips->n_arg1 changes this value of mips
+ * @param mips->n_arg2 changes this value of mips
+ * 
+ */
 struct mipsstr *manage_special3(struct mipsstr *mips, word instr)
 {
     mips->s_arg1 = (instr >> 16) & 0x1F;
@@ -112,7 +131,12 @@ struct mipsstr *manage_special3(struct mipsstr *mips, word instr)
 
     return mips; 
 }
-
+/**
+ * @brief sets fields of mips according to the format of a regimm instruction and the instruction itself
+ * 
+ * @param mips->n_arg1 changes this value of mips
+ * 
+ */
 struct mipsstr *manage_regimm(struct mipsstr *mips, word instr)
 {
     mips->s_arg1 = (instr >> 21) & 0x1F;
@@ -120,6 +144,13 @@ struct mipsstr *manage_regimm(struct mipsstr *mips, word instr)
     return mips;
 }
 
+
+/**
+ * @brief get operation number from a string
+ * @details with a string loaded in mips->operation, it searches the names array opnames[i] defined in headers.h and searches for a match. If found, it returns the index for that match
+ * 
+ * @param mips->opnum it changes this value of mips
+ */
 struct mipsstr *which_operation_number(struct mipsstr *mips)
 {
     int i;
@@ -206,7 +237,7 @@ struct mipsstr *getopcode(struct mipsstr *mips, word wd)
 /**
 *@brief this function loads all the operation codes in a lookup table for future reference.
 *
-* the main program has to call this function in order to get getopcode function working correctly.
+* @details the main program has to call this function in order to get getopcode function working correctly.
 *
 *@return int it returns 0 if no error, -1 if there was an error in install function.
 **/
@@ -262,7 +293,7 @@ int load_opcodes()
 /**
 * @brief this functions calls the mips operation. it prints it or executes it according to the value act
 *
-* all the operations are called from here. Each case in the switch belongs to a different operation.
+* @details all the operations are called from here. Each case in the switch belongs to a different operation.
 *
 **/
 

@@ -109,6 +109,8 @@ struct mipsstr *parseentry(struct mipsstr *mips)
 *
 * 
 * the only command that doesn't call any function is exit
+* 
+* @todo debug and resume function
 **/
 struct mipsstr *analize(struct mipsstr *mips)
 {
@@ -132,7 +134,7 @@ struct mipsstr *analize(struct mipsstr *mips)
 
 	else if(!strcmp(mips->command,"debug"))	{	printf("debug was entered...\n"); return mips;}
 
-	else if(!strcmp(mips->command,"resume")){return mips;}
+	else if(!strcmp(mips->command,"resume")){	printf("resume was entered...\n");return mips;}
 
 	else if(!strcmp(mips->command,"run"))	{	mips = env_run(mips); return mips;}
 

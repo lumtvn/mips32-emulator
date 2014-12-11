@@ -20,9 +20,14 @@
 #include "errors.h"
 #include "lookup.h"
 
+/**
+ * @brief load instruction
+ * @details it loads a new file, and allocates the necessary memory
+ * 
+ */
 struct mipsstr *env_load(struct mipsstr *mips)
 {
-	if(mips->n_argenv != 2){mips->report = 999; /*wrong arguments*/ return mips;}
+	if(mips->n_argenv != 2){mips->report = 402; /*wrong arguments*/ return mips;}
 	if(mips->argenv[0] != NULL)
 		{
 			char *filename = mips->argenv[0];
@@ -54,7 +59,11 @@ struct mipsstr *env_load(struct mipsstr *mips)
 		}
 	else return mips;
 }
-
+/**
+ * @brief it runs the instructions of the segment .text of an elf file
+ * @details main principal function of the program. it runs all the instructions in .text . stops if it hits a breakpoint
+ * 
+ */
 struct mipsstr *env_run(struct mipsstr *mips)
 {
 	segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
@@ -92,6 +101,11 @@ struct mipsstr *env_run(struct mipsstr *mips)
 	return mips;
 }
 
+/**
+ * @brief execute program step by step
+ * @details allows the user to execute the program by step. Can follow calls to subroutines with command step into
+ * 
+ */
 struct mipsstr *env_step(struct mipsstr *mips)
 {	
 	if(mips->n_argenv == 0)

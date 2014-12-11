@@ -27,9 +27,12 @@ void finish(struct mipsstr *mips);
 * -initializes the registers and creates the hash table of the registers using the function lookup.
 * this function was taken from the book "C Programming" by Dennis Ritchie and Brian Kernighan.
 * The complete set of functions are hash(), lookup(), and install(). They allow the creation of hash tables.
-*
-* -creates a single memory block in which the emulator will work, reading and wirting memory slots.
-* the functionality to create many memory blocks and asingn tags to them is not yet implemented
+* 
+* -if entered with arguments, will try to initialize a memory from an elf file
+* 
+* -loads all the operation codes
+* 
+* -initializes the breakpoint array
 *
 *
 * -after all of this is done, it will run the environment in an endless loop, until "exit" is entered
@@ -116,7 +119,9 @@ int main(int argc, char *argv[])
 	return 0;
 	
 }
-
+/**
+ * @brief we clean up before leaving
+ */
 void finish(struct mipsstr *mips)
 {
 	free(mips->entry);

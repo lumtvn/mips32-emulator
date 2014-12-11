@@ -24,6 +24,7 @@ void report(int r)
 		case 101:	fprintf(stderr, "ERROR %d: file entered isn't ELF\n", r); break;
 		case 201:	fprintf(stderr, "ERROR %d: invalid argument. vaild arguments: mem, reg\n", r); break;
 		case 401:	fprintf(stderr, "ERROR %d: error starting and loading memory with file\n", r); break;
+		case 402:	fprintf(stderr, "ERROR %d: starting address missing\n", r); break;
 		case 410: 	fprintf(stderr, "ERROR %d: too few arguments for function\n", r); break;
 		case 411: 	fprintf(stderr, "ERROR %d: too many arguments for function\n", r); break;
 		case 412: 	fprintf(stderr, "ERROR %d: unknown type, expected 'byte' or 'word'\n", r); break;
