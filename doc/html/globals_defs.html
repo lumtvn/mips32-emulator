@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -71,6 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
+      <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li class="current"><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
@@ -80,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,6 +107,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>HASHSIZE
 : <a class="el" href="lookup_8h.html#a2b4054af9a8f1ec4104846747ded1675">lookup.h</a>
 </li>
+<li>MAXBREAKPOINTS
+: <a class="el" href="headers_8h.html#a87078043e6250a405d31fb62b3a82177">headers.h</a>
+</li>
 <li>MAXFILESIZE
 : <a class="el" href="headers_8h.html#ad683dabfc817a52d9fc31d7b698d654a">headers.h</a>
 </li>
@@ -115,8 +119,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>NB_SECTIONS
 : <a class="el" href="elfmanager_8h.html#ac99929abfd0905e9c896aa3e98834aad">elfmanager.h</a>
 </li>
+<li>RG_OPCODE_BITS
+: <a class="el" href="disassembler_8c.html#a820d50e845b68d3b489cb864395d93a2">disassembler.c</a>
+</li>
 <li>RODATA_SECTION_STR
 : <a class="el" href="elfmanager_8h.html#a162ca0ad9d277c0e1951bb5e1ba09525">elfmanager.h</a>
+</li>
+<li>S3_OPCODE_BITS
+: <a class="el" href="disassembler_8c.html#a2b954f97aab789f3a3c156e43fb1745e">disassembler.c</a>
+</li>
+<li>S_OPCODE_BITS
+: <a class="el" href="disassembler_8c.html#abbdeae9647ed88bbc88d433fb1968684">disassembler.c</a>
+</li>
+<li>SIX_MSB
+: <a class="el" href="disassembler_8c.html#a3fee98731e8a99abc17b926890a6fe3d">disassembler.c</a>
 </li>
 <li>START_MEM
 : <a class="el" href="elfmanager_8c.html#ae3af29a4fc148ddd9b7b7b8342c53c01">elfmanager.c</a>
@@ -131,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

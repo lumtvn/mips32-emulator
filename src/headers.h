@@ -48,6 +48,8 @@ struct mipsstr /// it's a structure that has all elements that are involved in t
 
 	///breakpoint array
 	uint breakpoints[MAXBREAKPOINTS];
+	///step flag
+	bool fl_step;
 	///step into flag
 	bool fl_step_into;
 	///stop flag

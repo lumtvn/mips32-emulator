@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -96,19 +96,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>file containing the main function. It starts the program and calls the principal functions  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="headers_8h_source.html">headers.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="elfmanager_8h_source.html">elfmanager.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="disassembler_8h_source.html">disassembler.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="environment_8h_source.html">environment.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="memorymanagement_8h_source.html">memorymanagement.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="lookup_8h_source.html">lookup.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="errors_8h_source.html">errors.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:afcc9243341bbe6d5ec744646e6505ca9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#afcc9243341bbe6d5ec744646e6505ca9">hashregisters</a> ()</td></tr>
 <tr class="memdesc:afcc9243341bbe6d5ec744646e6505ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the hash table that holds the names of the registers, and its identifier (number)  <a href="#afcc9243341bbe6d5ec744646e6505ca9">More...</a><br/></td></tr>
 <tr class="separator:afcc9243341bbe6d5ec744646e6505ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9a6298ae73a9d49db082d26d1768f11"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#af9a6298ae73a9d49db082d26d1768f11">initregisters</a> (struct <a class="el" href="structptype.html">ptype</a> *pmips)</td></tr>
-<tr class="memdesc:af9a6298ae73a9d49db082d26d1768f11"><td class="mdescLeft">&#160;</td><td class="mdescRight">initializes the registers, giving them a portion of memory and setting to 0 their content  <a href="#af9a6298ae73a9d49db082d26d1768f11">More...</a><br/></td></tr>
-<tr class="separator:af9a6298ae73a9d49db082d26d1768f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cfab0b99fe754526abbe8c401c123ac"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a7cfab0b99fe754526abbe8c401c123ac">initregisters</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a7cfab0b99fe754526abbe8c401c123ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">initializes the registers, giving them a portion of memory and setting to 0 their content  <a href="#a7cfab0b99fe754526abbe8c401c123ac">More...</a><br/></td></tr>
+<tr class="separator:a7cfab0b99fe754526abbe8c401c123ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a902b585d8683248ab44e24699131e77c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a902b585d8683248ab44e24699131e77c">finish</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a902b585d8683248ab44e24699131e77c"><td class="mdescLeft">&#160;</td><td class="mdescRight">we clean up before leaving  <a href="#a902b585d8683248ab44e24699131e77c">More...</a><br/></td></tr>
+<tr class="separator:a902b585d8683248ab44e24699131e77c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="memdesc:a0ddf1224851353fc92bfbff6f499fa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">the main function  <a href="#a0ddf1224851353fc92bfbff6f499fa97">More...</a><br/></td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +122,24 @@ Functions</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Luciano Mantovani </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>October 2014 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a902b585d8683248ab44e24699131e77c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void finish </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>we clean up before leaving </p>
+
+</div>
+</div>
 <a class="anchor" id="afcc9243341bbe6d5ec744646e6505ca9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -135,15 +157,15 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af9a6298ae73a9d49db082d26d1768f11"></a>
+<a class="anchor" id="a7cfab0b99fe754526abbe8c401c123ac"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a> * initregisters </td>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a> * initregisters </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>pmips</em></td><td>)</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -180,7 +202,9 @@ Functions</h2></td></tr>
 <p>the main function </p>
 <p>-initializes the general mips structure which holds all the simulator general information.</p>
 <p>-initializes the registers and creates the hash table of the registers using the function lookup. this function was taken from the book "C Programming" by Dennis Ritchie and Brian Kernighan. The complete set of functions are <a class="el" href="lookup_8c.html#a998ad9aa6cfe8a43b60cdc806667bdb2">hash()</a>, <a class="el" href="lookup_8c.html#a26fc137872cf2f9e5741b30a7ed6670f">lookup()</a>, and <a class="el" href="lookup_8c.html#a94f41788b6c7255236e7a28b1ea71580">install()</a>. They allow the creation of hash tables.</p>
-<p>-creates a single memory block in which the emulator will work, reading and wirting memory slots. the functionality to create many memory blocks and asingn tags to them is not yet implemented</p>
+<p>-if entered with arguments, will try to initialize a memory from an elf file</p>
+<p>-loads all the operation codes</p>
+<p>-initializes the breakpoint array</p>
 <p>-after all of this is done, it will run the environment in an endless loop, until "exit" is entered </p>
 
 </div>
@@ -188,7 +212,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

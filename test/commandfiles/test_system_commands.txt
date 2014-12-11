@@ -1,0 +1,9 @@
+load test/test_elf4.o 0x0
+disasm 0x0:0x24
+step
+step 
+step into
+run 
+run
+disp mem map
+exit

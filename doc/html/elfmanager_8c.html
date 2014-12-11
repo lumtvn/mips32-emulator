@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -94,15 +94,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>file containing functions to work with an elf file.  
+<p>file containing functions to work with an elf file. this file uses functions from the directory elfapi  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;../elfapi/include/common/bits.h&quot;</code><br/>
-<code>#include &quot;../elfapi/include/common/notify.h&quot;</code><br/>
-<code>#include &quot;../elfapi/include/elf/elf.h&quot;</code><br/>
-<code>#include &quot;../elfapi/include/elf/syms.h&quot;</code><br/>
-<code>#include &quot;../elfapi/include/mem.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="headers_8h_source.html">headers.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="memorymanagement_8h_source.html">memorymanagement.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="headers_8h_source.html">headers.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="elfmanager_8h_source.html">elfmanager.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -112,21 +106,56 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aeaf0fcb2c48ff3caae31b1460856dafd"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#aeaf0fcb2c48ff3caae31b1460856dafd">my_init_mem</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, char *filename)</td></tr>
-<tr class="memdesc:aeaf0fcb2c48ff3caae31b1460856dafd"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function creates the memory and the segments of the mips program. Using the information read from an output elf file.  <a href="#aeaf0fcb2c48ff3caae31b1460856dafd">More...</a><br/></td></tr>
-<tr class="separator:aeaf0fcb2c48ff3caae31b1460856dafd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67c4d981248b6ef31b3841010265099c"><td class="memItemLeft" align="right" valign="top">segment *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a67c4d981248b6ef31b3841010265099c">get_seg_by_name</a> (mem m, char *name)</td></tr>
+<tr class="memdesc:a67c4d981248b6ef31b3841010265099c"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to get a segment from a string and a memory  <a href="#a67c4d981248b6ef31b3841010265099c">More...</a><br/></td></tr>
+<tr class="separator:a67c4d981248b6ef31b3841010265099c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79d2d174df8b264d78386a01f9441b17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="headers_8h.html#a1062901a7428fdd9c7f180f5e01ea056">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a79d2d174df8b264d78386a01f9441b17">is_in_segment</a> (segment *seg, vaddr32 v, uint size)</td></tr>
+<tr class="memdesc:a79d2d174df8b264d78386a01f9441b17"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to know if an address range is inside a specific segment  <a href="#a79d2d174df8b264d78386a01f9441b17">More...</a><br/></td></tr>
+<tr class="separator:a79d2d174df8b264d78386a01f9441b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b877842bf327e8dfe2340f1acf23be2"><td class="memItemLeft" align="right" valign="top">segment *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a5b877842bf327e8dfe2340f1acf23be2">which_seg</a> (mem m, vaddr32 v, uint size)</td></tr>
+<tr class="memdesc:a5b877842bf327e8dfe2340f1acf23be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">given an address v and a range size, this function returns the segment asociated to that range  <a href="#a5b877842bf327e8dfe2340f1acf23be2">More...</a><br/></td></tr>
+<tr class="separator:a5b877842bf327e8dfe2340f1acf23be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7549abf21f71069282d0e0f2f6706471"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structelfstr.html">elfstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a7549abf21f71069282d0e0f2f6706471">start_and_load</a> (struct <a class="el" href="structelfstr.html">elfstr</a> *elfdata, char *filename, uint <a class="el" href="elfmanager_8h.html#ae8f0fbb0289e3e089258e9e554b32d42">start_mem</a>)</td></tr>
+<tr class="memdesc:a7549abf21f71069282d0e0f2f6706471"><td class="mdescLeft">&#160;</td><td class="mdescRight">function very similar to <a class="el" href="main_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="the main function ">main()</a> in mipself_test.c  <a href="#a7549abf21f71069282d0e0f2f6706471">More...</a><br/></td></tr>
+<tr class="separator:a7549abf21f71069282d0e0f2f6706471"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a446ce8feb2203f8210196dee47e9380a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a446ce8feb2203f8210196dee47e9380a">elfwritebyte</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, byte bdata, vaddr32 addr)</td></tr>
+<tr class="memdesc:a446ce8feb2203f8210196dee47e9380a"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes a byte in a memory section, as long as allowed by it's permissions  <a href="#a446ce8feb2203f8210196dee47e9380a">More...</a><br/></td></tr>
+<tr class="separator:a446ce8feb2203f8210196dee47e9380a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c0a07d0853904d00f88e4c4242dee0f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a6c0a07d0853904d00f88e4c4242dee0f">elfreadbyte</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, vaddr32 addr)</td></tr>
+<tr class="memdesc:a6c0a07d0853904d00f88e4c4242dee0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads a byte in a memory section  <a href="#a6c0a07d0853904d00f88e4c4242dee0f">More...</a><br/></td></tr>
+<tr class="separator:a6c0a07d0853904d00f88e4c4242dee0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a049badf847a310778f7cc0317de29037"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a049badf847a310778f7cc0317de29037">elfwriteword</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, word wdata, vaddr32 addr)</td></tr>
+<tr class="memdesc:a049badf847a310778f7cc0317de29037"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes a word in a memory section, as long as allowed by it's permissions  <a href="#a049badf847a310778f7cc0317de29037">More...</a><br/></td></tr>
+<tr class="separator:a049badf847a310778f7cc0317de29037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d72789d6290dd0d5caf5197b76252d"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#ae9d72789d6290dd0d5caf5197b76252d">elfreadword</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, vaddr32 addr)</td></tr>
+<tr class="memdesc:ae9d72789d6290dd0d5caf5197b76252d"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads a word in a memory section  <a href="#ae9d72789d6290dd0d5caf5197b76252d">More...</a><br/></td></tr>
+<tr class="separator:ae9d72789d6290dd0d5caf5197b76252d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05dd3a6eadcf1287ad360c76d9e391d8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a05dd3a6eadcf1287ad360c76d9e391d8">get_seg_size</a> (mem m, char *name)</td></tr>
+<tr class="memdesc:a05dd3a6eadcf1287ad360c76d9e391d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">get size of a segment given a name  <a href="#a05dd3a6eadcf1287ad360c76d9e391d8">More...</a><br/></td></tr>
+<tr class="separator:a05dd3a6eadcf1287ad360c76d9e391d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a00a0641e56297ca193a5576f46c920"><td class="memItemLeft" align="right" valign="top">vaddr32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a8a00a0641e56297ca193a5576f46c920">get_seg_start</a> (mem m, char *name)</td></tr>
+<tr class="memdesc:a8a00a0641e56297ca193a5576f46c920"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets the start address of a segment  <a href="#a8a00a0641e56297ca193a5576f46c920">More...</a><br/></td></tr>
+<tr class="separator:a8a00a0641e56297ca193a5576f46c920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a164f3236800c4293bed729219a65c886"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a164f3236800c4293bed729219a65c886">cleandata</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a164f3236800c4293bed729219a65c886"><td class="mdescLeft">&#160;</td><td class="mdescRight">resets bdata and wdata  <a href="#a164f3236800c4293bed729219a65c886">More...</a><br/></td></tr>
+<tr class="separator:a164f3236800c4293bed729219a65c886"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a637be9befaf3faa5e6e8d3c27a643775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a637be9befaf3faa5e6e8d3c27a643775">destroy_mem</a> (struct <a class="el" href="structelfstr.html">elfstr</a> *elfdata)</td></tr>
+<tr class="memdesc:a637be9befaf3faa5e6e8d3c27a643775"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to clean the memory created. used at end of program  <a href="#a637be9befaf3faa5e6e8d3c27a643775">More...</a><br/></td></tr>
+<tr class="separator:a637be9befaf3faa5e6e8d3c27a643775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5931f0255d72df1fd95c4515c89ea16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#ab5931f0255d72df1fd95c4515c89ea16">is_in_symbols</a> (char *name, stab symtab)</td></tr>
 <tr class="separator:ab5931f0255d72df1fd95c4515c89ea16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63f546e4e96db828fc78e883767c3c24"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a63f546e4e96db828fc78e883767c3c24">get_nsegments</a> (stab symtab, char *section_names[], int nb_sections)</td></tr>
 <tr class="separator:a63f546e4e96db828fc78e883767c3c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36f83b9fcf85c241271aaf88bb1473d9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a36f83b9fcf85c241271aaf88bb1473d9">elf_load_section_in_memory</a> (FILE *fp, mem memory, char *scn, unsigned int permissions, unsigned long long add_start)</td></tr>
 <tr class="separator:a36f83b9fcf85c241271aaf88bb1473d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4329718581c0e2b0695df80aee191773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8c.html#a4329718581c0e2b0695df80aee191773">print_segment_raw_content</a> (segment *seg)</td></tr>
+<tr class="separator:a4329718581c0e2b0695df80aee191773"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>file containing functions to work with an elf file. </p>
+<div class="textblock"><p>file containing functions to work with an elf file. this file uses functions from the directory elfapi </p>
 <dl class="section author"><dt>Author</dt><dd>Luciano Mantovani </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>November 2014 this file uses functions from the directory elfapi</dd></dl>
-<p>the usage of "elfapi" functions is not correctly done. I intended to build an interface between my memory functions and the memory managment of this files, but doing that i added many unnecesary processing and inneficiencies. For now, i leave it like this because it passes the tests, but this file will be dramatically changed as soon as possible to make a better use of the elfapi functions </p>
+<dl class="section date"><dt>Date</dt><dd>November 2014</dd></dl>
+<p>apart from the functions found in file mipself_test.c, i added a few functions that allow me to interact with the memory block created by the elf api </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="ae3af29a4fc148ddd9b7b7b8342c53c01"></a>
 <div class="memitem">
@@ -141,6 +170,49 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a164f3236800c4293bed729219a65c886"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* cleandata </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>resets bdata and wdata </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;bdata</td><td>is changed in this function </td></tr>
+    <tr><td class="paramname">mips-&gt;wdata</td><td>is changed in this function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a637be9befaf3faa5e6e8d3c27a643775"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void destroy_mem </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structelfstr.html">elfstr</a> *&#160;</td>
+          <td class="paramname"><em>elfdata</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>function to clean the memory created. used at end of program </p>
+
+</div>
+</div>
 <a class="anchor" id="a36f83b9fcf85c241271aaf88bb1473d9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -185,6 +257,188 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6c0a07d0853904d00f88e4c4242dee0f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* elfreadbyte </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>reads a byte in a memory section </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;bdata</td><td>it changes this field of mips </td></tr>
+    <tr><td class="paramname">m</td><td>reference to memory being used </td></tr>
+    <tr><td class="paramname">addr</td><td>address to read byte </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae9d72789d6290dd0d5caf5197b76252d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* elfreadword </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>reads a word in a memory section </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;wdata</td><td>it changes this field of mips </td></tr>
+    <tr><td class="paramname">m</td><td>reference to memory being used </td></tr>
+    <tr><td class="paramname">addr</td><td>address to read word </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a446ce8feb2203f8210196dee47e9380a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* elfwritebyte </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">byte&#160;</td>
+          <td class="paramname"><em>bdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>writes a byte in a memory section, as long as allowed by it's permissions </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;bdata</td><td>it changes this field of mips </td></tr>
+    <tr><td class="paramname">m</td><td>reference to memory being used </td></tr>
+    <tr><td class="paramname">bdata</td><td>byte to write </td></tr>
+    <tr><td class="paramname">addr</td><td>address to write byte </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a049badf847a310778f7cc0317de29037"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* elfwriteword </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>wdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>writes a word in a memory section, as long as allowed by it's permissions </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;wdata</td><td>it changes this field of mips </td></tr>
+    <tr><td class="paramname">m</td><td>reference to memory being used </td></tr>
+    <tr><td class="paramname">bdata</td><td>word to write </td></tr>
+    <tr><td class="paramname">addr</td><td>address to write word </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a63f546e4e96db828fc78e883767c3c24"></a>
 <div class="memitem">
 <div class="memproto">
@@ -217,6 +471,158 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a67c4d981248b6ef31b3841010265099c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">segment* get_seg_by_name </td>
+          <td>(</td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>function to get a segment from a string and a memory </p>
+<p>this function searches all the segments in a created memory for one that has an name equal to the name parameter</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>the memory. It has to be already initialized </td></tr>
+    <tr><td class="paramname">name</td><td>the name of the segment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the segment if found. NULL if no segment asociated to that name </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a05dd3a6eadcf1287ad360c76d9e391d8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t get_seg_size </td>
+          <td>(</td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get size of a segment given a name </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>the memory where the segment exists </td></tr>
+    <tr><td class="paramname">name</td><td>name of the segment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the segment size if it exists, 0 if it doesn't </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8a00a0641e56297ca193a5576f46c920"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vaddr32 get_seg_start </td>
+          <td>(</td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>gets the start address of a segment </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>the memory where the segment exists </td></tr>
+    <tr><td class="paramname">name</td><td>name of the segment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the start address of the segment </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a79d2d174df8b264d78386a01f9441b17"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="headers_8h.html#a1062901a7428fdd9c7f180f5e01ea056">bool</a> is_in_segment </td>
+          <td>(</td>
+          <td class="paramtype">segment *&#160;</td>
+          <td class="paramname"><em>seg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>function to know if an address range is inside a specific segment </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seg</td><td>the segment to evaluate </td></tr>
+    <tr><td class="paramname">v</td><td>the start address </td></tr>
+    <tr><td class="paramname">size</td><td>the range </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if belongs to segment. false if not </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ab5931f0255d72df1fd95c4515c89ea16"></a>
 <div class="memitem">
 <div class="memproto">
@@ -243,21 +649,43 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeaf0fcb2c48ff3caae31b1460856dafd"></a>
+<a class="anchor" id="a4329718581c0e2b0695df80aee191773"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* my_init_mem </td>
+          <td class="memname">void print_segment_raw_content </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
-          <td class="paramname"><em>mips</em>, </td>
+          <td class="paramtype">segment *&#160;</td>
+          <td class="paramname"><em>seg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7549abf21f71069282d0e0f2f6706471"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structelfstr.html">elfstr</a>* start_and_load </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structelfstr.html">elfstr</a> *&#160;</td>
+          <td class="paramname"><em>elfdata</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>filename</em>&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>start_mem</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -267,23 +695,67 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>this function creates the memory and the segments of the mips program. Using the information read from an output elf file. </p>
-<p>this function is not good. I wrote it using most of the "main" function in mipself_test.c, with some modifications to allow a transition to my code, but it's not working as intended and it needs change</p>
+<p>function very similar to <a class="el" href="main_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="the main function ">main()</a> in mipself_test.c </p>
+<p>it's used to load data into host memory, given an elf file</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>the name of the file to open</td></tr>
+    <tr><td class="paramname">elfstr</td><td>the structure holding data concerning the symbol table, the memory, and the file pointer </td></tr>
+    <tr><td class="paramname">filename</td><td>the name of the elf binary file </td></tr>
+    <tr><td class="paramname">start_mem</td><td>the starting address of the memory </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>mips it returns the emulator structure with a new value for the fields mips-&gt;nsegs, and the fields modified by function <a class="el" href="memorymanagement_8c.html#a897f629b5ff78c022e0e9379418b3384" title="sets up a segment&#39;s parameters ">createsegment()</a> .</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>better use of elfapi functions; less insignificant memory usage.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the structure with the memory, the symtable, and the file pointer. for further usage by program </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5b877842bf327e8dfe2340f1acf23be2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">segment* which_seg </td>
+          <td>(</td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>given an address v and a range size, this function returns the segment asociated to that range </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>the memory where the segment exists </td></tr>
+    <tr><td class="paramname">v</td><td>starting address </td></tr>
+    <tr><td class="paramname">size</td><td>range </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the segment asociated to the range. NULL if no segment found </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

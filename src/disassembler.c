@@ -67,6 +67,12 @@ struct mipsstr *disasm_instr(struct mipsstr *mips, vaddr32 addr, action act)
 
     mips = getopcode(mips,instr); //loads mips->operation with operation name
 
+    if(mips->fl_step && (!strcmp(mips->operation, "JAL") || !strcmp(mips->operation, "JALR")))
+    {
+        mips->fl_step = false;
+        mips->breakpoints[0] = mips->PC + 8;
+    }
+
     mips = which_operation_number(mips); //changes value of mips->opnum to actual operation number
     if(mips->opnum < 0){mips->report = 604; return mips;}
 

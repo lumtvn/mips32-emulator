@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ptype',['ptype',['../structptype.html',1,'']]]
+  ['mipsstr',['mipsstr',['../structmipsstr.html',1,'']]]
 ];

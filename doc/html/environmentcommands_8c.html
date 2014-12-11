@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,42 +97,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="headers_8h_source.html">headers.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="environmentcommands_8h_source.html">environmentcommands.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="memorymanagement_8h_source.html">memorymanagement.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="elfmanager_8h_source.html">elfmanager.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="disassembler_8h_source.html">disassembler.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="errors_8h_source.html">errors.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="lookup_8h_source.html">lookup.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af9e98da8a1a725b19aaf32904ae4bf39"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#af9e98da8a1a725b19aaf32904ae4bf39">env_load</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
-<tr class="separator:af9e98da8a1a725b19aaf32904ae4bf39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd2ffd7c679049ba3f8de849c075a3bb"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#acd2ffd7c679049ba3f8de849c075a3bb">env_set</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
-<tr class="memdesc:acd2ffd7c679049ba3f8de849c075a3bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">function set. explained in environment documentation  <a href="#acd2ffd7c679049ba3f8de849c075a3bb">More...</a><br/></td></tr>
-<tr class="separator:acd2ffd7c679049ba3f8de849c075a3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02bbf572734894d69d515bdd026c1db5"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a02bbf572734894d69d515bdd026c1db5">env_disp</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
-<tr class="memdesc:a02bbf572734894d69d515bdd026c1db5"><td class="mdescLeft">&#160;</td><td class="mdescRight">function disp. explained in environment documentation  <a href="#a02bbf572734894d69d515bdd026c1db5">More...</a><br/></td></tr>
-<tr class="separator:a02bbf572734894d69d515bdd026c1db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45ab0edef77f06690d90080e0807f8c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#ae45ab0edef77f06690d90080e0807f8c">env_assert</a> (struct <a class="el" href="structptype.html">ptype</a> *mips)</td></tr>
-<tr class="memdesc:ae45ab0edef77f06690d90080e0807f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">function assert. explained in environment documentation  <a href="#ae45ab0edef77f06690d90080e0807f8c">More...</a><br/></td></tr>
-<tr class="separator:ae45ab0edef77f06690d90080e0807f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad86e3bc9d83567232b43a692b3d4adf4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#ad86e3bc9d83567232b43a692b3d4adf4">env_load</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:ad86e3bc9d83567232b43a692b3d4adf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">load instruction  <a href="#ad86e3bc9d83567232b43a692b3d4adf4">More...</a><br/></td></tr>
+<tr class="separator:ad86e3bc9d83567232b43a692b3d4adf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33003ac8f44ab4464e04519709bc3dba"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a33003ac8f44ab4464e04519709bc3dba">env_run</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a33003ac8f44ab4464e04519709bc3dba"><td class="mdescLeft">&#160;</td><td class="mdescRight">it runs the instructions of the segment .text of an elf file  <a href="#a33003ac8f44ab4464e04519709bc3dba">More...</a><br/></td></tr>
+<tr class="separator:a33003ac8f44ab4464e04519709bc3dba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc31fa4322182c8f344aeeb5f1d91196"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#acc31fa4322182c8f344aeeb5f1d91196">env_step</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:acc31fa4322182c8f344aeeb5f1d91196"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute program step by step  <a href="#acc31fa4322182c8f344aeeb5f1d91196">More...</a><br/></td></tr>
+<tr class="separator:acc31fa4322182c8f344aeeb5f1d91196"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec764d4b6ca98f662a5cfa95476ddb4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a3ec764d4b6ca98f662a5cfa95476ddb4">env_set</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a3ec764d4b6ca98f662a5cfa95476ddb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">function set. explained in environment documentation  <a href="#a3ec764d4b6ca98f662a5cfa95476ddb4">More...</a><br/></td></tr>
+<tr class="separator:a3ec764d4b6ca98f662a5cfa95476ddb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f850dc8dae91483e3b3fb008c1d421"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a28f850dc8dae91483e3b3fb008c1d421">env_disp</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a28f850dc8dae91483e3b3fb008c1d421"><td class="mdescLeft">&#160;</td><td class="mdescRight">function disp. explained in environment documentation  <a href="#a28f850dc8dae91483e3b3fb008c1d421">More...</a><br/></td></tr>
+<tr class="separator:a28f850dc8dae91483e3b3fb008c1d421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56d3a896c68b2d63fa1edbb6bef10403"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a56d3a896c68b2d63fa1edbb6bef10403">env_assert</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a56d3a896c68b2d63fa1edbb6bef10403"><td class="mdescLeft">&#160;</td><td class="mdescRight">function assert. explained in environment documentation  <a href="#a56d3a896c68b2d63fa1edbb6bef10403">More...</a><br/></td></tr>
+<tr class="separator:a56d3a896c68b2d63fa1edbb6bef10403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bf269ba3c27e06ba2b33c801735e0da"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a9bf269ba3c27e06ba2b33c801735e0da">env_disasm</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="separator:a9bf269ba3c27e06ba2b33c801735e0da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c3905608b464e2e8bb6334a310b8ae2"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a6c3905608b464e2e8bb6334a310b8ae2">env_break</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="separator:a6c3905608b464e2e8bb6334a310b8ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a9c165ebaece2b250cd9eebe7013b74"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="environmentcommands_8c.html#a2a9c165ebaece2b250cd9eebe7013b74">find_illegal_character</a> (char *s)</td></tr>
 <tr class="separator:a2a9c165ebaece2b250cd9eebe7013b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>file containing functions that execute the environment commands </p>
 <dl class="section author"><dt>Author</dt><dd>Luciano Mantovani </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>October 2014 this file has all the functions that are called by the function <a class="el" href="environment_8c.html#abf6f7ac059bdc924fd15ab429c6a3705" title="this function is a distributer, it calls a function from file environmentcommands.c according to the command entered in the entry ">analize()</a> in file <a class="el" href="environment_8c.html" title="file containing functions to run the environment for the user ">environment.c</a> they execute each and every possible combination of the command and its arguments</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>October 2014 this file has all the functions that are called by the function <a class="el" href="environment_8c.html#a4ca2750df657349db7b0e247e85f5260" title="this function is a distributer, it calls a function from file environmentcommands.c according to the command entered in the entry ">analize()</a> in file <a class="el" href="environment_8c.html" title="file containing functions to run the environment for the user ">environment.c</a> they execute each and every possible combination of the command and its arguments</dd></dl>
 <p>to retrieve the register passed by the argument which holds the register name in string format, we use a set of functions taken from the book "C Programming" by Dennis Ritchie and Brian Kernighan. This functions are <a class="el" href="lookup_8c.html#a998ad9aa6cfe8a43b60cdc806667bdb2">hash()</a>, <a class="el" href="lookup_8c.html#a26fc137872cf2f9e5741b30a7ed6670f">lookup()</a>, and <a class="el" href="lookup_8c.html#a94f41788b6c7255236e7a28b1ea71580">install()</a>. They allow the creation of a hash table.</p>
 <dl class="section see"><dt>See Also</dt><dd>for more information about <a class="el" href="lookup_8h.html#a26fc137872cf2f9e5741b30a7ed6670f">lookup</a>: <a href="http://zanasi.chem.unisa.it/download/C.pdf">http://zanasi.chem.unisa.it/download/C.pdf</a> </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ae45ab0edef77f06690d90080e0807f8c"></a>
+<a class="anchor" id="a56d3a896c68b2d63fa1edbb6bef10403"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* env_assert </td>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_assert </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
           <td class="paramname"><em>mips</em></td><td>)</td>
           <td></td>
         </tr>
@@ -146,14 +157,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a02bbf572734894d69d515bdd026c1db5"></a>
+<a class="anchor" id="a6c3905608b464e2e8bb6334a310b8ae2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* env_disp </td>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_break </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9bf269ba3c27e06ba2b33c801735e0da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_disasm </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a28f850dc8dae91483e3b3fb008c1d421"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_disp </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
           <td class="paramname"><em>mips</em></td><td>)</td>
           <td></td>
         </tr>
@@ -164,34 +207,56 @@ Functions</h2></td></tr>
 <p>if disp mem was entered, mem-&gt;argenv[1] should have "map" or an address ,</p>
 <p>if disp reg was entered, mem-&gt;argenv[1] should have register or "all",</p>
 <dl class="section note"><dt>Note</dt><dd>error code 420 to 429</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>being able to display a group of specific registers and not only one or all of them </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>being able to display a group of specific registers and not only one or all of them </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af9e98da8a1a725b19aaf32904ae4bf39"></a>
+<a class="anchor" id="ad86e3bc9d83567232b43a692b3d4adf4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* env_load </td>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_load </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
           <td class="paramname"><em>mips</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>load instruction </p>
+<p>it loads a new file, and allocates the necessary memory </p>
+
 </div>
 </div>
-<a class="anchor" id="acd2ffd7c679049ba3f8de849c075a3bb"></a>
+<a class="anchor" id="a33003ac8f44ab4464e04519709bc3dba"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* env_set </td>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_run </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>it runs the instructions of the segment .text of an elf file </p>
+<p>main principal function of the program. it runs all the instructions in .text . stops if it hits a breakpoint </p>
+
+</div>
+</div>
+<a class="anchor" id="a3ec764d4b6ca98f662a5cfa95476ddb4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_set </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
           <td class="paramname"><em>mips</em></td><td>)</td>
           <td></td>
         </tr>
@@ -202,7 +267,26 @@ Functions</h2></td></tr>
 <p>if set mem was entered, mem-&gt;argenv[1] should have type, mem-&gt;argenv[2] should have address , mem-&gt;argenv[3] should have value ,</p>
 <p>if set reg was entered, mem-&gt;argenv[1] should have register, mem-&gt;argenv[2] should have value ,</p>
 <dl class="section note"><dt>Note</dt><dd>error code: 410 to 419</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>read-only permits on certain read-only registers (example: $zero) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>read-only permits on certain read-only registers (example: $zero) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acc31fa4322182c8f344aeeb5f1d91196"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* env_step </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>execute program step by step </p>
+<p>allows the user to execute the program by step. Can follow calls to subroutines with command step into </p>
 
 </div>
 </div>
@@ -225,7 +309,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

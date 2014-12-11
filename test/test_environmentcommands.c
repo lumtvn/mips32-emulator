@@ -104,7 +104,7 @@ struct elfstr myelfstr;
 
     return 0;
 }
- static char * sys_test_set_mem_byte() //tries to execute set reg using an invalid register argument
+ static char * sys_test_set_mem_byte() 
 {           
     res = system("diff test/resultfiles/test_set_mem_byte_expected.txt test/resultfiles/test_set_mem_byte_result.txt");
        
@@ -113,7 +113,7 @@ struct elfstr myelfstr;
     return 0;
 }
 
- static char * sys_test_set_mem_word() //tries to execute set reg using an invalid register argument
+ static char * sys_test_set_mem_word() 
 {           
     res = system("diff test/resultfiles/test_set_mem_word_expected.txt test/resultfiles/test_set_mem_word_result.txt");
        
@@ -122,7 +122,7 @@ struct elfstr myelfstr;
     return 0;
 }
 
- static char * sys_test_disp_reg() //tries to execute set reg using an invalid register argument
+ static char * sys_test_disp_reg() 
 {           
     res = system("diff test/resultfiles/test_disp_reg_expected.txt test/resultfiles/test_disp_reg_result.txt");
        
@@ -131,7 +131,7 @@ struct elfstr myelfstr;
     return 0;
 }
 
- static char * test_assert() //tries to execute set reg using an invalid register argument
+ static char * test_assert() 
 {           
     res = system("diff test/resultfiles/test_assert_expected.txt test/resultfiles/test_assert_result.txt");
        
@@ -140,7 +140,7 @@ struct elfstr myelfstr;
     return 0;
 }
 
- static char * test_disasm() //tries to execute set reg using an invalid register argument
+ static char * test_disasm() 
 {           
     res = system("diff test/resultfiles/test_disasm_expected.txt test/resultfiles/test_disasm_result.txt");
        
@@ -149,11 +149,20 @@ struct elfstr myelfstr;
     return 0;
 }
 
- static char * test_break() //tries to execute set reg using an invalid register argument
+ static char * test_break() 
 {           
     res = system("diff test/resultfiles/test_break_expected.txt test/resultfiles/test_break_result.txt");
        
     mu_assert("error, the break result file is different than expected",!res);
+    
+    return 0;
+}
+
+ static char * test_system() 
+{           
+    res = system("diff test/resultfiles/test_system_expected.txt test/resultfiles/test_system_result.txt");
+       
+    mu_assert("error, the system result file is different than expected",!res);
     
     return 0;
 }
@@ -195,6 +204,7 @@ static char * test_find_illegal_character()
     mu_run_test(test_assert);
     mu_run_test(test_disasm);
     mu_run_test(test_break);
+    mu_run_test(test_system);
     mu_run_test(test_find_illegal_character);
      return 0;
 

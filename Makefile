@@ -91,21 +91,6 @@ bin/test_disassembler: build/test_disassembler.o build/disassembler.o build/erro
 build/test_disassembler.o: test/test_disassembler.c src/disassembler.h src/headers.h src/environment.h src/errors.h src/environmentcommands.h src/elfmanager.h src/operations.h  src/lookup.h
 	@gcc -c test/test_disassembler.c -o build/test_disassembler.o
 
-###########################--environment TESTS--################################
-#tests functions of source file environment.c
-
-# testenvironment: bin/emul-mips bin/test_environment
-# 	@echo starting environment tests
-# 	@./bin/emul-mips < test/commandfiles/test_environment_commands.txt > test/resultfiles/test_environment_result.txt
-# 	@./bin/test_environment
-# 	@echo environment tests passed
-
-# bin/test_environment: build/test_environment.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o  build/lookup.o
-# 	@gcc build/test_environment.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o  build/lookup.o -o bin/test_environment
-
-# build/test_environment.o: test/test_environment.c src/headers.h src/environment.h
-# 	@gcc -pg -c test/test_environment.c -o build/test_environment.o
-
 ###########################--AUTOLOAD TESTS--################################
 #tests the autoloading function of the environment, passing a file argument when initiating the emulator
 testautoload: bin/emul-mips bin/test_autoloader
@@ -147,6 +132,7 @@ testenvironmentcommands: bin/emul-mips bin/test_environmentcommands
 	./bin/emul-mips < test/commandfiles/test_assert_commands.txt > test/resultfiles/test_assert_result.txt 2>&1
 	./bin/emul-mips < test/commandfiles/test_disasm_commands.txt > test/resultfiles/test_disasm_result.txt 2>&1
 	./bin/emul-mips < test/commandfiles/test_break_commands.txt > test/resultfiles/test_break_result.txt 2>&1
+	./bin/emul-mips < test/commandfiles/test_system_commands.txt > test/resultfiles/test_system_result.txt 2>&1
 	./bin/test_environmentcommands
 	@echo environmentcommands tests passed
 

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['segname',['segname',['../structptype.html#a33171e907735d1b6db109dfcf549a760',1,'ptype']]],
-  ['segpermissions',['segpermissions',['../structptype.html#ab6f0c13b18c3a798a786a09003d5e851',1,'ptype']]],
-  ['segrealpoint',['segrealpoint',['../structptype.html#a19818517fc2a9ad008604ba1f17955a4',1,'ptype']]],
-  ['segrealpointbase',['segrealpointbase',['../structptype.html#aa6ff6feb594fbeaefbc6f361d5ba74aa',1,'ptype']]],
-  ['segsize',['segsize',['../structptype.html#a34aedd05342823517a829796d4833009',1,'ptype']]]
+  ['n_5farg1',['n_arg1',['../structmipsstr.html#a5e9f835c24225bee512bf547d5b866c5',1,'mipsstr']]],
+  ['n_5farg2',['n_arg2',['../structmipsstr.html#a7d5dfa4afed4fb8d3b820b48e8035fde',1,'mipsstr']]],
+  ['n_5fargenv',['n_argenv',['../structmipsstr.html#a1098a1ee1a85bb05e0e55b49df030979',1,'mipsstr']]],
+  ['name',['name',['../structnlist.html#a5ac083a645d964373f022d03df4849c8',1,'nlist']]],
+  ['next',['next',['../structnlist.html#ac81a332322794f80995e550bb3b7165b',1,'nlist']]]
 ];

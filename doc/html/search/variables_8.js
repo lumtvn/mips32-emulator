@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operation',['operation',['../structptype.html#acb7d490f8d903ed61f6b48ff2b41e8e4',1,'ptype']]]
+  ['lo',['lo',['../structmipsstr.html#a3eea36c50752a77f6395829baa347df3',1,'mipsstr']]]
 ];

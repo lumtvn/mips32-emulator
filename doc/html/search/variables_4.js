@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['filename',['filename',['../structptype.html#aeac90097f29f7529968697163cea5c18',1,'ptype']]],
-  ['filesize',['filesize',['../structptype.html#ab098377a95401616fe523fc66ce6e212',1,'ptype']]]
+  ['elfdata',['elfdata',['../structmipsstr.html#ad7d6f7b75953a71ac43d6f6f0dc4257d',1,'mipsstr']]],
+  ['entry',['entry',['../structmipsstr.html#a1072c713adb03fb67b07874dc9585a77',1,'mipsstr']]]
 ];

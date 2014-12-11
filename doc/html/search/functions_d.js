@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['writebyte',['writebyte',['../memorymanagement_8c.html#aeddb4414ba32f9f702a0ebce7911f311',1,'writebyte(struct ptype *mips, mbyte bdata, int simpoint):&#160;memorymanagement.c'],['../memorymanagement_8h.html#a68f492c5ea309f9aef8d8f0d04b4a55c',1,'writebyte(struct ptype *mem, mbyte bdata, int simpoint):&#160;memorymanagement.c']]],
-  ['writehalfword',['writehalfword',['../memorymanagement_8c.html#a54e7d0d4a184c94e7487c6cdfb804053',1,'writehalfword(struct ptype *mips, mhalfword hwdata, int simpoint):&#160;memorymanagement.c'],['../memorymanagement_8h.html#a023bf1fde93969aa804ae8a44b57fdcd',1,'writehalfword(struct ptype *mem, mhalfword hwdata, int simpoint):&#160;memorymanagement.c']]],
-  ['writeword',['writeword',['../memorymanagement_8c.html#a8a83a83ac160e30788c793b808cff5d2',1,'writeword(struct ptype *mips, mword wdata, int simpoint):&#160;memorymanagement.c'],['../memorymanagement_8h.html#a2a9a2e017cc79e37fd56a648ba0a36b8',1,'writeword(struct ptype *mem, mword bdata, int simpoint):&#160;memorymanagement.c']]]
+  ['send_5foperation',['send_operation',['../disassembler_8c.html#a38afa642087e4e3b77753c0104d40206',1,'send_operation(struct mipsstr *mips, action act):&#160;disassembler.c'],['../disassembler_8h.html#ad29ae35a0f288dd6f488a7f3a1a2c5f7',1,'send_operation(struct mipsstr *mips, action ac):&#160;disassembler.c']]],
+  ['start_5fand_5fload',['start_and_load',['../elfmanager_8c.html#a7549abf21f71069282d0e0f2f6706471',1,'start_and_load(struct elfstr *elfdata, char *filename, uint start_mem):&#160;elfmanager.c'],['../elfmanager_8h.html#a7549abf21f71069282d0e0f2f6706471',1,'start_and_load(struct elfstr *elfdata, char *filename, uint start_mem):&#160;elfmanager.c']]],
+  ['start_5fmem',['start_mem',['../elfmanager_8h.html#ae8f0fbb0289e3e089258e9e554b32d42',1,'elfmanager.h']]],
+  ['strip',['strip',['../environment_8c.html#a76299b86e144434260dcab80323ec9da',1,'strip(char *s):&#160;environment.c'],['../environment_8h.html#a76299b86e144434260dcab80323ec9da',1,'strip(char *s):&#160;environment.c']]]
 ];

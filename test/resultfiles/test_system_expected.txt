@@ -1,0 +1,58 @@
+starting emulator with no elf file loaded!
+to load new file: load <file> <start of memory>
+emul-mips> load test/test_elf4.o 0x0
+
+---NEW FILE LOADED:  test/test_elf4.o ---
+Virtual memory map (3 segments)
+.text   	r-x	Vaddr: 0x00000000	Size: 40 bytes
+.data   	rw-	Vaddr: 0x00001000	Size: 12 bytes
+.bss    	rw-	Vaddr: 0x00002000	Size: 0 bytes
+
+raw content of segment .text:
+
+  0x00000000 0x20043039 0x0c000005 0x00000000 0x10000005 
+  0x00000010 0x00000000 0x3c010000 0xac240008 0x03e00008 
+  0x00000020 0x00000000 0x0000000c 
+raw content of segment .data:
+
+  0x00000000 0xab000000 0x00000008 0x00000000 
+raw content of segment .bss:
+emul-mips> disasm 0x0:0x24
+00000000 :: 20043039  ADDI $a0, $zero, 0x3039
+00000004 :: 0c000005  JAL 0x14
+00000008 :: 00000000  NOP
+0000000c :: 10000005  BEQ $zero, $zero, 0x20
+00000010 :: 00000000  NOP
+00000014 :: 3c010000  LUI $at, 0
+00000018 :: ac240008  SW $a0, 8($at)
+0000001c :: 03e00008  JR $ra
+00000020 :: 00000000  NOP
+00000024 :: 0000000c  SYSCALL
+emul-mips> step
+program stopped at: 00000004
+next instruction in: JAL 0x14
+emul-mips> step 
+program stopped at: 0000000c
+next instruction in: BEQ $zero, $zero, 0x20
+emul-mips> step into
+program stopped at: 00000020
+next instruction: NOP
+emul-mips> run 
+emul-mips> run
+emul-mips> disp mem map
+Virtual memory map (3 segments)
+.text   	r-x	Vaddr: 0x00000000	Size: 40 bytes
+.data   	rw-	Vaddr: 0x00001000	Size: 12 bytes
+.bss    	rw-	Vaddr: 0x00002000	Size: 0 bytes
+
+raw content of segment .text:
+
+  0x00000000 0x20043039 0x0c000005 0x00003039 0x10000005 
+  0x00000010 0x00000000 0x3c010000 0xac240008 0x03e00008 
+  0x00000020 0x00000000 0x0000000c 
+raw content of segment .data:
+
+  0x00000000 0xab000000 0x00000008 0x00000000 
+raw content of segment .bss:
+emul-mips> exit
+exiting mips emulator...

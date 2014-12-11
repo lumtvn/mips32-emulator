@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,13 +97,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br/>
 <code>#include &lt;stdio.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;readline/readline.h&gt;</code><br/>
+<code>#include &lt;readline/history.h&gt;</code><br/>
+<code>#include &quot;../elfapi/include/common/bits.h&quot;</code><br/>
+<code>#include &quot;../elfapi/include/common/notify.h&quot;</code><br/>
+<code>#include &quot;../elfapi/include/elf/elf.h&quot;</code><br/>
+<code>#include &quot;../elfapi/include/elf/syms.h&quot;</code><br/>
+<code>#include &quot;../elfapi/include/mem.h&quot;</code><br/>
 </div>
 <p><a href="headers_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structptype.html">ptype</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">it's a structure that has all elements that are involved in the simulator  <a href="structptype.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmipsstr.html">mipsstr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">it's a structure that has all elements that are involved in the simulator  <a href="structmipsstr.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structelfstr.html">elfstr</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -112,6 +121,8 @@ Macros</h2></td></tr>
 <tr class="separator:a2a37b4217917105aac7557862ccc19c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad683dabfc817a52d9fc31d7b698d654a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#ad683dabfc817a52d9fc31d7b698d654a">MAXFILESIZE</a>&#160;&#160;&#160;2048</td></tr>
 <tr class="separator:ad683dabfc817a52d9fc31d7b698d654a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87078043e6250a405d31fb62b3a82177"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#a87078043e6250a405d31fb62b3a82177">MAXBREAKPOINTS</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:a87078043e6250a405d31fb62b3a82177"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41f9c5fb8b08eb5dc3edce4dcb37fee7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:a41f9c5fb8b08eb5dc3edce4dcb37fee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65e9886d74aaee76545e83dd09011727"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&#160;&#160;&#160;0</td></tr>
@@ -125,8 +136,8 @@ Typedefs</h2></td></tr>
 <tr class="separator:a1ef678860994dda67d11967343d827bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebd23a20a0f68532d8a091fb411d4d02"><td class="memItemLeft" align="right" valign="top">typedef unsigned int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#aebd23a20a0f68532d8a091fb411d4d02">reg</a></td></tr>
 <tr class="separator:aebd23a20a0f68532d8a091fb411d4d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ad0a1895ae4d065394e08555be78273"><td class="memItemLeft" align="right" valign="top">typedef unsigned short int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a></td></tr>
-<tr class="separator:a7ad0a1895ae4d065394e08555be78273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dc34f3d9b25d9cce04faf76db3fb034"><td class="memItemLeft" align="right" valign="top">typedef unsigned short int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#a8dc34f3d9b25d9cce04faf76db3fb034">halfword</a></td></tr>
+<tr class="separator:a8dc34f3d9b25d9cce04faf76db3fb034"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94d5ba6264392dd18e5b557d88c7807d"><td class="memItemLeft" align="right" valign="top">typedef unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a></td></tr>
 <tr class="separator:a94d5ba6264392dd18e5b557d88c7807d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -137,6 +148,18 @@ Typedefs</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define false&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a87078043e6250a405d31fb62b3a82177"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAXBREAKPOINTS&#160;&#160;&#160;20</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -192,24 +215,24 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a94d5ba6264392dd18e5b557d88c7807d"></a>
+<a class="anchor" id="a8dc34f3d9b25d9cce04faf76db3fb034"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef unsigned char <a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a></td>
+          <td class="memname">typedef unsigned short int <a class="el" href="headers_8h.html#a8dc34f3d9b25d9cce04faf76db3fb034">halfword</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a7ad0a1895ae4d065394e08555be78273"></a>
+<a class="anchor" id="a94d5ba6264392dd18e5b557d88c7807d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef unsigned short int <a class="el" href="headers_8h.html#a7ad0a1895ae4d065394e08555be78273">mhalfword</a></td>
+          <td class="memname">typedef unsigned char <a class="el" href="headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d">mbyte</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -243,7 +266,7 @@ Typedefs</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

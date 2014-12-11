@@ -1,16 +1,8 @@
 var searchData=
 [
-  ['main',['main',['../main_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.c']]],
-  ['main_2ec',['main.c',['../main_8c.html',1,'']]],
-  ['maxfilesize',['MAXFILESIZE',['../headers_8h.html#ad683dabfc817a52d9fc31d7b698d654a',1,'headers.h']]],
-  ['maxsize',['MAXSIZE',['../headers_8h.html#a2a37b4217917105aac7557862ccc19c3',1,'headers.h']]],
-  ['mbyte',['mbyte',['../headers_8h.html#a94d5ba6264392dd18e5b557d88c7807d',1,'headers.h']]],
-  ['memorymanagement_2ec',['memorymanagement.c',['../memorymanagement_8c.html',1,'']]],
-  ['memorymanagement_2eh',['memorymanagement.h',['../memorymanagement_8h.html',1,'']]],
-  ['memrealpoint',['memrealpoint',['../structptype.html#a0e240a34245d5734a5ab1133bd37182a',1,'ptype']]],
-  ['memrealpointbase',['memrealpointbase',['../structptype.html#ae48d8e85e5f5b594209aeba44b50e810',1,'ptype']]],
-  ['memsize',['memsize',['../structptype.html#aedc8878c46b29532ca5d23cd9bca22ad',1,'ptype']]],
-  ['mhalfword',['mhalfword',['../headers_8h.html#a7ad0a1895ae4d065394e08555be78273',1,'headers.h']]],
-  ['mword',['mword',['../headers_8h.html#a1ef678860994dda67d11967343d827bf',1,'headers.h']]],
-  ['my_5finit_5fmem',['my_init_mem',['../elfmanager_8c.html#aeaf0fcb2c48ff3caae31b1460856dafd',1,'my_init_mem(struct ptype *mips, char *filename):&#160;elfmanager.c'],['../elfmanager_8h.html#aeaf0fcb2c48ff3caae31b1460856dafd',1,'my_init_mem(struct ptype *mips, char *filename):&#160;elfmanager.c']]]
+  ['lo',['lo',['../structmipsstr.html#a3eea36c50752a77f6395829baa347df3',1,'mipsstr']]],
+  ['load_5fopcodes',['load_opcodes',['../disassembler_8c.html#a9622e42ac609decda8af42ce117ffdde',1,'load_opcodes():&#160;disassembler.c'],['../disassembler_8h.html#af0e7027d8d88c3973f275fb3780369ea',1,'load_opcodes(void):&#160;disassembler.c']]],
+  ['lookup',['lookup',['../lookup_8c.html#a26fc137872cf2f9e5741b30a7ed6670f',1,'lookup(char *s):&#160;lookup.c'],['../lookup_8h.html#a26fc137872cf2f9e5741b30a7ed6670f',1,'lookup(char *s):&#160;lookup.c']]],
+  ['lookup_2ec',['lookup.c',['../lookup_8c.html',1,'']]],
+  ['lookup_2eh',['lookup.h',['../lookup_8h.html',1,'']]]
 ];

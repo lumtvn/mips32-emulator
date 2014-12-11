@@ -14,9 +14,11 @@ After this, if "emul-mips" is entered in command line, the IDE will be initializ
 
 If "emul-mips + path to a file + start address" is entered, the program will autoload the file entered as always as it is in elf format, at the direction of the memory specified by start address .After this, the IDE will start normally, having the same behaivour as described.
 
-commands limitations:
+limitations:
 
 - load accepts only the full path of the script
+- This version does not yet implement SYSCALL
+- writing permits are set for all registers except for zero
 
 
 ADDING READLINE:

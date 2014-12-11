@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nlist',['nlist',['../structnlist.html',1,'']]]
+  ['elfstr',['elfstr',['../structelfstr.html',1,'']]]
 ];

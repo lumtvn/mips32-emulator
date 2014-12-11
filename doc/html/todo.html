@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -81,21 +81,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000001"></a>File <a class="el" href="disassembler_8c.html">disassembler.c</a>  </dt>
-<dd>function to get the operation prequisites, such as number of arguments, etc. </dd>
-<dt><a class="anchor" id="_todo000004"></a>Global <a class="el" href="environmentcommands_8h.html#a02bbf572734894d69d515bdd026c1db5">env_disp</a>  (struct ptype *mips)</dt>
+<dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="environment_8h.html#a17c95f3fc09ec4c0720d2061c8c90546">analize</a>  (struct mipsstr *env)</dt>
+<dd>debug and resume function  </dd>
+<dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="environment_8h.html#a17c95f3fc09ec4c0720d2061c8c90546">analize</a>  (struct mipsstr *env)</dt>
+<dd>debug and resume function  </dd>
+<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="environmentcommands_8h.html#a28f850dc8dae91483e3b3fb008c1d421">env_disp</a>  (struct mipsstr *mips)</dt>
 <dd>being able to display a group of specific registers and not only one or all of them  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="environmentcommands_8h.html#acd2ffd7c679049ba3f8de849c075a3bb">env_set</a>  (struct ptype *mips)</dt>
-<dd>read-only permits on certain read-only registers (example: $zero)  </dd>
-<dt><a class="anchor" id="_todo000005"></a>File <a class="el" href="memorymanagement_8c.html">memorymanagement.c</a>  </dt>
-<dd>the block of memory should be created with a tag that identifies it, this is yet to be implemented  </dd>
-<dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="elfmanager_8h.html#aeaf0fcb2c48ff3caae31b1460856dafd">my_init_mem</a>  (struct ptype *mips, char *filename)</dt>
-<dd>better use of elfapi functions; less insignificant memory usage.</dd>
+<dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="environmentcommands_8h.html#a3ec764d4b6ca98f662a5cfa95476ddb4">env_set</a>  (struct mipsstr *mips)</dt>
+<dd>read-only permits on certain read-only registers (example: $zero) </dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

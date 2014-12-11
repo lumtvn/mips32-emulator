@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['analize',['analize',['../environment_8c.html#abf6f7ac059bdc924fd15ab429c6a3705',1,'analize(struct ptype *mips):&#160;environment.c'],['../environment_8h.html#a862eb51421e0e385b08373734f9a1f5e',1,'analize(struct ptype *env):&#160;environment.c']]]
+  ['analize',['analize',['../environment_8c.html#a4ca2750df657349db7b0e247e85f5260',1,'analize(struct mipsstr *mips):&#160;environment.c'],['../environment_8h.html#a17c95f3fc09ec4c0720d2061c8c90546',1,'analize(struct mipsstr *env):&#160;environment.c']]]
 ];

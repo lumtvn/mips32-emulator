@@ -97,6 +97,7 @@ struct mipsstr *env_run(struct mipsstr *mips)
 		{	
 			if(mips->breakpoints[i] == mips->PC)
 			{
+
 				mips->fl_stop = true;
 				mips->disasm_output = malloc(80);
 				mips->instr_output = malloc(80);
@@ -123,6 +124,7 @@ struct mipsstr *env_run(struct mipsstr *mips)
  */
 struct mipsstr *env_step(struct mipsstr *mips)
 {	
+	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
 	if(mips->n_argenv == 0)
 	{
 
@@ -132,6 +134,7 @@ struct mipsstr *env_step(struct mipsstr *mips)
 
 		mips->breakpoints[0] = mips->PC + 4;
 		// printf("%x\n", mips->breakpoints[0]);
+		mips->fl_step = true;
 		mips = env_run(mips);
 	}
 	else if(mips->n_argenv == 1 && !strcmp(mips->argenv[0], "into"))
@@ -497,6 +500,7 @@ struct mipsstr *env_disasm(struct mipsstr *mips)
 		uint i;
 		for(i = addr1; i <= addr2; i = i + 4)
 		{
+			mips->pc_temp = i;
 			mips = disasm_instr(mips, i, D_PRINT);
 			if(mips->report > 0)
 				{
@@ -536,8 +540,9 @@ struct mipsstr *env_disasm(struct mipsstr *mips)
 		mips->disasm_output = malloc(50);
 		if(mips->disasm_output == NULL){mips->report = 446; return mips;}
 		mips->instr_output = malloc(50);
-		if(mips->instr_output == NULL){mips->report = 446; return mips;}
+		if(mips->instr_output == NULL){mips->report = 446; return mips;}	
 
+		mips->pc_temp = addr1;
 		mips = disasm_instr(mips, addr1, D_PRINT);
 		if(mips->report > 0)
 			{
@@ -546,6 +551,7 @@ struct mipsstr *env_disasm(struct mipsstr *mips)
 				return mips;
 			}
 		printf("%08x :: %s	%s\n", addr1, mips->instr_output, mips->disasm_output);
+		mips->pc_temp = offset;
 		mips = disasm_instr(mips, offset, D_PRINT);
 		if(mips->report > 0)
 			{

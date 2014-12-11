@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MIPS32-Emulator
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">a small IDE for a Mips32 microprocessor emulator</div>
   </td>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,6 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">disassembler.c File Reference</div>  </div>
@@ -97,41 +98,185 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="headers_8h_source.html">headers.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="disassembler_8h_source.html">disassembler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="operations_8h_source.html">operations.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="errors_8h_source.html">errors.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="elfmanager_8h_source.html">elfmanager.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="environment_8h_source.html">environment.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="lookup_8h_source.html">lookup.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a3fee98731e8a99abc17b926890a6fe3d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a3fee98731e8a99abc17b926890a6fe3d">SIX_MSB</a>&#160;&#160;&#160;0xFC000000</td></tr>
+<tr class="separator:a3fee98731e8a99abc17b926890a6fe3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbdeae9647ed88bbc88d433fb1968684"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#abbdeae9647ed88bbc88d433fb1968684">S_OPCODE_BITS</a>&#160;&#160;&#160;0x3F</td></tr>
+<tr class="separator:abbdeae9647ed88bbc88d433fb1968684"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b954f97aab789f3a3c156e43fb1745e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a2b954f97aab789f3a3c156e43fb1745e">S3_OPCODE_BITS</a>&#160;&#160;&#160;0x7C0</td></tr>
+<tr class="separator:a2b954f97aab789f3a3c156e43fb1745e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a820d50e845b68d3b489cb864395d93a2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a820d50e845b68d3b489cb864395d93a2">RG_OPCODE_BITS</a>&#160;&#160;&#160;0x1F0000</td></tr>
+<tr class="separator:a820d50e845b68d3b489cb864395d93a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a94d274d1eb5af41c6c75d19c3aeb808a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a94d274d1eb5af41c6c75d19c3aeb808a">getopcode</a> (struct <a class="el" href="structptype.html">ptype</a> *mips, <a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a> word)</td></tr>
-<tr class="memdesc:a94d274d1eb5af41c6c75d19c3aeb808a"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function obtains the operation code, coded in a 32 bit word  <a href="#a94d274d1eb5af41c6c75d19c3aeb808a">More...</a><br/></td></tr>
-<tr class="separator:a94d274d1eb5af41c6c75d19c3aeb808a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7249b9500b247c5ffbcb40b1146d5b07"><td class="memItemLeft" align="right" valign="top">word&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a7249b9500b247c5ffbcb40b1146d5b07">get_loc</a> (word instr)</td></tr>
+<tr class="separator:a7249b9500b247c5ffbcb40b1146d5b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57ca7b91cf55211a3039ac4d3740b4be"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a57ca7b91cf55211a3039ac4d3740b4be">disasm_instr</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, vaddr32 addr, <a class="el" href="disassembler_8h.html#aa91f46f0fcdf7975411ebb878fd2a05d">action</a> act)</td></tr>
+<tr class="memdesc:a57ca7b91cf55211a3039ac4d3740b4be"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function dissasembles a word found in address addr, and calls the function send_operation with the found operation code number and an action act that can be to print or to execute  <a href="#a57ca7b91cf55211a3039ac4d3740b4be">More...</a><br/></td></tr>
+<tr class="separator:a57ca7b91cf55211a3039ac4d3740b4be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37e078c6db28e850b5e535e80987b9a1"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a37e078c6db28e850b5e535e80987b9a1">manage_normal</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, word instr)</td></tr>
+<tr class="memdesc:a37e078c6db28e850b5e535e80987b9a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets fields of mips according to the format of a normal instruction and the instruction itself  <a href="#a37e078c6db28e850b5e535e80987b9a1">More...</a><br/></td></tr>
+<tr class="separator:a37e078c6db28e850b5e535e80987b9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4af0d8a23b1bc080a89306c4aa60f5"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#abe4af0d8a23b1bc080a89306c4aa60f5">manage_special</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, word instr)</td></tr>
+<tr class="memdesc:abe4af0d8a23b1bc080a89306c4aa60f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets fields of mips according to the format of a special instruction and the instruction itself  <a href="#abe4af0d8a23b1bc080a89306c4aa60f5">More...</a><br/></td></tr>
+<tr class="separator:abe4af0d8a23b1bc080a89306c4aa60f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada3f4b89cbbd097e8c2a8657ed1cf69c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#ada3f4b89cbbd097e8c2a8657ed1cf69c">manage_special3</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, word instr)</td></tr>
+<tr class="memdesc:ada3f4b89cbbd097e8c2a8657ed1cf69c"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets fields of mips according to the format of a special3 instruction and the instruction itself  <a href="#ada3f4b89cbbd097e8c2a8657ed1cf69c">More...</a><br/></td></tr>
+<tr class="separator:ada3f4b89cbbd097e8c2a8657ed1cf69c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1578dc2d4f7e836455653fe2a8400c18"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a1578dc2d4f7e836455653fe2a8400c18">manage_regimm</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, word instr)</td></tr>
+<tr class="memdesc:a1578dc2d4f7e836455653fe2a8400c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets fields of mips according to the format of a regimm instruction and the instruction itself  <a href="#a1578dc2d4f7e836455653fe2a8400c18">More...</a><br/></td></tr>
+<tr class="separator:a1578dc2d4f7e836455653fe2a8400c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a969256873f894c820282e5d272bd87ff"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a969256873f894c820282e5d272bd87ff">which_operation_number</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips)</td></tr>
+<tr class="memdesc:a969256873f894c820282e5d272bd87ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">get operation number from a string  <a href="#a969256873f894c820282e5d272bd87ff">More...</a><br/></td></tr>
+<tr class="separator:a969256873f894c820282e5d272bd87ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a216c49582184c21acdb61e55b3ab5abb"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a216c49582184c21acdb61e55b3ab5abb">getopcode</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, word wd)</td></tr>
+<tr class="memdesc:a216c49582184c21acdb61e55b3ab5abb"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function obtains the operation code, coded in a 32 bit word  <a href="#a216c49582184c21acdb61e55b3ab5abb">More...</a><br/></td></tr>
+<tr class="separator:a216c49582184c21acdb61e55b3ab5abb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9622e42ac609decda8af42ce117ffdde"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a9622e42ac609decda8af42ce117ffdde">load_opcodes</a> ()</td></tr>
 <tr class="memdesc:a9622e42ac609decda8af42ce117ffdde"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function loads all the operation codes in a lookup table for future reference.  <a href="#a9622e42ac609decda8af42ce117ffdde">More...</a><br/></td></tr>
 <tr class="separator:a9622e42ac609decda8af42ce117ffdde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38afa642087e4e3b77753c0104d40206"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disassembler_8c.html#a38afa642087e4e3b77753c0104d40206">send_operation</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, <a class="el" href="disassembler_8h.html#aa91f46f0fcdf7975411ebb878fd2a05d">action</a> act)</td></tr>
+<tr class="memdesc:a38afa642087e4e3b77753c0104d40206"><td class="mdescLeft">&#160;</td><td class="mdescRight">this functions calls the mips operation. it prints it or executes it according to the value act  <a href="#a38afa642087e4e3b77753c0104d40206">More...</a><br/></td></tr>
+<tr class="separator:a38afa642087e4e3b77753c0104d40206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>file containing functions meant to disassemble the code from an elf script </p>
 <dl class="section author"><dt>Author</dt><dd>Luciano Mantovani </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>November 2014 This file has functions called by the main program when it has to disassemble an elf script.</dd></dl>
-<p>for now, it has two functions. One that loads all the code operations into a lookup table, and another that recieves as a parameter a 32 bit word and returns the operation given by the word.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>function to get the operation prequisites, such as number of arguments, etc.</dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a94d274d1eb5af41c6c75d19c3aeb808a"></a>
+<dl class="section date"><dt>Date</dt><dd>November 2014</dd></dl>
+<p>This file has functions called by the main program when it has to disassemble an instruction held somewhere inside the text segment of an elf file loaded to program </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a820d50e845b68d3b489cb864395d93a2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structptype.html">ptype</a>* getopcode </td>
+          <td class="memname">#define RG_OPCODE_BITS&#160;&#160;&#160;0x1F0000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2b954f97aab789f3a3c156e43fb1745e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define S3_OPCODE_BITS&#160;&#160;&#160;0x7C0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="abbdeae9647ed88bbc88d433fb1968684"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define S_OPCODE_BITS&#160;&#160;&#160;0x3F</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3fee98731e8a99abc17b926890a6fe3d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SIX_MSB&#160;&#160;&#160;0xFC000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a57ca7b91cf55211a3039ac4d3740b4be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* disasm_instr </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structptype.html">ptype</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
           <td class="paramname"><em>mips</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="headers_8h.html#a1ef678860994dda67d11967343d827bf">mword</a>&#160;</td>
-          <td class="paramname"><em>word</em>&#160;</td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="disassembler_8h.html#aa91f46f0fcdf7975411ebb878fd2a05d">action</a>&#160;</td>
+          <td class="paramname"><em>act</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>this function dissasembles a word found in address addr, and calls the function send_operation with the found operation code number and an action act that can be to print or to execute </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>the address of the instruction in memory (must be inside .text) </td></tr>
+    <tr><td class="paramname">the</td><td>action. can be D_PRINT or D_EXEC </td></tr>
+    <tr><td class="paramname">mips-&gt;wdata</td><td>changes in this function </td></tr>
+    <tr><td class="paramname">mips-&gt;opnum</td><td>changes in this function</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>mips-&gt;report holding the error if any </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7249b9500b247c5ffbcb40b1146d5b07"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">word get_loc </td>
+          <td>(</td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>instr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a216c49582184c21acdb61e55b3ab5abb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* getopcode </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>wd</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -144,7 +289,7 @@ Functions</h2></td></tr>
 <p>this function obtains the operation code, coded in a 32 bit word </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">word</td><td>the word to be analized</td></tr>
+    <tr><td class="paramname">wd</td><td>the word to be analized</td></tr>
   </table>
   </dd>
 </dl>
@@ -173,10 +318,206 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a37e078c6db28e850b5e535e80987b9a1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* manage_normal </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>instr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets fields of mips according to the format of a normal instruction and the instruction itself </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;n_arg1</td><td>changes this value of mips </td></tr>
+    <tr><td class="paramname">mips-&gt;n_arg2</td><td>changes this value of mips </td></tr>
+    <tr><td class="paramname">mips-&gt;inmediate</td><td>changes this value of mips </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a1578dc2d4f7e836455653fe2a8400c18"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* manage_regimm </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>instr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets fields of mips according to the format of a regimm instruction and the instruction itself </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;n_arg1</td><td>changes this value of mips </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="abe4af0d8a23b1bc080a89306c4aa60f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* manage_special </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>instr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets fields of mips according to the format of a special instruction and the instruction itself </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;n_arg1</td><td>changes this value of mips </td></tr>
+    <tr><td class="paramname">mips-&gt;n_arg2</td><td>changes this value of mips </td></tr>
+    <tr><td class="paramname">mips-&gt;n_arg3</td><td>changes this value of mips </td></tr>
+    <tr><td class="paramname">mips-&gt;n_arg4</td><td>changes this value of mips </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ada3f4b89cbbd097e8c2a8657ed1cf69c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* manage_special3 </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>instr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets fields of mips according to the format of a special3 instruction and the instruction itself </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;n_arg1</td><td>changes this value of mips </td></tr>
+    <tr><td class="paramname">mips-&gt;n_arg2</td><td>changes this value of mips </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a38afa642087e4e3b77753c0104d40206"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* send_operation </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="disassembler_8h.html#aa91f46f0fcdf7975411ebb878fd2a05d">action</a>&#160;</td>
+          <td class="paramname"><em>act</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>this functions calls the mips operation. it prints it or executes it according to the value act </p>
+<p>all the operations are called from here. Each case in the switch belongs to a different operation. </p>
+
+</div>
+</div>
+<a class="anchor" id="a969256873f894c820282e5d272bd87ff"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* which_operation_number </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get operation number from a string </p>
+<p>with a string loaded in mips-&gt;operation, it searches the names array opnames[i] defined in <a class="el" href="headers_8h.html">headers.h</a> and searches for a match. If found, it returns the index for that match</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;opnum</td><td>it changes this value of mips </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 17 2014 15:26:19 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 11 2014 17:04:50 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
