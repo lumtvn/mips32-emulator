@@ -81,7 +81,15 @@ struct mipsstr *env_run(struct mipsstr *mips)
 		{
 			mips->fl_step_into = false;
 			mips->fl_stop = true;
+			mips->disasm_output = malloc(80);
+			mips->instr_output = malloc(80);
 			printf("program stopped at: %08x\n", mips->PC);
+			printf("next instruction: ");
+			mips = disasm_instr(mips, mips->PC, D_PRINT);
+			printf("%s\n",mips->disasm_output);
+			free(mips->disasm_output);
+			free(mips->instr_output);
+
 		}
 		int i;
 		// printf("bpts(0): %x, pc: %x\n", mips->breakpoints[0], mips->PC);
@@ -90,7 +98,14 @@ struct mipsstr *env_run(struct mipsstr *mips)
 			if(mips->breakpoints[i] == mips->PC)
 			{
 				mips->fl_stop = true;
+				mips->disasm_output = malloc(80);
+				mips->instr_output = malloc(80);
 				printf("program stopped at: %08x\n", mips->PC);
+				printf("next instruction in: ");
+				mips = disasm_instr(mips, mips->PC, D_PRINT);
+				printf("%s\n",mips->disasm_output);
+				free(mips->disasm_output);
+				free(mips->instr_output);
 			}
 		}
 
