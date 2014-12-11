@@ -2,7 +2,7 @@
 #include "elfmanager.h"
 
 //Add word
-int op_add(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_add(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	word temp;
 	temp = *(mips->regs[rs]) + *(mips->regs[rt]);
@@ -14,7 +14,7 @@ int op_add(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_add(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_add(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "ADD %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -23,7 +23,7 @@ struct ptype *print_add(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Add Inmidiate word
-int op_addi(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_addi(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	word temp;
 	temp = *(mips->regs[rs]) + (signed)inm;
@@ -35,7 +35,7 @@ int op_addi(struct ptype *mips, byte rs, byte rt, halfword inm)
 	return 0;
 }
 
-struct ptype *print_addi(struct ptype *mips, byte rs, byte rt, halfword inm)
+struct mipsstr *print_addi(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "ADDI %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
 	return mips;
@@ -44,7 +44,7 @@ struct ptype *print_addi(struct ptype *mips, byte rs, byte rt, halfword inm)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Add Inmidiate Unsigned Word
-int op_addiu(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_addiu(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	*(mips->regs[rt]) = *(mips->regs[rs]) + inm;
 	
@@ -52,7 +52,7 @@ int op_addiu(struct ptype *mips, byte rs, byte rt, halfword inm)
 	return 0;
 }
 
-struct ptype *print_addiu(struct ptype *mips, byte rs, byte rt, halfword inm)
+struct mipsstr *print_addiu(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "ADDIU %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
 	return mips;
@@ -61,14 +61,14 @@ struct ptype *print_addiu(struct ptype *mips, byte rs, byte rt, halfword inm)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Add unsigned word
-int op_addu(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_addu(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->regs[rs]) + *(mips->regs[rt]);
 	
 	mips->PC = mips->PC + 4;
 	return 0;
 }
-struct ptype *print_addu(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_addu(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "ADDU %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -78,7 +78,7 @@ struct ptype *print_addu(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //and
-int op_and(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_and(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->regs[rs]) & *(mips->regs[rt]);
 	
@@ -86,7 +86,7 @@ int op_and(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_and(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_and(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "AND %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -95,7 +95,7 @@ struct ptype *print_and(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //and Inmidiate word
-int op_andi(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_andi(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	*(mips->regs[rt]) = *(mips->regs[rs]) & inm;
 	
@@ -103,7 +103,7 @@ int op_andi(struct ptype *mips, byte rs, byte rt, halfword inm)
 	return 0;
 }
 
-struct ptype *print_andi(struct ptype *mips, byte rs, byte rt, halfword inm)
+struct mipsstr *print_andi(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "ANDI %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
 	return mips;
@@ -112,127 +112,128 @@ struct ptype *print_andi(struct ptype *mips, byte rs, byte rt, halfword inm)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Branch on Equal
-int op_beq(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_beq(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	word offset = (signed)inm;
 	if(*(mips->regs[rt]) == *(mips->regs[rs]))
-		mips->PC += offset;
+		mips->PC += (offset << 2);
 	else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct ptype *print_beq(struct ptype *mips, byte rs, byte rt, halfword offset)
-{
-	sprintf(mips->disasm_output, "BEQ %s, %s, 0x%x", regnames[rs], regnames[rt], offset);
+struct mipsstr *print_beq(struct mipsstr *mips, byte rs, byte rt, halfword inm)
+{	
+	word offset = (signed)inm << 2;
+	sprintf(mips->disasm_output, "BEQ %s, %s, 0x%x", regnames[rs], regnames[rt], offset + mips->PC);
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Branch on Greater Than or Equal to Zero
-int op_bgez(struct ptype *mips, byte rs, halfword inm)
+int op_bgez(struct mipsstr *mips, byte rs, halfword inm)
 {	
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) >= 0)
-		mips->PC += offset;
+		mips->PC += (offset << 2);
 	else
 		mips->PC = mips->PC + 4; 
 
 	return 0;
 }
 
-struct ptype *print_bgez(struct ptype *mips, byte rs, halfword offset)
+struct mipsstr *print_bgez(struct mipsstr *mips, byte rs, halfword offset)
 {
-	sprintf(mips->disasm_output, "BGEZ %s, 0x%x", regnames[rs], offset);
+	sprintf(mips->disasm_output, "BGEZ %s, 0x%x", regnames[rs], offset << 2 + mips->PC);
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Branch on Greater Than Zero
-int op_bgtz(struct ptype *mips, byte rs, halfword inm)
+int op_bgtz(struct mipsstr *mips, byte rs, halfword inm)
 {	
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) > 0)
-		mips->PC += offset;
+		mips->PC += (offset << 2);
 	else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct ptype *print_bgtz(struct ptype *mips, byte rs, halfword offset)
+struct mipsstr *print_bgtz(struct mipsstr *mips, byte rs, halfword offset)
 {
-	sprintf(mips->disasm_output, "BGTZ %s, 0x%x", regnames[rs], offset);
+	sprintf(mips->disasm_output, "BGTZ %s, 0x%x", regnames[rs], offset << 2 + mips->PC);
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Branch on Less Than or Equal to Zero
-int op_blez(struct ptype *mips, byte rs, halfword inm)
+int op_blez(struct mipsstr *mips, byte rs, halfword inm)
 {	
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) <= 0)
-		mips->PC += offset;
+		mips->PC += (offset << 2);
 	else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct ptype *print_blez(struct ptype *mips, byte rs, halfword offset)
+struct mipsstr *print_blez(struct mipsstr *mips, byte rs, halfword offset)
 {
-	sprintf(mips->disasm_output, "BLEZ %s, 0x%x", regnames[rs], offset);
+	sprintf(mips->disasm_output, "BLEZ %s, 0x%x", regnames[rs], offset << 2 + mips->PC);
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Branch on less Than Zero
-int op_bltz(struct ptype *mips, byte rs, halfword inm)
+int op_bltz(struct mipsstr *mips, byte rs, halfword inm)
 {	
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) < 0)
-		mips->PC += offset;
+		mips->PC += (offset << 2);
 	else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct ptype *print_bltz(struct ptype *mips, byte rs, halfword offset)
+struct mipsstr *print_bltz(struct mipsstr *mips, byte rs, halfword offset)
 {
-	sprintf(mips->disasm_output, "BLTZ %s, 0x%x", regnames[rs], offset);
+ 	sprintf(mips->disasm_output, "BLTZ %s, 0x%x", regnames[rs], offset << 2 + mips->PC);
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Branch on Not Equal
-int op_bne(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_bne(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	word offset = (signed)inm;
 	if(*(mips->regs[rt]) != *(mips->regs[rs]))
-		mips->PC += offset;
+		mips->PC += (offset << 2);
 	else
 		mips->PC = mips->PC + 4; 
 	
 	return 0;
 }
 
-struct ptype *print_bne(struct ptype *mips, byte rs, byte rt, halfword offset)
+struct mipsstr *print_bne(struct mipsstr *mips, byte rs, byte rt, halfword offset)
 {
-	sprintf(mips->disasm_output, "BNE %s, %s, 0x%x", regnames[rs], regnames[rt], offset);
+	sprintf(mips->disasm_output, "BNE %s, %s, 0x%x", regnames[rs], regnames[rt], offset << 2 + mips->PC);
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //divide word
-int op_div(struct ptype *mips, byte rs, byte rt)
+int op_div(struct mipsstr *mips, byte rs, byte rt)
 {
 	if( *(mips->regs[rt]) == 0){return 10;}
 	*(mips->lo) =  *(mips->regs[rs]) / *(mips->regs[rt]);
@@ -242,7 +243,7 @@ int op_div(struct ptype *mips, byte rs, byte rt)
 	return 0;
 
 }
-struct ptype *print_div(struct ptype *mips, byte rs, byte rt)
+struct mipsstr *print_div(struct mipsstr *mips, byte rs, byte rt)
 {
 	sprintf(mips->disasm_output, "DIV %s, %s", regnames[rs], regnames[rt]);
 	return mips;
@@ -251,40 +252,40 @@ struct ptype *print_div(struct ptype *mips, byte rs, byte rt)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Jump
-int op_j(struct ptype *mips, word idx)
+int op_j(struct mipsstr *mips, word idx)
 {	
-	mips->PC = (0xF0000000 & mips->PC) + idx;
+	mips->PC = (0xF0000000 & mips->PC) + (idx << 2);
 	
 	return 0;
 }
 
-struct ptype *print_j(struct ptype *mips, word idx)
+struct mipsstr *print_j(struct mipsstr *mips, word idx)
 {
-	sprintf(mips->disasm_output, "J 0x%x", idx);
+	sprintf(mips->disasm_output, "J 0x%x", (0xF0000000 & mips->PC) + (idx << 2));
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Jump and Link
-int op_jal(struct ptype *mips, word idx)
+int op_jal(struct mipsstr *mips, word idx)
 {	
 	*(mips->regs[31]) = mips->PC + 8;
-	mips->PC = (0xF0000000 & mips->PC) + idx;
+	mips->PC = (0xF0000000 & mips->PC) + (idx << 2);
 	
 	return 0;
 }
 
-struct ptype *print_jal(struct ptype *mips, word idx)
+struct mipsstr *print_jal(struct mipsstr *mips, word idx)
 {
-	sprintf(mips->disasm_output, "JAL 0x%x", idx);
+	sprintf(mips->disasm_output, "JAL 0x%x",(0xF0000000 & mips->PC) + (idx <<2));
 	return mips;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Jump and Link Register
-int op_jalr(struct ptype *mips, byte rs, byte rd)
+int op_jalr(struct mipsstr *mips, byte rs, byte rd)
 {	
 	word temp;
 	temp = *(mips->regs[rs]);
@@ -300,7 +301,7 @@ int op_jalr(struct ptype *mips, byte rs, byte rd)
 	return 0;
 }
 
-struct ptype *print_jalr(struct ptype *mips, byte rs, byte rd)
+struct mipsstr *print_jalr(struct mipsstr *mips, byte rs, byte rd)
 {
 	sprintf(mips->disasm_output, "JALR %s, %s", regnames[rd], regnames[rs]);
 	return mips;
@@ -309,7 +310,7 @@ struct ptype *print_jalr(struct ptype *mips, byte rs, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Jump Register
-int op_jr(struct ptype *mips, byte rs)
+int op_jr(struct mipsstr *mips, byte rs)
 {	
 	word temp;
 	temp = *(mips->regs[rs]);
@@ -320,7 +321,7 @@ int op_jr(struct ptype *mips, byte rs)
 	return 0;
 }
 
-struct ptype *print_jr(struct ptype *mips, byte rs, byte rd)
+struct mipsstr *print_jr(struct mipsstr *mips, byte rs, byte rd)
 {
 	sprintf(mips->disasm_output, "JR %s", regnames[rs]);
 	return mips;
@@ -329,7 +330,7 @@ struct ptype *print_jr(struct ptype *mips, byte rs, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Load Byte
-int op_lb(struct ptype *mips, byte base, byte rt, halfword offset)
+int op_lb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {	
 	vaddr32 addr = *(mips->regs[base]) + (signed) offset;
 	mips = elfreadbyte(mips, mips->elfdata->memory, addr);
@@ -343,7 +344,7 @@ int op_lb(struct ptype *mips, byte base, byte rt, halfword offset)
 	return 0;
 }
 
-struct ptype *print_lb(struct ptype *mips, byte base, byte rt, halfword offset)
+struct mipsstr *print_lb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
 	sprintf(mips->disasm_output, "LB %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
@@ -352,7 +353,7 @@ struct ptype *print_lb(struct ptype *mips, byte base, byte rt, halfword offset)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Load Byte Unsigned
-int op_lbu(struct ptype *mips, byte base, byte rt, halfword offset)
+int op_lbu(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {	
 	vaddr32 addr = *(mips->regs[base]) + offset;
 	mips = elfreadbyte(mips, mips->elfdata->memory, addr);
@@ -366,7 +367,7 @@ int op_lbu(struct ptype *mips, byte base, byte rt, halfword offset)
 	return 0;
 }
 
-struct ptype *print_lbu(struct ptype *mips, byte base, byte rt, halfword offset)
+struct mipsstr *print_lbu(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
 	sprintf(mips->disasm_output, "LBU %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
@@ -375,7 +376,7 @@ struct ptype *print_lbu(struct ptype *mips, byte base, byte rt, halfword offset)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Load Upper Inmediate
-int op_lui(struct ptype *mips, byte rt, halfword inmediate)
+int op_lui(struct mipsstr *mips, byte rt, halfword inmediate)
 {	
 	 *(mips->regs[rt]) = inmediate << 16;
 	 
@@ -383,7 +384,7 @@ int op_lui(struct ptype *mips, byte rt, halfword inmediate)
 	 return 0;
 }
 
-struct ptype *print_lui(struct ptype *mips, byte rt, halfword inmediate)
+struct mipsstr *print_lui(struct mipsstr *mips, byte rt, halfword inmediate)
 {
 	sprintf(mips->disasm_output, "LUI %s, %x", regnames[rt], inmediate);
 	return mips;
@@ -392,7 +393,7 @@ struct ptype *print_lui(struct ptype *mips, byte rt, halfword inmediate)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Load Word
-int op_lw(struct ptype *mips, byte base, byte rt, halfword offset)
+int op_lw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {	
 	vaddr32 addr = *(mips->regs[base]) + offset;
 	if(addr%4 != 0)
@@ -409,7 +410,7 @@ int op_lw(struct ptype *mips, byte base, byte rt, halfword offset)
 	return 0;
 }
 
-struct ptype *print_lw(struct ptype *mips, byte base, byte rt, halfword offset)
+struct mipsstr *print_lw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
 	sprintf(mips->disasm_output, "LW %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
@@ -418,7 +419,7 @@ struct ptype *print_lw(struct ptype *mips, byte base, byte rt, halfword offset)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //move from HI register
-int op_mfhi(struct ptype *mips, byte rd)
+int op_mfhi(struct mipsstr *mips, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->hi);
 	
@@ -426,7 +427,7 @@ int op_mfhi(struct ptype *mips, byte rd)
 	return 0;
 }
 
-struct ptype *print_mfhi(struct ptype *mips, byte rd)
+struct mipsstr *print_mfhi(struct mipsstr *mips, byte rd)
 {
 	sprintf(mips->disasm_output, "MFHI %s", regnames[rd]);
 	return mips;
@@ -435,7 +436,7 @@ struct ptype *print_mfhi(struct ptype *mips, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //move from LO register
-int op_mflo(struct ptype *mips, byte rd)
+int op_mflo(struct mipsstr *mips, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->lo);
 	
@@ -443,7 +444,7 @@ int op_mflo(struct ptype *mips, byte rd)
 	return 0;
 }
 
-struct ptype *print_mflo(struct ptype *mips, byte rd)
+struct mipsstr *print_mflo(struct mipsstr *mips, byte rd)
 {
 	sprintf(mips->disasm_output, "MFLO %s", regnames[rd]);
 	return mips;
@@ -452,7 +453,7 @@ struct ptype *print_mflo(struct ptype *mips, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //multiply word
-int op_mult(struct ptype *mips, byte rs, byte rt)
+int op_mult(struct mipsstr *mips, byte rs, byte rt)
 {
 	long long res = (long long)*(mips->regs[rs]) * *(mips->regs[rt]);
 
@@ -463,7 +464,7 @@ int op_mult(struct ptype *mips, byte rs, byte rt)
 	return 0;
 
 }
-struct ptype *print_mult(struct ptype *mips, byte rs, byte rt)
+struct mipsstr *print_mult(struct mipsstr *mips, byte rs, byte rt)
 {
 	sprintf(mips->disasm_output, "MULT %s, %s", regnames[rs], regnames[rt]);
 	return mips;
@@ -472,13 +473,13 @@ struct ptype *print_mult(struct ptype *mips, byte rs, byte rt)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //No Operation
-int op_nop(struct ptype *mips)
+int op_nop(struct mipsstr *mips)
 {	
 	mips->PC = mips->PC + 4;
 	return 0;
 }
 
-struct ptype *print_nop(struct ptype *mips)
+struct mipsstr *print_nop(struct mipsstr *mips)
 {
 	sprintf(mips->disasm_output, "NOP");
 	return mips;
@@ -487,7 +488,7 @@ struct ptype *print_nop(struct ptype *mips)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //or
-int op_or(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_or(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->regs[rs]) | *(mips->regs[rt]);
 	
@@ -495,7 +496,7 @@ int op_or(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_or(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_or(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "OR %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -504,7 +505,7 @@ struct ptype *print_or(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //or Inmidiate word
-int op_ori(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_ori(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	*(mips->regs[rt]) = *(mips->regs[rs]) | inm;
 	
@@ -512,7 +513,7 @@ int op_ori(struct ptype *mips, byte rs, byte rt, halfword inm)
 	return 0;
 }
 
-struct ptype *print_ori(struct ptype *mips, byte rs, byte rt, halfword inm)
+struct mipsstr *print_ori(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "ORI %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
 	return mips;
@@ -521,7 +522,7 @@ struct ptype *print_ori(struct ptype *mips, byte rs, byte rt, halfword inm)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Store Byte
-int op_sb(struct ptype *mips, byte base, byte rt, halfword offset)
+int op_sb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {	
 	vaddr32 addr = *(mips->regs[base]) + (signed) offset;
 	mips = elfwritebyte(mips, mips->elfdata->memory, *(mips->regs[rt]), addr);
@@ -536,7 +537,7 @@ int op_sb(struct ptype *mips, byte base, byte rt, halfword offset)
 	return 0;
 }
 
-struct ptype *print_sb(struct ptype *mips, byte base, byte rt, halfword offset)
+struct mipsstr *print_sb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
 	sprintf(mips->disasm_output, "SB %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
@@ -545,7 +546,7 @@ struct ptype *print_sb(struct ptype *mips, byte base, byte rt, halfword offset)
 ///////////////////////////////////////////////////////////
 
 // Sign-Extend Byte
-int op_seb(struct ptype *mips, byte rt, byte rd)
+int op_seb(struct mipsstr *mips, byte rt, byte rd)
 {
 	char temp;
 	temp = 0xFF & *(mips->regs[rt]);
@@ -555,7 +556,7 @@ int op_seb(struct ptype *mips, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_seb(struct ptype *mips, byte rt, byte rd)
+struct mipsstr *print_seb(struct mipsstr *mips, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "SEB %s, %s", regnames[rd], regnames[rt]);
 	return mips;
@@ -564,7 +565,7 @@ struct ptype *print_seb(struct ptype *mips, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Shift Word Left Logical
-int op_sll(struct ptype *mips, byte rt, byte rd, byte sa)
+int op_sll(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
 	*(mips->regs[rd]) = *(mips->regs[rt]) << sa;
 	
@@ -572,7 +573,7 @@ int op_sll(struct ptype *mips, byte rt, byte rd, byte sa)
 	return 0;
 }
 
-struct ptype *print_sll(struct ptype *mips, byte rt, byte rd, byte sa)
+struct mipsstr *print_sll(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
 	sprintf(mips->disasm_output, "SLL %s, %s, %d", regnames[rd], regnames[rt], sa);
 	return mips;
@@ -581,7 +582,7 @@ struct ptype *print_sll(struct ptype *mips, byte rt, byte rd, byte sa)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set on Less Than
-int op_slt(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_slt(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = (signed)(*(mips->regs[rs])) < (signed)(*(mips->regs[rt]));
 	
@@ -589,7 +590,7 @@ int op_slt(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_slt(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_slt(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "SLT %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -598,7 +599,7 @@ struct ptype *print_slt(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set on Less Than Inmidiate
-int op_slti(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_slti(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	*(mips->regs[rt]) = (signed)(*(mips->regs[rs])) < (signed)inm;
 	
@@ -606,7 +607,7 @@ int op_slti(struct ptype *mips, byte rs, byte rt, halfword inm)
 	return 0;
 }
 
-struct ptype *print_slti(struct ptype *mips, byte rs, byte rt, halfword inm)
+struct mipsstr *print_slti(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "SLTI %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
 	return mips;
@@ -615,7 +616,7 @@ struct ptype *print_slti(struct ptype *mips, byte rs, byte rt, halfword inm)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set on Less Than Inmidiate Unsigned
-int op_sltiu(struct ptype *mips, byte rs, byte rt, halfword inm)
+int op_sltiu(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {	
 	*(mips->regs[rt]) = (*(mips->regs[rs])) < inm;
 	
@@ -623,7 +624,7 @@ int op_sltiu(struct ptype *mips, byte rs, byte rt, halfword inm)
 	return 0;
 }
 
-struct ptype *print_sltiu(struct ptype *mips, byte rs, byte rt, halfword inm)
+struct mipsstr *print_sltiu(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
 	sprintf(mips->disasm_output, "SLTIU %s, %s, 0x%x", regnames[rt], regnames[rs], inm);
 	return mips;
@@ -632,7 +633,7 @@ struct ptype *print_sltiu(struct ptype *mips, byte rs, byte rt, halfword inm)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set on Less Than Unsigned
-int op_sltu(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_sltu(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = (*(mips->regs[rs])) < (*(mips->regs[rt]));
 	
@@ -640,7 +641,7 @@ int op_sltu(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_sltu(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_sltu(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "SLTU %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -649,7 +650,7 @@ struct ptype *print_sltu(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Shift Word Right Arithmetic
-int op_sra(struct ptype *mips, byte rt, byte rd, byte sa)
+int op_sra(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
 	*(mips->regs[rd]) = (signed)*(mips->regs[rt]) >> (signed char)sa;
 	
@@ -657,7 +658,7 @@ int op_sra(struct ptype *mips, byte rt, byte rd, byte sa)
 	return 0;
 }
 
-struct ptype *print_sra(struct ptype *mips, byte rt, byte rd, byte sa)
+struct mipsstr *print_sra(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
 	sprintf(mips->disasm_output, "SRA %s, %s, %d", regnames[rd], regnames[rt], sa);
 	return mips;
@@ -666,7 +667,7 @@ struct ptype *print_sra(struct ptype *mips, byte rt, byte rd, byte sa)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Shift Word Right Logical
-int op_srl(struct ptype *mips, byte rt, byte rd, byte sa)
+int op_srl(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
 	*(mips->regs[rd]) = *(mips->regs[rt]) >> sa;
 	
@@ -674,7 +675,7 @@ int op_srl(struct ptype *mips, byte rt, byte rd, byte sa)
 	return 0;
 }
 
-struct ptype *print_srl(struct ptype *mips, byte rt, byte rd, byte sa)
+struct mipsstr *print_srl(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
 	sprintf(mips->disasm_output, "SRL %s, %s, %d", regnames[rd], regnames[rt], sa);
 	return mips;
@@ -683,7 +684,7 @@ struct ptype *print_srl(struct ptype *mips, byte rt, byte rd, byte sa)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Substract word
-int op_sub(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_sub(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	word temp;
 	temp = (signed)(*(mips->regs[rs])) - (signed)(*(mips->regs[rt]));
@@ -695,7 +696,7 @@ int op_sub(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_sub(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_sub(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "SUB %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -704,7 +705,7 @@ struct ptype *print_sub(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Substract Unsigned word
-int op_subu(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_subu(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->regs[rs]) + ~(*(mips->regs[rt])) + 1;
 	
@@ -712,7 +713,7 @@ int op_subu(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_subu(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_subu(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "SUBU %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;
@@ -721,7 +722,7 @@ struct ptype *print_subu(struct ptype *mips, byte rs, byte rt, byte rd)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Store Word
-int op_sw(struct ptype *mips, byte base, byte rt, halfword offset)
+int op_sw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {	
 	vaddr32 addr = *(mips->regs[base]) + (signed) offset;
 	if(addr%4 != 0)
@@ -739,7 +740,7 @@ int op_sw(struct ptype *mips, byte base, byte rt, halfword offset)
 	return 0;
 }
 
-struct ptype *print_sw(struct ptype *mips, byte base, byte rt, halfword offset)
+struct mipsstr *print_sw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
 	sprintf(mips->disasm_output, "SW %s, %d(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
@@ -748,14 +749,14 @@ struct ptype *print_sw(struct ptype *mips, byte base, byte rt, halfword offset)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //Store Word
-int op_syscall(struct ptype *mips)
+int op_syscall(struct mipsstr *mips)
 {	
 	
 	mips->PC = mips->PC + 4;
 	return 0;
 }
 
-struct ptype *print_syscall(struct ptype *mips)
+struct mipsstr *print_syscall(struct mipsstr *mips)
 {
 	sprintf(mips->disasm_output, "SYSCALL");
 	return mips;
@@ -764,7 +765,7 @@ struct ptype *print_syscall(struct ptype *mips)
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //xor
-int op_xor(struct ptype *mips, byte rs, byte rt, byte rd)
+int op_xor(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	*(mips->regs[rd]) = *(mips->regs[rs]) ^ *(mips->regs[rt]);
 	
@@ -772,7 +773,7 @@ int op_xor(struct ptype *mips, byte rs, byte rt, byte rd)
 	return 0;
 }
 
-struct ptype *print_xor(struct ptype *mips, byte rs, byte rt, byte rd)
+struct mipsstr *print_xor(struct mipsstr *mips, byte rs, byte rt, byte rd)
 {
 	sprintf(mips->disasm_output, "XOR %s, %s, %s", regnames[rd], regnames[rs], regnames[rt]);
 	return mips;

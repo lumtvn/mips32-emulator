@@ -5,8 +5,8 @@
 #include "minunit.h"
 
  int tests_run = 0; 
- struct ptype *mips;
- struct ptype mymips;
+ struct mipsstr *mips;
+ struct mipsstr mymips;
  int error;
 
 
@@ -97,7 +97,7 @@ static char * test_beq()
 	error = op_beq(mips,10,11,16);
 	mu_assert("beq 1 operation failed", mips->PC == 4);	
 	error = op_beq(mips,9,10,16);
-	mu_assert("beq 2 operation failed", mips->PC == 20);	
+	mu_assert("beq 2 operation failed", mips->PC == 4 + (16 << 2));	
 	return 0;
 }
 
@@ -110,9 +110,9 @@ static char * test_bgez()
 	error = op_bgez(mips,9,16);
 	mu_assert("bgez 1 operation failed", mips->PC == 4);	
 	error = op_bgez(mips,10,16);
-	mu_assert("bgez 2 operation failed", mips->PC == 20);	
+	mu_assert("bgez 2 operation failed", mips->PC == 4 + (16 << 2));	
 	error = op_bgez(mips,11,16);
-	mu_assert("bgez 3 operation failed", mips->PC == 36);	
+	mu_assert("bgez 3 operation failed", mips->PC ==  (4 + (16 << 2)) + (16 << 2));	
 	return 0;
 }
 
@@ -127,7 +127,7 @@ static char * test_bgtz()
 	error = op_bgtz(mips,10,16);
 	mu_assert("bgtz 2 operation failed", mips->PC == 8);	
 	error = op_bgtz(mips,11,16);
-	mu_assert("bgtz 3 operation failed", mips->PC == 24);	
+	mu_assert("bgtz 3 operation failed", mips->PC == 8 + (16 << 2));	
 	return 0;
 }
 
@@ -140,9 +140,9 @@ static char * test_blez()
 	error = op_blez(mips,9,16);
 	mu_assert("blez 1 operation failed", mips->PC == 4);	
 	error = op_blez(mips,10,16);
-	mu_assert("blez 2 operation failed", mips->PC == 20);	
+	mu_assert("blez 2 operation failed", mips->PC == 4 + (16 << 2));	
 	error = op_blez(mips,11,16);
-	mu_assert("blez 3 operation failed", mips->PC == 36);	
+	mu_assert("blez 3 operation failed", mips->PC == (4 + (16 << 2)) + (16 << 2));	
 	return 0;
 }
 
@@ -157,7 +157,7 @@ static char * test_bltz()
 	error = op_bltz(mips,10,16);
 	mu_assert("bltz 2 operation failed", mips->PC == 8);	
 	error = op_bltz(mips,11,16);
-	mu_assert("bltz 3 operation failed", mips->PC == 24);	
+	mu_assert("bltz 3 operation failed", mips->PC == 8 + (16 << 2));	
 	return 0;
 }
 
@@ -170,7 +170,7 @@ static char * test_bne()
 	error = op_bne(mips,9,10,16);
 	mu_assert("bne operation failed", mips->PC == 4);	
 	error = op_bne(mips,10,11,16);
-	mu_assert("bne operation failed", mips->PC == 20);	
+	mu_assert("bne operation failed", mips->PC == 4 + (16 << 2));	
 	return 0;
 }
 
@@ -191,7 +191,7 @@ static char * test_j()
 {	
 	mips->PC = 0x90003000;
 	error = op_j(mips,0x000032FF);
-	mu_assert("jump operation failed to jump", mips->PC == 0x900032FF);
+	mu_assert("jump operation failed to jump", mips->PC == 0x9000CBFC);
 	
 	return 0;
 }
@@ -201,7 +201,7 @@ static char * test_jal()
 	mips->PC = 0x90003000;
 	error = op_jal(mips,0x000032FF);
 	mu_assert("jump and link operation failed to store return address",*(mips->regs[31]) == 0x90003008);
-	mu_assert("jump and link operation failed to jump", mips->PC == 0x900032FF);
+	mu_assert("jump and link operation failed to jump", mips->PC == 0x9000CBFC);
 	
 	return 0;
 }

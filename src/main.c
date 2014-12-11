@@ -15,8 +15,8 @@
 #include "errors.h"
 
 void hashregisters();
-struct ptype *initregisters(struct ptype *mips);
-void finish(struct ptype *mips);
+struct mipsstr *initregisters(struct mipsstr *mips);
+void finish(struct mipsstr *mips);
 
 
 /**
@@ -36,8 +36,8 @@ void finish(struct ptype *mips);
 **/
 int main(int argc, char *argv[])
 {
-	// struct ptype mymips;
-	struct ptype *mips = (struct ptype *) malloc(sizeof(struct ptype));
+	// struct mipsstr mymips;
+	struct mipsstr *mips = (struct mipsstr *) malloc(sizeof(struct mipsstr));
 	if(mips == NULL){printf("no memory for mips! exiting...\n"); exit(0);}
 	struct elfstr myelfdata;
 	mips->elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));/*malloc(sizeof(mips->elfdata));*/
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 	
 }
 
-void finish(struct ptype *mips)
+void finish(struct mipsstr *mips)
 {
 	free(mips->entry);
 	// free(mips->disasm_output);
@@ -134,7 +134,7 @@ void finish(struct ptype *mips)
 /**
 *@brief initializes the registers, giving them a portion of memory and setting to 0 their content
 **/
-struct ptype *initregisters(struct ptype *mips)
+struct mipsstr *initregisters(struct mipsstr *mips)
 {
 	int i;
 	for(i = 0; i < 32; i++)

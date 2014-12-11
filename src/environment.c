@@ -21,7 +21,7 @@
 *F
 *@note this function is thought to be called within an endless loop
 **/
-int runenv(struct ptype *mips)
+int runenv(struct mipsstr *mips)
 {
 	mips->breakpoints[0] = 0xFFFFFFFF;
 	mips->fl_step_into = false;
@@ -55,7 +55,7 @@ int runenv(struct ptype *mips)
 *
 * it just to reset and prepare the variables for the next command
 **/
-void restart(struct ptype *mips)
+void restart(struct mipsstr *mips)
 {		
 	// mips->command = NULL;
 	int i;
@@ -68,10 +68,10 @@ void restart(struct ptype *mips)
 *@brief this function parses an entry in the environment
 *
 * it parses the entire line entered and stores the command in the field char *command from the struct 
-* ptype, and stores all the arguments in the field char *argenv[] from the structure ptype
+* mipsstr, and stores all the arguments in the field char *argenv[] from the structure mipsstr
 *
 **/
-struct ptype *parseentry(struct ptype *mips)
+struct mipsstr *parseentry(struct mipsstr *mips)
 {
 
 	char *buffer;
@@ -110,7 +110,7 @@ struct ptype *parseentry(struct ptype *mips)
 * 
 * the only command that doesn't call any function is exit
 **/
-struct ptype *analize(struct ptype *mips)
+struct mipsstr *analize(struct mipsstr *mips)
 {
 
 	if(!strcmp(mips->command,"exit"))

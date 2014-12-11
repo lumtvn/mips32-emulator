@@ -64,8 +64,8 @@ static char * test_writebytememory()
 
 	elfdata = start_and_load(elfdata, filename, 0x3000);
 
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	struct mipsstr mymips;
+	struct mipsstr *mips = &mymips;
 
 	byte data = 0xAA;
 	vaddr32 addr = 0x4002;
@@ -101,8 +101,8 @@ static char * test_writewordmemory()
 
 	elfdata = start_and_load(elfdata, filename, 0x3000);
 
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	struct mipsstr mymips;
+	struct mipsstr *mips = &mymips;
 
 	word data = 0xAABBCCDD;
 	vaddr32 addr = 0x4001;
@@ -152,8 +152,8 @@ static char * test_readbytememory()
 	mu_assert("file not existant or path incorrect", elfdata->report != 101);
 	mu_assert("file is not elf", elfdata->report != 102);
 
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	struct mipsstr mymips;
+	struct mipsstr *mips = &mymips;
 
 	vaddr32 addr = 0x3001;
 
@@ -184,8 +184,8 @@ static char * test_readwordmemory()
 
 	elfdata = start_and_load(elfdata, filename, 0x3000);
 
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	struct mipsstr mymips;
+	struct mipsstr *mips = &mymips;
 
 	vaddr32 addr = 0x3000;
 
@@ -220,8 +220,8 @@ static char * test_get_seg_size()
 
 	elfdata = start_and_load(elfdata, filename, 0x3000);
 
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	struct mipsstr mymips;
+	struct mipsstr *mips = &mymips;
 
 
 	uint32_t a;
@@ -240,8 +240,8 @@ static char * test_get_seg_start()
 
 	struct elfstr myelfstr; 
 
-	struct ptype mymips;
-	struct ptype *mips = &mymips;
+	struct mipsstr mymips;
+	struct mipsstr *mips = &mymips;
 	mips->elfdata = malloc(sizeof(mips->elfdata));
 
 	if (mips->elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}

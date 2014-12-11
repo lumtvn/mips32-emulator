@@ -5,8 +5,8 @@
 #include "minunit.h"
 
 int tests_run = 0;
-struct ptype mymips;
-struct ptype *mips;
+struct mipsstr mymips;
+struct mipsstr *mips;
 struct elfstr myelfdata;
 
 
@@ -15,7 +15,7 @@ static char * test_getopcodes_text()
 {
 
     int size, start;
-    mips = (struct ptype *) malloc(sizeof(struct ptype));
+    mips = (struct mipsstr *) malloc(sizeof(struct mipsstr));
     mips->elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));
     mu_assert("test_getopcodes_text: no memory for mips", mips != NULL);
     mu_assert("test_getopcodes_text: no memory for mips->elfdata", mips->elfdata != NULL);
@@ -70,7 +70,7 @@ static char * test_getopcodes_text()
 static char * test_disasm_instr()
 {
     int size, start;
-    mips = (struct ptype *) malloc(sizeof(struct ptype));
+    mips = (struct mipsstr *) malloc(sizeof(struct mipsstr));
     mips->elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));
     mu_assert("test_disasm_instr: no memory for mips", mips != NULL);
     mu_assert("test_disasm_instr: no memory for mips->elfdata", mips->elfdata != NULL);
@@ -118,7 +118,7 @@ static char * test_disasm_instr()
 static char * test_disasm_text()
 {
     int size, start;
-    mips = (struct ptype *) malloc(sizeof(struct ptype));
+    mips = (struct mipsstr *) malloc(sizeof(struct mipsstr));
     mips->elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));
     mu_assert("test_disasm_instr: no memory for mips", mips != NULL);
     mu_assert("test_disasm_instr: no memory for mips->elfdata", mips->elfdata != NULL);
@@ -158,7 +158,7 @@ static char * test_disasm_text()
             case 0x3000:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3000", !strcmp(mips->disasm_output, "ADDI $t1, $zero, 0xc")); break;
             case 0x3004:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3004", !strcmp(mips->disasm_output, "ADD $t2, $zero, $zero")); break;
             case 0x3008:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3008", !strcmp(mips->disasm_output, "ADDI $t2, $t2, 0x1")); break;
-            case 0x300C:mu_assert("test_disasm_text: disasm_output is wrong in address 0x300C", !strcmp(mips->disasm_output, "BNE $t2, $t1, 0xfffe")); break;
+            case 0x300C:mu_assert("test_disasm_text: disasm_output is wrong in address 0x300C", !strcmp(mips->disasm_output, "BNE $t2, $t1, 0x3fff8")); break;
             case 0x3010:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3010", !strcmp(mips->disasm_output, "NOP")); break;
             case 0x3014:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3014", !strcmp(mips->disasm_output, "ADD $t2, $zero, $zero")); break;
             default: mu_assert("test_disasm_text: ?????????", 0);
@@ -179,7 +179,7 @@ static char * test_exec_instr()
 {
     int size, start;
 
-    mips = (struct ptype *) malloc(sizeof(struct ptype));
+    mips = (struct mipsstr *) malloc(sizeof(struct mipsstr));
     mips->elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));
     mu_assert("test_exec_instr: no memory for mips", mips != NULL);
     mu_assert("test_exec_instr: no memory for mips->elfdata", mips->elfdata != NULL);

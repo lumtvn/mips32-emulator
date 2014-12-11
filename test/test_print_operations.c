@@ -4,8 +4,8 @@
 #include "minunit.h"
 
  int tests_run = 0; 
- struct ptype *mips;
- struct ptype mymips;
+ struct mipsstr *mips;
+ struct mipsstr mymips;
 
 static char * test_all()
 {
@@ -24,23 +24,23 @@ static char * test_all()
 	mips = print_andi(mips,9,11,0x324F);
 	mu_assert("print_andi failed", !strcmp(mips->disasm_output, "ANDI $t3, $t1, 0x324f"));
 	mips = print_beq(mips,9,11,0x324F);
-	mu_assert("print_beq failed", !strcmp(mips->disasm_output, "BEQ $t1, $t3, 0x324f"));
+	mu_assert("print_beq failed", !strcmp(mips->disasm_output, "BEQ $t1, $t3, 0xc93c"));
 	mips = print_bgez(mips,9,0x324F);
-	mu_assert("print_bgez failed", !strcmp(mips->disasm_output, "BGEZ $t1, 0x324f"));	
+	mu_assert("print_bgez failed", !strcmp(mips->disasm_output, "BGEZ $t1, 0xc93c"));	
 	mips = print_bgtz(mips,9,0x324F);
-	mu_assert("print_bgtz failed", !strcmp(mips->disasm_output, "BGTZ $t1, 0x324f"));	
+	mu_assert("print_bgtz failed", !strcmp(mips->disasm_output, "BGTZ $t1, 0xc93c"));	
 	mips = print_blez(mips,9,0x324F);
-	mu_assert("print_blez failed", !strcmp(mips->disasm_output, "BLEZ $t1, 0x324f"));	
+	mu_assert("print_blez failed", !strcmp(mips->disasm_output, "BLEZ $t1, 0xc93c"));	
 	mips = print_bltz(mips,9,0x324F);
-	mu_assert("print_bltz failed", !strcmp(mips->disasm_output, "BLTZ $t1, 0x324f"));	
+	mu_assert("print_bltz failed", !strcmp(mips->disasm_output, "BLTZ $t1, 0xc93c"));	
 	mips = print_bne(mips,9,11,0x324F);
-	mu_assert("print_bne failed", !strcmp(mips->disasm_output, "BNE $t1, $t3, 0x324f"));
+	mu_assert("print_bne failed", !strcmp(mips->disasm_output, "BNE $t1, $t3, 0xc93c"));
 	mips = print_div(mips,9,10);
 	mu_assert("print_div failed", !strcmp(mips->disasm_output, "DIV $t1, $t2"));
 	mips = print_j(mips,0x2FA2837E);
-	mu_assert("print_j failed", !strcmp(mips->disasm_output, "J 0x2fa2837e"));	
+	mu_assert("print_j failed", !strcmp(mips->disasm_output, "J 0xbe8a0df8"));	
 	mips = print_jal(mips,0x2FA2837E);
-	mu_assert("print_jal failed", !strcmp(mips->disasm_output, "JAL 0x2fa2837e"));	
+	mu_assert("print_jal failed", !strcmp(mips->disasm_output, "JAL 0xbe8a0df8"));	
 	mips = print_jalr(mips, 9, 10);
 	mu_assert("print_jalr failed", !strcmp(mips->disasm_output, "JALR $t2, $t1"));	
 	mips = print_jr(mips, 9);

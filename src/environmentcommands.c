@@ -20,7 +20,7 @@
 #include "errors.h"
 #include "lookup.h"
 
-struct ptype *env_load(struct ptype *mips)
+struct mipsstr *env_load(struct mipsstr *mips)
 {
 	if(mips->n_argenv != 2){mips->report = 999; /*wrong arguments*/ return mips;}
 	if(mips->argenv[0] != NULL)
@@ -55,7 +55,7 @@ struct ptype *env_load(struct ptype *mips)
 	else return mips;
 }
 
-struct ptype *env_run(struct ptype *mips)
+struct mipsstr *env_run(struct mipsstr *mips)
 {
 	segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
 	mips->fl_stop = false;
@@ -92,7 +92,7 @@ struct ptype *env_run(struct ptype *mips)
 	return mips;
 }
 
-struct ptype *env_step(struct ptype *mips)
+struct mipsstr *env_step(struct mipsstr *mips)
 {	
 	if(mips->n_argenv == 0)
 	{
@@ -137,7 +137,7 @@ struct ptype *env_step(struct ptype *mips)
 *
 * @todo read-only permits on certain read-only registers (example: $zero)
 **/
-struct ptype *env_set(struct ptype *mips)
+struct mipsstr *env_set(struct mipsstr *mips)
 {
 	if(!strcmp(mips->argenv[0],"mem"))
 		{
@@ -236,7 +236,7 @@ struct ptype *env_set(struct ptype *mips)
 *
 * @todo being able to display a group of specific registers and not only one or all of them
 **/
-struct ptype *env_disp(struct ptype *mips)
+struct mipsstr *env_disp(struct mipsstr *mips)
 {
 	if(mips->n_argenv < 1){return mips;}
 
@@ -354,7 +354,7 @@ struct ptype *env_disp(struct ptype *mips)
 *
 * @note error code 430 to 439
 **/
-struct ptype *env_assert(struct ptype *mips)
+struct mipsstr *env_assert(struct mipsstr *mips)
 {
 	if(mips->argenv[0] == NULL){mips->report = 430; return mips;}
 	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
@@ -428,7 +428,7 @@ struct ptype *env_assert(struct ptype *mips)
 
 
 
-struct ptype *env_disasm(struct ptype *mips)
+struct mipsstr *env_disasm(struct mipsstr *mips)
 {
 	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
 	if(mips->n_argenv != 1){mips->report = 440; /*usage: disasm address:address or disasm address+address*/ return mips;}
@@ -535,7 +535,7 @@ struct ptype *env_disasm(struct ptype *mips)
 }
 
 
-struct ptype *env_break(struct ptype *mips)
+struct mipsstr *env_break(struct mipsstr *mips)
 {
 	if(!mips->fl_file_loaded){mips->report = 3; return mips;}
 	if(mips->n_argenv < 1){mips->report = 450; return mips;}

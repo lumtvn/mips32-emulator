@@ -33,7 +33,7 @@ static char *opnames[42] = {"ADD", "ADDI", "ADDIU", "ADDU", "AND", "ANDI", "BEQ"
 
 
 
-struct ptype /// it's a structure that has all elements that are involved in the simulator
+struct mipsstr /// it's a structure that has all elements that are involved in the simulator
 {   
 
 	int pepe[50];

@@ -5,8 +5,8 @@
 
 int tests_run = 0; 
 int res;
-struct ptype testdata;
-struct ptype *mips;
+struct mipsstr testdata;
+struct mipsstr *mips;
 struct elfstr myelfstr;
 
 
@@ -202,7 +202,7 @@ static char * test_find_illegal_character()
  
  int main(int argc, char **argv) {
 
-    mips = (struct ptype *) malloc(sizeof(struct ptype));
+    mips = (struct mipsstr *) malloc(sizeof(struct mipsstr));
 
     char *result = all_tests();
     if (result != 0) {

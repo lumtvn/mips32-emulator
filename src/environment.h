@@ -1,6 +1,6 @@
-int runenv(struct ptype *env);
-void restart(struct ptype *env);
-struct ptype *parseentry(struct ptype *env);
-struct ptype *analize(struct ptype *env);
+int runenv(struct mipsstr *env);
+void restart(struct mipsstr *env);
+struct mipsstr *parseentry(struct mipsstr *env);
+struct mipsstr *analize(struct mipsstr *env);
 void strip(char *s);
 

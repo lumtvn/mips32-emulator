@@ -3,8 +3,8 @@
 
  int tests_run = 0; 
  int res;
- struct ptype testdata;
- struct ptype *ptestdata;
+ struct mipsstr testdata;
+ struct mipsstr *ptestdata;
 
  static char * test_diff() 
 {

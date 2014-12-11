@@ -4,8 +4,8 @@
 #include "minunit.h"
 
 int tests_run = 0;
-// struct ptype mymips;
-struct ptype *mips;
+// struct mipsstr mymips;
+struct mipsstr *mips;
  struct elfstr myelfdata;
 
 

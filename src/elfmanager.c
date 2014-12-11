@@ -107,7 +107,7 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start
 }
 
 
-struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr)
+struct mipsstr *elfwritebyte(struct mipsstr *mips, mem m, byte bdata, vaddr32 addr)
 {
     segment *seg;
     seg = which_seg(m,addr,1);
@@ -122,7 +122,7 @@ struct ptype *elfwritebyte(struct ptype *mips, mem m, byte bdata, vaddr32 addr)
     return mips;
 }
 
-struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
+struct mipsstr *elfreadbyte(struct mipsstr *mips, mem m, vaddr32 addr)
 {
     segment *seg;
     seg = which_seg(m,addr,1);
@@ -134,7 +134,7 @@ struct ptype *elfreadbyte(struct ptype *mips, mem m, vaddr32 addr)
     return mips;
 }
 
-struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr)
+struct mipsstr *elfwriteword(struct mipsstr *mips, mem m, word wdata, vaddr32 addr)
 {
     segment *seg;
     seg = which_seg(m,addr,4);
@@ -153,7 +153,7 @@ struct ptype *elfwriteword(struct ptype *mips, mem m, word wdata, vaddr32 addr)
     return mips;
 }
 
-struct ptype *elfreadword(struct ptype *mips, mem m, vaddr32 addr)
+struct mipsstr *elfreadword(struct mipsstr *mips, mem m, vaddr32 addr)
 {
     segment *seg;
     seg = which_seg(m,addr,4);
@@ -188,7 +188,7 @@ vaddr32 get_seg_start(mem m, char *name)
     return seg->start._32;
 }
 
-struct ptype *cleandata(struct ptype *mips)
+struct mipsstr *cleandata(struct mipsstr *mips)
 {
     mips->bdata = 0;
     mips->wdata = 0;

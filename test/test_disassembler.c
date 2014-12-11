@@ -7,7 +7,7 @@
 
  int tests_run = 0; 
  int res;
- struct ptype *mips;
+ struct mipsstr *mips;
 
 
 /*static char * test_execute_text() 
@@ -1786,7 +1786,7 @@ static char * test_XOR()
  int main(int argc, char **argv) {
 
     char *result;
-    mips = malloc(sizeof(struct ptype));
+    mips = malloc(sizeof(struct mipsstr));
 
     if(mips != NULL)
     {

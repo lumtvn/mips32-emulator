@@ -15,13 +15,13 @@ enum{
 
 
 int load_opcodes(void);
-struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action ac);
-struct ptype *getopcode(struct ptype *mips, word a);
-struct ptype *which_operation_number(struct ptype *mips);
-struct ptype *send_operation(struct ptype *mips, action ac);
-struct ptype *manage_normal(struct ptype *mips, word instr);
-struct ptype *manage_special(struct ptype *mips, word instr);
-struct ptype *manage_special3(struct ptype *mips, word instr);
-struct ptype *manage_regimm(struct ptype *mips, word instr);
-struct ptype *run(struct ptype *mips);
+struct mipsstr *disasm_instr(struct mipsstr *mips, vaddr32 addr, action ac);
+struct mipsstr *getopcode(struct mipsstr *mips, word a);
+struct mipsstr *which_operation_number(struct mipsstr *mips);
+struct mipsstr *send_operation(struct mipsstr *mips, action ac);
+struct mipsstr *manage_normal(struct mipsstr *mips, word instr);
+struct mipsstr *manage_special(struct mipsstr *mips, word instr);
+struct mipsstr *manage_special3(struct mipsstr *mips, word instr);
+struct mipsstr *manage_regimm(struct mipsstr *mips, word instr);
+struct mipsstr *run(struct mipsstr *mips);
 word get_loc(word opcode);

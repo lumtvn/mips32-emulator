@@ -6,10 +6,6 @@
  *
  * This file has functions called by the main program when it has to disassemble an elf script.
  * 
- * for now, it has two functions. One that loads all the code operations into a lookup table, and
- * another that recieves as a parameter a 32 bit word and returns the operation given by the word.
- *
- * @todo function to get the operation prequisites, such as number of arguments, etc.
  * 
  *
  **/
@@ -26,22 +22,6 @@
 #define S3_OPCODE_BITS 0x7C0
 #define RG_OPCODE_BITS 0x1F0000
 
-struct ptype *run(struct ptype *mips)
-{
-    segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
-    word textsize = segtext->size._32;
-    mips->PC = segtext->start._32;
-
-    while(mips->PC < textsize)
-    {
-        disasm_instr(mips, mips->PC, D_EXEC);
-        if(mips->report > 0){return mips;}
-
-        mips->PC = mips->PC + 4;
-    }
-
-    return mips;
-}
 
 
 word get_loc(word instr)
@@ -52,10 +32,17 @@ word get_loc(word instr)
     return opcodeloc;
 }
 
-//dissassembles one instruction found in address addr from section text
-// act == D_EXEC : execute instruccion (execute code)
-// act == D_PRINT : print instruccion (disasm)
-struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
+/**
+* @brief this function dissasembles a word found in address addr, and calls the function send_operation with the found operation code number and an action act that can be to print or to execute
+*
+* @param addr the address of the instruction in memory (must be inside .text)
+* @param the action. can be D_PRINT or D_EXEC
+* @param mips->wdata changes in this function
+* @param mips->opnum changes in this function
+*
+* @return mips->report holding the error if any
+**/
+struct mipsstr *disasm_instr(struct mipsstr *mips, vaddr32 addr, action act)
 {
     word instr;
     segment *segtest;
@@ -95,8 +82,10 @@ struct ptype *disasm_instr(struct ptype *mips, vaddr32 addr, action act)
 
     return mips;
 }
-
-struct ptype *manage_normal(struct ptype *mips, word instr)
+/*
+*
+*/
+struct mipsstr *manage_normal(struct mipsstr *mips, word instr)
 {
     mips->n_arg1 = (instr >> 21) & 0x1F;
     mips->n_arg2 = (instr >> 16) & 0x1F;
@@ -105,7 +94,7 @@ struct ptype *manage_normal(struct ptype *mips, word instr)
     return mips;
 }
 
-struct ptype *manage_special(struct ptype *mips, word instr)
+struct mipsstr *manage_special(struct mipsstr *mips, word instr)
 {
     mips->s_arg1 = (instr >> 21) & 0x1F;
     mips->s_arg2 = (instr >> 16) & 0x1F;
@@ -115,7 +104,7 @@ struct ptype *manage_special(struct ptype *mips, word instr)
     return mips;
 }
 
-struct ptype *manage_special3(struct ptype *mips, word instr)
+struct mipsstr *manage_special3(struct mipsstr *mips, word instr)
 {
     mips->s_arg1 = (instr >> 16) & 0x1F;
     mips->s_arg2 = (instr >> 11) & 0x1F;
@@ -123,14 +112,14 @@ struct ptype *manage_special3(struct ptype *mips, word instr)
     return mips; 
 }
 
-struct ptype *manage_regimm(struct ptype *mips, word instr)
+struct mipsstr *manage_regimm(struct mipsstr *mips, word instr)
 {
     mips->s_arg1 = (instr >> 21) & 0x1F;
 
     return mips;
 }
 
-struct ptype *which_operation_number(struct ptype *mips)
+struct mipsstr *which_operation_number(struct mipsstr *mips)
 {
     int i;
     for(i = 0; i <= 42; i++)
@@ -158,7 +147,7 @@ struct ptype *which_operation_number(struct ptype *mips)
 *
 *@note for this function to work correctly, the function load_opcodes MUST be called before its execution
 **/
-struct ptype *getopcode(struct ptype *mips, word wd)
+struct mipsstr *getopcode(struct mipsstr *mips, word wd)
 {
 
     word opcodeloc; //operation code location
@@ -269,8 +258,14 @@ int load_opcodes()
     return 0;
 }
 
+/**
+* @brief this functions calls the mips operation. it prints it or executes it according to the value act
+*
+* all the operations are called from here. Each case in the switch belongs to a different operation.
+*
+**/
 
-struct ptype *send_operation(struct ptype *mips, action act)
+struct mipsstr *send_operation(struct mipsstr *mips, action act)
 {
     int op_error = 0;
     switch(mips->opnum)
@@ -342,8 +337,6 @@ struct ptype *send_operation(struct ptype *mips, action act)
         if(act == D_EXEC) 
         {op_error = op_bne(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;}
         else mips = print_bne(mips, mips->n_arg1, mips->n_arg2, mips->inmediate); break;
-
-    // case 13: op_error = op_break(ct) break;
 
     case 13: 
         if(mips->s_arg3 != 0){mips->report = 620; break;}
