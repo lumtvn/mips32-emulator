@@ -761,7 +761,7 @@ struct mipsstr *print_sw(struct mipsstr *mips, byte base, byte rt, halfword offs
 //Store Word
 int op_syscall(struct mipsstr *mips)
 {	
-	printf("program ended at address %08x with the next values for the registers: \n", mips->PC);
+	printf("program ended at address %08x with the next values for special registers: \n", mips->PC);
 	printf( "%s: %08x\n" ,regnames[2], *mips->regs[2]);
 	printf( "%s: %08x\n" ,regnames[4], *mips->regs[4]);
 	printf( "%s: %08x\n" ,regnames[5], *mips->regs[5]);
