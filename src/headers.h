@@ -54,9 +54,12 @@ struct mipsstr /// it's a structure that has all elements that are involved in t
 	bool fl_step_into;
 	///stop flag
 	bool fl_stop;
+	///run end flag
+	bool fl_end;
 
 	/// the operation in a string
 	char *operation; 
+
 
 
 	///memory

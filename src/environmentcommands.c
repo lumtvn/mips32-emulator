@@ -66,6 +66,8 @@ struct mipsstr *env_load(struct mipsstr *mips)
  */
 struct mipsstr *env_run(struct mipsstr *mips)
 {
+	mips->fl_end = false;
+
 	segment *segtext = get_seg_by_name(mips->elfdata->memory, ".text");
 	mips->fl_stop = false;
 
@@ -77,6 +79,11 @@ struct mipsstr *env_run(struct mipsstr *mips)
 	while((mips->PC < (segtext->start._32 + segtext->size._32)) && !mips->fl_stop)
 	{
 		mips = disasm_instr(mips, mips->PC, D_EXEC);
+		if(mips->fl_end)
+		{
+			mips->PC = segtext->start._32;
+			break;
+		}
 		if(mips->fl_step_into)
 		{
 			mips->fl_step_into = false;

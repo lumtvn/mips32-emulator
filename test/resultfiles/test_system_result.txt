@@ -38,7 +38,19 @@ emul-mips> step into
 program stopped at: 00000020
 next instruction: NOP
 emul-mips> run 
+program ended at address 00000024 with the next values for the registers: 
+$v0: 00000000
+$a0: 00003039
+$a1: 00000000
+$a2: 00000000
+$a3: 00000000
 emul-mips> run
+program ended at address 00000024 with the next values for the registers: 
+$v0: 00000000
+$a0: 00003039
+$a1: 00000000
+$a2: 00000000
+$a3: 00000000
 emul-mips> disp mem map
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00000000	Size: 40 bytes
