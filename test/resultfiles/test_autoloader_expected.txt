@@ -13,4 +13,5 @@ raw content of segment .data:
 
   0x00000000 0x00000004 
 raw content of segment .bss:
-emul-mips>exiting mips emulator...
+emul-mips> exit
+exiting mips emulator...

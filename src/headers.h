@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "../elfapi/include/common/bits.h"
 #include "../elfapi/include/common/notify.h"
 #include "../elfapi/include/elf/elf.h"

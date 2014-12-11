@@ -1,16 +1,7 @@
-ERROR 410: too few arguments for function
-ERROR 410: too few arguments for function
-ERROR 410: too few arguments for function
-ERROR 422: argument <address> out of bounds
-ERROR 419: argument <value> out of bounds
-ERROR 422: argument <address> out of bounds
-ERROR 501: address not assigned to any segment or overrides end of segment
-ERROR 411: too many arguments for function
-ERROR 501: address not assigned to any segment or overrides end of segment
-ERROR 501: address not assigned to any segment or overrides end of segment
 starting emulator with no elf file loaded!
 to load new file: load <file> <start of memory>
-emul-mips>
+emul-mips> load test/test_elf.o 0x3000
+
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00003000	Size: 24 bytes
@@ -25,4 +16,25 @@ raw content of segment .data:
 
   0x00000000 0x00000004 
 raw content of segment .bss:
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>exiting mips emulator...
+emul-mips> set mem
+ERROR 410: too few arguments for function
+emul-mips> set mem asd
+ERROR 410: too few arguments for function
+emul-mips> set mem byte
+ERROR 410: too few arguments for function
+emul-mips> set mem byte fg fdf
+ERROR 422: argument <address> out of bounds
+emul-mips> set mem byte 12 sdj
+ERROR 419: argument <value> out of bounds
+emul-mips> set mem byte sds 120
+ERROR 422: argument <address> out of bounds
+emul-mips> set mem byte 0xFFFFFFFFFFFFFFFFFFFF 0x10
+ERROR 501: address not assigned to any segment or overrides end of segment
+emul-mips> set mem byte 10 15 10 289 38
+ERROR 411: too many arguments for function
+emul-mips> set mem byte 10 15
+ERROR 501: address not assigned to any segment or overrides end of segment
+emul-mips> disp mem 10
+ERROR 501: address not assigned to any segment or overrides end of segment
+emul-mips> exit
+exiting mips emulator...

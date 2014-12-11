@@ -15,7 +15,7 @@ ELF_HDRS = elfapi/include/mem.h elfapi/include/elf/syms.h elfapi/include/elf/elf
 all: bin/emul-mips
 
 bin/emul-mips: build/main.o build/environment.o build/environmentcommands.o build/disassembler.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ)
-	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ) -o bin/emul-mips
+	gcc -pg build/main.o build/environment.o build/disassembler.o build/environmentcommands.o build/errors.o build/lookup.o build/elfmanager.o build/operations.o $(ELF_OBJ) -lreadline -o bin/emul-mips
 
 build/main.o: src/main.c src/headers.h src/environment.h src/disassembler.h  src/lookup.h src/elfmanager.h src/errors.h
 	gcc -pg -c src/main.c -o build/main.o

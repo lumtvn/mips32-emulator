@@ -1,11 +1,9 @@
-ERROR 3: operation not permitted until a file is loaded
-ERROR 450: usage: break add addresses, break del addressess/all, break list
-ERROR 454: all addresess must be aligned
-ERROR 453: can't add breakpoints to area other than text
-ERROR 454: all addresess must be aligned
 starting emulator with no elf file loaded!
 to load new file: load <file> <start of memory>
-emul-mips>emul-mips>
+emul-mips> break
+ERROR 3: operation not permitted until a file is loaded
+emul-mips> load test/test_elf.o 0x3000
+
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00003000	Size: 24 bytes
@@ -20,18 +18,37 @@ raw content of segment .data:
 
   0x00000000 0x00000004 
 raw content of segment .bss:
-emul-mips>emul-mips>emul-mips>emul-mips>breakpoint added at address 0x00003000
-emul-mips>breakpoint added at address 0x00003000
+emul-mips> break
+ERROR 450: usage: break add addresses, break del addressess/all, break list
+emul-mips> break asodas aisjdpa
+emul-mips> break 10000
+emul-mips> break add 0x3000 0x3001
+ERROR 454: all addresess must be aligned
+breakpoint added at address 0x00003000
+emul-mips> break add 0x3000 0x3004 0x4000
+ERROR 453: can't add breakpoints to area other than text
+breakpoint added at address 0x00003000
 breakpoint added at address 0x00003004
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>breakpoint added at address 0x00003000
+emul-mips> break del 0x3001
+ERROR 454: all addresess must be aligned
+emul-mips> 
+emul-mips> 
+emul-mips> 
+emul-mips> break add 0x3000 0x3004
+breakpoint added at address 0x00003000
 breakpoint added at address 0x00003004
-emul-mips>breakpoint removed at address 0x00003000
-emul-mips>0x00003000
+emul-mips> break del 0x3000
+breakpoint removed at address 0x00003000
+emul-mips> break list
+0x00003000
 0x00003004
 0x00003000
 0x00003004
-emul-mips>breakpoint removed at address 0x00003000
+emul-mips> break del all
+breakpoint removed at address 0x00003000
 breakpoint removed at address 0x00003004
-emul-mips>0x00003000
+emul-mips> break list
+0x00003000
 0x00003004
-emul-mips>exiting mips emulator...
+emul-mips> exit 
+exiting mips emulator...

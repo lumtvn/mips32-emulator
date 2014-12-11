@@ -26,14 +26,17 @@ int runenv(struct mipsstr *mips)
 	mips->breakpoints[0] = 0xFFFFFFFF;
 	mips->fl_step_into = false;
 
-	printf("emul-mips>"); // prints out the prompt
+	// printf("emul-mips>"); // prints out the prompt
 	
-	char *result = fgets(mips->entry,MAXSIZE,stdin);  
-	if (result == NULL)
-	{
-		printf("\n");    
-		exit(0);
-	}
+	 mips->entry = readline("emul-mips> ");
+            
+    if (mips->entry == NULL)
+    {
+        printf("\n");    
+        exit(0);
+    }
+    add_history(mips->entry);
+
 
 	if (strlen(mips->entry) > 1)
 	{

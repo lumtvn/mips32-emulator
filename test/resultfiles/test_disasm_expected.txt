@@ -1,13 +1,7 @@
-ERROR 440: usage: disasm address:address or disasm address+offset
-ERROR 449: invalid argument for disasm
-ERROR 440: usage: disasm address:address or disasm address+offset
-ERROR 444: disasm must be inside text segment
-ERROR 444: disasm must be inside text segment
-ERROR 447: all addresses must be aligned
-ERROR 447: all addresses must be aligned
 starting emulator with no elf file loaded!
 to load new file: load <file> <start of memory>
-emul-mips>
+emul-mips> load test/test_elf.o 0x3000
+
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00003000	Size: 24 bytes
@@ -22,9 +16,27 @@ raw content of segment .data:
 
   0x00000000 0x00000004 
 raw content of segment .bss:
-emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>00003000 :: 2009000c  ADDI $t1, $zero, 0xc
+emul-mips> disasm
+ERROR 440: usage: disasm address:address or disasm address+offset
+emul-mips> disasm asodjaosidj
+ERROR 449: invalid argument for disasm
+emul-mips> disasm aosidjasoi oasdija osdjsij do
+ERROR 440: usage: disasm address:address or disasm address+offset
+emul-mips> disasm 0x100:0x1020
+ERROR 444: disasm must be inside text segment
+emul-mips> disasm 0x290+0x3000
+ERROR 444: disasm must be inside text segment
+emul-mips> disasm 0x3000:0x3003
+ERROR 447: all addresses must be aligned
+emul-mips> disasm 0x3000+0x3011
+ERROR 447: all addresses must be aligned
+emul-mips> 
+emul-mips> 
+emul-mips> disasm 0x3000:0x3008
+00003000 :: 2009000c  ADDI $t1, $zero, 0xc
 00003004 :: 00005020  ADD $t2, $zero, $zero
 00003008 :: 214a0001  ADDI $t2, $t2, 0x1
-emul-mips>00003000 :: 2009000c	ADDI $t1, $zero, 0xc
+emul-mips> disasm 0x3000+0x3014
+00003000 :: 2009000c	ADDI $t1, $zero, 0xc
 00003014 :: 00005020	ADD $t2, $zero, $zero
-emul-mips>
+emul-mips> 
