@@ -158,7 +158,7 @@ static char * test_disasm_text()
             case 0x3000:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3000", !strcmp(mips->disasm_output, "ADDI $t1, $zero, 0xc")); break;
             case 0x3004:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3004", !strcmp(mips->disasm_output, "ADD $t2, $zero, $zero")); break;
             case 0x3008:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3008", !strcmp(mips->disasm_output, "ADDI $t2, $t2, 0x1")); break;
-            case 0x300C:mu_assert("test_disasm_text: disasm_output is wrong in address 0x300C", !strcmp(mips->disasm_output, "BNE $t2, $t1, 0x3fff8")); break;
+            case 0x300C:mu_assert("test_disasm_text: disasm_output is wrong in address 0x300C", !strcmp(mips->disasm_output, "BNE $t2, $t1, 0x43004")); break;
             case 0x3010:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3010", !strcmp(mips->disasm_output, "NOP")); break;
             case 0x3014:mu_assert("test_disasm_text: disasm_output is wrong in address 0x3014", !strcmp(mips->disasm_output, "ADD $t2, $zero, $zero")); break;
             default: mu_assert("test_disasm_text: ?????????", 0);

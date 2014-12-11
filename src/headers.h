@@ -99,6 +99,8 @@ struct mipsstr /// it's a structure that has all elements that are involved in t
 	byte bdata;
 	///for reading files in elfmanager.c
 	word wdata;
+	///has the current reading address (similar to PC but with other purposes)
+	word pc_temp;
 
 	///for information read in words from segment text
 	byte n_arg1;

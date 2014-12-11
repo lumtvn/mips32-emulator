@@ -55,6 +55,7 @@ struct mipsstr *disasm_instr(struct mipsstr *mips, vaddr32 addr, action act)
 
     mips = elfreadword(mips, mips->elfdata->memory, addr);
     instr = mips->wdata;
+    mips->pc_temp = addr;
 
     word opcodeloc = get_loc(instr);
 
