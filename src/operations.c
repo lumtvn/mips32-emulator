@@ -127,7 +127,7 @@ int op_beq(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 	word offset = (signed)inm;
 	if(*(mips->regs[rt]) == *(mips->regs[rs]))
 		mips->PC += (offset << 2);
-	else
+	// else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
@@ -148,14 +148,15 @@ int op_bgez(struct mipsstr *mips, byte rs, halfword inm)
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) >= 0)
 		mips->PC += (offset << 2);
-	else
+	// else
 		mips->PC = mips->PC + 4; 
 
 	return 0;
 }
 
-struct mipsstr *print_bgez(struct mipsstr *mips, byte rs, halfword offset)
+struct mipsstr *print_bgez(struct mipsstr *mips, byte rs, halfword inm)
 {
+	word offset = (signed)inm;
 	sprintf(mips->disasm_output, "BGEZ %s, 0x%x", regnames[rs], (offset << 2) + mips->pc_temp);
 	return mips;
 }
@@ -168,14 +169,15 @@ int op_bgtz(struct mipsstr *mips, byte rs, halfword inm)
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) > 0)
 		mips->PC += (offset << 2);
-	else
+	// else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct mipsstr *print_bgtz(struct mipsstr *mips, byte rs, halfword offset)
+struct mipsstr *print_bgtz(struct mipsstr *mips, byte rs, halfword inm)
 {
+	word offset = (signed)inm;
 	sprintf(mips->disasm_output, "BGTZ %s, 0x%x", regnames[rs], (offset << 2) + mips->pc_temp);
 	return mips;
 }
@@ -188,14 +190,15 @@ int op_blez(struct mipsstr *mips, byte rs, halfword inm)
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) <= 0)
 		mips->PC += (offset << 2);
-	else
+	// else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct mipsstr *print_blez(struct mipsstr *mips, byte rs, halfword offset)
+struct mipsstr *print_blez(struct mipsstr *mips, byte rs, halfword inm)
 {
+	word offset = (signed)inm;
 	sprintf(mips->disasm_output, "BLEZ %s, 0x%x", regnames[rs], (offset << 2) + mips->pc_temp);
 	return mips;
 }
@@ -208,14 +211,15 @@ int op_bltz(struct mipsstr *mips, byte rs, halfword inm)
 	word offset = (signed)inm;
 	if((signed)*(mips->regs[rs]) < 0)
 		mips->PC += (offset << 2);
-	else
+	// else
 		mips->PC = mips->PC + 4; 		
 	
 	return 0;
 }
 
-struct mipsstr *print_bltz(struct mipsstr *mips, byte rs, halfword offset)
+struct mipsstr *print_bltz(struct mipsstr *mips, byte rs, halfword inm)
 {
+	word offset = (signed)inm;
  	sprintf(mips->disasm_output, "BLTZ %s, 0x%x", regnames[rs], (offset << 2) + mips->pc_temp);
 	return mips;
 }
@@ -228,14 +232,15 @@ int op_bne(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 	word offset = (signed)inm;
 	if(*(mips->regs[rt]) != *(mips->regs[rs]))
 		mips->PC += (offset << 2);
-	else
+	// else
 		mips->PC = mips->PC + 4; 
 	
 	return 0;
 }
 
-struct mipsstr *print_bne(struct mipsstr *mips, byte rs, byte rt, halfword offset)
+struct mipsstr *print_bne(struct mipsstr *mips, byte rs, byte rt, halfword inm)
 {
+	word offset = (signed)inm;
 	sprintf(mips->disasm_output, "BNE %s, %s, 0x%x", regnames[rs], regnames[rt], (offset << 2) + mips->pc_temp);
 	return mips;
 }

@@ -35,8 +35,8 @@ emul-mips> step
 program stopped at: 0000000c
 next instruction in: BEQ $zero, $zero, 0x20
 emul-mips> step into
-program stopped at: 00000020
-next instruction: NOP
+program stopped at: 00000024
+next instruction: SYSCALL
 emul-mips> run 
 program ended at address 00000024 with the next values for special registers: 
 $v0: 00000000

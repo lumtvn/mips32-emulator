@@ -1,6 +1,6 @@
 *.o
-!tests/test_elf.o
-!tests/test_elf2.o
-!tests/test_elf3.o
-!tests/test_elf4.o
+!test/test_elf.o
+!test/test_elf2.o
+!test/test_elf3.o
+!test/test_elf4.o
 *~

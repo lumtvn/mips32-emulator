@@ -97,7 +97,7 @@ static char * test_beq()
 	error = op_beq(mips,10,11,16);
 	mu_assert("beq 1 operation failed", mips->PC == 4);	
 	error = op_beq(mips,9,10,16);
-	mu_assert("beq 2 operation failed", mips->PC == 4 + (16 << 2));	
+	mu_assert("beq 2 operation failed", mips->PC == 4 + (16 << 2) + 4);	
 	return 0;
 }
 
@@ -110,9 +110,9 @@ static char * test_bgez()
 	error = op_bgez(mips,9,16);
 	mu_assert("bgez 1 operation failed", mips->PC == 4);	
 	error = op_bgez(mips,10,16);
-	mu_assert("bgez 2 operation failed", mips->PC == 4 + (16 << 2));	
+	mu_assert("bgez 2 operation failed", mips->PC == 4 + (16 << 2) + 4);	
 	error = op_bgez(mips,11,16);
-	mu_assert("bgez 3 operation failed", mips->PC ==  (4 + (16 << 2)) + (16 << 2));	
+	mu_assert("bgez 3 operation failed", mips->PC == (4 + (16 << 2) + 4) + (16 << 2) + 4 );	
 	return 0;
 }
 
@@ -127,7 +127,7 @@ static char * test_bgtz()
 	error = op_bgtz(mips,10,16);
 	mu_assert("bgtz 2 operation failed", mips->PC == 8);	
 	error = op_bgtz(mips,11,16);
-	mu_assert("bgtz 3 operation failed", mips->PC == 8 + (16 << 2));	
+	mu_assert("bgtz 3 operation failed", mips->PC == 8 + (16 << 2) + 4);	
 	return 0;
 }
 
@@ -140,9 +140,9 @@ static char * test_blez()
 	error = op_blez(mips,9,16);
 	mu_assert("blez 1 operation failed", mips->PC == 4);	
 	error = op_blez(mips,10,16);
-	mu_assert("blez 2 operation failed", mips->PC == 4 + (16 << 2));	
+	mu_assert("blez 2 operation failed", mips->PC == 4 + (16 << 2) + 4);	
 	error = op_blez(mips,11,16);
-	mu_assert("blez 3 operation failed", mips->PC == (4 + (16 << 2)) + (16 << 2));	
+	mu_assert("blez 3 operation failed", mips->PC == (4 + (16 << 2) + 4) + (16 << 2) + 4 );	
 	return 0;
 }
 
@@ -157,7 +157,7 @@ static char * test_bltz()
 	error = op_bltz(mips,10,16);
 	mu_assert("bltz 2 operation failed", mips->PC == 8);	
 	error = op_bltz(mips,11,16);
-	mu_assert("bltz 3 operation failed", mips->PC == 8 + (16 << 2));	
+	mu_assert("bltz 3 operation failed", mips->PC == 8 + (16 << 2) + 4);	
 	return 0;
 }
 
@@ -170,7 +170,7 @@ static char * test_bne()
 	error = op_bne(mips,9,10,16);
 	mu_assert("bne operation failed", mips->PC == 4);	
 	error = op_bne(mips,10,11,16);
-	mu_assert("bne operation failed", mips->PC == 4 + (16 << 2));	
+	mu_assert("bne operation failed", mips->PC == 4 + (16 << 2) + 4);	
 	return 0;
 }
 
