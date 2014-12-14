@@ -21,7 +21,7 @@ emul-mips> disasm 0x0:0x24
 00000000 :: 20043039  ADDI $a0, $zero, 0x3039
 00000004 :: 0c000005  JAL 0x14
 00000008 :: 00000000  NOP
-0000000c :: 10000005  BEQ $zero, $zero, 0x20
+0000000c :: 10000005  BEQ $zero, $zero, 0x24
 00000010 :: 00000000  NOP
 00000014 :: 3c010000  LUI $at, 0
 00000018 :: ac240008  SW $a0, 8($at)
@@ -33,7 +33,7 @@ program stopped at: 00000004
 next instruction in: JAL 0x14
 emul-mips> step 
 program stopped at: 0000000c
-next instruction in: BEQ $zero, $zero, 0x20
+next instruction in: BEQ $zero, $zero, 0x24
 emul-mips> step into
 program stopped at: 00000024
 next instruction: SYSCALL
