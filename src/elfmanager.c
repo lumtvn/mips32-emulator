@@ -135,8 +135,18 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start
     return elfdata;
 }
 
-
+/**
+ * @brief function that relocates the addressess according to the loading address of the program
+ * @details it reads the contents in segments rel.data and rel.text, if existant, and changes the
+ * values of arguments pointing to labels to accomodate them to the current memory position in which
+ * the program is loaded
+ * 
+ * @param name the name of the relocation segment, in this case, could be .text or .data 
+ * 
+ * @return returns 1 on success. no effect if segments weren't loaded
+ */
 int relocate_segment(struct mipsstr *mips, char *name) {
+
     int my_sym = index_in_symbols(name, mips->elfdata->symtab);
     word seg_start = mips->elfdata->symtab.sym[my_sym].addr._32;
     uint size_of_reltable, offset_of_reltable;
@@ -149,42 +159,86 @@ int relocate_segment(struct mipsstr *mips, char *name) {
     byte *seg_reldata = elf_extract_scn_by_name(
         ehdr, mips->elfdata->pf_elf,
         relname, &size_of_reltable, &offset_of_reltable);
+
+    if(seg_reldata == NULL){return 1;}
     uint row;
+
+    word last_address_r_mips_h16 = 0xffffffff;
+    word last_value_r_mips_h16 = 0;
+
     for (row = 0; 8 * row < size_of_reltable; row ++) {
-        word vaddress, tindex, reltype, shift_value;
-        vaddress = (int)seg_reldata[8 * row+0];vaddress <<= 8;
-        vaddress |= (int)seg_reldata[8 * row+1];vaddress <<= 8;
-        vaddress |= (int)seg_reldata[8 * row+2];vaddress <<= 8;
-        vaddress |= (int)seg_reldata[8 * row+3];        
+
+        word myP, myS, tindex, reltype, myA, myV;
+        myP = (int)seg_reldata[8 * row+0];myP <<= 8;
+        myP |= (int)seg_reldata[8 * row+1];myP <<= 8;
+        myP |= (int)seg_reldata[8 * row+2];myP <<= 8;
+        myP |= (int)seg_reldata[8 * row+3];        
 
         tindex = (int)seg_reldata[8 * row+4];tindex <<= 8;
         tindex |= (int)seg_reldata[8 * row+5];tindex <<= 8;
         tindex |= (int)seg_reldata[8 * row+6];
 
         reltype = (int)seg_reldata[8 * row+7];
-    // calculates absolute address in vaddress
-        vaddress += seg_start;
-        shift_value = mips->elfdata->symtab.sym[tindex].addr._32;
+    // calculates absolute address in myP
+        myP += seg_start;
+        myA = mips->elfdata->symtab.sym[tindex].addr._32;
 
+        mips = elfreadword(mips, mips->elfdata->memory, myP);
+        myS = mips->wdata;
 
 /*        printf("Instruccion %i en tabla %s, direccion 0x%08x, correccion 0x%08x, tipo %i\n",
             row,
             relname,
-            vaddress,
-            shift_value,
+            myP,
+            myA,
             reltype
             );*/
 
         switch (reltype)
         {
-            case 2:
-            case 4:
-            case 5:
-            case 6:
+            word myAHL, myAUX, myRES;
+            case 2:             // R_MIPS_32, V = S + A
+            myV = myS + myA;
+            // printf("caso 2, V = %08x, P = %08x, S = %08x, A = %08x\n",
+                // myV, myP, myS, myA);
+            break;
+            case 4:             // R_MIPS_26, V=((A <<2)|((P&0xf0000000)+S))>>2
+//            myV = ((myA << 2)|((myP & 0xf0000000) | (myS << 2)))>>2; <--- WRONG
+            myV = myS + ((myA >> 2) & 0x03ffffff);
+            // printf("caso 4, V = %08x, P = %08x, S = %08x, A = %08x\n",
+                // myV, myP, myS, myA);
+            break;
+            case 5:             // R_MIPS_16HI, V = (AHL + S − (short)(AHL + S)) >> 16
+            myV = myS + (myA >> 16);
+            last_address_r_mips_h16 = myP;  // saves virtual address
+            last_value_r_mips_h16 = myV;  // and correspondig value for carry correction
+            // printf("caso 5, V = %08x, P = %08x, S = %08x, A = %08x\n",
+                // myV, myP, myS, myA);
+            break;
+            case 6:             // R_MIPS_16LO, V = AHL + S
+            myAHL = myS & 0xffff;
+            myAUX = myA & 0xffff;
+            myRES = (myAHL + myAUX) & 0xffff;
+            if (myRES < myAHL && (last_address_r_mips_h16 & 0x3) == 0) { // overflow!!!
 
-            default: break;
-        }       
+                last_value_r_mips_h16++;      // overflow to hi 16 bits, rewrites incremented value
+                mips = elfwriteword_forced(mips, mips->elfdata->memory,
+                             last_value_r_mips_h16,last_address_r_mips_h16);
+            }
+            myV = (myS & 0xffff0000) | myRES; // first 16 bits unchanged, last is corrected address lo16
+            last_address_r_mips_h16 = 0xffffffff;  // resets virtual address for carry correction
+            last_value_r_mips_h16 = 0;  // and corresponding value
+            // printf("caso 6, V = %08x, P = %08x, S = %08x, A = %08x\n",
+                // myV, myP, myS, myA);
+            break;
 
+            default:            // Error, no change
+            myV = myS;
+            break;
+        }      
+        mips = elfwriteword_forced(mips, mips->elfdata->memory, myV, myP);
+        // printf("--------->graba V = %08x, en P = %08x\n",
+            // myV, myP);
     }
 
 return 1;
@@ -246,6 +300,30 @@ struct mipsstr *elfwriteword(struct mipsstr *mips, mem m, word wdata, vaddr32 ad
     if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
     if(SCN_RIGHTS(seg->attr) != RW_){mips->report = 503; /*no writing permissions for this segment*/ return mips;}
 
+
+    // printf("0x%x\n", *(seg->content + addr - seg->start._32));
+    *(seg->content + addr - seg->start._32) = (wdata >> 24) & 0xFF;
+    *(seg->content + addr - seg->start._32 + 1) = (wdata >> 16) & 0xFF;
+    *(seg->content + addr - seg->start._32 + 2) = (wdata >> 8) & 0xFF;
+    *(seg->content + addr - seg->start._32 + 3) = wdata;
+
+    mips->report = 0;
+    return mips;
+}
+/**
+ * @brief writes a word in a memory section, forced
+ * 
+ * @param mips->wdata it changes this field of mips
+ * @param m reference to memory being used
+ * @param bdata word to write
+ * @param addr address to write word
+ */
+struct mipsstr *elfwriteword_forced(struct mipsstr *mips, mem m, word wdata, vaddr32 addr)
+{
+    segment *seg;
+    seg = which_seg(m,addr,4);
+    if(seg == NULL){mips->report = 501;  /*no segment or address out of bounds*/ return mips;}
+    if(seg->content == NULL){mips->report = 502; /*can't write to null content*/ return mips;}
 
     // printf("0x%x\n", *(seg->content + addr - seg->start._32));
     *(seg->content + addr - seg->start._32) = (wdata >> 24) & 0xFF;

@@ -361,7 +361,7 @@ int op_lb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 
 struct mipsstr *print_lb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
-	sprintf(mips->disasm_output, "LB %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	sprintf(mips->disasm_output, "LB %s, %x(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 
@@ -384,7 +384,7 @@ int op_lbu(struct mipsstr *mips, byte base, byte rt, halfword offset)
 
 struct mipsstr *print_lbu(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
-	sprintf(mips->disasm_output, "LBU %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	sprintf(mips->disasm_output, "LBU %s, %x(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 
@@ -427,7 +427,7 @@ int op_lw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 
 struct mipsstr *print_lw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
-	sprintf(mips->disasm_output, "LW %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	sprintf(mips->disasm_output, "LW %s, %x(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 
@@ -554,7 +554,7 @@ int op_sb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 
 struct mipsstr *print_sb(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
-	sprintf(mips->disasm_output, "SB %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	sprintf(mips->disasm_output, "SB %s, %x(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 
@@ -590,7 +590,7 @@ int op_sll(struct mipsstr *mips, byte rt, byte rd, byte sa)
 
 struct mipsstr *print_sll(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
-	sprintf(mips->disasm_output, "SLL %s, %s, %d", regnames[rd], regnames[rt], sa);
+	sprintf(mips->disasm_output, "SLL %s, %s, %x", regnames[rd], regnames[rt], sa);
 	return mips;
 }
 
@@ -675,7 +675,7 @@ int op_sra(struct mipsstr *mips, byte rt, byte rd, byte sa)
 
 struct mipsstr *print_sra(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
-	sprintf(mips->disasm_output, "SRA %s, %s, %d", regnames[rd], regnames[rt], sa);
+	sprintf(mips->disasm_output, "SRA %s, %s, %x", regnames[rd], regnames[rt], sa);
 	return mips;
 }
 
@@ -692,7 +692,7 @@ int op_srl(struct mipsstr *mips, byte rt, byte rd, byte sa)
 
 struct mipsstr *print_srl(struct mipsstr *mips, byte rt, byte rd, byte sa)
 {
-	sprintf(mips->disasm_output, "SRL %s, %s, %d", regnames[rd], regnames[rt], sa);
+	sprintf(mips->disasm_output, "SRL %s, %s, %x", regnames[rd], regnames[rt], sa);
 	return mips;
 }
 
@@ -757,7 +757,7 @@ int op_sw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 
 struct mipsstr *print_sw(struct mipsstr *mips, byte base, byte rt, halfword offset)
 {
-	sprintf(mips->disasm_output, "SW %s, %d(%s)", regnames[rt], offset, regnames[base]);
+	sprintf(mips->disasm_output, "SW %s, %x(%s)", regnames[rt], offset, regnames[base]);
 	return mips;
 }
 

@@ -116,6 +116,8 @@ Functions</h2></td></tr>
 <tr class="separator:a7549abf21f71069282d0e0f2f6706471"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5931f0255d72df1fd95c4515c89ea16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#ab5931f0255d72df1fd95c4515c89ea16">is_in_symbols</a> (char *name, stab symtab)</td></tr>
 <tr class="separator:ab5931f0255d72df1fd95c4515c89ea16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2c58a95e267c32915ce8cc3c64347cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#ab2c58a95e267c32915ce8cc3c64347cc">index_in_symbols</a> (char *name, stab symtab)</td></tr>
+<tr class="separator:ab2c58a95e267c32915ce8cc3c64347cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63f546e4e96db828fc78e883767c3c24"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a63f546e4e96db828fc78e883767c3c24">get_nsegments</a> (stab symtab, char *section_names[], int nb_sections)</td></tr>
 <tr class="separator:a63f546e4e96db828fc78e883767c3c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36f83b9fcf85c241271aaf88bb1473d9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a36f83b9fcf85c241271aaf88bb1473d9">elf_load_section_in_memory</a> (FILE *fp, mem memory, char *scn, unsigned int permissions, unsigned long long add_start)</td></tr>
@@ -140,6 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a049badf847a310778f7cc0317de29037"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a049badf847a310778f7cc0317de29037">elfwriteword</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, word wdata, vaddr32 addr)</td></tr>
 <tr class="memdesc:a049badf847a310778f7cc0317de29037"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes a word in a memory section, as long as allowed by it's permissions  <a href="#a049badf847a310778f7cc0317de29037">More...</a><br/></td></tr>
 <tr class="separator:a049badf847a310778f7cc0317de29037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca32a914c683e447fba0836174504da5"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#aca32a914c683e447fba0836174504da5">elfwriteword_forced</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, word wdata, vaddr32 addr)</td></tr>
+<tr class="memdesc:aca32a914c683e447fba0836174504da5"><td class="mdescLeft">&#160;</td><td class="mdescRight">writes a word in a memory section, forced  <a href="#aca32a914c683e447fba0836174504da5">More...</a><br/></td></tr>
+<tr class="separator:aca32a914c683e447fba0836174504da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c0a07d0853904d00f88e4c4242dee0f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a6c0a07d0853904d00f88e4c4242dee0f">elfreadbyte</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, mem m, vaddr32 addr)</td></tr>
 <tr class="memdesc:a6c0a07d0853904d00f88e4c4242dee0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads a byte in a memory section  <a href="#a6c0a07d0853904d00f88e4c4242dee0f">More...</a><br/></td></tr>
 <tr class="separator:a6c0a07d0853904d00f88e4c4242dee0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,6 +157,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a8a00a0641e56297ca193a5576f46c920"><td class="memItemLeft" align="right" valign="top">vaddr32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a8a00a0641e56297ca193a5576f46c920">get_seg_start</a> (mem m, char *name)</td></tr>
 <tr class="memdesc:a8a00a0641e56297ca193a5576f46c920"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets the start address of a segment  <a href="#a8a00a0641e56297ca193a5576f46c920">More...</a><br/></td></tr>
 <tr class="separator:a8a00a0641e56297ca193a5576f46c920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35e7134d5ba055f7caed19ac7263113a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a35e7134d5ba055f7caed19ac7263113a">relocate_segment</a> (struct <a class="el" href="structmipsstr.html">mipsstr</a> *mips, char *name)</td></tr>
+<tr class="memdesc:a35e7134d5ba055f7caed19ac7263113a"><td class="mdescLeft">&#160;</td><td class="mdescRight">function that relocates the addressess according to the loading address of the program  <a href="#a35e7134d5ba055f7caed19ac7263113a">More...</a><br/></td></tr>
+<tr class="separator:a35e7134d5ba055f7caed19ac7263113a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4329718581c0e2b0695df80aee191773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elfmanager_8h.html#a4329718581c0e2b0695df80aee191773">print_segment_raw_content</a> (segment *seg)</td></tr>
 <tr class="separator:a4329718581c0e2b0695df80aee191773"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -461,6 +469,55 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aca32a914c683e447fba0836174504da5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmipsstr.html">mipsstr</a>* elfwriteword_forced </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mem&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">word&#160;</td>
+          <td class="paramname"><em>wdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vaddr32&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>writes a word in a memory section, forced </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mips-&gt;wdata</td><td>it changes this field of mips </td></tr>
+    <tr><td class="paramname">m</td><td>reference to memory being used </td></tr>
+    <tr><td class="paramname">bdata</td><td>word to write </td></tr>
+    <tr><td class="paramname">addr</td><td>address to write word </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a63f546e4e96db828fc78e883767c3c24"></a>
 <div class="memitem">
 <div class="memproto">
@@ -602,6 +659,32 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab2c58a95e267c32915ce8cc3c64347cc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int index_in_symbols </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">stab&#160;</td>
+          <td class="paramname"><em>symtab</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a79d2d174df8b264d78386a01f9441b17"></a>
 <div class="memitem">
 <div class="memproto">
@@ -684,6 +767,42 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a35e7134d5ba055f7caed19ac7263113a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int relocate_segment </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structmipsstr.html">mipsstr</a> *&#160;</td>
+          <td class="paramname"><em>mips</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>function that relocates the addressess according to the loading address of the program </p>
+<p>it reads the contents in segments rel.data and rel.text, if existant, and changes the values of arguments pointing to labels to accomodate them to the current memory position in which the program is loaded</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>the name of the relocation segment, in this case, could be .text or .data</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns 1 on success. no effect if segments weren't loaded </dd></dl>
 
 </div>
 </div>
@@ -793,7 +912,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 11 2014 17:53:32 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 15 2014 04:48:08 for MIPS32-Emulator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

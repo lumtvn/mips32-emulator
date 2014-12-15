@@ -46,13 +46,13 @@ static char * test_all()
 	mips = print_jr(mips, 9);
 	mu_assert("print_jr failed", !strcmp(mips->disasm_output, "JR $t1"));	
 	mips = print_lb(mips, 9, 10, 100);
-	mu_assert("print_lb failed", !strcmp(mips->disasm_output, "LB $t2, 100($t1)"));	
+	mu_assert("print_lb failed", !strcmp(mips->disasm_output, "LB $t2, 64($t1)"));	
 	mips = print_lbu(mips, 9, 10, 100);
-	mu_assert("print_lbu failed", !strcmp(mips->disasm_output, "LBU $t2, 100($t1)"));	
+	mu_assert("print_lbu failed", !strcmp(mips->disasm_output, "LBU $t2, 64($t1)"));	
 	mips = print_lui(mips,10, 0x1234);
 	mu_assert("print_lui failed", !strcmp(mips->disasm_output, "LUI $t2, 1234"));	
 	mips = print_lw(mips, 9, 10, 100);
-	mu_assert("print_lw failed", !strcmp(mips->disasm_output, "LW $t2, 100($t1)"));	
+	mu_assert("print_lw failed", !strcmp(mips->disasm_output, "LW $t2, 64($t1)"));	
 	mips = print_mfhi(mips,9);
 	mu_assert("print_mfhi failed", !strcmp(mips->disasm_output, "MFHI $t1"));
 	mips = print_mflo(mips,9);
@@ -66,7 +66,7 @@ static char * test_all()
 	mips = print_ori(mips,9,11,0x324F);
 	mu_assert("print_ori failed", !strcmp(mips->disasm_output, "ORI $t3, $t1, 0x324f"));
 	mips = print_sb(mips, 9, 10, 100);
-	mu_assert("print_sb failed", !strcmp(mips->disasm_output, "SB $t2, 100($t1)"));	
+	mu_assert("print_sb failed", !strcmp(mips->disasm_output, "SB $t2, 64($t1)"));	
 	mips = print_seb(mips,9,10);
 	mu_assert("print_seb failed", !strcmp(mips->disasm_output, "SEB $t2, $t1"));
 	mips = print_sll(mips,9,10,3);
@@ -88,7 +88,7 @@ static char * test_all()
 	mips = print_subu(mips,9,10,11);
 	mu_assert("print_subu failed", !strcmp(mips->disasm_output, "SUBU $t3, $t1, $t2"));
 	mips = print_sw(mips, 9, 10, 100);
-	mu_assert("print_sw failed", !strcmp(mips->disasm_output, "SW $t2, 100($t1)"));	
+	mu_assert("print_sw failed", !strcmp(mips->disasm_output, "SW $t2, 64($t1)"));	
 	mips = print_xor(mips,9,10,11);
 	mu_assert("print_xor failed", !strcmp(mips->disasm_output, "XOR $t3, $t1, $t2"));
 	// printf("%s\n",mips->disasm_output);

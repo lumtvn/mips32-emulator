@@ -66,6 +66,7 @@ struct mipsstr *env_load(struct mipsstr *mips)
  * @brief it runs the instructions of the segment .text of an elf file
  * @details main principal function of the program. it runs all the instructions in .text . stops if it hits a breakpoint
  * 
+ * @todo run from specific address
  */
 struct mipsstr *env_run(struct mipsstr *mips)
 {
@@ -357,6 +358,8 @@ struct mipsstr *env_disp(struct mipsstr *mips)
 	else if(!strcmp(mips->argenv[0],"reg")) //register display
 	{
 		if(mips->argenv[1] == NULL){mips->report = 421; return mips;}
+		if(mips->n_argenv > 2){mips->report = 426; return mips;}
+
 
 		int regidx;
 		if(!strcmp(mips->argenv[1], "all")) //display all registers
@@ -368,7 +371,10 @@ struct mipsstr *env_disp(struct mipsstr *mips)
 			return mips;
 		}
 
-		//display one specific register
+		char *temp = malloc(250);
+		temp = strchr(mips->argenv[1], '+');
+		if(temp == NULL)
+		{
 		struct nlist *np;
 		np = lookup(mips->argenv[1]);
 		if(np == NULL){mips->report = 417; return mips;}
@@ -376,6 +382,27 @@ struct mipsstr *env_disp(struct mipsstr *mips)
 		regidx = (int)strtol(np->defn, (char**)NULL,0);
 		printf("%s: 0x%x\n",mips->argenv[1], *(mips->regs[regidx]));
 		mips->report = 0;
+		return mips;
+		}
+
+		else
+		{
+			do{
+				temp = strtok(mips->argenv[1], "+");
+				if(temp == NULL) break;
+				struct nlist *np;
+				np = lookup(temp);
+				if(np == NULL){mips->report = 417; return mips;}
+
+				regidx = (int)strtol(np->defn, (char**)NULL,0);
+				printf("%s: 0x%x\n",temp, *(mips->regs[regidx]));
+
+				mips->argenv[1] = NULL;
+			}while(temp != NULL);
+
+			mips->report = 0;
+			return mips;
+		}
 	}
 	else {mips->report = 426; return mips;}
 

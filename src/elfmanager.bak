@@ -131,47 +131,73 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start
     }
 
 
-    // printf("\nLa cantidad de bytes total es: %i\n", size_of_reldata);
-    // printf("Y el offset dentro del archivo es: %x\n", offset_of_reldata);
-
     elfdata->report = 0;
     return elfdata;
 }
 
-int relocate(struct elfstr *elfdata, char *segname)
-{
 
-    word offset;
-    byte *ehdr;
-    int i, j;
-    uint size_of_rel, offset_of_rel;
-    byte *seg_rel;
-    char *name = malloc(15);
+int relocate_segment(struct mipsstr *mips, char *name) {
+    int my_sym = index_in_symbols(name, mips->elfdata->symtab);
+    word seg_start = mips->elfdata->symtab.sym[my_sym].addr._32;
+    uint size_of_reltable, offset_of_reltable;
+    char relname[20];
 
+    strcpy(relname, ".rel");
+    strcat(relname, name);
 
-    if(name == NULL){printf("no room for char *\n"); return -1;}
-    strcpy(name, ".rel");
-    strcat(name, segname);
+    byte *ehdr    = __elf_get_ehdr( mips->elfdata->pf_elf );
+    byte *seg_reldata = elf_extract_scn_by_name(
+        ehdr, mips->elfdata->pf_elf,
+        relname, &size_of_reltable, &offset_of_reltable);
+    uint row;
+    for (row = 0; 8 * row < size_of_reltable; row ++) {
+        word myP, myS, tindex, reltype, myA, myV;
+        myP = (int)seg_reldata[8 * row+0];myP <<= 8;
+        myP |= (int)seg_reldata[8 * row+1];myP <<= 8;
+        myP |= (int)seg_reldata[8 * row+2];myP <<= 8;
+        myP |= (int)seg_reldata[8 * row+3];        
 
+        tindex = (int)seg_reldata[8 * row+4];tindex <<= 8;
+        tindex |= (int)seg_reldata[8 * row+5];tindex <<= 8;
+        tindex |= (int)seg_reldata[8 * row+6];
 
-    ehdr = __elf_get_ehdr( elfdata->pf_elf );
-    seg_rel = elf_extract_scn_by_name(ehdr, elfdata->pf_elf, name, &size_of_rel, &offset_of_rel);
-    if(seg_rel == NULL){printf("segment returned null\n"); return -1;}
+        reltype = (int)seg_reldata[8 * row+7];
+    // calculates absolute address in myP
+        myP += seg_start;
+        myA = mips->elfdata->symtab.sym[tindex].addr._32;
 
-    printf("hola\n");
-    i = 0;// for(i = 0; i < nbytes; i = i + 8)
-        
-    // }
+        mips = elfreadword(mips, mips->elfdata->memory, myP);
+        myS = mips->wdata;
 
-    printf("offset: %08x\n",offset_of_rel);
-    int ii;
-    for (ii=0;ii < size_of_rel; ii++) printf("%02x ", seg_rel[ii]);
-    printf("\n");   
+/*        printf("Instruccion %i en tabla %s, direccion 0x%08x, correccion 0x%08x, tipo %i\n",
+            row,
+            relname,
+            myP,
+            myA,
+            reltype
+            );*/
 
-    free(name);
+        switch (reltype)
+        {
+            case 2:             // R_MIPS_32, V = S + A
+            myV = myS + myA;
+            break;
+            case 4:             // R_MIPS_26, V=((A <<2)|((P&0xf0000000)+S))>>2
+            myV = ((myA << 2)|((myP & 0xf0000000) + myS))>>2;
+            break;
+            case 5:
+            break;
+            case 6:
+            break;
 
-    return 0;
+            default:            // Error, no change
+            myV = myS;
+            break;
+        }       
+        mips = elfwriteword(mips, mips->elfdata->memory, myV,myP);
+    }
 
+return 1;
 }
 
 /**

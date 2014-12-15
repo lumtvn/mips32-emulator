@@ -19,7 +19,6 @@ segment *which_seg( mem m, vaddr32 v, uint size);
 struct elfstr *start_mem(struct elfstr *elfdata);
 struct mipsstr *elfwritebyte(struct mipsstr *mips, mem m, byte bdata, vaddr32 addr);
 struct mipsstr *elfwriteword(struct mipsstr *mips, mem m, word wdata, vaddr32 addr);
-struct mipsstr *elfwriteword_forced(struct mipsstr *mips, mem m, word wdata, vaddr32 addr);
 struct mipsstr *elfreadbyte(struct mipsstr *mips, mem m, vaddr32 addr);
 struct mipsstr *elfreadword(struct mipsstr *mips, mem m, vaddr32 addr);
 uint32_t get_seg_size(mem m, char *name);

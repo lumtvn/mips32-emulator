@@ -1,4 +1,5 @@
 disp asdoks
 disp reg $t1
+disp reg $t1+$t2+$t3+$zero+$at
 disp reg all
 exit

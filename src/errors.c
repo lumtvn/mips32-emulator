@@ -42,7 +42,7 @@ void report(int r)
 		case 423: 	fprintf(stderr, "ERROR %d: second address not valid\n", r); break;
 		case 424: 	fprintf(stderr, "ERROR %d: second address can't be smaller than the first one\n", r); break;
 		case 425: 	fprintf(stderr, "ERROR %d: word reaches outside of memory block\n", r); break;
-		case 426: 	fprintf(stderr, "ERROR %d: invalid argument for 'disp'\n", r); break;
+		case 426: 	fprintf(stderr, "ERROR %d: invalid argument(s) for 'disp'\n", r); break;
 		case 430: 	fprintf(stderr, "ERROR %d: assert argument null (reg, word, byte)\n", r); break;
 		case 431: 	fprintf(stderr, "ERROR %d: argument missing or invalid: register\n", r); break;
 		case 440: 	fprintf(stderr, "ERROR %d: usage: disasm address:address or disasm address+offset\n", r); break;
