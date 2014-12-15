@@ -33,6 +33,9 @@ struct mipsstr *env_load(struct mipsstr *mips)
 			char *filename = mips->argenv[0];
 			uint start_mem = (int)strtol(mips->argenv[1], (char**)NULL,0);
 			mips->elfdata = start_and_load(mips->elfdata, filename, start_mem);
+			relocate_segment(mips, ".text");
+    		relocate_segment(mips, ".data");
+
 			mips->report = mips->elfdata->report;
 			if(mips->report > 0)
 			{

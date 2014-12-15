@@ -131,63 +131,47 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start
     }
 
 
+    // printf("\nLa cantidad de bytes total es: %i\n", size_of_reldata);
+    // printf("Y el offset dentro del archivo es: %x\n", offset_of_reldata);
+
     elfdata->report = 0;
     return elfdata;
 }
 
+int relocate(struct elfstr *elfdata, char *segname)
+{
 
-int relocate_segment(struct mipsstr *mips, char *name) {
-    int my_sym = index_in_symbols(name, mips->elfdata->symtab);
-    word seg_start = mips->elfdata->symtab.sym[my_sym].addr._32;
-    uint size_of_reltable, offset_of_reltable;
-    char relname[20];
-
-    strcpy(relname, ".rel");
-    strcat(relname, name);
-
-    byte *ehdr    = __elf_get_ehdr( mips->elfdata->pf_elf );
-    byte *seg_reldata = elf_extract_scn_by_name(
-        ehdr, mips->elfdata->pf_elf,
-        relname, &size_of_reltable, &offset_of_reltable);
-    uint row;
-    for (row = 0; 8 * row < size_of_reltable; row ++) {
-        word vaddress, tindex, reltype, shift_value;
-        vaddress = (int)seg_reldata[8 * row+0];vaddress <<= 8;
-        vaddress |= (int)seg_reldata[8 * row+1];vaddress <<= 8;
-        vaddress |= (int)seg_reldata[8 * row+2];vaddress <<= 8;
-        vaddress |= (int)seg_reldata[8 * row+3];        
-
-        tindex = (int)seg_reldata[8 * row+4];tindex <<= 8;
-        tindex |= (int)seg_reldata[8 * row+5];tindex <<= 8;
-        tindex |= (int)seg_reldata[8 * row+6];
-
-        reltype = (int)seg_reldata[8 * row+7];
-    // calculates absolute address in vaddress
-        vaddress += seg_start;
-        shift_value = mips->elfdata->symtab.sym[tindex].addr._32;
+    word offset;
+    byte *ehdr;
+    int i, j;
+    uint size_of_rel, offset_of_rel;
+    byte *seg_rel;
+    char *name = malloc(15);
 
 
-/*        printf("Instruccion %i en tabla %s, direccion 0x%08x, correccion 0x%08x, tipo %i\n",
-            row,
-            relname,
-            vaddress,
-            shift_value,
-            reltype
-            );*/
+    if(name == NULL){printf("no room for char *\n"); return -1;}
+    strcpy(name, ".rel");
+    strcat(name, segname);
 
-        switch (reltype)
-        {
-            case 2:
-            case 4:
-            case 5:
-            case 6:
 
-            default: break;
-        }       
+    ehdr = __elf_get_ehdr( elfdata->pf_elf );
+    seg_rel = elf_extract_scn_by_name(ehdr, elfdata->pf_elf, name, &size_of_rel, &offset_of_rel);
+    if(seg_rel == NULL){printf("segment returned null\n"); return -1;}
 
-    }
+    printf("hola\n");
+    i = 0;// for(i = 0; i < nbytes; i = i + 8)
+        
+    // }
 
-return 1;
+    printf("offset: %08x\n",offset_of_rel);
+    int ii;
+    for (ii=0;ii < size_of_rel; ii++) printf("%02x ", seg_rel[ii]);
+    printf("\n");   
+
+    free(name);
+
+    return 0;
+
 }
 
 /**

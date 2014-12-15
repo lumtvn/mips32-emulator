@@ -73,7 +73,9 @@ int main(int argc, char *argv[])
 		{
 			mips->fl_file_loaded = true;
 			uint start_mem = (int)strtol(argv[2], (char**)NULL,0);
-			mips->elfdata = start_and_load(mips->elfdata,argv[1], start_mem);	
+			mips->elfdata = start_and_load(mips->elfdata,argv[1], start_mem);
+			relocate_segment(mips, ".text");
+    		relocate_segment(mips, ".data");
 
 			mips->report = mips->elfdata->report;
 			if(mips->report > 0)

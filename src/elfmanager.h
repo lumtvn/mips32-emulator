@@ -23,4 +23,5 @@ struct mipsstr *elfreadbyte(struct mipsstr *mips, mem m, vaddr32 addr);
 struct mipsstr *elfreadword(struct mipsstr *mips, mem m, vaddr32 addr);
 uint32_t get_seg_size(mem m, char *name);
 vaddr32 get_seg_start(mem m, char *name);
+int relocate_segment(struct mipsstr *mips, char *name);
 void print_segment_raw_content(segment* seg);
