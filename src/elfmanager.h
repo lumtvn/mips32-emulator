@@ -9,6 +9,7 @@ static unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
 
 struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start_mem);
 int is_in_symbols(char* name, stab symtab);
+int index_in_symbols(char* name, stab symtab);
 unsigned int get_nsegments(stab symtab,char* section_names[],int nb_sections);
 int elf_load_section_in_memory(FILE* fp, mem memory, char* scn,unsigned int permissions,unsigned long long add_start);
 void destroy_mem(struct elfstr *elfdata);

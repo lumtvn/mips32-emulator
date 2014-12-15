@@ -120,16 +120,54 @@ struct elfstr *start_and_load(struct elfstr *elfdata, char *filename, uint start
     elfdata->memory=init_mem(nsegments);
 
     j=0;
+    int idx;
     for (i=0; i<NB_SECTIONS; i++) {
-        if (is_in_symbols(section_names[i],elfdata->symtab)) {
+        if ((idx = index_in_symbols(section_names[i],elfdata->symtab)) > -1) {
             elf_load_section_in_memory(elfdata->pf_elf,elfdata->memory, section_names[i],segment_permissions[i],next_segment_start);
             next_segment_start+= ((elfdata->memory->seg[j].size._32+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
+            elfdata->symtab.sym[idx].addr._32 = elfdata->memory->seg[j].start._32;
             j++;
         }
     }
 
+    byte *ehdr    = __elf_get_ehdr( elfdata->pf_elf );
+    uint size_of_reldata, offset_of_reldata, size_of_reltext, offset_of_reltext;
+    byte *seg_reldata, *seg_reltext;
+    seg_reldata = elf_extract_scn_by_name(ehdr, elfdata->pf_elf, ".rel.data", &size_of_reldata, &offset_of_reldata);
+    seg_reltext = elf_extract_scn_by_name(ehdr, elfdata->pf_elf, ".rel.text", &size_of_reltext, &offset_of_reltext);  
+
+    // if(seg_reldata != NULL) { relocatedata(seg_reldata); }
+    // if(seg_reltext != NULL) { relocatetext(seg_reltext, size_of_reltext); }
+
+    // printf("\nLa cantidad de bytes total es: %i\n", size_of_reldata);
+    // printf("Y el offset dentro del archivo es: %x\n", offset_of_reldata);
+
     elfdata->report = 0;
     return elfdata;
+}
+
+int relocatetext(byte *edhr, struct elfstr elfdata, int index_in_table, byte *segptr, uint nbytes)
+{
+    word offset;
+    int i, j;
+    i = 8;
+    // for(i = 0; i < nbytes; i = i + 8)
+    // {
+            offset = (int)segptr[i+0];
+            offset <<= 24;
+            offset += (int)segptr[i+1];
+            offset <<= 16;
+            offset += (int)segptr[i+2];
+            offset <<= 8;
+            offset += (int)segptr[i+3];
+        
+    // }
+
+    printf("offset: %08x\n",offset);
+    int ii;
+    for (ii=0;ii < nbytes; ii++) printf("%02x ", segptr[ii]);
+    printf("\n");   
+
 }
 
 /**
@@ -299,6 +337,14 @@ int is_in_symbols(char* name, stab symtab) {
         if (!strcmp(symtab.sym[i].name,name)) return 1;
     }
     return 0;
+}
+
+int index_in_symbols(char* name, stab symtab) {
+    int i;
+    for (i=0; i<symtab.size; i++) {
+        if (!strcmp(symtab.sym[i].name,name)) return i;
+    }
+    return -1;
 }
 
 // Cette fonction calcule le nombre de segments à prevoir

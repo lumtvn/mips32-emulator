@@ -53,6 +53,19 @@ int tests_run = 0;
 	return 0;
 }
 
+static char * test_relocate()
+{
+	char *filename = "test/test_elf4.o";
+
+	struct elfstr *elfdata = (struct elfstr *) malloc(sizeof(struct elfstr));
+	if (elfdata == NULL){printf("no memory for structure elfdata\n"); mu_assert("",0);}
+
+	elfdata = start_and_load(elfdata, filename, 0);
+
+	return 0;
+}
+
+
 
 static char * test_writebytememory()
 {
@@ -291,6 +304,8 @@ static char * test_get_seg_start()
      printf("test_get_seg_size passed\n");  
      mu_run_test(test_get_seg_start);
      printf("test_get_seg_start passed\n"); 
+     // mu_run_test(test_relocate);
+     // printf("test_relocate passed\n"); 
      return 0;
  }
  
