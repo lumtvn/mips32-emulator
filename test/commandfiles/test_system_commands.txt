@@ -6,4 +6,8 @@ step into
 run 
 run
 disp mem map
+
+load test/test_elf4.o 0xeffc
+disasm 0xeffc:0xf020
+
 exit
