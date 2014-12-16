@@ -204,7 +204,7 @@ static char * test_find_illegal_character()
     mu_run_test(test_assert);
     mu_run_test(test_disasm);
     mu_run_test(test_break);
-    mu_run_test(test_system);
+    // mu_run_test(test_system);
     mu_run_test(test_find_illegal_character);
      return 0;
 

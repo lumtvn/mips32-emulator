@@ -1,7 +1,6 @@
 starting emulator with no elf file loaded!
 to load new file: load <file> <start of memory>
-emul-mips> load test/test_elf4.o 0x0
-
+emul-mips>
 ---NEW FILE LOADED:  test/test_elf4.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00000000	Size: 40 bytes
@@ -17,8 +16,7 @@ raw content of segment .data:
 
   0x00000000 0xab000000 0x00001008 0x00000000 
 raw content of segment .bss:
-emul-mips> disasm 0x0:0x24
-00000000 :: 20043039  ADDI $a0, $zero, 0x3039
+emul-mips>00000000 :: 20043039  ADDI $a0, $zero, 0x3039
 00000004 :: 0c000005  JAL 0x14
 00000008 :: 00000000  NOP
 0000000c :: 10000005  BEQ $zero, $zero, 0x24
@@ -28,31 +26,24 @@ emul-mips> disasm 0x0:0x24
 0000001c :: 03e00008  JR $ra
 00000020 :: 00000000  NOP
 00000024 :: 0000000c  SYSCALL
-emul-mips> step
-program stopped at: 00000004
+emul-mips>program stopped at: 00000004
 next instruction in: JAL 0x14
-emul-mips> step 
-program stopped at: 0000000c
-next instruction in: BEQ $zero, $zero, 0x24
-emul-mips> step into
-program stopped at: 00000024
-next instruction: SYSCALL
-emul-mips> run 
-program ended at address 00000024 with the next values for special registers: 
+emul-mips>usage: step, step into
+emul-mips>program stopped at: 00000014
+next instruction: LUI $at, 0
+emul-mips>program ended at address 00000024 with the next values for special registers: 
 $v0: 00000000
 $a0: 00003039
 $a1: 00000000
 $a2: 00000000
 $a3: 00000000
-emul-mips> run
-program ended at address 00000024 with the next values for special registers: 
+emul-mips>program ended at address 00000024 with the next values for special registers: 
 $v0: 00000000
 $a0: 00003039
 $a1: 00000000
 $a2: 00000000
 $a3: 00000000
-emul-mips> disp mem map
-Virtual memory map (3 segments)
+emul-mips>Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00000000	Size: 40 bytes
 .data   	rw-	Vaddr: 0x00001000	Size: 12 bytes
 .bss    	rw-	Vaddr: 0x00002000	Size: 0 bytes
@@ -66,9 +57,7 @@ raw content of segment .data:
 
   0x00000000 0xab000000 0x00001008 0x00003039 
 raw content of segment .bss:
-emul-mips> 
-emul-mips> load test/test_elf4.o 0xeffc
-
+emul-mips>emul-mips>
 ---NEW FILE LOADED:  test/test_elf4.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x0000effc	Size: 40 bytes
@@ -84,8 +73,7 @@ raw content of segment .data:
 
   0x00000000 0xab000000 0x00010004 0x00000000 
 raw content of segment .bss:
-emul-mips> disasm 0xeffc:0xf020
-0000effc :: 20043039  ADDI $a0, $zero, 0x3039
+emul-mips>0000effc :: 20043039  ADDI $a0, $zero, 0x3039
 0000f000 :: 0c003c04  JAL 0xf010
 0000f004 :: 00000000  NOP
 0000f008 :: 10000005  BEQ $zero, $zero, 0xf020
@@ -95,6 +83,4 @@ emul-mips> disasm 0xeffc:0xf020
 0000f018 :: 03e00008  JR $ra
 0000f01c :: 00000000  NOP
 0000f020 :: 0000000c  SYSCALL
-emul-mips> 
-emul-mips> exit
-exiting mips emulator...
+emul-mips>emul-mips>exiting mips emulator...

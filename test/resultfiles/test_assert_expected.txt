@@ -1,7 +1,25 @@
+ERROR 501: address not assigned to any segment or overrides end of segment
+ERROR 501: address not assigned to any segment or overrides end of segment
+ERROR 432: argument missing or invalid: value
+ERROR 432: argument missing or invalid: value
+ERROR 432: argument missing or invalid: value
+ERROR 432: argument missing or invalid: value
+ERROR 432: argument missing or invalid: value
+ERROR 432: argument missing or invalid: value
+ERROR 431: argument missing or invalid: register
+ERROR 420: argument missing: address
+ERROR 420: argument missing: address
+ERROR 417: bad register name (lookup)
+ERROR 432: argument missing or invalid: value
+ERROR 415: address is not aligned
+ERROR 422: argument <address> out of bounds
+ERROR 501: address not assigned to any segment or overrides end of segment
+ERROR 501: address not assigned to any segment or overrides end of segment
+ERROR 501: address not assigned to any segment or overrides end of segment
+ERROR 501: address not assigned to any segment or overrides end of segment
 starting emulator with no elf file loaded!
 to load new file: load <file> <start of memory>
-emul-mips> load test/test_elf.o 0x3000
-
+emul-mips>
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00003000	Size: 24 bytes
@@ -16,48 +34,6 @@ raw content of segment .data:
 
   0x00000000 0x00000004 
 raw content of segment .bss:
-emul-mips> assert reg $t1 5
-registers differ, value of register $t1 is: 0x0
-emul-mips> assert word 8 5
-ERROR 501: address not assigned to any segment or overrides end of segment
-emul-mips> assert byte 4 5
-ERROR 501: address not assigned to any segment or overrides end of segment
-emul-mips> assert reg $t1
-ERROR 432: argument missing or invalid: value
-emul-mips> assert word 8
-ERROR 432: argument missing or invalid: value
-emul-mips> assert byte 4
-ERROR 432: argument missing or invalid: value
-emul-mips> assert reg  5
-ERROR 432: argument missing or invalid: value
-emul-mips> assert word 5
-ERROR 432: argument missing or invalid: value
-emul-mips> assert byte 5
-ERROR 432: argument missing or invalid: value
-emul-mips> assert reg
-ERROR 431: argument missing or invalid: register
-emul-mips> assert word
-ERROR 420: argument missing: address
-emul-mips> assert byte
-ERROR 420: argument missing: address
-emul-mips> assert reg foo 8
-ERROR 417: bad register name (lookup)
-emul-mips> assert word 10
-ERROR 432: argument missing or invalid: value
-emul-mips> assert word 10 1000
-ERROR 415: address is not aligned
-emul-mips> set mem reg $t1 100
-ERROR 422: argument <address> out of bounds
-emul-mips> assert reg $t1 100
-registers differ, value of register $t1 is: 0x0
-emul-mips> set mem byte 5 121
-ERROR 501: address not assigned to any segment or overrides end of segment
-emul-mips> assert byte 5 121
-ERROR 501: address not assigned to any segment or overrides end of segment
-emul-mips> set mem word 8 1000
-ERROR 501: address not assigned to any segment or overrides end of segment
-emul-mips> assert word 8 1000
-ERROR 501: address not assigned to any segment or overrides end of segment
-emul-mips> 
-emul-mips> 
-emul-mips> 
+emul-mips>registers differ, value of register $t1 is: 0x0
+emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>registers differ, value of register $t1 is: 0x0
+emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>exiting mips emulator...

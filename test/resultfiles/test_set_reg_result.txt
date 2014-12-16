@@ -1,7 +1,12 @@
+ERROR 410: too few arguments for function
+ERROR 419: argument <value> out of bounds
+ERROR 417: bad register name (lookup)
+ERROR 419: argument <value> out of bounds
+ERROR 411: too many arguments for function
+WARNING 4171:register $zero can't be overwritten, was not overwritten
 starting emulator with no elf file loaded!
 to load new file: load <file> <start of memory>
-emul-mips> load test/test_elf.o 0x3000
-
+emul-mips>
 ---NEW FILE LOADED:  test/test_elf.o ---
 Virtual memory map (3 segments)
 .text   	r-x	Vaddr: 0x00003000	Size: 24 bytes
@@ -16,22 +21,6 @@ raw content of segment .data:
 
   0x00000000 0x00000004 
 raw content of segment .bss:
-emul-mips> set reg
-ERROR 410: too few arguments for function
-emul-mips> set reg asd iasdo
-ERROR 419: argument <value> out of bounds
-emul-mips> set reg asidj 0x12
-ERROR 417: bad register name (lookup)
-emul-mips> set reg $t1 ssuhd
-ERROR 419: argument <value> out of bounds
-emul-mips> set reg $t1 0x10 23 2394 389 dij
-ERROR 411: too many arguments for function
-emul-mips> set reg $zero 0x10
-WARNING 4171:register $zero can't be overwritten, was not overwritten
-emul-mips> set reg $t1 500
-emul-mips> disp reg $t1
-$t1: 0x1f4
-emul-mips> disp reg $zero
-$zero: 0x0
-emul-mips> exit
-exiting mips emulator...
+emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>emul-mips>$t1: 0x1f4
+emul-mips>$zero: 0x0
+emul-mips>exiting mips emulator...
