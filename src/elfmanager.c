@@ -169,7 +169,7 @@ int relocate_segment(struct mipsstr *mips, char *name) {
     for (row = 0; 8 * row < size_of_reltable; row ++) {
 
         word myP, myS, tindex, reltype, myA, myV;
-        myP = (int)seg_reldata[8 * row+0];myP <<= 8;
+        myP = (int)seg_reldata[8 * row+0]; myP <<= 8;
         myP |= (int)seg_reldata[8 * row+1];myP <<= 8;
         myP |= (int)seg_reldata[8 * row+2];myP <<= 8;
         myP |= (int)seg_reldata[8 * row+3];        
@@ -196,7 +196,7 @@ int relocate_segment(struct mipsstr *mips, char *name) {
 
         switch (reltype)
         {
-            word myAHL, myAUX, myRES;
+            word mySLO, myALO, myVLO;
             case 2:             // R_MIPS_32, V = S + A
             myV = myS + myA;
             // printf("caso 2, V = %08x, P = %08x, S = %08x, A = %08x\n",
@@ -216,16 +216,16 @@ int relocate_segment(struct mipsstr *mips, char *name) {
                 // myV, myP, myS, myA);
             break;
             case 6:             // R_MIPS_16LO, V = AHL + S
-            myAHL = myS & 0xffff;
-            myAUX = myA & 0xffff;
-            myRES = (myAHL + myAUX) & 0xffff;
-            if (myRES < myAHL && (last_address_r_mips_h16 & 0x3) == 0) { // overflow!!!
+            mySLO = myS & 0xffff;
+            myALO = myA & 0xffff;
+            myVLO = (mySLO + myALO) & 0xffff;
+            if (myVLO < mySLO && (last_address_r_mips_h16 & 0x3) == 0) { // overflow!!!
 
                 last_value_r_mips_h16++;      // overflow to hi 16 bits, rewrites incremented value
                 mips = elfwriteword_forced(mips, mips->elfdata->memory,
                              last_value_r_mips_h16,last_address_r_mips_h16);
             }
-            myV = (myS & 0xffff0000) | myRES; // first 16 bits unchanged, last is corrected address lo16
+            myV = (myS & 0xffff0000) | myVLO; // first 16 bits unchanged, last is corrected address lo16
             last_address_r_mips_h16 = 0xffffffff;  // resets virtual address for carry correction
             last_value_r_mips_h16 = 0;  // and corresponding value
             // printf("caso 6, V = %08x, P = %08x, S = %08x, A = %08x\n",
